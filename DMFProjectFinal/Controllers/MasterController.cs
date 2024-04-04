@@ -2051,7 +2051,7 @@ namespace DMFProjectFinal.Controllers
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
-
+        //commit test aftab sir
         [HttpPost]
         public JsonResult DeleteDistrictMaster(string id)
         {
