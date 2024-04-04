@@ -2069,7 +2069,7 @@ namespace DMFProjectFinal.Controllers
                         LogInfo = BusinessLogics.ConvertModelToJSONString(Info),
                         URLInfo = "DeleteDistrictMaster/POST"
                     });
-                    // demoone
+                    // demo
 
                     db.DistrictMasters.Remove(Info);
                 }
