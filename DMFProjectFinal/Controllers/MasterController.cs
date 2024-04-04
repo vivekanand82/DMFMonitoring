@@ -2035,7 +2035,7 @@ namespace DMFProjectFinal.Controllers
 
                 }
             }
-            //testc 04.04.2024
+           
                 int res = db.SaveChanges();
             if (res > 0)
             {
@@ -2047,10 +2047,10 @@ namespace DMFProjectFinal.Controllers
             {
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
-            //demotest
+            
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
-        //commit test vikash sir
+       
         [HttpPost]
         public JsonResult DeleteDistrictMaster(string id)
         {
@@ -2068,7 +2068,7 @@ namespace DMFProjectFinal.Controllers
                         LogInfo = BusinessLogics.ConvertModelToJSONString(Info),
                         URLInfo = "DeleteDistrictMaster/POST"
                     });
-                    // demoone
+                   
 
                     db.DistrictMasters.Remove(Info);
                 }
@@ -2195,7 +2195,7 @@ namespace DMFProjectFinal.Controllers
 
             if (!ModelState.IsValid)
             {
-                //abc
+               
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
@@ -2225,7 +2225,7 @@ namespace DMFProjectFinal.Controllers
 
 
             }
-
+           
             int res = db.SaveChanges();
             if (res > 0)
             {
