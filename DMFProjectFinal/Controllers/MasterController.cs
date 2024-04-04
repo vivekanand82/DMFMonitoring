@@ -2021,7 +2021,6 @@ namespace DMFProjectFinal.Controllers
 
                 if(Info!=null)
                 {
-
                     db.DataLogs.Add(new DataLog
                     {
                         CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
@@ -2029,7 +2028,6 @@ namespace DMFProjectFinal.Controllers
                         LogInfo = BusinessLogics.ConvertModelToJSONString(Info),
                         URLInfo = "EditDistrictNameMaster/POST"
                     });
-
                     Info.StateID = model.StateID;
                     Info.DistrictName = model.DistrictName;
                     Info.DistrictCode = model.DistrictCode;
@@ -2037,7 +2035,7 @@ namespace DMFProjectFinal.Controllers
 
                 }
             }
-
+            //testc 04.04.2024
                 int res = db.SaveChanges();
             if (res > 0)
             {
