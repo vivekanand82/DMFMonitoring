@@ -1,0 +1,195 @@
+﻿@using DMFProjectFinal.Models;
+@model P_Login
+@{
+    Layout = null;
+    var UNm = Model.Email == null ? "" : Model.Email;
+    var UPass = Model.Password == null ? "" : Model.Password;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<link rel="stylesheet" type="text/css" href="css/login-style.css">*@
+    @Styles.Render("~/MyCSSLogin")
+    <style>
+        /* .content > .toplogo {
+            position: absolute;
+            top: 30px;
+            background: #fff;
+            width: 80px;
+            height: 80px;
+            border-radius: 100px;
+            padding: 0px;
+            box-shadow: none;
+        }*/
+        .content > .toplogo {
+            position: absolute;
+            top: 40px;
+            background: #fff;
+            width: 89px;
+            height: 80px;
+            border-radius: 100px;
+            padding: 0px;
+            box-shadow: none;
+        }
+
+        .toplogotext {
+            position: absolute;
+            top: 32px;
+            text-shadow: none;
+            left: 150px;
+        }
+
+        .login h1 {
+            margin-top: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+
+        #container > div {
+            position: absolute;
+            width: 80%;
+            height: 100%;
+            /* left: 27%; */
+        }
+
+        .login .content {
+            border-radius: 10px;
+        }
+
+        .validation-summary-errors ul {
+            list-style: none;
+        }
+
+            .validation-summary-errors ul li {
+                font-size: 16px;
+                color: #f00;
+            }
+
+        .toplogotext > h2 {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: left;
+            margin-left: 15px;
+            line-height: normal;
+        }
+
+        #container {
+            max-width: 80em;
+            min-width: 49.5em;
+            height: 42em;
+            position: relative;
+            border-radius: 2em;
+            transform-style: preserve-3d;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="img-story2">
+        <div class="bg">
+            <div class="water"></div>
+        </div>
+
+        @*<svg>
+
+            <filter id="turbulence" x="0" y="0" width="100%" height="100%">
+
+                <feTurbulence id="sea-filter" numOctaves="3" seed="2" baseFrequency="0.02 0.05">
+                </feTurbulence>
+
+                <feDisplacementMap scale="20" in="SourceGraphic"></feDisplacementMap>
+
+                <animate xlink:href="#sea-filter" attributeName="baseFrequency" dur="90s" keyTimes="0;0.2;1" values="0.02 0.06;0.04 0.08;0.02 0.06" repeatCount="indefinite"></animate>
+
+            </filter>
+
+        </svg>*@
+
+    </div>
+    <div id="container">
+        <div class="login">
+            <div class="content content-login">
+                <div class="toplogo"><img src="~/images/logo.png" alt=""></div>
+                <div class="toplogotext">
+                    <h2>DMF Project</h2>
+                    @*<p>Step to Time Management</p>*@
+                </div>
+
+                <h1>Log In</h1>
+                @using (Html.BeginForm("Login", "Account", new { }, FormMethod.Post, new { @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="login-content">
+                        <div class="input-div one">
+                            <div class="i"> <i class="fa fa-envelope-o" aria-hidden="true"></i> </div>
+                            <div class="div-box">
+                                <h5>Username</h5>
+                                @Html.TextBoxFor(x => x.Email, "", new { @class = "input", @type = "text", @required = "required" })
+                                @*<input type="text" class="input" required>*@
+                            </div>
+                        </div>
+                        <div class="input-div pass">
+                            <div class="i"> <i class="fa fa-key" aria-hidden="true"></i> </div>
+                            <div class="div-box">
+                                <h5>Password</h5>
+                                @Html.TextBoxFor(x => x.Password, "", new { @class = "input", @type = "password", @required = "required" })
+                                @*<input type="password" class="input" required>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="remember">
+                            @Html.CheckBoxFor(x => x.RememberMe)
+                            @Html.Label("Remember me", new { @for = "RememberMe" })
+                        </label>
+                        <!--<label class="remember" for="remember">
+                        -->
+                        @*<span>Remember me</span>*@
+                        @*<input type="checkbox" id="remember">
+                            <span>Remember me</span>*@
+                        <!--</label>-->
+                        <span class="forget"><a href="#" id="register">I forgot my password</a></span> <span class="clearfix"></span>
+                    </div>
+
+                    <input type="submit" value="Log in" class="button-btn" />
+                    @*<a href="dashboard.php" class="button-btn">Log in</a>*@
+                }
+
+                @*<span class="loginwith">
+                        @Html.ActionLink("Register New Contractor", "Signup")
+                    </span>*@
+                <span class="copy">
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll(".input");
+        if ('@UNm' != null && '@UNm' != '') {
+            document.getElementById('Email').focus();
+        }
+        if ('@UPass' != null && '@UPass' != '') {
+            document.getElementById('Password').focus();
+        }
+
+        function addcl() {
+            let parent = this.parentNode.parentNode;
+            parent.classList.add("focus");
+        }
+
+        function remcl() {
+            let parent = this.parentNode.parentNode;
+            if (this.value == "") {
+                parent.classList.remove("focus");
+            }
+        }
+        inputs.forEach(input => {
+            input.addEventListener("focus", addcl);
+            input.addEventListener("blur", remcl);
+        });</script>
+</body>
+</html>

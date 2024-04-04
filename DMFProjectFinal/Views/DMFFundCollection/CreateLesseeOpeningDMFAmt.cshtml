@@ -1,0 +1,71 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_LesseeOpeningDMFAmt
+
+@{
+    ViewBag.Title = "CreateLesseeOpeningDMFAmt";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.OpeningDMFAmtId))
+    {
+        <h4 class="card-title">Create Lessee Opening DMF Amount </h4>
+    }
+    else
+    {
+<h4 class="card-title">Update Lessee Opening DMF Amount</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.OpeningDMFAmtId) ? "CreateLesseeOpeningDMFAmt" : "EditLesseeOpeningDMFAmt"), "DMFFundCollection", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.OpeningDMFAmtId)
+            @*<div class="col-md-3">
+            <div class="form-label">
+                <strong>Lessee Name <sup><code>*</code></sup></strong>
+                @Html.DropDownListFor(x => x.LesseeId, null, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+            </div>
+        </div>*@
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>District Name <sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.DistrictId, null, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Mineral Name <sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.MineralId, null, "Select Minral", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-label">
+                    <strong>DMF Opening Amount<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.DMFOpeningAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-label">
+                    <strong>Effective Date <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.EffectiveDate, (Model.EffectiveDate == null ? "" : BusinessLogics.GetJSDateStr(Model.EffectiveDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.OpeningDMFAmtId)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+
+
+
+        }
+    </div>
+</div>

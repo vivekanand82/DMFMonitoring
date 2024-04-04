@@ -1,0 +1,52 @@
+﻿
+@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_District
+@{
+    ViewBag.Title = "CreateDistrcyNameMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.DistrictId) ? "CreateDistrcyNameMaster" : "EditDistrictNameMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.DistrictId)
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>State<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.StateID, null, "Select State", new { @class = "form-control form-control-sm cascaded-ddl" })
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong> Name <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.DistrictName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong> District Code <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.DistrictCode, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3 text-left">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.DistrictId)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+

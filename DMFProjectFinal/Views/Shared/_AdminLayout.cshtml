@@ -1,0 +1,174 @@
+﻿@using DMFProjectFinal.Controllers;
+@using DMFProjectFinal.Models;
+@{
+    var LoginUser = "Admin";
+    dfm_dbEntities db = new dfm_dbEntities();
+    var AM = ViewBag.GetAccess as AccessManager;
+    var Roles = db.RoleMenuMappings.Where(x => x.UserRoleID == AM.RoleID).ToList();
+    var menuParent = db.MenuMasters.Where(x => x.IsActive == true && x.IsParent == true).ToList();
+
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .logo-txt {
+            margin-right: 15px;
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+            z-index: 9999; /* Ensure the overlay appears above other content */
+            display: none; /* Initially hide the overlay */
+        }
+    </style>
+    @Styles.Render("~/MyCSS")
+    @Styles.Render("~/MyCSSJQUI")
+    <style>
+        .ui-datepicker-calendar tr td {
+            padding: 2px !important;
+        }
+    </style>
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="overlay"></div>
+    <div class="page-loader" id="custom-loader">
+        <div class="spinner">
+            <img style="height:100px;width:100px" src="~/images/loading.gif" alt="">
+        </div>
+    </div>
+    <header id="masthead" class="header cmt-header-style-01">
+
+
+        <!-- site-header-menu -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="site-branding me-auto" style="padding: 34px 5px 21px 5px;">
+                        <a class="home-link" href="/Home/Index" title="" rel="home">
+                            <img id="logo-img" class="img-fluid auto_size" src="~/images/logo.png" alt="logo-img">
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="d-flex pull-right logo-txt">
+                        <span>DMF Project</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="site-header-menu" class="site-header-menu">
+
+            <div class="site-header-menu-inner cmt-stickable-header">
+
+                <div class="site-navigation align-items-center justify-content-between">
+
+                    <div class="btn-show-menu-mobile menubar menubar--squeeze"> <span class="menubar-box"> <span class="menubar-inner"></span> </span> </div>
+                    <nav class="main-menu menu-mobile" id="menu">
+                        <ul class="menu">
+                            <li class="mega-menu-item">@Html.ActionLink("Dashboard", "Index", "Admin")</li>
+                            @{ 
+                                var lstInfo = db.MenuMasters.Where(xx => db.MenuMasters.Where(_xx => db.RoleMenuMappings.Where(x => x.UserRoleID == AM.RoleID).Select(x => x.MenuID).ToList().Contains(_xx.MenuID)).Select(x => x.ParentId).ToList().Contains(xx.MenuID)).ToList();
+                            }
+                            @foreach (var pMenu in lstInfo)
+                            {
+                                <li class="mega-menu-item">
+                                    <a href="#" class="mega-menu-link">@pMenu.MenuName<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
+                                    @{
+                                        var submenu = (from rm in db.RoleMenuMappings
+                                                       join mm in db.MenuMasters on rm.MenuID equals mm.MenuID
+                                                       where rm.IsActive == true && rm.UserRoleID == AM.RoleID && mm.ParentId == pMenu.MenuID
+                                                       select new
+                                                       {
+                                                           MenuName = mm.MenuName,
+                                                           ActionName = mm.ActionName,
+                                                           ControllerName = mm.ControllerName
+                                                       }).ToList();
+                                    }
+                                    <ul class="mega-submenu">
+                                        @foreach (var smenu in submenu)
+                                        {
+
+                                            <li class="mega-menu-item">@Html.ActionLink(smenu.MenuName, smenu.ActionName, smenu.ControllerName)</li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                            <li class="mega-menu-item login-right">
+                                <a href="#" class="mega-menu-link">@(LoginUser)<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
+                                <ul class="mega-submenu login-submenu">
+                                    <li><a href="/Admin/ChangePassword"> Change Password</a></li>
+                                    <li><a href="/Account/Logout"> Logout </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </nav>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </header>
+
+
+
+    @RenderBody()
+
+    <footer class="footer widget-footer bg-base-dark text-base-white clearfix">
+
+
+        <div class="bottom-footer-text copyright">
+            <div class="container-fluid">
+                <div class="row cpy-text">
+                    <div class="col-lg-6">
+                        <span>
+                            कॉपीराइट © 2023 - DMF Project
+                        </span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="poweredby">
+
+                            यह वेबसाइट: <a href="https://www.margsoft.com/" target="_blank">
+                                मार्गसॉफ्ट टेक्नोलॉजीज (पी) लिमिटेड
+
+
+
+                            </a>द्वारा डिजाइन व डेवलप की गई।
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/MyJS")
+    <script src="~/Scripts/DataTablesJS/cdn.datatables.net_1.10.23_js_jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTablesJS/toastr.js"></script>
+    <script src="~/js/MyJS.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        $(window).on('load', (function () {
+            $('#custom-loader').hide();
+        }));
+    </script>
+</body>
+</html>

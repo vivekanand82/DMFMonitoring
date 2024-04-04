@@ -1,0 +1,127 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_AgenciesInfo
+@{
+    ViewBag.Title = "Register Agency";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.AgencyID))
+    {
+        <h4 class="card-title">Register Agency</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Agency</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using(Html.BeginForm((String.IsNullOrEmpty(Model.AgencyID) ? "CreateRegisterAgency" : "EditRegisterAgency"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.AgencyID)
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Agency Name <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.Name, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>State<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.StateID, null, "Select State", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "DistID", @refflg = "001" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>District<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Owner Name<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.OwnerName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Email ID<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.EmailID, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Mobile No<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.MobileNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Alternate Mob No</strong>
+                    @Html.TextBoxFor(x => x.AlternateMobNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Landline No</strong>
+                    @Html.TextBoxFor(x => x.LandLineNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>GSTIN<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.GSTIN, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>PAN No<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.PANNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Bank<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.BankID, null, "Select State", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Branch<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.BranchName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>IFSC Code<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.IFSCCode, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Account No<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.AccNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Address<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.Address, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="col-md-3 text-left">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.AgencyID)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

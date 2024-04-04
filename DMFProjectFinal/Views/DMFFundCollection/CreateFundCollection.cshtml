@@ -1,0 +1,270 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_DMFFundCOllection
+@{
+    ViewBag.Title = "CreateFundCollection";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    #PreRemaining{
+        color:red;
+    }
+</style>
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.FundCollectionId))
+    {
+        <h4 class="card-title">DMF Fund Collection </h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update DMF Fund Collection</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundCollectionId) ? "CreateFundCollection" : "EditFundCollection"), "DMFFundCollection", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.FundCollectionId)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Lessee Name <sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.LesseeId, null,"Select",  new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                    <div id="details" style="display:none;background-color:lightyellow;font-size:10px">
+                        <span id="TotalRoyality"></span><br />
+                        <span id="TotalDmfAmt"></span><br />
+                        <span id="DepositedDmfAmt"></span><br />
+                        <span id="DRemainingDmfAmt"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Year<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.YearId, null, new { @class = "form-control form-control-sm", @autocomplete = "off", })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Month <sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.MonthId, null, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Deposited Royalty Amount <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.RoyaltyAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>DMF Amount<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.DMFAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Pre. Remaining DMF Amount<sup><code>*</code></sup></strong>
+                        @Html.TextBox("PreRemaining", "", new { @class = "form-control form-control-sm", @autocomplete = "off",@readonly="readonly" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Deposite DMF Amount<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.DepositedDMFAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Remaining DMF Amount<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.RemainingDMFAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Challan Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ChallanDate, (Model.ChallanDate == null ? "" : BusinessLogics.GetJSDateStr(Model.ChallanDate)), new { @class = "form-control form-control-sm  ui-date", @autocomplete = "off" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Challan Number <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ChallanNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        @*<strong>Challan Doc <sup><code>*</code></sup></strong>
+                @Html.TextBoxFor(x => x.ChallanDoc, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file" })*@
+                        <strong>
+                            Challan Doc<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.ChallanDoc))
+                            {
+                                <a href="@Model.ChallanDoc" target="_blank">View Doc</a>
+                                <input type="hidden" value="prev" id="ChallanDoc" name="ChallanDoc" />
+                            }
+                        </strong>
+                        @Html.TextBoxFor(x => x.ChallanDoc, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ChallanDoc" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-1">
+                    <div class="form-label">
+                        @*<strong>&nbsp;</strong>*@
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.FundCollectionId)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        @*<strong>&nbsp;</strong>*@
+                        @if (String.IsNullOrEmpty(Model.FundCollectionId))
+                        {
+                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                        }
+                        else
+                        {
+                            <a href="/DMFFundCollection/FundCollection" class="btn btn-danger">Back</a>
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#RoyaltyAmt").keyup(function () {
+                DmfAmt();
+              //  RemAmt();
+            }); $("#DMFAmt").keyup(function () {
+                RemAmt();
+            });
+            $("#DepositedDMFAmt").keyup(function () {
+                RemAmt();
+            });
+
+        });
+        //function for calculate the royality and total admf and rmaining ddmf
+        var remainingDmf = null;
+        $("#LesseeId").change(function () {
+            debugger
+            var LesseeId = $("#LesseeId").val();
+            if (LesseeId != "") {
+                $.ajax({
+                    url: "/DMFFundCollection/GetRoyaltyByLessee?LesseeId=" + LesseeId,
+                    type: "POST",
+                    contentType: "Application/json;charset=utf-8;",
+                    dataType: "json",
+
+                    success: function (data) {
+                        console.log(data);
+                        var tRoyalty = null;
+                        var tDMFAmt = null;
+                        var DDmfAmt = null;
+                        for (var i = 0; i < data.length; i++) {
+                            tRoyalty += data[i].RoyaltyAmt
+                            tDMFAmt += data[i].DMFAmt
+                            DDmfAmt += data[i].DepositedDMFAmt
+                            remainingDmf = data[i].RemainingDMFAmt
+                        }
+                        if (tRoyalty == 0 || tRoyalty == null) {
+                            tRoyalty=0
+                        }
+                        if (tDMFAmt == 0 || tDMFAmt == null) {
+                            tDMFAmt = 0
+                        }
+                        if (DDmfAmt == 0 || DDmfAmt == null) {
+                            DDmfAmt = 0
+                        }
+                        if (DDmfAmt == 0 || DDmfAmt == null) {
+                            DDmfAmt = 0
+                        }
+                        if (remainingDmf == 0 || remainingDmf == null) {
+                            remainingDmf = 0
+                        }
+                        $("#TotalRoyality").html("Deposited Royalty : <b>" + tRoyalty+ "</b>");
+                        $("#TotalDmfAmt").html("Total DMF Amount : <b>" + tDMFAmt + "</b>");
+                        $("#PreRemaining").val(remainingDmf);
+                        $("#DepositedDmfAmt").html("Deposited DMF Amount : <b style='color:green'> " + DDmfAmt+ "</b>");
+                        $("#DRemainingDmfAmt").html("Remaining DMF Amount : <b style='color:red'>" + remainingDmf + "</b>");
+                        $("#details").show();
+                        //console.log(tRoyalty);
+                    }
+                })
+            }
+            else {
+                $("#details").hide();
+            }
+        })
+        function DmfAmt() {
+            debugger
+            if ($("#RoyaltyAmt").val() == null || $("#RoyaltyAmt").val() == "") {
+                toastr.error('Please Fill RoyaltyAmt Amount');
+                $("#RemainingDMFAmt").val("");
+                $("#DepositedDMFAmt").val("");
+                $("#DMFAmt").val("");
+            }
+            else {
+               
+                $("#DMFAmt").val($("#RoyaltyAmt").val() * (10 / 100));
+                $("#DepositedDMFAmt").val(parseInt($("#DMFAmt").val()) + parseInt($("#PreRemaining").val()));
+                $("#RemainingDMFAmt").val($("#DMFAmt").val() - $("#DepositedDMFAmt").val() + remainingDmf)
+            }
+        }
+        function RemAmt() {
+            if ($("#DMFAmt").val() == null || $("#DMFAmt").val() == "" ) {
+                toastr.error('Please Fill DMF Amount');
+                $("#RemainingDMFAmt").val("");
+                $("#DepositedDMFAmt").val("");
+            }          
+            else {
+                $("#RemainingDMFAmt").val($("#DMFAmt").val() - $("#DepositedDMFAmt").val() + remainingDmf)
+            }
+        }
+        
+    </script>
+    @*<script>
+        $("#LesseeId").change(function () {
+            debugger
+            var LesseeId = $("#LesseeId").val();
+            $.ajax({
+                url: "/DMFFundCollection/GetRoyaltyByLessee?LesseeId=" + LesseeId,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8;",
+                dataType: "json",
+
+                success: function (data) {
+                    var tRoyalty = null;
+                    var tDMFAmt = null;
+                    var DDmfAmt = null;
+                    var RDmfAmt = null;
+                    for (var i = 0; i < data.length; i++) {
+                        tRoyalty += data[i].RoyaltyAmt
+                        DDmfAmt += data[i].DMFAmt
+                    }
+                    tDMFAmt = tRoyalty * 10 / 100;
+                    var remainingDmf = tDMFAmt - DDmfAmt
+                    $("#TotalRoyality").html("Deposited Royalty : <b>" + tRoyalty + "</b>");
+                    $("#TotalDmfAmt").html("Total DMF Amount : <b>" + tDMFAmt + "</b>");
+                    $("#DepositedDmfAmt").html("Deposited DMF Amount : <b> " + DDmfAmt + "</b>");
+                    $("#DRemainingDmfAmt").html("Remaining DMF Amount : <b>" + remainingDmf + "</b>");
+                    $("#details").show();
+                    //console.log(tRoyalty);
+
+                }
+            })
+        })
+    </script>*@
+}

@@ -1,0 +1,392 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_ProjectProposalPrepration
+@{
+    ViewBag.Title = "Register Lessee";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    #frmCurrent {
+        background-color: #ffffff;
+        /*margin: 100px auto;*/
+        font-family: Raleway;
+        padding: 40px;
+        width: 100%;
+        min-width: 300px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    /* .valid {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }*/
+
+    /* Mark input boxes that gets an error on validation: */
+    /* input.invalid {
+        background-color: #ffdddd;
+    }
+    select.invalid {
+        background-color: #ffdddd;
+    }*/
+    /*  Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    #btnSubmit {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #083853;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #083853;
+        }
+</style>
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.ProjectPreparationID))
+    {
+        <h4 class="card-title">Project Proposal Prepration</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Project Proposal Prepration</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.ProjectPreparationID) ? "CreateProjectProposalPrepration" : "EditProjectProposalPrepration"), "ProjectWorkApproval", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row tab">
+                @Html.HiddenFor(x => x.ProjectPreparationID)
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>District<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID,SectorID", @refflg = "002,008,003,004,005,006" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Tehsil<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.TehsilId, null, "Select Tehsil", new { @class = "form-control form-control-sm  multiple-deps-ddl", @ref = "VillageId", @refflg = "003" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Block<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.BlockId, null, "Select Block", new { @class = "form-control form-control-sm " })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Village<sup><code>*</code></sup></strong>
+                            @if (Model.VillageId == null)
+                            {
+                                @Html.DropDownListFor(x => x.VillageId, Enumerable.Empty<SelectListItem>(), "Select Village", new { @class = "form-control form-control-sm " })
+                            }
+                            else
+                            {
+                            @Html.DropDownListFor(x => x.VillageId, null, "Select Village", new { @class = "form-control form-control-sm " })
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Sector Type<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Type", new { @class = "form-control form-control-sm", @id = "SectorTypeId" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Sector Name<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.SectorID, null, "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorId" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Name (Project)<sup><code>*</code></sup></strong>
+                            @Html.TextAreaFor(x => x.ProjectName, new { @class = "form-control form-control-sm" })
+                            @* @Html.DropDownListFor(x => x.ProjectID, null, "Select Project", new { @class = "form-control form-control-sm" })*@
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Latitude<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.WorkLatitude, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Longitude<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.WorkLongitude, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Purpose of Work<sup><code>*</code></sup></strong>
+                            @Html.TextAreaFor(x => x.ProjectDescription, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Prosposal No<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProsposalNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Proposal Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProposalDate, ((Model.ProposalDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.ProposalDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>
+                                Proposal Copy<sup><code>*</code></sup>
+                                @if (!String.IsNullOrEmpty(Model.ProposalCopy))
+                                {
+                                    <a href="@Model.ProposalCopy" target="_blank">View Doc</a>
+                                    <input type="hidden" value="prev" id="ProposalCopy" name="ProposalCopy" />
+                                }
+                            </strong>
+                            @Html.TextBoxFor(x => x.ProposalCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Proposed By<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProposedBy, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Estimated Project Cost<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProjectCost, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>GST and Other Charges<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.GSTAndOthers, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row tab">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Tender No<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.TenderNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Tender Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.TenderDate, ((Model.TenderDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.TenderDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Order No</strong>
+                            @Html.TextBoxFor(x => x.WorkOrderNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Order Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.WorkOrderDate, ((Model.WorkOrderDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.WorkOrderDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>
+                                WorkOrder Copy<sup><code>*</code></sup>
+                                @if (!String.IsNullOrEmpty(Model.WorkOrderCopy))
+                                {
+                                    <a href="@Model.WorkOrderCopy" target="_blank">View Doc</a>
+                                    <input type="hidden" value="prev" id="WorkOrderCopy" name="WorkOrderCopy" />
+                                }
+                            </strong>
+                            @Html.TextBoxFor(x => x.WorkOrderCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "WorkOrderCopy" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Agency<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.AgencyID, null, "Select Agency", new { @class = "form-control form-control-sm" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Sanctioned Project Cost<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.SanctionedProjectCost, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="overflow:auto;">
+                <div style="float:right;">
+                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.ProjectPreparationID)?"Submit":"Update")" class="btn btn-success" style="display:none" />
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:40px;">
+                <span class="step"></span>
+                <span class="step"></span>
+                @*<span class="step"></span>
+                <span class="step"></span>*@
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    var currentTab = 0;
+    showTab(currentTab);
+
+    function showTab(n) {
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "none";
+        }
+        else {
+            document.getElementById("prevBtn").style.display = "inline";
+            document.getElementById("btnSubmit").style.display = "none";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "inline";
+
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").style.display = "inline";
+        }
+        fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+        if (n == 1 && !validateForm())
+            return false;
+
+        var x = document.getElementsByClassName("tab");
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        if (currentTab >= x.length) {
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "inline";
+            return false;
+        }
+        showTab(currentTab);
+    }
+
+    function validateForm() {
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        // Get the current tab
+        var currentTabElement = x[currentTab];
+
+        // Get the elements within the current tab
+        y = currentTabElement.getElementsByTagName("select");
+        var emptyFields = [];
+        // Check select elements
+        if (y.length > 0) {
+            for (i = 0; i < y.length; i++) {
+                if (y[i].value == "") {
+                    y[i].className += " invalid";
+                    emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
+                    valid = false;
+                }
+            }
+        } else {
+            // If no select elements found, check input elements
+            /*y = currentTabElement.getElementsByTagName("input");*/
+            // If no select elements found, check input elements except file inputs
+            y = currentTabElement.querySelectorAll("input:not([type='file'])");
+            for (i = 0; i < y.length; i++) {
+                if (y[i].value == "") {
+                    y[i].className += " invalid";
+                    emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
+                    valid = false;
+                }
+            }
+        }
+
+        if (!valid) {
+
+            toastr.error("Please fill in the following fields:\n" + emptyFields.join("\n"));
+        } else {
+            document.getElementsByClassName("step")[currentTab].className += " finish";
+        }
+        return valid;
+    }
+    function fixStepIndicator(n) {
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        x[n].className += " active";
+    }
+</script>

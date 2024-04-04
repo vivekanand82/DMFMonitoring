@@ -1,0 +1,106 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_UserRegistration
+@{
+    ViewBag.Title = "CreateUserRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.LoginID))
+    {
+        <h4 class="card-title">Create User</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update User</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.LoginID) ? "CreateUserRegistration" : "EditUserRegistration"), "UserManagement", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.LoginID)
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Name <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.Name, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Email <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.EmailId, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Phone Number <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.PhoneNumber, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>District <sup><code>*</code></sup></strong>
+                        @Html.DropDownList("DistrictId", null, "-Select District-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Username <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.UserName, "", new { @class = "form-control form-control-sm", @autocomplete = "new-password", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Password <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.Password, "", new { @class = "form-control form-control-sm", @autocomplete = "new-password", @type = "Password" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>User Role <sup><code>*</code></sup></strong>
+                        @Html.DropDownList("RoleID", null, "-Select Role-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.LoginID)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.LoginID))
+                        {
+                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                        }
+                        else
+                        {
+                            <a href="/UserManagement/UserRegistration" class="btn btn-danger">Back</a>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#EmailId").keyup(function () {
+                $("#UserName").val($(this).val());
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,185 @@
+﻿@using DMFProjectFinal.Models;
+@using DMFProjectFinal.Controllers;
+@model MasterWithNameCodeAndID
+@{
+    ViewBag.Title = "Designation Master";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    var Lst = ViewBag.DeptList as List<DesignationMaster>;
+    int i = 1;
+}
+<style>
+    .my-fa {
+        font-size: 24px;
+        margin-right: 6px;
+    }
+
+    code {
+        font-size: 15px !important;
+    }
+
+    .ui-datepicker-calendar td {
+        padding: 1px !important;
+    }
+</style>
+@Styles.Render("~/MyCSSJQUI")
+<section class="inner-bg bg-card-dark ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="cmt-page-title-row-inner">
+                    <div class="page-title-heading">
+                        <h2 class="title">Department Master</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="site-main">
+    <!--about-section-->
+
+    <section class="cmt-row clearfix">
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-card">
+                        @using (Html.BeginForm("DesignationMaster", "Admin", new { }, FormMethod.Post, new { @role = "form", enctype = "multipart/form-data" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane">
+                                        <div class="row">
+                                            @Html.HiddenFor(x => x.TmpID)
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Designation Code<sup><code>*</code></sup></strong>
+                                                    @Html.TextBoxFor(x => x.Code, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-8">
+                                                <div class="form-label">
+                                                    <strong>Designation Name <sup><code>*</code></sup></strong>
+                                                    @Html.TextBoxFor(x => x.Name, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <input type="submit" onclick="SubmitData(event)" id="btnSave" class="btn btn-primary" value="Save Now" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="mt-2"></div>
+                <div class="col-lg-12">
+                    <div class="form-card table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>SNo</th>
+                                    <th>Designation Name</th>
+                                    <th>Designation Code</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Lst != null)
+                                {
+                                    foreach (var itm in Lst)
+                                    {
+                                        <tr>
+                                            <td>@(i++)</td>
+                                            <td>@itm.Designation</td>
+                                            <td>@itm.DesignationCode</td>
+                                            <td style="display:none">@(CryptoEngine.Encrypt(itm.DesingantionID.ToString()))</td>
+                                            <td>@((itm.IsActive!=null && itm.IsActive.Value)?"Active":"Deactive")</td>
+                                            <td>
+                                                <i class="btn btn-sm fa fa-pencil" style="font-size:16px" onclick="UpdateFunction(this)"></i>
+                                                <i class="btn btn-sm fa fa-trash-o" style="font-size:16px" onclick="Delete('@(CryptoEngine.Encrypt(itm.DesingantionID.ToString()))')"></i>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center">No Data Found !</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        function SubmitData(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: $($('form')[0]).attr('action'),
+                data: JSON.stringify({ TmpID: $('#TmpID').val(), Name: $('#Name').val(), Code: $('#Code').val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert(response);
+                    if (response.indexOf('Successfully') != -1) {
+                        window.location.reload();
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+
+        function Delete(id) {
+            if (confirm('Are you sure to delete ?')) {
+                $.ajax({
+                    type: "POST",
+                    url: '/Admin/DeleteDesig',
+                    data: "{ id: '" + id + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response);
+                        if (response.indexOf('Successfully') != -1) {
+                            window.location.reload();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+        }
+
+        function UpdateFunction(e) {
+            var row = $(e).closest('tr');
+            $($(row).find("td")[0]).text();
+            $('#Code').val($($(row).find("td")[2]).text());
+            $('#Name').val($($(row).find("td")[1]).text());
+            $('#TmpID').val($($(row).find("td")[3]).text());
+            $('#btnSave').val('Update');
+        }
+    </script>
+}

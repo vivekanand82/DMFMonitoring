@@ -1,0 +1,45 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_SectorTypeMaster
+@{
+    ViewBag.Title = "Create Sector Type";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.SectorTypeID))
+    {
+        <h4 class="card-title">Create Sector Type</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Sector Type</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.SectorTypeID) ? "CreateSectorTypeMaster" : "EditSectorTypeMaster"), "Master", new { }, FormMethod.Post, new { @role ="form", @id ="frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.SectorTypeID)
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Sector Type <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.SectorType, "", new { @class = "form-control form-control-sm", @autocomplete = "off" ,@required="required"})
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Percentage(%) <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.Percentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @required = "required" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.SectorTypeID)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

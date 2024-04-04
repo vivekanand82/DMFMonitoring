@@ -1,0 +1,61 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_MineralNameMaster
+@{
+    ViewBag.Title = "CreateMineralNameMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.MineralId))
+    {
+        <h4 class="card-title">Create Mineral Name</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Mineral Name</h4>
+    }
+
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.MineralId) ? "CreateMineralNameMaster" : "EditMineralNameMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.MineralId)
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Mineral Name <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.MineralName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Mineral Type <sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.MineralType, new List<SelectListItem>
+               {
+                   new SelectListItem{Text="Major",Value="Major"},
+                    new SelectListItem{Text="Minor",Value="Minor"}
+               }, "Select", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    @*@Html.TextBoxFor(x => x.MineralType, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })*@
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Mineral Code <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.MineralCode, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.MineralId)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

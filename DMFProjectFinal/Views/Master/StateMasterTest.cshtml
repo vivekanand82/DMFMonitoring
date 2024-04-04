@@ -1,0 +1,34 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_DemoStateId
+@{
+
+        ViewBag.Title = "StateMasterTest";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.Id) ? "StateMasterTest" : "EditLesseeMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.Id)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>State<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.StateID, null, "Select State", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "DistID", @refflg = "001" })
+                    </div>
+                </div>
+                
+
+                <div class="col-md-3 text-left">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.Id)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

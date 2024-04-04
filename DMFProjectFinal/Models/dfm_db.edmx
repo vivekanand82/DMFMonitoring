@@ -1,0 +1,1755 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dfm_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AgenciesInfo">
+          <Key>
+            <PropertyRef Name="AgencyID" />
+          </Key>
+          <Property Name="AgencyID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="StateID" Type="int" />
+          <Property Name="DistID" Type="int" />
+          <Property Name="OwnerName" Type="nvarchar" MaxLength="200" />
+          <Property Name="EmailID" Type="varchar" MaxLength="100" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="bigint" />
+          <Property Name="AlternateMobNo" Type="varchar" MaxLength="20" />
+          <Property Name="LandLineNo" Type="varchar" MaxLength="50" />
+          <Property Name="GSTIN" Type="varchar" MaxLength="50" />
+          <Property Name="PANNo" Type="varchar" MaxLength="20" />
+          <Property Name="BankID" Type="int" />
+          <Property Name="BranchName" Type="nvarchar" MaxLength="500" />
+          <Property Name="IFSCCode" Type="varchar" MaxLength="50" />
+          <Property Name="AccNo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BankMaster">
+          <Key>
+            <PropertyRef Name="BankID" />
+          </Key>
+          <Property Name="BankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="BlockMaster">
+          <Key>
+            <PropertyRef Name="BlockId" />
+          </Key>
+          <Property Name="BlockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="BlockName" Type="nvarchar(max)" />
+          <Property Name="ZoneId" Type="int" />
+          <Property Name="BlockOfficeAddress" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="SerialCode" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="CommitteeDesignationMaster">
+          <Key>
+            <PropertyRef Name="CommitteeDesignationId" />
+          </Key>
+          <Property Name="CommitteeDesignationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommitteeDesignationName" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="CommitteeMaster">
+          <Key>
+            <PropertyRef Name="CommitteeID" />
+          </Key>
+          <Property Name="CommitteeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommitteeTypeID" Type="int" />
+          <Property Name="CommitteeName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DesignationID" Type="int" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="20" />
+          <Property Name="EmailID" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifyBy" Type="bigint" />
+          <Property Name="CommitteeDesignationId" Type="int" />
+          <Property Name="DistID" Type="int" />
+        </EntityType>
+        <EntityType Name="CommitteeTypeMaster">
+          <Key>
+            <PropertyRef Name="CommitteeTypeID" />
+          </Key>
+          <Property Name="CommitteeTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommitteeType" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="DataLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URLInfo" Type="varchar" MaxLength="200" />
+          <Property Name="LogInfo" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="DemoState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
+        <EntityType Name="DesignationMaster">
+          <Key>
+            <PropertyRef Name="DesingantionID" />
+          </Key>
+          <Property Name="DesingantionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DesignationCode" Type="varchar" MaxLength="10" />
+          <Property Name="Designation" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="DistrictMaster">
+          <Key>
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="DistrictId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DistrictCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
+        <EntityType Name="DMFFundCollection">
+          <Key>
+            <PropertyRef Name="FundCollectionId" />
+          </Key>
+          <Property Name="FundCollectionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LesseeId" Type="bigint" />
+          <Property Name="YearId" Type="int" />
+          <Property Name="MonthId" Type="int" />
+          <Property Name="RoyaltyAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DMFAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DepositedDMFAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RemainingDMFAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ChallanDate" Type="date" />
+          <Property Name="ChallanDoc" Type="varchar(max)" />
+          <Property Name="ChallanNo" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="LesseeMaster">
+          <Key>
+            <PropertyRef Name="LesseeID" />
+          </Key>
+          <Property Name="LesseeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateID" Type="int" />
+          <Property Name="DistID" Type="int" />
+          <Property Name="TehsilID" Type="int" />
+          <Property Name="VillageID" Type="bigint" />
+          <Property Name="Areacode" Type="varchar" MaxLength="50" />
+          <Property Name="GataNo" Type="nvarchar" MaxLength="500" />
+          <Property Name="TotalAreainHect" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LeaseID" Type="varchar" MaxLength="50" />
+          <Property Name="MinralID" Type="int" />
+          <Property Name="LesseeName" Type="nvarchar" MaxLength="200" />
+          <Property Name="MobNo" Type="varchar" MaxLength="20" />
+          <Property Name="EmailID" Type="varchar" MaxLength="100" />
+          <Property Name="BidRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LeaseFromDate" Type="date" />
+          <Property Name="LeaseToDate" Type="date" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ModifyBy" Type="bigint" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="LesseeOpeningDMFAmt">
+          <Key>
+            <PropertyRef Name="OpeningDMFAmtId" />
+          </Key>
+          <Property Name="OpeningDMFAmtId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LesseeId" Type="bigint" />
+          <Property Name="DMFOpeningAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="EffectiveDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="250" />
+          <Property Name="MineralId" Type="int" />
+          <Property Name="DistrictId" Type="int" />
+        </EntityType>
+        <EntityType Name="MenuMaster">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ControllerName" Type="varchar" MaxLength="200" />
+          <Property Name="ActionName" Type="varchar" MaxLength="200" />
+          <Property Name="IsParent" Type="bit" />
+          <Property Name="ParentId" Type="bigint" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MineralNameMaster">
+          <Key>
+            <PropertyRef Name="MineralId" />
+          </Key>
+          <Property Name="MineralId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MineralName" Type="nvarchar" MaxLength="250" />
+          <Property Name="MineralCode" Type="nvarchar" MaxLength="150" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="MineralType" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MonthMaster">
+          <Key>
+            <PropertyRef Name="MonthId" />
+          </Key>
+          <Property Name="MonthId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MonthName" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProjectMaster">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="300" />
+          <Property Name="ProjectCode" Type="varchar" MaxLength="50" />
+          <Property Name="ProjectDescription" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="ModifyBy" Type="bigint" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="SectorTypeId" Type="int" />
+          <Property Name="SectorNameId" Type="int" />
+        </EntityType>
+        <EntityType Name="ProjectProposalPrepration">
+          <Key>
+            <PropertyRef Name="ProjectPreparationID" />
+          </Key>
+          <Property Name="ProjectPreparationID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistID" Type="int" />
+          <Property Name="TehsilId" Type="int" />
+          <Property Name="BlockId" Type="int" />
+          <Property Name="VillageId" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="SectorID" Type="int" />
+          <Property Name="SectorTypeId" Type="int" />
+          <Property Name="WorkLatitude" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="WorkLongitude" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="ProjectDescription" Type="nvarchar(max)" />
+          <Property Name="ProsposalNo" Type="varchar" MaxLength="100" />
+          <Property Name="ProposalDate" Type="date" />
+          <Property Name="ProposalCopy" Type="varchar" MaxLength="500" />
+          <Property Name="ProposedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProjectCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GSTAndOthers" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TenderNo" Type="nvarchar" MaxLength="200" />
+          <Property Name="TenderDate" Type="date" />
+          <Property Name="WorkOrderNo" Type="nvarchar" MaxLength="200" />
+          <Property Name="WorkOrderDate" Type="date" />
+          <Property Name="WorkOrderCopy" Type="varchar" MaxLength="200" />
+          <Property Name="AgencyID" Type="bigint" />
+          <Property Name="SanctionedProjectCost" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectStatusID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="ModifyBy" Type="bigint" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProjectStatusMaster">
+          <Key>
+            <PropertyRef Name="ProjectStatusID" />
+          </Key>
+          <Property Name="ProjectStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectStatus" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="RoleMenuMappings">
+          <Key>
+            <PropertyRef Name="MappingID" />
+          </Key>
+          <Property Name="MappingID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserRoleID" Type="int" />
+          <Property Name="MenuID" Type="bigint" />
+          <Property Name="CanView" Type="bit" />
+          <Property Name="CanInsert" Type="bit" />
+          <Property Name="CanUpdate" Type="bit" />
+          <Property Name="CanDelete" Type="bit" />
+          <Property Name="CreatedBy" Type="bigint" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="RoyaltyCollection">
+          <Key>
+            <PropertyRef Name="RoyaltyCollectionId" />
+          </Key>
+          <Property Name="RoyaltyCollectionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LesseeId" Type="bigint" />
+          <Property Name="YearId" Type="int" />
+          <Property Name="MonthId" Type="int" />
+          <Property Name="RoyaltyAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DMFAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ChallanDate" Type="date" />
+          <Property Name="ChallanNo" Type="varchar" MaxLength="100" />
+          <Property Name="ChallanDoc" Type="varchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SectorNameMaster">
+          <Key>
+            <PropertyRef Name="SectorNameId" />
+          </Key>
+          <Property Name="SectorNameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectorTypeId" Type="int" />
+          <Property Name="SectorName" Type="nvarchar" MaxLength="250" />
+          <Property Name="SectorCode" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="SectorTypeMaster">
+          <Key>
+            <PropertyRef Name="SectorTypeID" />
+          </Key>
+          <Property Name="SectorTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectorType" Type="nvarchar" MaxLength="300" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Percentage" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="StateMaster">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="500" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TehsilMaster">
+          <Key>
+            <PropertyRef Name="TehsilId" />
+          </Key>
+          <Property Name="TehsilId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TehsilName" Type="nvarchar" MaxLength="100" />
+          <Property Name="TehsilCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="ISPTehsilCode" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="UserLogins">
+          <Key>
+            <PropertyRef Name="LoginID" />
+          </Key>
+          <Property Name="LoginID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" />
+          <Property Name="Password" Type="varchar" MaxLength="100" />
+          <Property Name="EmployeeID" Type="bigint" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DistID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="300" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="300" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="300" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="VillageMaster">
+          <Key>
+            <PropertyRef Name="VillageId" />
+          </Key>
+          <Property Name="VillageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VillageNameInEnglish" Type="nvarchar" MaxLength="100" />
+          <Property Name="VillageNameInHindi" Type="nvarchar" MaxLength="100" />
+          <Property Name="VillageCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="TehsilId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsChakbandiVillage" Type="bit" />
+          <Property Name="MSTCVillageName" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="YearMaster">
+          <Key>
+            <PropertyRef Name="YearId" />
+          </Key>
+          <Property Name="YearId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YearName" Type="varchar" MaxLength="20" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <Association Name="FK_AgenciesInfo_BankMaster">
+          <End Role="BankMaster" Type="Self.BankMaster" Multiplicity="0..1" />
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankMaster">
+              <PropertyRef Name="BankID" />
+            </Principal>
+            <Dependent Role="AgenciesInfo">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgenciesInfo_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="AgenciesInfo">
+              <PropertyRef Name="DistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgenciesInfo_StateMaster">
+          <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMaster">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="AgenciesInfo">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommitteeMaster_CommitteeTypeMaster">
+          <End Role="CommitteeTypeMaster" Type="Self.CommitteeTypeMaster" Multiplicity="0..1" />
+          <End Role="CommitteeMaster" Type="Self.CommitteeMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommitteeTypeMaster">
+              <PropertyRef Name="CommitteeTypeID" />
+            </Principal>
+            <Dependent Role="CommitteeMaster">
+              <PropertyRef Name="CommitteeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommitteeMaster_DesignationMaster">
+          <End Role="DesignationMaster" Type="Self.DesignationMaster" Multiplicity="0..1" />
+          <End Role="CommitteeMaster" Type="Self.CommitteeMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DesignationMaster">
+              <PropertyRef Name="DesingantionID" />
+            </Principal>
+            <Dependent Role="CommitteeMaster">
+              <PropertyRef Name="DesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DistrictMaster_StateMaster">
+          <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMaster">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="DistrictMaster">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectMaster_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="ProjectMaster" Type="Self.ProjectMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ProjectMaster">
+              <PropertyRef Name="DistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_AgenciesInfo">
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgenciesInfo">
+              <PropertyRef Name="AgencyID" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="AgencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="DistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_ProjectMaster">
+          <End Role="ProjectMaster" Type="Self.ProjectMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectMaster">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_ProjectStatusMaster">
+          <End Role="ProjectStatusMaster" Type="Self.ProjectStatusMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectStatusMaster">
+              <PropertyRef Name="ProjectStatusID" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="ProjectStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_SectorNameMaster">
+          <End Role="SectorNameMaster" Type="Self.SectorNameMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectorNameMaster">
+              <PropertyRef Name="SectorNameId" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="SectorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TehsilMaster_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="TehsilMaster" Type="Self.TehsilMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="TehsilMaster">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dfm_dbModelStoreContainer">
+          <EntitySet Name="AgenciesInfo" EntityType="Self.AgenciesInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankMaster" EntityType="Self.BankMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BlockMaster" EntityType="Self.BlockMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommitteeDesignationMaster" EntityType="Self.CommitteeDesignationMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommitteeMaster" EntityType="Self.CommitteeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommitteeTypeMaster" EntityType="Self.CommitteeTypeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataLog" EntityType="Self.DataLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DemoState" EntityType="Self.DemoState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DesignationMaster" EntityType="Self.DesignationMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DistrictMaster" EntityType="Self.DistrictMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMFFundCollection" EntityType="Self.DMFFundCollection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LesseeMaster" EntityType="Self.LesseeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LesseeOpeningDMFAmt" EntityType="Self.LesseeOpeningDMFAmt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenuMaster" EntityType="Self.MenuMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MineralNameMaster" EntityType="Self.MineralNameMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectProposalPrepration" EntityType="Self.ProjectProposalPrepration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectStatusMaster" EntityType="Self.ProjectStatusMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleMenuMappings" EntityType="Self.RoleMenuMappings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoyaltyCollection" EntityType="Self.RoyaltyCollection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectorNameMaster" EntityType="Self.SectorNameMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectorTypeMaster" EntityType="Self.SectorTypeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StateMaster" EntityType="Self.StateMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TehsilMaster" EntityType="Self.TehsilMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogins" EntityType="Self.UserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VillageMaster" EntityType="Self.VillageMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="YearMaster" EntityType="Self.YearMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MonthMaster" EntityType="Self.MonthMaster" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MonthMaster].[MonthId] AS [MonthId], 
+    [MonthMaster].[MonthName] AS [MonthName], 
+    [MonthMaster].[IsActive] AS [IsActive]
+    FROM [dbo].[MonthMaster] AS [MonthMaster]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_AgenciesInfo_BankMaster" Association="Self.FK_AgenciesInfo_BankMaster">
+            <End Role="BankMaster" EntitySet="BankMaster" />
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgenciesInfo_DistrictMaster" Association="Self.FK_AgenciesInfo_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMaster" />
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgenciesInfo_StateMaster" Association="Self.FK_AgenciesInfo_StateMaster">
+            <End Role="StateMaster" EntitySet="StateMaster" />
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommitteeMaster_CommitteeTypeMaster" Association="Self.FK_CommitteeMaster_CommitteeTypeMaster">
+            <End Role="CommitteeTypeMaster" EntitySet="CommitteeTypeMaster" />
+            <End Role="CommitteeMaster" EntitySet="CommitteeMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommitteeMaster_DesignationMaster" Association="Self.FK_CommitteeMaster_DesignationMaster">
+            <End Role="DesignationMaster" EntitySet="DesignationMaster" />
+            <End Role="CommitteeMaster" EntitySet="CommitteeMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DistrictMaster_StateMaster" Association="Self.FK_DistrictMaster_StateMaster">
+            <End Role="StateMaster" EntitySet="StateMaster" />
+            <End Role="DistrictMaster" EntitySet="DistrictMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectMaster_DistrictMaster" Association="Self.FK_ProjectMaster_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMaster" />
+            <End Role="ProjectMaster" EntitySet="ProjectMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_AgenciesInfo" Association="Self.FK_ProjectProposalPrepration_AgenciesInfo">
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfo" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPrepration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_DistrictMaster" Association="Self.FK_ProjectProposalPrepration_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMaster" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPrepration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_ProjectMaster" Association="Self.FK_ProjectProposalPrepration_ProjectMaster">
+            <End Role="ProjectMaster" EntitySet="ProjectMaster" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPrepration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_ProjectStatusMaster" Association="Self.FK_ProjectProposalPrepration_ProjectStatusMaster">
+            <End Role="ProjectStatusMaster" EntitySet="ProjectStatusMaster" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPrepration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_SectorNameMaster" Association="Self.FK_ProjectProposalPrepration_SectorNameMaster">
+            <End Role="SectorNameMaster" EntitySet="SectorNameMaster" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPrepration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TehsilMaster_DistrictMaster" Association="Self.FK_TehsilMaster_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMaster" />
+            <End Role="TehsilMaster" EntitySet="TehsilMaster" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dfm_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AgenciesInfo">
+          <Key>
+            <PropertyRef Name="AgencyID" />
+          </Key>
+          <Property Name="AgencyID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="StateID" Type="Int32" />
+          <Property Name="DistID" Type="Int32" />
+          <Property Name="OwnerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int64" />
+          <Property Name="AlternateMobNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LandLineNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GSTIN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PANNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="BankID" Type="Int32" />
+          <Property Name="BranchName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IFSCCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AccNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BankMaster" Relationship="Self.FK_AgenciesInfo_BankMaster" FromRole="AgenciesInfo" ToRole="BankMaster" />
+          <NavigationProperty Name="DistrictMaster" Relationship="Self.FK_AgenciesInfo_DistrictMaster" FromRole="AgenciesInfo" ToRole="DistrictMaster" />
+          <NavigationProperty Name="StateMaster" Relationship="Self.FK_AgenciesInfo_StateMaster" FromRole="AgenciesInfo" ToRole="StateMaster" />
+          <NavigationProperty Name="ProjectProposalPreprations" Relationship="Self.FK_ProjectProposalPrepration_AgenciesInfo" FromRole="AgenciesInfo" ToRole="ProjectProposalPrepration" />
+        </EntityType>
+        <EntityType Name="BankMaster">
+          <Key>
+            <PropertyRef Name="BankID" />
+          </Key>
+          <Property Name="BankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="AgenciesInfoes" Relationship="Self.FK_AgenciesInfo_BankMaster" FromRole="BankMaster" ToRole="AgenciesInfo" />
+        </EntityType>
+        <EntityType Name="CommitteeMaster">
+          <Key>
+            <PropertyRef Name="CommitteeID" />
+          </Key>
+          <Property Name="CommitteeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommitteeTypeID" Type="Int32" />
+          <Property Name="CommitteeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DesignationID" Type="Int32" />
+          <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int64" />
+          <NavigationProperty Name="CommitteeTypeMaster" Relationship="Self.FK_CommitteeMaster_CommitteeTypeMaster" FromRole="CommitteeMaster" ToRole="CommitteeTypeMaster" />
+          <NavigationProperty Name="DesignationMaster" Relationship="Self.FK_CommitteeMaster_DesignationMaster" FromRole="CommitteeMaster" ToRole="DesignationMaster" />
+          <Property Name="CommitteeDesignationId" Type="Int32" />
+          <Property Name="DistID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CommitteeTypeMaster">
+          <Key>
+            <PropertyRef Name="CommitteeTypeID" />
+          </Key>
+          <Property Name="CommitteeTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommitteeType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="CommitteeMasters" Relationship="Self.FK_CommitteeMaster_CommitteeTypeMaster" FromRole="CommitteeTypeMaster" ToRole="CommitteeMaster" />
+        </EntityType>
+        <EntityType Name="DataLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URLInfo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LogInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="DesignationMaster">
+          <Key>
+            <PropertyRef Name="DesingantionID" />
+          </Key>
+          <Property Name="DesingantionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DesignationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Designation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="CommitteeMasters" Relationship="Self.FK_CommitteeMaster_DesignationMaster" FromRole="DesignationMaster" ToRole="CommitteeMaster" />
+        </EntityType>
+        <EntityType Name="DistrictMaster">
+          <Key>
+            <PropertyRef Name="DistrictId" />
+          </Key>
+          <Property Name="DistrictId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="StateID" Type="Int32" />
+          <NavigationProperty Name="AgenciesInfoes" Relationship="Self.FK_AgenciesInfo_DistrictMaster" FromRole="DistrictMaster" ToRole="AgenciesInfo" />
+          <NavigationProperty Name="StateMaster" Relationship="Self.FK_DistrictMaster_StateMaster" FromRole="DistrictMaster" ToRole="StateMaster" />
+          <NavigationProperty Name="ProjectMasters" Relationship="Self.FK_ProjectMaster_DistrictMaster" FromRole="DistrictMaster" ToRole="ProjectMaster" />
+          <NavigationProperty Name="ProjectProposalPreprations" Relationship="Self.FK_ProjectProposalPrepration_DistrictMaster" FromRole="DistrictMaster" ToRole="ProjectProposalPrepration" />
+          <NavigationProperty Name="TehsilMasters" Relationship="Self.FK_TehsilMaster_DistrictMaster" FromRole="DistrictMaster" ToRole="TehsilMaster" />
+        </EntityType>
+        <EntityType Name="DMFFundCollection">
+          <Key>
+            <PropertyRef Name="FundCollectionId" />
+          </Key>
+          <Property Name="FundCollectionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LesseeId" Type="Int64" />
+          <Property Name="YearId" Type="Int32" />
+          <Property Name="MonthId" Type="Int32" />
+          <Property Name="RoyaltyAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DMFAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DepositedDMFAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RemainingDMFAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ChallanDate" Type="DateTime" Precision="0" />
+          <Property Name="ChallanDoc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ChallanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LesseeMaster">
+          <Key>
+            <PropertyRef Name="LesseeID" />
+          </Key>
+          <Property Name="LesseeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateID" Type="Int32" />
+          <Property Name="DistID" Type="Int32" />
+          <Property Name="TehsilID" Type="Int32" />
+          <Property Name="VillageID" Type="Int64" />
+          <Property Name="Areacode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GataNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TotalAreainHect" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LeaseID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MinralID" Type="Int32" />
+          <Property Name="LesseeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MobNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BidRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LeaseFromDate" Type="DateTime" Precision="0" />
+          <Property Name="LeaseToDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int64" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MineralNameMaster">
+          <Key>
+            <PropertyRef Name="MineralId" />
+          </Key>
+          <Property Name="MineralId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MineralName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MineralCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="MineralType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProjectMaster">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="ModifyBy" Type="Int64" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DistrictMaster" Relationship="Self.FK_ProjectMaster_DistrictMaster" FromRole="ProjectMaster" ToRole="DistrictMaster" />
+          <NavigationProperty Name="ProjectProposalPreprations" Relationship="Self.FK_ProjectProposalPrepration_ProjectMaster" FromRole="ProjectMaster" ToRole="ProjectProposalPrepration" />
+          <Property Name="SectorTypeId" Type="Int32" />
+          <Property Name="SectorNameId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ProjectProposalPrepration">
+          <Key>
+            <PropertyRef Name="ProjectPreparationID" />
+          </Key>
+          <Property Name="ProjectPreparationID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectorID" Type="Int32" />
+          <Property Name="ProsposalNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProposalDate" Type="DateTime" Precision="0" />
+          <Property Name="ProposalCopy" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ProposedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="TenderNo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TenderDate" Type="DateTime" Precision="0" />
+          <Property Name="WorkOrderNo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WorkOrderDate" Type="DateTime" Precision="0" />
+          <Property Name="AgencyID" Type="Int64" />
+          <Property Name="ProjectCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GSTAndOthers" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SanctionedProjectCost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ProjectStatusID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="ModifyBy" Type="Int64" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DistID" Type="Int32" />
+          <NavigationProperty Name="AgenciesInfo" Relationship="Self.FK_ProjectProposalPrepration_AgenciesInfo" FromRole="ProjectProposalPrepration" ToRole="AgenciesInfo" />
+          <NavigationProperty Name="DistrictMaster" Relationship="Self.FK_ProjectProposalPrepration_DistrictMaster" FromRole="ProjectProposalPrepration" ToRole="DistrictMaster" />
+          <NavigationProperty Name="ProjectMaster" Relationship="Self.FK_ProjectProposalPrepration_ProjectMaster" FromRole="ProjectProposalPrepration" ToRole="ProjectMaster" />
+          <NavigationProperty Name="ProjectStatusMaster" Relationship="Self.FK_ProjectProposalPrepration_ProjectStatusMaster" FromRole="ProjectProposalPrepration" ToRole="ProjectStatusMaster" />
+          <NavigationProperty Name="SectorNameMaster" Relationship="Self.FK_ProjectProposalPrepration_SectorNameMaster" FromRole="ProjectProposalPrepration" ToRole="SectorNameMaster" />
+          <Property Name="TehsilId" Type="Int32" />
+          <Property Name="BlockId" Type="Int32" />
+          <Property Name="VillageId" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SectorTypeId" Type="Int32" />
+          <Property Name="WorkLatitude" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="WorkLongitude" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="ProjectDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkOrderCopy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProjectStatusMaster">
+          <Key>
+            <PropertyRef Name="ProjectStatusID" />
+          </Key>
+          <Property Name="ProjectStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="ProjectProposalPreprations" Relationship="Self.FK_ProjectProposalPrepration_ProjectStatusMaster" FromRole="ProjectStatusMaster" ToRole="ProjectProposalPrepration" />
+        </EntityType>
+        <EntityType Name="RoleMenuMapping">
+          <Key>
+            <PropertyRef Name="MappingID" />
+          </Key>
+          <Property Name="MappingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserRoleID" Type="Int32" />
+          <Property Name="MenuID" Type="Int64" />
+          <Property Name="CanView" Type="Boolean" />
+          <Property Name="CanInsert" Type="Boolean" />
+          <Property Name="CanUpdate" Type="Boolean" />
+          <Property Name="CanDelete" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="RoyaltyCollection">
+          <Key>
+            <PropertyRef Name="RoyaltyCollectionId" />
+          </Key>
+          <Property Name="RoyaltyCollectionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LesseeId" Type="Int64" />
+          <Property Name="YearId" Type="Int32" />
+          <Property Name="MonthId" Type="Int32" />
+          <Property Name="RoyaltyAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DMFAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ChallanDate" Type="DateTime" Precision="0" />
+          <Property Name="ChallanNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ChallanDoc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SectorNameMaster">
+          <Key>
+            <PropertyRef Name="SectorNameId" />
+          </Key>
+          <Property Name="SectorNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectorTypeId" Type="Int32" />
+          <Property Name="SectorName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="SectorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="ProjectProposalPreprations" Relationship="Self.FK_ProjectProposalPrepration_SectorNameMaster" FromRole="SectorNameMaster" ToRole="ProjectProposalPrepration" />
+        </EntityType>
+        <EntityType Name="SectorTypeMaster">
+          <Key>
+            <PropertyRef Name="SectorTypeID" />
+          </Key>
+          <Property Name="SectorTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectorType" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Percentage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="StateMaster">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AgenciesInfoes" Relationship="Self.FK_AgenciesInfo_StateMaster" FromRole="StateMaster" ToRole="AgenciesInfo" />
+          <NavigationProperty Name="DistrictMasters" Relationship="Self.FK_DistrictMaster_StateMaster" FromRole="StateMaster" ToRole="DistrictMaster" />
+        </EntityType>
+        <EntityType Name="TehsilMaster">
+          <Key>
+            <PropertyRef Name="TehsilId" />
+          </Key>
+          <Property Name="TehsilId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TehsilName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TehsilCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="ISPTehsilCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DistrictMaster" Relationship="Self.FK_TehsilMaster_DistrictMaster" FromRole="TehsilMaster" ToRole="DistrictMaster" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VillageMaster">
+          <Key>
+            <PropertyRef Name="VillageId" />
+          </Key>
+          <Property Name="VillageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VillageNameInEnglish" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VillageNameInHindi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VillageCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TehsilId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsChakbandiVillage" Type="Boolean" />
+          <Property Name="MSTCVillageName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="YearMaster">
+          <Key>
+            <PropertyRef Name="YearId" />
+          </Key>
+          <Property Name="YearId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MonthMaster">
+          <Key>
+            <PropertyRef Name="MonthId" />
+          </Key>
+          <Property Name="MonthId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MonthName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_AgenciesInfo_BankMaster">
+          <End Role="BankMaster" Type="Self.BankMaster" Multiplicity="0..1" />
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankMaster">
+              <PropertyRef Name="BankID" />
+            </Principal>
+            <Dependent Role="AgenciesInfo">
+              <PropertyRef Name="BankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgenciesInfo_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="AgenciesInfo">
+              <PropertyRef Name="DistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgenciesInfo_StateMaster">
+          <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMaster">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="AgenciesInfo">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_AgenciesInfo">
+          <End Role="AgenciesInfo" Type="Self.AgenciesInfo" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgenciesInfo">
+              <PropertyRef Name="AgencyID" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="AgencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommitteeMaster_CommitteeTypeMaster">
+          <End Role="CommitteeTypeMaster" Type="Self.CommitteeTypeMaster" Multiplicity="0..1" />
+          <End Role="CommitteeMaster" Type="Self.CommitteeMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommitteeTypeMaster">
+              <PropertyRef Name="CommitteeTypeID" />
+            </Principal>
+            <Dependent Role="CommitteeMaster">
+              <PropertyRef Name="CommitteeTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommitteeMaster_DesignationMaster">
+          <End Role="DesignationMaster" Type="Self.DesignationMaster" Multiplicity="0..1" />
+          <End Role="CommitteeMaster" Type="Self.CommitteeMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DesignationMaster">
+              <PropertyRef Name="DesingantionID" />
+            </Principal>
+            <Dependent Role="CommitteeMaster">
+              <PropertyRef Name="DesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DistrictMaster_StateMaster">
+          <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMaster">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="DistrictMaster">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectMaster_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="ProjectMaster" Type="Self.ProjectMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ProjectMaster">
+              <PropertyRef Name="DistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="DistID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TehsilMaster_DistrictMaster">
+          <End Role="DistrictMaster" Type="Self.DistrictMaster" Multiplicity="0..1" />
+          <End Role="TehsilMaster" Type="Self.TehsilMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DistrictMaster">
+              <PropertyRef Name="DistrictId" />
+            </Principal>
+            <Dependent Role="TehsilMaster">
+              <PropertyRef Name="DistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_ProjectMaster">
+          <End Role="ProjectMaster" Type="Self.ProjectMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectMaster">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_ProjectStatusMaster">
+          <End Role="ProjectStatusMaster" Type="Self.ProjectStatusMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectStatusMaster">
+              <PropertyRef Name="ProjectStatusID" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="ProjectStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectProposalPrepration_SectorNameMaster">
+          <End Role="SectorNameMaster" Type="Self.SectorNameMaster" Multiplicity="0..1" />
+          <End Role="ProjectProposalPrepration" Type="Self.ProjectProposalPrepration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SectorNameMaster">
+              <PropertyRef Name="SectorNameId" />
+            </Principal>
+            <Dependent Role="ProjectProposalPrepration">
+              <PropertyRef Name="SectorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dfm_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AgenciesInfoes" EntityType="Self.AgenciesInfo" />
+          <EntitySet Name="BankMasters" EntityType="Self.BankMaster" />
+          <EntitySet Name="CommitteeMasters" EntityType="Self.CommitteeMaster" />
+          <EntitySet Name="CommitteeTypeMasters" EntityType="Self.CommitteeTypeMaster" />
+          <EntitySet Name="DataLogs" EntityType="Self.DataLog" />
+          <EntitySet Name="DesignationMasters" EntityType="Self.DesignationMaster" />
+          <EntitySet Name="DistrictMasters" EntityType="Self.DistrictMaster" />
+          <EntitySet Name="DMFFundCollections" EntityType="Self.DMFFundCollection" />
+          <EntitySet Name="LesseeMasters" EntityType="Self.LesseeMaster" />
+          <EntitySet Name="MineralNameMasters" EntityType="Self.MineralNameMaster" />
+          <EntitySet Name="ProjectMasters" EntityType="Self.ProjectMaster" />
+          <EntitySet Name="ProjectProposalPreprations" EntityType="Self.ProjectProposalPrepration" />
+          <EntitySet Name="ProjectStatusMasters" EntityType="Self.ProjectStatusMaster" />
+          <EntitySet Name="RoleMenuMappings" EntityType="Self.RoleMenuMapping" />
+          <EntitySet Name="RoyaltyCollections" EntityType="Self.RoyaltyCollection" />
+          <EntitySet Name="SectorNameMasters" EntityType="Self.SectorNameMaster" />
+          <EntitySet Name="SectorTypeMasters" EntityType="Self.SectorTypeMaster" />
+          <EntitySet Name="StateMasters" EntityType="Self.StateMaster" />
+          <EntitySet Name="TehsilMasters" EntityType="Self.TehsilMaster" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
+          <EntitySet Name="VillageMasters" EntityType="Self.VillageMaster" />
+          <EntitySet Name="YearMasters" EntityType="Self.YearMaster" />
+          <EntitySet Name="MonthMasters" EntityType="Self.MonthMaster" />
+          <AssociationSet Name="FK_AgenciesInfo_BankMaster" Association="Self.FK_AgenciesInfo_BankMaster">
+            <End Role="BankMaster" EntitySet="BankMasters" />
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgenciesInfo_DistrictMaster" Association="Self.FK_AgenciesInfo_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMasters" />
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgenciesInfo_StateMaster" Association="Self.FK_AgenciesInfo_StateMaster">
+            <End Role="StateMaster" EntitySet="StateMasters" />
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_AgenciesInfo" Association="Self.FK_ProjectProposalPrepration_AgenciesInfo">
+            <End Role="AgenciesInfo" EntitySet="AgenciesInfoes" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPreprations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommitteeMaster_CommitteeTypeMaster" Association="Self.FK_CommitteeMaster_CommitteeTypeMaster">
+            <End Role="CommitteeTypeMaster" EntitySet="CommitteeTypeMasters" />
+            <End Role="CommitteeMaster" EntitySet="CommitteeMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommitteeMaster_DesignationMaster" Association="Self.FK_CommitteeMaster_DesignationMaster">
+            <End Role="DesignationMaster" EntitySet="DesignationMasters" />
+            <End Role="CommitteeMaster" EntitySet="CommitteeMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DistrictMaster_StateMaster" Association="Self.FK_DistrictMaster_StateMaster">
+            <End Role="StateMaster" EntitySet="StateMasters" />
+            <End Role="DistrictMaster" EntitySet="DistrictMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectMaster_DistrictMaster" Association="Self.FK_ProjectMaster_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMasters" />
+            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_DistrictMaster" Association="Self.FK_ProjectProposalPrepration_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMasters" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPreprations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TehsilMaster_DistrictMaster" Association="Self.FK_TehsilMaster_DistrictMaster">
+            <End Role="DistrictMaster" EntitySet="DistrictMasters" />
+            <End Role="TehsilMaster" EntitySet="TehsilMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_ProjectMaster" Association="Self.FK_ProjectProposalPrepration_ProjectMaster">
+            <End Role="ProjectMaster" EntitySet="ProjectMasters" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPreprations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_ProjectStatusMaster" Association="Self.FK_ProjectProposalPrepration_ProjectStatusMaster">
+            <End Role="ProjectStatusMaster" EntitySet="ProjectStatusMasters" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPreprations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectProposalPrepration_SectorNameMaster" Association="Self.FK_ProjectProposalPrepration_SectorNameMaster">
+            <End Role="SectorNameMaster" EntitySet="SectorNameMasters" />
+            <End Role="ProjectProposalPrepration" EntitySet="ProjectProposalPreprations" />
+          </AssociationSet>
+          <EntitySet Name="MenuMasters" EntityType="dfm_dbModel.MenuMaster" />
+          <EntitySet Name="UserLogins" EntityType="dfm_dbModel.UserLogin" />
+          <EntitySet Name="LesseeOpeningDMFAmts" EntityType="dfm_dbModel.LesseeOpeningDMFAmt" />
+          <EntitySet Name="DemoStates" EntityType="dfm_dbModel.DemoState" />
+          <EntitySet Name="CommitteeDesignationMasters" EntityType="dfm_dbModel.CommitteeDesignationMaster" />
+          <EntitySet Name="BlockMasters" EntityType="dfm_dbModel.BlockMaster" />
+        </EntityContainer>
+        <EntityType Name="MenuMaster">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ActionName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsParent" Type="Boolean" />
+          <Property Name="ParentId" Type="Int64" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int64" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="Int64" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="LoginID" />
+          </Key>
+          <Property Name="LoginID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeID" Type="Int64" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DistID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LesseeOpeningDMFAmt">
+          <Key>
+            <PropertyRef Name="OpeningDMFAmtId" />
+          </Key>
+          <Property Name="OpeningDMFAmtId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LesseeId" Type="Int64" />
+          <Property Name="DMFOpeningAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EffectiveDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="MineralId" Type="Int32" />
+          <Property Name="DistrictId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DemoState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CommitteeDesignationMaster">
+          <Key>
+            <PropertyRef Name="CommitteeDesignationId" />
+          </Key>
+          <Property Name="CommitteeDesignationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommitteeDesignationName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="BlockMaster">
+          <Key>
+            <PropertyRef Name="BlockId" />
+          </Key>
+          <Property Name="BlockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="BlockName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ZoneId" Type="Int32" />
+          <Property Name="BlockOfficeAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="SerialCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dfm_dbModelStoreContainer" CdmEntityContainer="dfm_dbEntities">
+          <EntitySetMapping Name="AgenciesInfoes">
+            <EntityTypeMapping TypeName="dfm_dbModel.AgenciesInfo">
+              <MappingFragment StoreEntitySet="AgenciesInfo">
+                <ScalarProperty Name="AgencyID" ColumnName="AgencyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="AlternateMobNo" ColumnName="AlternateMobNo" />
+                <ScalarProperty Name="LandLineNo" ColumnName="LandLineNo" />
+                <ScalarProperty Name="GSTIN" ColumnName="GSTIN" />
+                <ScalarProperty Name="PANNo" ColumnName="PANNo" />
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="IFSCCode" ColumnName="IFSCCode" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BankMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.BankMaster">
+              <MappingFragment StoreEntitySet="BankMaster">
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommitteeMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.CommitteeMaster">
+              <MappingFragment StoreEntitySet="CommitteeMaster">
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="CommitteeDesignationId" ColumnName="CommitteeDesignationId" />
+                <ScalarProperty Name="CommitteeID" ColumnName="CommitteeID" />
+                <ScalarProperty Name="CommitteeTypeID" ColumnName="CommitteeTypeID" />
+                <ScalarProperty Name="CommitteeName" ColumnName="CommitteeName" />
+                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommitteeTypeMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.CommitteeTypeMaster">
+              <MappingFragment StoreEntitySet="CommitteeTypeMaster">
+                <ScalarProperty Name="CommitteeTypeID" ColumnName="CommitteeTypeID" />
+                <ScalarProperty Name="CommitteeType" ColumnName="CommitteeType" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataLogs">
+            <EntityTypeMapping TypeName="dfm_dbModel.DataLog">
+              <MappingFragment StoreEntitySet="DataLog">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="URLInfo" ColumnName="URLInfo" />
+                <ScalarProperty Name="LogInfo" ColumnName="LogInfo" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DesignationMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.DesignationMaster">
+              <MappingFragment StoreEntitySet="DesignationMaster">
+                <ScalarProperty Name="DesingantionID" ColumnName="DesingantionID" />
+                <ScalarProperty Name="DesignationCode" ColumnName="DesignationCode" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DistrictMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.DistrictMaster">
+              <MappingFragment StoreEntitySet="DistrictMaster">
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="DistrictCode" ColumnName="DistrictCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMFFundCollections">
+            <EntityTypeMapping TypeName="dfm_dbModel.DMFFundCollection">
+              <MappingFragment StoreEntitySet="DMFFundCollection">
+                <ScalarProperty Name="FundCollectionId" ColumnName="FundCollectionId" />
+                <ScalarProperty Name="LesseeId" ColumnName="LesseeId" />
+                <ScalarProperty Name="YearId" ColumnName="YearId" />
+                <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+                <ScalarProperty Name="RoyaltyAmt" ColumnName="RoyaltyAmt" />
+                <ScalarProperty Name="DMFAmt" ColumnName="DMFAmt" />
+                <ScalarProperty Name="DepositedDMFAmt" ColumnName="DepositedDMFAmt" />
+                <ScalarProperty Name="RemainingDMFAmt" ColumnName="RemainingDMFAmt" />
+                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
+                <ScalarProperty Name="ChallanDoc" ColumnName="ChallanDoc" />
+                <ScalarProperty Name="ChallanNo" ColumnName="ChallanNo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LesseeMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.LesseeMaster">
+              <MappingFragment StoreEntitySet="LesseeMaster">
+                <ScalarProperty Name="LesseeID" ColumnName="LesseeID" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="TehsilID" ColumnName="TehsilID" />
+                <ScalarProperty Name="VillageID" ColumnName="VillageID" />
+                <ScalarProperty Name="Areacode" ColumnName="Areacode" />
+                <ScalarProperty Name="GataNo" ColumnName="GataNo" />
+                <ScalarProperty Name="TotalAreainHect" ColumnName="TotalAreainHect" />
+                <ScalarProperty Name="LeaseID" ColumnName="LeaseID" />
+                <ScalarProperty Name="MinralID" ColumnName="MinralID" />
+                <ScalarProperty Name="LesseeName" ColumnName="LesseeName" />
+                <ScalarProperty Name="MobNo" ColumnName="MobNo" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="BidRate" ColumnName="BidRate" />
+                <ScalarProperty Name="LeaseFromDate" ColumnName="LeaseFromDate" />
+                <ScalarProperty Name="LeaseToDate" ColumnName="LeaseToDate" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MineralNameMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.MineralNameMaster">
+              <MappingFragment StoreEntitySet="MineralNameMaster">
+                <ScalarProperty Name="MineralType" ColumnName="MineralType" />
+                <ScalarProperty Name="MineralId" ColumnName="MineralId" />
+                <ScalarProperty Name="MineralName" ColumnName="MineralName" />
+                <ScalarProperty Name="MineralCode" ColumnName="MineralCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProjectMaster">
+              <MappingFragment StoreEntitySet="ProjectMaster">
+                <ScalarProperty Name="SectorNameId" ColumnName="SectorNameId" />
+                <ScalarProperty Name="SectorTypeId" ColumnName="SectorTypeId" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+                <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectProposalPreprations">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProjectProposalPrepration">
+              <MappingFragment StoreEntitySet="ProjectProposalPrepration">
+                <ScalarProperty Name="WorkOrderCopy" ColumnName="WorkOrderCopy" />
+                <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
+                <ScalarProperty Name="WorkLongitude" ColumnName="WorkLongitude" />
+                <ScalarProperty Name="WorkLatitude" ColumnName="WorkLatitude" />
+                <ScalarProperty Name="SectorTypeId" ColumnName="SectorTypeId" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="VillageId" ColumnName="VillageId" />
+                <ScalarProperty Name="BlockId" ColumnName="BlockId" />
+                <ScalarProperty Name="TehsilId" ColumnName="TehsilId" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="SectorID" ColumnName="SectorID" />
+                <ScalarProperty Name="ProsposalNo" ColumnName="ProsposalNo" />
+                <ScalarProperty Name="ProposalDate" ColumnName="ProposalDate" />
+                <ScalarProperty Name="ProposalCopy" ColumnName="ProposalCopy" />
+                <ScalarProperty Name="ProposedBy" ColumnName="ProposedBy" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TenderNo" ColumnName="TenderNo" />
+                <ScalarProperty Name="TenderDate" ColumnName="TenderDate" />
+                <ScalarProperty Name="WorkOrderNo" ColumnName="WorkOrderNo" />
+                <ScalarProperty Name="WorkOrderDate" ColumnName="WorkOrderDate" />
+                <ScalarProperty Name="AgencyID" ColumnName="AgencyID" />
+                <ScalarProperty Name="ProjectCost" ColumnName="ProjectCost" />
+                <ScalarProperty Name="GSTAndOthers" ColumnName="GSTAndOthers" />
+                <ScalarProperty Name="SanctionedProjectCost" ColumnName="SanctionedProjectCost" />
+                <ScalarProperty Name="ProjectStatusID" ColumnName="ProjectStatusID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectStatusMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProjectStatusMaster">
+              <MappingFragment StoreEntitySet="ProjectStatusMaster">
+                <ScalarProperty Name="ProjectStatusID" ColumnName="ProjectStatusID" />
+                <ScalarProperty Name="ProjectStatus" ColumnName="ProjectStatus" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleMenuMappings">
+            <EntityTypeMapping TypeName="dfm_dbModel.RoleMenuMapping">
+              <MappingFragment StoreEntitySet="RoleMenuMappings">
+                <ScalarProperty Name="MappingID" ColumnName="MappingID" />
+                <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="CanView" ColumnName="CanView" />
+                <ScalarProperty Name="CanInsert" ColumnName="CanInsert" />
+                <ScalarProperty Name="CanUpdate" ColumnName="CanUpdate" />
+                <ScalarProperty Name="CanDelete" ColumnName="CanDelete" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoyaltyCollections">
+            <EntityTypeMapping TypeName="dfm_dbModel.RoyaltyCollection">
+              <MappingFragment StoreEntitySet="RoyaltyCollection">
+                <ScalarProperty Name="RoyaltyCollectionId" ColumnName="RoyaltyCollectionId" />
+                <ScalarProperty Name="LesseeId" ColumnName="LesseeId" />
+                <ScalarProperty Name="YearId" ColumnName="YearId" />
+                <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+                <ScalarProperty Name="RoyaltyAmt" ColumnName="RoyaltyAmt" />
+                <ScalarProperty Name="DMFAmt" ColumnName="DMFAmt" />
+                <ScalarProperty Name="ChallanDate" ColumnName="ChallanDate" />
+                <ScalarProperty Name="ChallanNo" ColumnName="ChallanNo" />
+                <ScalarProperty Name="ChallanDoc" ColumnName="ChallanDoc" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectorNameMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.SectorNameMaster">
+              <MappingFragment StoreEntitySet="SectorNameMaster">
+                <ScalarProperty Name="SectorNameId" ColumnName="SectorNameId" />
+                <ScalarProperty Name="SectorTypeId" ColumnName="SectorTypeId" />
+                <ScalarProperty Name="SectorName" ColumnName="SectorName" />
+                <ScalarProperty Name="SectorCode" ColumnName="SectorCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectorTypeMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.SectorTypeMaster">
+              <MappingFragment StoreEntitySet="SectorTypeMaster">
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="SectorTypeID" ColumnName="SectorTypeID" />
+                <ScalarProperty Name="SectorType" ColumnName="SectorType" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.StateMaster">
+              <MappingFragment StoreEntitySet="StateMaster">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TehsilMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.TehsilMaster">
+              <MappingFragment StoreEntitySet="TehsilMaster">
+                <ScalarProperty Name="TehsilId" ColumnName="TehsilId" />
+                <ScalarProperty Name="TehsilName" ColumnName="TehsilName" />
+                <ScalarProperty Name="TehsilCode" ColumnName="TehsilCode" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ISPTehsilCode" ColumnName="ISPTehsilCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="dfm_dbModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VillageMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.VillageMaster">
+              <MappingFragment StoreEntitySet="VillageMaster">
+                <ScalarProperty Name="VillageId" ColumnName="VillageId" />
+                <ScalarProperty Name="VillageNameInEnglish" ColumnName="VillageNameInEnglish" />
+                <ScalarProperty Name="VillageNameInHindi" ColumnName="VillageNameInHindi" />
+                <ScalarProperty Name="VillageCode" ColumnName="VillageCode" />
+                <ScalarProperty Name="TehsilId" ColumnName="TehsilId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsChakbandiVillage" ColumnName="IsChakbandiVillage" />
+                <ScalarProperty Name="MSTCVillageName" ColumnName="MSTCVillageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YearMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.YearMaster">
+              <MappingFragment StoreEntitySet="YearMaster">
+                <ScalarProperty Name="YearId" ColumnName="YearId" />
+                <ScalarProperty Name="YearName" ColumnName="YearName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.MonthMaster">
+              <MappingFragment StoreEntitySet="MonthMaster">
+                <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.MenuMaster">
+              <MappingFragment StoreEntitySet="MenuMaster">
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="dfm_dbModel.UserLogin">
+              <MappingFragment StoreEntitySet="UserLogins">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LesseeOpeningDMFAmts">
+            <EntityTypeMapping TypeName="dfm_dbModel.LesseeOpeningDMFAmt">
+              <MappingFragment StoreEntitySet="LesseeOpeningDMFAmt">
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="MineralId" ColumnName="MineralId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+                <ScalarProperty Name="DMFOpeningAmt" ColumnName="DMFOpeningAmt" />
+                <ScalarProperty Name="LesseeId" ColumnName="LesseeId" />
+                <ScalarProperty Name="OpeningDMFAmtId" ColumnName="OpeningDMFAmtId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DemoStates">
+            <EntityTypeMapping TypeName="dfm_dbModel.DemoState">
+              <MappingFragment StoreEntitySet="DemoState">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommitteeDesignationMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.CommitteeDesignationMaster">
+              <MappingFragment StoreEntitySet="CommitteeDesignationMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CommitteeDesignationName" ColumnName="CommitteeDesignationName" />
+                <ScalarProperty Name="CommitteeDesignationId" ColumnName="CommitteeDesignationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlockMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.BlockMaster">
+              <MappingFragment StoreEntitySet="BlockMaster">
+                <ScalarProperty Name="SerialCode" ColumnName="SerialCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="BlockOfficeAddress" ColumnName="BlockOfficeAddress" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="BlockName" ColumnName="BlockName" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="BlockId" ColumnName="BlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

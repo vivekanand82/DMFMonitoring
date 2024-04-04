@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{69A2463F-4E7D-4868-977E-876E45DD1DAB}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DMFProjectFinal</RootNamespace>
+    <AssemblyName>DMFProjectFinal</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44393</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DMFFundCollectionController.cs" />
+    <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
+    <Compile Include="Controllers\SessionFilters.cs" />
+    <Compile Include="Controllers\BusinessLogics.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\CryptoEngine.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserManagementController.cs" />
+    <Compile Include="Controllers\UserManager.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccessManager.cs" />
+    <Compile Include="Models\AgenciesInfo.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BankMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlockMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitteeDesignationMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitteeMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitteeTypeMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataLog.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DemoState.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DesignationMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dfm_db.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dfm_db.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dfm_db.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\dfm_db.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dfm_db.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DistrictMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMFFundCollection.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DTO\AllClasses.cs" />
+    <Compile Include="Models\LesseeMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LesseeOpeningDMFAmt.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MenuMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MineralNameMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MonthMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectProposalPrepration.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectStatusMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\P_Login.cs" />
+    <Compile Include="Models\RoleMenuMapping.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RoyaltyCollection.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SectorNameMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SectorTypeMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StateMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TehsilMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserLogin.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRole.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Validations\CSTM_MobileValidation.cs" />
+    <Compile Include="Models\Validations\CSTM_OnlyDigitsValidation.cs" />
+    <Compile Include="Models\Validations\CSTM_OnlyStringsValidation.cs" />
+    <Compile Include="Models\Validations\CSTM_PANValidation.cs" />
+    <Compile Include="Models\VillageMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YearMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\jquery-ui.css" />
+    <Content Include="css\login-style.css" />
+    <Content Include="css\main-dash.css" />
+    <Content Include="css\megamenu-dash.css" />
+    <Content Include="css\responsive-dash.css" />
+    <Content Include="css\shortcodes-dash.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fa-brands-400.svg" />
+    <Content Include="fonts\fa-regular-400.svg" />
+    <Content Include="fonts\fa-solid-900.svg" />
+    <Content Include="fonts\flaticoncc7c.svg" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontello5663.svg" />
+    <Content Include="fonts\themify9f24.svg" />
+    <Content Include="fonts\Tungsten\demo.html" />
+    <Content Include="fonts\Tungsten\stylesheet.css" />
+    <Content Include="Global.asax" />
+    <Content Include="images\android.svg" />
+    <Content Include="images\apply_now.png" />
+    <Content Include="images\ashok.png" />
+    <Content Include="images\bg.png" />
+    <Content Include="images\Blue Revolution Mission.jpg" />
+    <Content Include="images\Chief Minister Fisheries Estate Scheme-inner.jpg" />
+    <Content Include="images\Chief Minister Fisheries Estate Scheme-inner2.jpg" />
+    <Content Include="images\Chief Minister Fisheries Estate Scheme.jpg" />
+    <Content Include="images\client\ChiefElectoralOfficer.jpg" />
+    <Content Include="images\client\ElectionCommissionofIndia.jpg" />
+    <Content Include="images\client\FisheriesDepartment.jpg" />
+    <Content Include="images\client\goi.jpg" />
+    <Content Include="images\client\india-gov.jpg" />
+    <Content Include="images\client\my-gov.jpg" />
+    <Content Include="images\client\right-logo.jpg" />
+    <Content Include="images\client\upgov.jpg" />
+    <Content Include="images\cm.png" />
+    <Content Include="images\farmer-icon.png" />
+    <Content Include="images\favicon.png" />
+    <Content Include="images\Fisherman Housing Scheme.jpg" />
+    <Content Include="images\flag.jpg" />
+    <Content Include="images\fltingbar-bg-img.jpg" />
+    <Content Include="images\footer-bg.png" />
+    <Content Include="images\Formation and registration of new cooperative society.jpg" />
+    <Content Include="images\hand-icon.png" />
+    <Content Include="images\Kisan credit card.jpg" />
+    <Content Include="images\KisanCreditCard.png" />
+    <Content Include="images\Krishi-icon.png" />
+    <Content Include="images\loading.gif" />
+    <Content Include="images\log-bg.jpg" />
+    <Content Include="images\login-bg.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\MMMSY-inner-banner.jpg" />
+    <Content Include="images\National Agriculture Development Plan.jpg" />
+    <Content Include="images\pagetitle-bg.jpg" />
+    <Content Include="images\password-icon.png" />
+    <Content Include="images\pause.gif" />
+    <Content Include="images\pdf.png" />
+    <Content Include="images\play.gif" />
+    <Content Include="images\Pradhan Mantri Matsya Sampada Yojana.jpg" />
+    <Content Include="images\prettyPhoto\dark_rounded\btnNext.png" />
+    <Content Include="images\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <Content Include="images\prettyPhoto\dark_rounded\contentPattern.png" />
+    <Content Include="images\prettyPhoto\dark_rounded\loader.gif" />
+    <Content Include="images\prettyPhoto\dark_rounded\sprite.png" />
+    <Content Include="images\prettyPhoto\dark_square\btnNext.png" />
+    <Content Include="images\prettyPhoto\dark_square\btnPrevious.png" />
+    <Content Include="images\prettyPhoto\dark_square\loader.gif" />
+    <Content Include="images\prettyPhoto\dark_square\sprite.png" />
+    <Content Include="images\prettyPhoto\default\default_thumb.png" />
+    <Content Include="images\prettyPhoto\default\loader.gif" />
+    <Content Include="images\prettyPhoto\default\sprite.png" />
+    <Content Include="images\prettyPhoto\default\sprite_next.png" />
+    <Content Include="images\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="images\prettyPhoto\default\sprite_x.png" />
+    <Content Include="images\prettyPhoto\default\sprite_y.png" />
+    <Content Include="images\prettyPhoto\facebook\btnNext.png" />
+    <Content Include="images\prettyPhoto\facebook\btnPrevious.png" />
+    <Content Include="images\prettyPhoto\facebook\contentPatternBottom.png" />
+    <Content Include="images\prettyPhoto\facebook\contentPatternLeft.png" />
+    <Content Include="images\prettyPhoto\facebook\contentPatternRight.png" />
+    <Content Include="images\prettyPhoto\facebook\contentPatternTop.png" />
+    <Content Include="images\prettyPhoto\facebook\default_thumbnail.gif" />
+    <Content Include="images\prettyPhoto\facebook\loader.gif" />
+    <Content Include="images\prettyPhoto\facebook\sprite.png" />
+    <Content Include="images\prettyPhoto\light_rounded\btnNext.png" />
+    <Content Include="images\prettyPhoto\light_rounded\btnPrevious.png" />
+    <Content Include="images\prettyPhoto\light_rounded\loader.gif" />
+    <Content Include="images\prettyPhoto\light_rounded\sprite.png" />
+    <Content Include="images\prettyPhoto\light_square\btnNext.png" />
+    <Content Include="images\prettyPhoto\light_square\btnPrevious.png" />
+    <Content Include="images\prettyPhoto\light_square\sprite.png" />
+    <Content Include="images\reg-bg.jpg" />
+    <Content Include="images\Registration under fisherman accident scheme.jpg" />
+    <Content Include="images\rev-slider1.png" />
+    <Content Include="images\scheme-icon.png" />
+    <Content Include="images\single-img-05.jpg" />
+    <Content Include="images\State funded Scheme.jpg" />
+    <Content Include="images\U.PFishFarmers.png" />
+    <Content Include="images\user-icon.png" />
+    <Content Include="images\verified.png" />
+    <Content Include="images\view-chart.png" />
+    <Content Include="images\wave.png" />
+    <Content Include="js\bootstrap.bundle.js" />
+    <Content Include="js\CommonValidation.js" />
+    <Content Include="js\jquery-3.6.0.min.js" />
+    <Content Include="js\jquery-ui.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\MyJS.js" />
+    <Content Include="Models\dfm_db.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dfm_db.edmx</DependentUpon>
+      <LastGenOutput>dfm_db.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\dfm_db.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dfm_db.edmx</DependentUpon>
+      <LastGenOutput>dfm_db.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\DataTablesJS\cdn.datatables.net_1.10.23_js_jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTablesJS\toastr.js" />
+    <Content Include="Scripts\easy-responsive-tabs.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="WebForm1.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Documents\" />
+    <Folder Include="Views\Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\main-dash.css-backup" />
+    <Content Include="fonts\fa-brands-400.eot" />
+    <Content Include="fonts\fa-brands-400.ttf" />
+    <Content Include="fonts\fa-brands-400.woff" />
+    <Content Include="fonts\fa-brands-400.woff2" />
+    <Content Include="fonts\fa-brands-400d41d.eot" />
+    <Content Include="fonts\fa-regular-400.eot" />
+    <Content Include="fonts\fa-regular-400.ttf" />
+    <Content Include="fonts\fa-regular-400.woff" />
+    <Content Include="fonts\fa-regular-400.woff2" />
+    <Content Include="fonts\fa-regular-400d41d.eot" />
+    <Content Include="fonts\fa-solid-900.eot" />
+    <Content Include="fonts\fa-solid-900.ttf" />
+    <Content Include="fonts\fa-solid-900.woff" />
+    <Content Include="fonts\fa-solid-900.woff2" />
+    <Content Include="fonts\fa-solid-900d41d.eot" />
+    <Content Include="fonts\flaticoncc7c.eot" />
+    <Content Include="fonts\flaticoncc7c.ttf" />
+    <Content Include="fonts\flaticoncc7c.woff" />
+    <Content Include="fonts\flaticoncc7c.woff2" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontello5663.eot" />
+    <Content Include="fonts\fontello5663.ttf" />
+    <Content Include="fonts\fontello5663.woff" />
+    <Content Include="fonts\themify9f24.eot" />
+    <Content Include="fonts\themify9f24.ttf" />
+    <Content Include="fonts\themify9f24.woff" />
+    <Content Include="fonts\themifyd41d.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Black.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Black.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-Black.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-Black.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-Bold.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Bold.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-Bold.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-Bold.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-Book.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Book.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-Book.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-Book.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-ExtraLight.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-ExtraLight.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-ExtraLight.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-ExtraLight.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-Light.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Light.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-Light.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-Light.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-Medium.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Medium.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-Medium.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-Medium.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-SemiBold.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-SemiBold.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-SemiBold.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-SemiBold.woff2" />
+    <Content Include="fonts\Tungsten\Tungsten-Thin.eot" />
+    <Content Include="fonts\Tungsten\Tungsten-Thin.ttf" />
+    <Content Include="fonts\Tungsten\Tungsten-Thin.woff" />
+    <Content Include="fonts\Tungsten\Tungsten-Thin.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Black.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Black.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Black.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Black.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Bold.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Bold.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Bold.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Bold.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Book.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Book.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Book.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Book.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-ExtraLight.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-ExtraLight.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-ExtraLight.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-ExtraLight.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Light.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Light.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Light.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Light.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Medium.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Medium.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Medium.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Medium.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-SemiBold.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-SemiBold.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-SemiBold.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-SemiBold.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Thin.eot" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Thin.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Thin.woff" />
+    <Content Include="fonts\Tungsten\TungstenCompressed-Thin.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Black.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Black.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Black.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Black.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Bold.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Bold.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Bold.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Bold.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Book.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Book.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Book.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Book.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-ExtraLight.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-ExtraLight.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-ExtraLight.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-ExtraLight.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Light.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Light.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Light.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Light.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Medium.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Medium.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Medium.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Medium.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-SemiBold.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-SemiBold.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-SemiBold.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-SemiBold.woff2" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Thin.eot" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Thin.ttf" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Thin.woff" />
+    <Content Include="fonts\Tungsten\TungstenCondensed-Thin.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Black.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Black.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Black.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Black.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Bold.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Bold.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Bold.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Bold.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Book.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Book.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Book.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Book.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-ExtraLight.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-ExtraLight.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-ExtraLight.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-ExtraLight.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Light.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Light.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Light.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Light.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Medium.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Medium.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Medium.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Medium.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-SemiBold.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-SemiBold.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-SemiBold.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-SemiBold.woff2" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Thin.eot" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Thin.ttf" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Thin.woff" />
+    <Content Include="fonts\Tungsten\TungstenNarrow-Thin.woff2" />
+    <Content Include="images\app-release.apk" />
+    <Content Include="images\screencapture.pdf" />
+    <EntityDeploy Include="Models\dfm_db.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dfm_db.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\dfm_db.edmx.diagram">
+      <DependentUpon>dfm_db.edmx</DependentUpon>
+    </Content>
+    <None Include="packages.config" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Download\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Admin\DesignationMaster.cshtml" />
+    <Content Include="Views\Home\ChangePassword.cshtml" />
+    <Content Include="Views\Admin\ChangePassword.cshtml" />
+    <Content Include="Views\Master\StateMaster.cshtml" />
+    <Content Include="Views\Master\CreateStateMaster.cshtml" />
+    <Content Include="Views\Master\SectorTypeMaster.cshtml" />
+    <Content Include="Views\Master\CreateSectorTypeMaster.cshtml" />
+    <Content Include="Views\Master\RegisterAgency.cshtml" />
+    <Content Include="Views\Master\CreateRegisterAgency.cshtml" />
+    <Content Include="Views\Master\CommitteeMaster.cshtml" />
+    <Content Include="Views\Master\CreateCommitteeMaster.cshtml" />
+    <Content Include="Views\Master\LesseeMaster.cshtml" />
+    <Content Include="Views\Master\CreateLesseeMaster.cshtml" />
+    <Content Include="Views\ProjectWorkApproval\ProjectProposalPrepration.cshtml" />
+    <Content Include="Views\Master\ProjectMaster.cshtml" />
+    <Content Include="Views\Master\CreateProjectMaster.cshtml" />
+    <Content Include="Views\ProjectWorkApproval\CreateProjectProposalPrepration.cshtml" />
+    <Content Include="Views\Master\CreateMenuMaster.cshtml" />
+    <Content Include="Views\Master\CreateMineralNameMaster.cshtml" />
+    <Content Include="Views\Master\CreateSectorNameMaster.cshtml" />
+    <Content Include="Views\Master\MenuMaster.cshtml" />
+    <Content Include="Views\Master\MineralNameMaster.cshtml" />
+    <Content Include="Views\Master\RoleMappingMaster.cshtml" />
+    <Content Include="Views\Master\SectorNameMaster.cshtml" />
+    <Content Include="Views\DMFFundCollection\CreateFundCollection.cshtml" />
+    <Content Include="Views\DMFFundCollection\CreateLesseeOpeningDMFAmt.cshtml" />
+    <Content Include="Views\DMFFundCollection\CreateRoyaltyCollection.cshtml" />
+    <Content Include="Views\DMFFundCollection\FundCollection.cshtml" />
+    <Content Include="Views\DMFFundCollection\LesseeOpeningDMFAmt.cshtml" />
+    <Content Include="Views\DMFFundCollection\RoyaltyCollection.cshtml" />
+    <Content Include="Views\UserManagement\CreateUserRegistration.cshtml" />
+    <Content Include="Views\UserManagement\UserRegistration.cshtml" />
+    <Content Include="Views\Master\StateMasterTest.cshtml" />
+    <Content Include="Views\Master\ListRecorddata.cshtml" />
+    <Content Include="Views\Master\CreateDistrcyNameMaster.cshtml" />
+    <Content Include="Views\Master\DistrictNameMaster.cshtml" />
+    <Content Include="Views\Master\CreateCommitteeDesignation.cshtml" />
+    <Content Include="Views\Master\CommitteeDesignationMaster.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52942</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44393/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

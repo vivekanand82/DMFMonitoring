@@ -1,0 +1,125 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_RoyaltyCollection
+
+@{
+    ViewBag.Title = "CreateRoyaltyCollection";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.RoyaltyCollectionId))
+    {
+        <h4 class="card-title">Royalty Collection  </h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Royalty Collection</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.RoyaltyCollectionId) ? "CreateRoyaltyCollection" : "EditRoyaltyCollection"), "DMFFundCollection", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.RoyaltyCollectionId)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Lessee Name <sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.LesseeId, null, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Year<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.YearId, null, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Month <sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.MonthId, null, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Royalty Amount <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.RoyaltyAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>DMF Amount(10% of Royality Amount)<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.DMFAmt, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Challan Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ChallanDate, (Model.ChallanDate == null ? "" : BusinessLogics.GetJSDateStr(Model.ChallanDate)), new { @class = "form-control form-control-sm  ui-date", @autocomplete = "off" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Challan Number <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ChallanNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>
+                            Challan Doc<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.ChallanDoc))
+                            {
+                                <a href="@Model.ChallanDoc" target="_blank">View Doc</a>
+                                <input type="hidden" value="prev" id="ChallanDoc" name="ChallanDoc" />
+                            }
+                        </strong>
+                        @Html.TextBoxFor(x => x.ChallanDoc, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ChallanDoc" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.RoyaltyCollectionId)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.RoyaltyCollectionId))
+                        {
+                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                        }
+                        else
+                        {
+                            <a href="/DMFFundCollection/RoyaltyCollection" class="btn btn-danger">Back</a>
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#RoyaltyAmt").keyup(function () {
+                var dmf = ($(this).val() * 10) / 100;
+                debugger
+                $("#DMFAmt").val(dmf);
+            });
+        });
+    </script>
+    }

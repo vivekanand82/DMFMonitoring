@@ -1,0 +1,131 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>पंजीकरण प्रमाण पत्र</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+        .print {
+        }
+
+        @@font-face {
+            font-family: "Edel Sans";
+            src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/edelsans.otf") format("opentype"), url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/edelsans.woff") format("woff");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        main {
+            display: flex;
+            /*font-family: Edel Sans, Avenir, Arial, sans-serif;*/
+            font-family: math;
+            margin: 0 auto;
+            justify-content: center;
+            max-width: 80%;
+        }
+
+        article {
+            margin: 2rem 0px;
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+            article img {
+                height: 90px;
+                margin: auto;
+                display: block;
+            }
+
+            article h1 {
+                line-height: 1.4;
+                text-align: center;
+            }
+
+            article p {
+                font-size: 1.2rem;
+                border-top: 1px solid rgb(213 213 213);
+                margin: 1rem auto;
+                padding: 1rem 0rem;
+                font-weight: 500;
+                line-height: 38px;
+            }
+
+            article button:last-of-type {
+                position: absolute;
+                bottom: 0;
+                right: 0px;
+                padding: 10px 20px;
+                background-color: green;
+                color: white;
+                border: 0px;
+                cursor: pointer
+            }
+
+        @@media screen and (max-width: 600px) {
+            article:last-of-type {
+                display: none;
+            }
+
+            article:first-of-type {
+                width: 100%;
+            }
+        }
+
+        @@media print {
+            article button:last-of-type {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    @if (ViewBag.IsExists == true)
+    {
+        <main>
+            <article id="article1">
+                <img src="https://data-center.co.in/demo/UP_Government.png" alt="UP_Government">
+                <h1>पंजीकरण प्रमाण पत्र</h1>
+                <p>प्रमाणित किया जाता है कि श्री/श्रीमती/मैसर्स <b>@ViewBag.Name</b> /पुत्र श्री <b>@ViewBag.FatherName</b> निवासी <b>@ViewBag.Address</b> मतस्य विभाग/ उत्तर प्रदेश मतस्य विकास निगम लिमिटेड / उ० प्र० मतस्य जीवी सहकारी सघ, उ० प्र० में श्रेणि <b>@ViewBag.Category</b> के जलाशयों की नीलामी/ आबंटन में प्रतिभाग करने हेतु पंजीकृत है| जिनका पंजीकरण संख्या <b>@ViewBag.RegNo</b> है| यह पंजीकरण दिनांक <b>@ViewBag.FromDate</b> से <b>@ViewBag.ToDate</b> तक वैध है|</p>
+                <p>This is a computer-generated document. No signature is required.</p>
+                <button class="print">Print</button>
+            </article>
+        </main>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script>
+            function removePrintStyles() {
+                previousExclusions = document.getElementById("printexclusions");
+                if (previousExclusions)
+                    previousExclusions.parentNode.removeChild(previousExclusions);
+            }
+
+            function printSection() {
+                var css = document.createElement("style"),
+                    parentArticle = this.parentNode,
+                    articles = document.getElementsByTagName("article");
+                css.id = "printexclusions";
+                css.innerHTML += "@@media print {\n";
+                for (var i = 0; i < articles.length; i++) {
+                    if (articles[i] !== parentArticle) {
+                        css.innerHTML += "#" + articles[i].id + "{ display: none; }\n";
+                    }
+                }
+                css.innerHTML += "}\n";
+                removePrintStyles();
+                document.body.appendChild(css);
+                window.print();
+                removePrintStyles();
+            }
+            var printRequestors = document.querySelectorAll("article button:last-of-type");
+            for (var i = 0; i < printRequestors.length; i++) {
+                printRequestors[i].addEventListener("click", printSection, false);
+            }
+        </script>
+    }
+</body>
+</html>

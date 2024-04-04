@@ -1,0 +1,145 @@
+﻿@using DMFProjectFinal.Models;
+@using DMFProjectFinal.Controllers;
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@*@{
+        var LstData = ViewBag.Data as List<EmployeeRegistration>;
+        int i = 1;
+    }*@
+<style>
+    .my-fa {
+        font-size: 24px;
+        margin-right: 6px;
+    }
+
+    code {
+        font-size: 15px !important;
+    }
+
+    strong a {
+        margin-left: 10px;
+        color: #00f;
+    }
+
+    .sub-block {
+        float: left;
+        min-height: 70px;
+        line-height: 70px;
+        font-size: 18px;
+        /* vertical-align: middle; */
+        min-width: 70px;
+    }
+
+    .main-block {
+        width: 490px;
+    }
+
+    .sub-block-top {
+        min-height: 70px;
+        line-height: 70px;
+        font-size: 21px;
+        font-weight: 600;
+        color: brown;
+        display: contents;
+    }
+
+    .main-block:nth-child(2) .sub-block {
+        font-weight: bold;
+        color: #fff;
+        background: #000;
+    }
+
+    .outer-cal {
+        border: 1px solid #000;
+        display: inline-block;
+        user-select: none;
+    }
+
+    .pull-left, .pull-right {
+        line-height: 70px;
+        color: blue;
+        padding-left: 25px;
+        padding-right: 25px;
+        cursor: pointer;
+    }
+
+        .pull-left:hover, .pull-right:hover {
+            background: #b8c4fb47;
+            color: #ff0000;
+        }
+
+    .day-block:hover {
+        min-height: 68px;
+        line-height: 68px;
+        font-size: 18px;
+        min-width: 70px;
+        border: 1px solid #000;
+        background: #e4e4e4;
+        cursor: pointer;
+    }
+
+    .top-l {
+        position: relative;
+        top: -20px;
+        left: -25px;
+    }
+
+    .top-r {
+        position: relative;
+        top: -20px;
+        right: -15px;
+    }
+    /* .pull-left {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    .pull-right {
+        padding-right: 25px;
+    }*/
+</style>
+<section class="inner-bg bg-card-dark ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="cmt-page-title-row-inner">
+                    <div class="page-title-heading">
+                        <h2 class="title">Dashboard</h2>
+                    </div>
+                    <div class="breadcrumb-wrapper">
+                        <span>
+                            <a title="Homepage" href="#">होम</a>
+                        </span>
+                        <span>Dashboard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="site-main">
+    <input type="hidden" value="0" id="hfCtr" />
+    <!--about-section-->
+    <section class="cmt-row clearfix">
+        <div class="container">
+            <!-- row -->
+            <div class="active tab-pane">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+
+                        <div id="CalWithData" class="outer-cal">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- row end -->
+        </div>
+    </section>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+    </script>
+}

@@ -1,0 +1,43 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_StateMaster
+@{
+    ViewBag.Title = "Create State";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.StateID))
+    {
+        <h4 class="card-title">Create State</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update State</h4>
+    }
+
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.StateID) ? "CreateStateMaster" : "EditStateMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.StateID)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>State Name<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.StateName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.StateID)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+}

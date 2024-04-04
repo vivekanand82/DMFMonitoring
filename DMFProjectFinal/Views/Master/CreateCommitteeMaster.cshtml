@@ -1,0 +1,87 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_CommitteeMaster
+@{
+    ViewBag.Title = "Create Committee";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.CommitteeID))
+    {
+        <h4 class="card-title">Create Committee</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Committee</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.CommitteeID) ? "CreateCommitteeMaster" : "EditCommitteeMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.CommitteeID)
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>District Name <sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Committee Type<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.CommitteeTypeID, null, "Select Committee Type", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong> Name<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.CommitteeName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Designation<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.DesignationID, null, "Select Designation", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Committee Designation <sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.CommitteeDesignationId, null, "Select Committee Designation", new { @class = "form-control form-control-sm" })
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Mobile No<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.MobileNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Email ID<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.EmailID, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="col-md-3 text-left">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.CommitteeID)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+@section Scripts {
+}

@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "ContractorList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    var Lst = ViewBag.List as List<MinutesOfMeeting.Models.DTO.DTO_ContractorList>;
+    int i = 1;
+}
+<style>
+    .modal-body {
+        margin-top: 5px;
+        margin-bottom: 7px;
+    }
+</style>
+<section class="inner-bg bg-card-dark ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="cmt-page-title-row-inner">
+                    <div class="page-title-heading">
+                        <h2 class="title">Contractor List</h2>
+                    </div>
+                    <div class="breadcrumb-wrapper">
+                        <span>
+                            <a title="Homepage" href="#">Dashboard</a>
+                        </span>
+                        <span>Contractor List</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal" id="VerifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @using (Html.BeginForm("ApproveContractor", "Admin", new { }, FormMethod.Get))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Verify Contractor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" value="" id="id" name="id" />
+                        <input type="hidden" value="" id="btnApproveReject" name="btnApproveReject" />
+                        <div class="col-sm-12">
+                            <strong>Remark<sup><code>*</code></sup></strong>
+                            @Html.TextArea("Remark", new { @placeholder = "Enter Remark", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Approve" onclick="return ValidatePop(1)" class="btn btn-primary" />
+                    <input type="submit" value="Return" onclick="return ValidatePop(3)" class="btn btn-info" />
+                    <input type="submit" value="Reject" onclick="return ValidatePop(2)" class="btn btn-danger" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@*<a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">open</a>*@
+
+<div class="site-main">
+
+
+
+    <!--about-section-->
+
+    <section class="cmt-row clearfix">
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-card">
+
+                        <div class="form-card-body">
+                            <div class="tab-content">
+                                @using (Html.BeginForm("ContractorList", "Admin", new { }, FormMethod.Get))
+                                {
+                                    <div class="active tab-pane">
+
+                                        <div class="row">
+
+                                            <div class="col-xs-6 col-sm-6 col-md-3">
+                                                <div class="form-label">
+                                                    <strong>District</strong>
+                                                    @Html.DropDownList("DistrictID", null, "All District", new { @class = "form-control form-control-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-2">
+                                                <div class="form-label">
+                                                    <strong>Status</strong>
+                                                    @Html.DropDownList("StatusID", null, "All", new { @class = "form-control form-control-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-2">
+                                                <div class="form-label">
+                                                    <strong>Name</strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="voter_number" type="text" value="">*@
+                                                    @Html.TextBox("Name", "", new { @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-2">
+                                                <div class="form-label">
+                                                    <strong>Email</strong>
+                                                    @*<input placeholder="IFSC" class="form-control form-control-sm" readonly="" name="name" type="text" value="Administrator">*@
+                                                    @Html.TextBox("Email", "", new { @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-3">
+                                                <div class="form-label">
+                                                    <strong>&nbsp;</strong>
+                                                    <input type="submit" value="Search Result" class="btn btn-primary" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                }
+                                <div class="active tab-pane">
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 table-responsive">
+                                            <table class="responsive-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SNo.</th>
+                                                        <th>Name</th>
+                                                        <th>Father Name</th>
+                                                        <th>Email ID</th>
+                                                        <th>Mobile No</th>
+                                                        <th>DOJ</th>
+                                                        <th>District</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Lst)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @(i++)
+                                                            </td>
+                                                            <td>
+                                                                @(item.Name)
+                                                            </td>
+                                                            <td>
+                                                                @(item.FatherName)
+                                                            </td>
+                                                            <td>
+                                                                @(item.EmailID)
+                                                            </td>
+                                                            <td>
+                                                                @(item.MobileNo)
+                                                            </td>
+                                                            <td>
+                                                                @(MinutesOfMeeting.Controllers.BusinessLogics.GetJSDateStr(item.DOJ))
+                                                            </td>
+                                                            <td>
+                                                                @(item.District)
+                                                            </td>
+                                                            <td>
+                                                                @(item.Status)
+                                                            </td>
+                                                            <td>
+                                                                @if (item.Status.ToLower().Contains("save"))
+                                                                {
+                                                                    <button type="button" data-bs-toggle="modal" onclick="ShowPopup('@(MinutesOfMeeting.Controllers.CryptoEngine.Encrypt(item.RegID.ToString()))')" data-bs-target="#VerifyModal" fdprocessedid="90v48l" class="btn btn-danger btn-sm"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
+                                                                }
+                                                                <a href="/Admin/ViewContractor?id=@(MinutesOfMeeting.Controllers.CryptoEngine.Encrypt(item.RegID.ToString()))" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                                @if (item.StatusID == 2)
+                                                                {
+                                                                    <a href="/Download/Index?id=@(MinutesOfMeeting.Controllers.CryptoEngine.Encrypt(item.RegID.ToString()))" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-download" aria-hidden="true"></i></a>
+                                                                }
+                                                            </td>
+                                                        </tr>
+
+                                                    }
+                                                    @if (Lst.Count == 0)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="9" class="text-center">
+                                                                No data found..!!
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div><!-- row end -->
+        </div>
+
+    </section>
+
+</div>
+@section Scripts {
+    <script>
+        function ShowPopup(e) {
+            $('#id').val(e);
+        }
+        function ValidatePop(elm) {
+            $('#btnApproveReject').val(elm == 1 ? "approve" : (elm == 2 ? "reject" :"return"));
+            if ($('#Remark').val() == "") {
+                alert("Please enter Remark")
+                $('#Remark').focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+}

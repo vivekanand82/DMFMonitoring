@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dda4b3b34578496fb9fb10a85822b33d" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="dfm_dbModel.AgenciesInfo" Width="1.5" PointX="8.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.BankMaster" Width="1.5" PointX="6" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.CommitteeMaster" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.CommitteeTypeMaster" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.DataLog" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.DesignationMaster" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.DistrictMaster" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.DMFFundCollection" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.LesseeMaster" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.MineralNameMaster" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.ProjectMaster" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.ProjectProposalPrepration" Width="1.5" PointX="10.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.ProjectStatusMaster" Width="1.5" PointX="8.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.RoleMenuMapping" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.RoyaltyCollection" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.SectorNameMaster" Width="1.5" PointX="8.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.SectorTypeMaster" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.StateMaster" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.TehsilMaster" Width="1.5" PointX="5.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.UserRole" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.VillageMaster" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.YearMaster" Width="1.5" PointX="14.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dfm_dbModel.MonthMaster" Width="1.5" PointX="14.75" PointY="10.75" IsExpanded="true" />
+        <AssociationConnector Association="dfm_dbModel.FK_AgenciesInfo_BankMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_AgenciesInfo_DistrictMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_AgenciesInfo_StateMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_ProjectProposalPrepration_AgenciesInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_CommitteeMaster_CommitteeTypeMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_CommitteeMaster_DesignationMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_DistrictMaster_StateMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_ProjectMaster_DistrictMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_ProjectProposalPrepration_DistrictMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_TehsilMaster_DistrictMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_ProjectProposalPrepration_ProjectMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_ProjectProposalPrepration_ProjectStatusMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="dfm_dbModel.FK_ProjectProposalPrepration_SectorNameMaster" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dfm_dbModel.MenuMaster" Width="1.5" PointX="15.375" PointY="13.75" />
+        <EntityTypeShape EntityType="dfm_dbModel.UserLogin" Width="1.5" PointX="12.75" PointY="11.75" />
+        <EntityTypeShape EntityType="dfm_dbModel.LesseeOpeningDMFAmt" Width="1.5" PointX="10" PointY="17.5" />
+        <EntityTypeShape EntityType="dfm_dbModel.DemoState" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="dfm_dbModel.CommitteeDesignationMaster" Width="1.5" PointX="12.375" PointY="16.75" />
+        <EntityTypeShape EntityType="dfm_dbModel.BlockMaster" Width="1.5" PointX="17.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

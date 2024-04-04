@@ -1,0 +1,106 @@
+﻿@using DMFProjectFinal.Controllers;
+@{
+    var LoginUser = "User";
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .logo-txt {
+            margin-right: 15px;
+            margin-top: 25px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+        }
+    </style>
+    @Styles.Render("~/MyCSS")
+</head>
+<body>
+    <div class="page-loader" id="custom-loader">
+        <div class="spinner">
+            <img style="height:100px;width:100px" src="~/images/loading.gif" alt="">
+        </div>
+    </div>
+    <header id="masthead" class="header cmt-header-style-01">
+
+
+        <!-- site-header-menu -->
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="site-branding me-auto" style="padding: 34px 5px 21px 5px;">
+                        <a class="home-link" href="/Home/Index" title="" rel="home">
+                            <img id="logo-img" class="img-fluid auto_size" src="~/images/logo.png" alt="logo-img">
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="d-flex pull-right logo-txt">
+                        <span>DMF Project</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="site-header-menu" class="site-header-menu">
+            <div class="site-header-menu-inner cmt-stickable-header">
+                <div class="site-navigation align-items-center justify-content-between">
+                    <div class="btn-show-menu-mobile menubar menubar--squeeze"> <span class="menubar-box"> <span class="menubar-inner"></span> </span> </div>
+                    <nav class="main-menu menu-mobile" id="menu">
+                        <ul class="menu">
+                            <li class="mega-menu-item"><a href="/Home/Index">Dashboard</a></li>
+                            <li class="mega-menu-item"><a href="/Master/ProjectMaster">Project Master</a></li>
+                            @*<li class="mega-menu-item"><a href="/Home/EmpAgendaList">My Agenda</a></li>*@
+                            @*<li class="mega-menu-item"> <a href="/Home/Index">Profile Details</a></li>*@
+                            @*<li class="mega-menu-item"> <a href="/Account/Logout">Logout</a></li>*@
+                            <li class="mega-menu-item login-right">
+                                <a href="#" class="mega-menu-link">@(LoginUser)<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
+                                <ul class="mega-submenu login-submenu">
+                                    @*<li><a href="#">View Profile </a></li>*@
+                                    <li><a href="/Home/ChangePassword"> Change Password</a></li>
+                                    <li><a href="/Account/Logout"> Logout </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    @RenderBody()
+
+    <footer class="footer widget-footer bg-base-dark text-base-white clearfix">
+
+
+        <div class="bottom-footer-text copyright">
+            <div class="container-fluid">
+                <div class="row cpy-text">
+                    <div class="col-lg-6">
+                        <span>
+                            कॉपीराइट © 2023 - DMF Project
+                        </span>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="poweredby">
+
+                            यह वेबसाइट: <a href="https://www.margsoft.com/" target="_blank"> मार्गसॉफ्ट टेक्नोलॉजीज (पी) लिमिटेड</a>द्वारा डिजाइन व डेवलप की गई।
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/MyJS")
+    @RenderSection("scripts", required: false)
+    <script>
+        $(window).on('load', (function () {
+            $('#custom-loader').hide();
+        }));
+    </script>
+</body>
+</html>

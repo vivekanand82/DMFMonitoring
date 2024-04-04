@@ -1,0 +1,87 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_ProjectMaster
+@{
+    ViewBag.Title = "Register Agency";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.ProjectID))
+    {
+        <h4 class="card-title">Create Project</h4>
+    }
+    else
+    {
+<h4 class="card-title">Update Project</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.ProjectID) ? "CreateProjectMaster" : "EditProjectMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.ProjectID)
+
+
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>District Name<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Sector Type<sup><code>*</code></sup></strong>
+                    @*@Html.DropDownList("SectorTypeId", null, "-Select Sector Type-", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "SectorNameId", @autocomplete = "off" })*@
+
+                    @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Sector Type", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "SectorNameId", @refflg = "006" })
+
+
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Sector Name<sup><code>*</code></sup></strong>
+                    @*@Html.DropDownList("SectorNameId", null, "-Select Sector Type-", new { @class = "form-control form-control-sm", @autocomplete = "off" })*@
+
+                    @Html.DropDownListFor(x => x.SectorNameId, null, "Select Sector Name ", new { @class = "form-control form-control-sm" })
+
+
+
+                </div>
+            </div>
+
+
+
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Project Name<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.ProjectName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Project Code<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.ProjectCode, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Description</strong>
+                    @Html.TextBoxFor(x => x.ProjectDescription, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3 text-left">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.ProjectID)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+            }
+        </div>
+</div>

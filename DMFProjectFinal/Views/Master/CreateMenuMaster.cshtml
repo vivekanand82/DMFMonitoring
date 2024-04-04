@@ -1,0 +1,94 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_MenuMaster
+
+@{
+    ViewBag.Title = "CreateMenuMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.MenuID))
+    {
+        <h4 class="card-title">Create User</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update User</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.MenuID) ? "CreateMenuMaster" : "EditMenuMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.MenuID)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Menu Name <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.MenuName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>Is Parent? <sup><code>*</code></sup></strong>
+                        <label>
+                            <input type="checkbox" id="IsParent" name="IsParent" onchange="showtxt(this)" value="true" />
+                            Yes
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Parent<sup><code>*</code></sup></strong>
+                        @Html.DropDownList("ParentId", null, "-Select Parent-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Action Name <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ActionName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Controller Name <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ControllerName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.MenuID)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+       
+            function showtxt(e) {
+                var ck1 = $(e).is(':checked');
+                debugger;
+                if (ck1 == true) {
+                    $('#ParentId').attr("disabled", "disabled");
+                    $('#ActionName').attr("disabled", "disabled");
+                    $('#ControllerName').attr("disabled", "disabled");
+                }
+                else {
+                    $("#ParentId").removeAttr("disabled");
+                    $("#ActionName").removeAttr("disabled");
+                    $("#ControllerName").removeAttr("disabled");
+                }
+            }
+       
+    </script>
+}

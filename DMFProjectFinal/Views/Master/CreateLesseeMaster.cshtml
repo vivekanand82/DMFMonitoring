@@ -1,0 +1,125 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_LesseeMaster
+@{
+    ViewBag.Title = "Register Lessee";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.LesseeID))
+    {
+        <h4 class="card-title">Register Lessee</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Lessee</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.LesseeID) ? "CreateLesseeMaster" : "EditLesseeMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.LesseeID)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>State<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.StateID, null, "Select State", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "DistID", @refflg = "001" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>District<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "TehsilID", @refflg = "002" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Tehsil<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.TehsilID, null, "Select Tehsil", new { @class = "form-control form-control-sm cascaded-ddl", @ref = "VillageID", @refflg = "003" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Village<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.VillageID, null, "Select Village", new { @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Lessee Name<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.LesseeName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Areacode<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.Areacode, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Lease ID<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.LeaseID, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Email ID<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.EmailID, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Mobile No<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.MobNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Gata/Khand No</strong>
+                        @Html.TextBoxFor(x => x.GataNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Minral<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.MinralID, null, "Select Minral", new { @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Total Area in Hect.</strong>
+                        @Html.TextBoxFor(x => x.TotalAreainHect, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Bid Rate<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.BidRate, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Lease From Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.LeaseFromDate, ((Model.LeaseFromDate==null)?"":BusinessLogics.GetJSDateStr(Model.LeaseFromDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Lease To Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.LeaseToDate, ((Model.LeaseToDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.LeaseToDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="col-md-3 text-left">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.LesseeID)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

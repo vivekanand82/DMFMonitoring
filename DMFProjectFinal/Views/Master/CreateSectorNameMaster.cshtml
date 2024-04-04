@@ -1,0 +1,54 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_SectorNameMaster
+@{
+    ViewBag.Title = "CreateSectorNameMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.SectorNameId))
+    {
+        <h4 class="card-title">Create Sector Name</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Sector Name</h4>
+    }
+
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.SectorNameId) ? "CreateSectorNameMaster" : "EditSectorNameMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            @Html.HiddenFor(x => x.SectorNameId)
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Sector Type <sup><code>*</code></sup></strong>
+                    @Html.DropDownList("SectorTypeId", null, "-Select Sector Type-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Sector Name <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.SectorName, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-label">
+                    <strong>Sector Code <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.SectorCode, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.SectorNameId)?"Save":"Update")" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

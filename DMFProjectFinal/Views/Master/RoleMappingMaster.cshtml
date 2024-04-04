@@ -1,0 +1,309 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "RoleMappingMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    dfm_dbEntities db = new dfm_dbEntities();
+    var Roles = db.UserRoles.ToList();
+    var menuList = db.MenuMasters.Where(x => x.IsActive == true && x.IsParent == true).ToList();
+    var AM = ViewBag.GetAccess as AccessManager;
+    int i = 0, j = 0;
+    int SelRole = 0;
+}
+
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+@*<link href="~/css/atlantis.css" rel="stylesheet" />*@
+
+<style>
+    ul.resp-tabs-list,
+    p {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .resp-tabs-list li {
+        font-weight: 600;
+        font-size: 13px;
+        display: inline-block;
+        padding: 13px 15px;
+        margin: 0;
+        list-style: none;
+        cursor: pointer;
+        float: left;
+    }
+
+    .resp-tabs-container {
+        padding: 0px;
+        background-color: #fff;
+        clear: left;
+    }
+
+    h2.resp-accordion {
+        cursor: pointer;
+        padding: 5px;
+        display: none;
+    }
+
+    .resp-tab-content {
+        display: none;
+        padding: 15px;
+    }
+
+    .resp-tab-active {
+        border: 1px solid #c1c1c1;
+        border-bottom: none;
+        margin-bottom: -1px !important;
+        padding: 12px 14px 14px 14px !important;
+    }
+
+    .resp-tab-active {
+        border-bottom: none;
+        background-color: #fff;
+    }
+
+    .resp-content-active,
+    .resp-accordion-active {
+        display: block;
+    }
+
+    .resp-tab-content {
+        border: 1px solid #c1c1c1;
+    }
+
+    h2.resp-accordion {
+        font-size: 13px;
+        border: 1px solid #c1c1c1;
+        border-top: 0px solid #c1c1c1;
+        margin: 0px;
+        padding: 10px 15px;
+    }
+
+    h2.resp-tab-active {
+        border-bottom: 0px solid #c1c1c1 !important;
+        margin-bottom: 0px !important;
+        padding: 10px 15px !important;
+    }
+
+    h2.resp-tab-title:last-child {
+        border-bottom: 12px solid #c1c1c1 !important;
+        background: blue;
+    }
+
+    /*-----------Vertical tabs-----------*/
+
+    .resp-vtabs ul.resp-tabs-list {
+        float: left;
+        width: 20%;
+    }
+
+    .resp-vtabs .resp-tabs-list li {
+        display: block;
+        padding: 15px 15px !important;
+        margin: 0;
+        cursor: pointer;
+        float: none;
+    }
+
+    .resp-vtabs .resp-tabs-container {
+        padding: 0px;
+        background-color: #fff;
+        border: 1px solid #c1c1c1;
+        float: left;
+        width: 80%;
+        min-height: 250px;
+        border-radius: 4px;
+        clear: none;
+    }
+
+    .resp-vtabs .resp-tab-content {
+        border: none;
+    }
+
+    .resp-vtabs li.resp-tab-active {
+        border: 1px solid #c1c1c1;
+        border-right: none;
+        background-color: #fff;
+        position: relative;
+        z-index: 1;
+        margin-right: -1px !important;
+        padding: 14px 15px 15px 14px !important;
+    }
+
+    .resp-arrow {
+        width: 0;
+        height: 0;
+        float: right;
+        margin-top: 3px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 12px solid #c1c1c1;
+    }
+
+    h2.resp-tab-active span.resp-arrow {
+        border: none;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 12px solid #9B9797;
+    }
+
+    /*-----------Accordion styles-----------*/
+
+    h2.resp-tab-active {
+        background: #DBDBDB !important;
+    }
+
+    .resp-easy-accordion h2.resp-accordion {
+        display: block;
+    }
+
+    .resp-easy-accordion .resp-tab-content {
+        border: 1px solid #c1c1c1;
+    }
+
+        .resp-easy-accordion .resp-tab-content:last-child {
+            border-bottom: 1px solid #c1c1c1 !important;
+        }
+
+    .resp-jfit {
+        width: 100%;
+        margin: 0px;
+    }
+
+    .resp-tab-content-active {
+        display: block;
+    }
+
+    h2.resp-accordion:first-child {
+        border-top: 1px solid #c1c1c1 !important;
+    }
+    /*Here your can change the breakpoint to set the accordion, when screen resolution changed*/
+    @@media only screen and (max-width: 768px) {
+
+        ul.resp-tabs-list {
+            display: none;
+        }
+
+        h2.resp-accordion {
+            display: block;
+        }
+
+        .resp-vtabs .resp-tab-content {
+            border: 1px solid #C1C1C1;
+        }
+
+        .resp-vtabs .resp-tabs-container {
+            border: none;
+            float: none;
+            width: 100%;
+            min-height: initial;
+            clear: none;
+        }
+
+        .resp-accordion-closed {
+            display: none !important;
+        }
+
+        .resp-vtabs .resp-tab-content:last-child {
+            border-bottom: 1px solid #c1c1c1 !important;
+        }
+    }
+</style>
+<div class="card-header">
+    <h4 class="card-title">User Details</h4>
+</div>
+<section class="content">
+    <div id="verticalTab" class="resp-vtabs" style="display: block; width: 100%; margin: 0px;">
+        <ul class="resp-tabs-list">
+            @foreach (var role in Roles)
+            {
+                <li class="resp-tab-item @(i==0?"resp-tab-active" :"")" aria-controls="tab_item-0" role="tab">@role.RoleName</li>
+                if (i == 0)
+                {
+                    SelRole = role.RoleID;
+                }
+                i++;
+            }
+        </ul>
+        <div class="resp-tabs-container">
+            @foreach (var role in Roles)
+            {
+                using (Html.BeginForm("RoleMappingMaster", "Master", FormMethod.Post, new { @class = "frm-current", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="RoleID" value="@CryptoEngine.Encrypt(role.RoleID.ToString())" />
+                    @*<h2 class="resp-accordion @(j==0?"resp-tab-active" :"")" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>@role.Role_Name</h2>*@
+                    <div class="resp-tab-content @(j==0?"resp-tab-content-active" :"")" aria-labelledby="tab_item-0">
+                        <div class="table-responsive">
+                            <table cellspacing="0" class="table" width="100%">
+                                @foreach (var menu in menuList)
+                                {
+                                    var childMenu = db.MenuMasters.Where(x => (x.ParentId == menu.MenuID && x.IsActive == true)).ToList();
+
+                                    //var childMenu = db.MenuMasters.Where(x => x.IsActive == true).ToList();
+
+                                    <thead>
+                                        <tr class="info">
+                                            <th style="width:30px!important;" colspan="6">
+                                                @*<input type="checkbox" class="checkboxprivileges MainMenu" name="MainMenuID" value="@menu.MenuID" )>menu.MenuName*@
+                                                <label>@menu.MenuName</label>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var smenu in childMenu)
+                                        {
+                                            var tempSubPremission = db.RoleMenuMappings.Where(x => x.MenuID == smenu.MenuID && x.UserRoleID == role.RoleID).ToList();
+                                            RoleMenuMapping subPremission = new RoleMenuMapping();
+                                            if (tempSubPremission != null && tempSubPremission.Count > 0)
+                                            {
+                                                subPremission = tempSubPremission[0];
+                                            }
+                                            <tr>
+                                                <td style="width:30px!important;">&nbsp;</td>
+                                                <td><input type="checkbox" class="checkboxprivileges" name="ChildMenuID_@smenu.MenuID" value="@smenu.MenuID" @(subPremission.MenuID != null && subPremission.MenuID.Value > 0 ? "checked" : "")> <label for="ChildMenuID_@smenu.MenuID">@smenu.MenuName</label></td>
+
+                                                <td><input type="checkbox" name="CanAdd_@smenu.MenuID" value="true" @((subPremission.CanInsert != null && subPremission.CanInsert.Value) ? "checked" : "")> Add</td>
+                                                <td><input type="checkbox" name="CanEdit_@smenu.MenuID" value="true" @((subPremission.CanUpdate != null && subPremission.CanUpdate.Value) ? "checked" : "")> Edit</td>
+                                                <td><input type="checkbox" name="CanView_@smenu.MenuID" value="true" @((subPremission.CanView != null && subPremission.CanView.Value) ? "checked" : "")> View</td>
+                                                <td><input type="checkbox" name="CanDelete_@smenu.MenuID" value="true" @((subPremission.CanDelete != null && subPremission.CanDelete.Value) ? "checked" : "")> Delete</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="space15"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6 mb-100">
+                                    <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
+                                    @*<a href="/UserManagement/UserRegistration" class="btn btn-danger">Back</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                j++;
+            }
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</section>
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/3.2.4/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/Scripts/easy-responsive-tabs.js"></script>
+  
+
+    <script>
+        $(document).ready(function () {
+            $('#verticalTab').easyResponsiveTabs({
+                type: 'vertical',
+                width: 'auto',
+                fit: true
+            });
+        });
+    </script>
+}

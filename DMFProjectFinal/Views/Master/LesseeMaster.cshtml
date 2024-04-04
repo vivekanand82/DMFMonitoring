@@ -1,0 +1,150 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "Lessee List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+<style>
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+<div class="card-header">
+    <h4 class="card-title">Lessee List</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            <div class="col-md-6 text-right mb-1">
+                @if (AM.CanInsert)
+                {
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateLesseeMaster", "Master")" id="addMonthlyRevenueReceive">Create<i class="fa fa-plus-circle"></i></a>
+                }
+            </div>
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>State</th>
+                                                <th>District</th>
+                                                <th>Tehsil Name</th>
+                                                <th>Village Name</th>
+                                                <th>Lessee Name</th>
+                                                <th>Areacode</th>
+                                                <th>Gata No</th>
+                                                <th>Lease ID</th>
+                                                <th>Email ID</th>
+                                                <th>Mobile No</th>
+                                                <th>Minral</th>
+                                                <th>Total Area in Hect</th>
+                                                <th>Bid Rate</th>
+                                                <th>Lease From Date</th>
+                                                <th>Lease To Date</th>
+                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>Action</th>
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_LesseeMaster item in ViewBag.LstData)
+                                            {
+                                                j++;
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.State</td>
+                                                <td>@item.DistName</td>
+                                                <td>@item.Tehsil</td>
+                                                <td>@item.Village</td>
+                                                <td>@item.LesseeName</td>
+                                                <td>@item.Areacode</td>
+                                                <td>@item.GataNo</td>
+                                                <td>@item.LeaseID</td>
+                                                <td>@item.EmailID</td>
+                                                <td>@item.MobNo</td>
+                                                <td>@item.Minral</td>
+                                                <td>@item.TotalAreainHect</td>
+                                                <td>@item.BidRate</td>
+                                                <td>@(BusinessLogics.GetJSDateStr(item.LeaseFromDate))</td>
+                                                <td>@(BusinessLogics.GetJSDateStr(item.LeaseToDate))</td>
+                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>
+                                                        @if (AM.CanUpdate)
+                                                        {
+                                                            <a href="/Master/EditLesseeMaster?id=@CryptoEngine.Encrypt(item.LesseeID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                        }
+                                                        @if (AM.CanDelete)
+                                                        {
+                                                            <a href="/Master/DeleteLesseeMaster" ref-id="@CryptoEngine.Encrypt(item.LesseeID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        }
+                                                    </th>
+                                                }
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('StateMaster.' + (type || 'xlsx')));
+        }
+    </script>
+}

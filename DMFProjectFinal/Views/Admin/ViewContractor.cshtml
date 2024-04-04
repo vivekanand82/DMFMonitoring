@@ -1,0 +1,606 @@
+﻿@using MinutesOfMeeting.Models;
+@using MinutesOfMeeting.Controllers;
+@model P_Contractor
+@{
+    ViewBag.Title = "View Contractor";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var DistID = Model.DistrictID;
+    var BankID = Model.BankID;
+    var CatIDD = Model.CategoryID;
+    var OrgID = Model.Organization;
+    var DOBC = BusinessLogics.GetJSDateStr(Model.DOB);
+    var IsBlock = Model.IsAllowEdit;
+    var HaisiyatType = Model.HaisiyatType;
+}
+<style>
+    .my-fa {
+        font-size: 24px;
+        margin-right: 6px;
+    }
+
+    code {
+        font-size: 15px !important;
+    }
+
+    strong a {
+        margin-left: 10px;
+        color: #00f;
+    }
+</style>
+<section class="inner-bg bg-card-dark ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="cmt-page-title-row-inner">
+                    <div class="page-title-heading">
+                        <h2 class="title">Contractor Info</h2>
+                    </div>
+                    <div class="breadcrumb-wrapper">
+                        <span>
+                            <a title="Homepage" href="#">Contractor List</a>
+                        </span>
+                        <span>Contractor Info</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="site-main">
+    <!--about-section-->
+
+    <section class="cmt-row clearfix">
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-card">
+                        @*@using (Model.IsAllowEdit == true ? Html.BeginForm("Index", "Home", new { }, FormMethod.Post, new { @role = "form", enctype = "multipart/form-data" }) : null)
+                        {*@
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <input type="hidden" value="@ViewBag.MyID" name="MyID" id="MyID" />
+                            <div class="form-card-body">
+                                <div class="tab-content">
+                                    <h3><i class="fa fa-user my-fa" aria-hidden="true"></i>Personal Details</h3>
+                                    <div class="active tab-pane">
+
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Name<sup><code>*</code></sup></strong>
+                                                    @Html.TextBoxFor(x => x.Name, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                    @*<input placeholder="Aadhar" class="form-control form-control-sm" readonly="" name="aadhar" type="text">*@
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Father Name<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="phone" class="form-control form-control-sm" name="family_number" type="text" value="">*@
+                                                    @Html.TextBoxFor(x => x.FatherName, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>DOB <sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="voter_number" type="text" value="">*@
+                                                    @Html.TextBoxFor(x => x.DOB, "", new { @class = "form-control form-control-sm", @placeholder = "yyyy-mm-dd", @required = "required", @onblur = "CheckDOB()", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Email <sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="IFSC" class="form-control form-control-sm" readonly="" name="name" type="text" value="Administrator">*@
+                                                    @Html.TextBoxFor(x => x.EmailID, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Mobile No<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="Father/Husband Name" class="form-control form-control-sm" name="father" type="text" value="">*@
+                                                    @Html.TextBoxFor(x => x.MobileNo, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>District<sup><code>*</code></sup></strong>
+                                                    @Html.DropDownListFor(x => x.DistrictID, null, "Select District", new { @required = "required", @class = "form-control form-control-sm" })
+                                                    @*<input placeholder="phone" class="form-control form-control-sm" name="phone" type="text" value="9628281020">*@
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Postal Address<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="IFSC" class="form-control form-control-sm" name="email" type="text" value="admin@admin.com">*@
+                                                    @*@Html.TextAreaFor(x => x.Address, "", )*@
+                                                    @Html.TextAreaFor(x => x.Address, new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>PAN No<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.PAN, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Aadhar No<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.AadharNo, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Nationality<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.Nationality, "INDIAN", new { @class = "form-control form-control-sm", @required = "required", @readonly = "readonly", @type = "text" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <h3><i class="fa fa-edit my-fa"></i>Bank Details</h3>
+                                    <div class="active tab-pane">
+
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Bank<sup><code>*</code></sup></strong>
+                                                    @Html.DropDownListFor(x => x.BankID, null, "Select Bank", new { @required = "required", @class = "form-control form-control-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Account No<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.AccountNo, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>IFSC Code<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.IFSCCode, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Bank Passbook/Cancelled Cheque<sup><code>*</code></sup>
+                                                        @if (Model.Attachment != null && Model.Attachment != "")
+                                                        {
+                                                            <a href="@Model.Attachment" class="rem-req" refid="Attachment" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.Attachment, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3><i class="fa fa-bank my-fa"></i> Other Details</h3>
+                                    <div class="active tab-pane">
+
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Category<sup><code>*</code></sup></strong>
+                                                    @Html.DropDownListFor(x => x.CategoryID, null, "Select", new { @required = "required", @class = "form-control form-control-sm" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Reservoir Area</strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBox("ReservoirArea", "", new { @class = "form-control form-control-sm", @readonly = "readonly", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Minimum Turnover</strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBox("MinimumTurnover", "", new { @class = "form-control form-control-sm", @readonly = "readonly", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Fees Rs.</strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBox("FeesRs", "", new { @class = "form-control form-control-sm", @readonly = "readonly", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>Payment Reference No<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.PaymentReferenceNo, "", new { @class = "form-control form-control-sm", @required = "required", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Payment Receipt<sup><code>*</code></sup>
+                                                        @if (Model.PaymentReceipt != null && Model.PaymentReceipt != "")
+                                                        {
+                                                            <a href="@Model.PaymentReceipt" class="rem-req" refid="PaymentReceipt" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.PaymentReceipt, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+                                            <div class="divider"></div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <div class="form-label">
+                                                    <strong>Organization<sup><code>*</code></sup></strong>
+                                                    @*@Html.DropDownListFor(x => x.Organization, null, new { @class = "form-control form-control-sm" })*@
+                                                    <select id="Organization" name="Organization" required="required" class="form-control form-control-sm">
+                                                        <option value="">Select</option>
+                                                        <option value="I">Individual</option>
+                                                        <option value="C">Company/FPO/NGO/Society</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Haisiyat Type<sup><code class="opt-req">*</code></sup>
+                                                    </strong>
+                                                    <select id="HaisiyatType" name="HaisiyatType" class="form-control form-control-sm" required>
+                                                        <option value="">Select Haisiyat Type</option>
+                                                        <option value="सक्षम स्तर से निर्गत प्रमाण पत्र">सक्षम स्तर से निर्गत प्रमाण पत्र </option>
+                                                        <option value="F.D.R.">F.D.R.</option>
+                                                        <option value="Bank Guarantee">Bank Guarantee</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Haisiyat Proof<sup><code class="opt-req">*</code></sup>
+                                                        @if (Model.C_HaisiyatProof != null && Model.C_HaisiyatProof != "")
+                                                        {
+                                                            <a href="@Model.C_HaisiyatProof" class="rem-req" refid="C_HaisiyatProof" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.C_HaisiyatProof, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Incometax Return<sup><code class="opt-req">*</code></sup>
+                                                        @if (Model.C_PropHouseIncometaxReturn != null && Model.C_PropHouseIncometaxReturn != "")
+                                                        {
+                                                            <a href="@Model.C_PropHouseIncometaxReturn" class="rem-req" refid="C_PropHouseIncometaxReturn" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.C_PropHouseIncometaxReturn, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>Company Name<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.CompanyName, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>Company Address<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.CompanyRegAddress, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>Registered No<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.RegisteredNo, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>State<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.StateName, "UP", new { @required = "required", @class = "form-control form-control-sm", @readonly = "readonly", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>District<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBox("SelDistrictName", "", new { @required = "required", @class = "form-control form-control-sm", @readonly = "readonly", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>PAN/TAN<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.PAN_TAN, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>Pincode<sup><code>*</code></sup></strong>
+                                                    @*<input placeholder="DOB" class="form-control form-control-sm" name="dob" type="date">*@
+                                                    @Html.TextBoxFor(x => x.Pincode, "", new { @required = "required", @class = "form-control form-control-sm", @type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Registration Certificate<sup><code>*</code></sup>
+                                                        @if (Model.C_RegistrationCertificate != null && Model.C_RegistrationCertificate != "")
+                                                        {
+                                                            <a href="@Model.C_RegistrationCertificate" class="rem-req" refid="C_RegistrationCertificate" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.C_RegistrationCertificate, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+
+                                            @*<div class="col-xs-6 col-sm-6 col-md-4 CompDiv">
+                                                    <div class="form-label">
+                                                        <strong>Other Financial Sources
+                                                            @if (Model.C_OtherReturn != null && Model.C_OtherReturn != "")
+                                                            {
+                                                                <a href="@Model.C_OtherReturn" target="_blank">View Doc</a>
+                                                            }
+                                                        </strong>
+                                                        @Html.TextBoxFor(x => x.C_OtherReturn, "", new { @class = "form-control form-control-sm", @type = "file" })
+                                                    </div>
+                                                </div>*@
+                                            <div class="col-xs-6 col-sm-6 col-md-4 IndividualDiv">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Aadhar<sup><code>*</code></sup>
+                                                        @if (Model.I_Aadhar != null && Model.I_Aadhar != "")
+                                                        {
+                                                            <a href="@Model.I_Aadhar" class="rem-req" refid="I_Aadhar" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.I_Aadhar, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-4 IndividualDiv">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        PAN<sup><code>*</code></sup>
+                                                        @if (Model.I_PAN != null && Model.I_PAN != "")
+                                                        {
+                                                            <a href="@Model.I_PAN" class="rem-req" refid="I_PAN" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.I_PAN, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6 col-sm-6 col-md-4 IndividualDiv">
+                                                <div class="form-label">
+                                                    <strong>
+                                                        Profile Pic<sup><code>*</code></sup>
+                                                        @if (Model.ProfilePic != null && Model.ProfilePic != "")
+                                                        {
+                                                            <a href="@Model.ProfilePic" class="rem-req" refid="ProfilePic" target="_blank">View Doc</a>
+                                                        }
+                                                    </strong>
+                                                    @Html.TextBoxFor(x => x.ProfilePic, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                </div>
+                                            </div>
+
+                                            @*<div class="col-xs-6 col-sm-6 col-md-4 IndividualDiv">
+                                                    <div class="form-label">
+                                                        <strong>
+                                                            Reservoir<sup><code>*</code></sup>
+                                                            @if (Model.I_Reservoir != null && Model.I_Reservoir != "")
+                                                            {
+                                                                <a href="@Model.I_Reservoir" target="_blank">View Doc</a>
+                                                            }
+                                                        </strong>
+                                                        @Html.TextBoxFor(x => x.I_Reservoir, "", new { @required = "required", @class = "form-control form-control-sm", @type = "file" })
+                                                    </div>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                    @*@if (Model.IsAllowEdit == true)
+                                    {
+                                        <div class="text-center">
+                                            <input type="submit" class="btn btn-primary" value="Save Now" />
+                                        </div>
+                                    }*@
+
+                                </div>
+                            </div>
+                        @*}*@
+
+                    </div>
+                </div>
+
+            </div><!-- row end -->
+        </div>
+
+    </section>
+
+</div>
+@section Scripts {
+    <script>
+        function differenceInMonths(date1, date2) {
+            const monthDiff = date1.getMonth() - date2.getMonth();
+            const yearDiff = date1.getYear() - date2.getYear();
+
+            return monthDiff + yearDiff * 12;
+        }
+
+        function CheckDOB() {
+            var DB = $('#DOB').val();
+            if (DB != null && DB != '') {
+                var DBs = DB.split('-');
+
+                var year = DBs[0];
+                var month = DBs[1];
+                var day = DBs[2];
+
+                var date1 = new Date(year, month - 1, day);
+
+                let yourDate = new Date()
+                var DTVal = yourDate.toISOString().split('T')[0];
+                DBs = DTVal.split('-');
+
+                year =DBs[0];
+                month = DBs[1];
+                day = DBs[2];
+
+                var date2 = new Date(year, month - 1, day);
+
+                var diffMonths = differenceInMonths(date2, date1);
+                console.log(diffMonths);
+                if ((diffMonths / 12) < 18) {
+                    alert('Age must be greater than or 18');
+                    $('#DOB').val('');
+                    return false;
+                }
+                if ((diffMonths / 12) > 70) {
+                    alert('Age must be less than or 70');
+                    $('#DOB').val('');
+                    return false;
+                }
+            }
+            return true;
+        }
+        $(document).ready(function () {
+            $('.CompDiv').hide();
+            $('.IndividualDiv').hide();
+
+            var BankID = "@BankID";
+            if (BankID != null && BankID != "") {
+                $('#BankID').val(BankID);
+            }
+
+
+            $('#Organization').on('change', function () {
+                $('.CompDiv').hide();
+                $('.IndividualDiv').hide();
+                $('#I_Aadhar').removeAttr('required');
+                $('#I_PAN').removeAttr('required');
+                //$('#I_Reservoir').removeAttr('required');
+                $('#ProfilePic').removeAttr('required');
+                $('#CompanyName').removeAttr('required');
+                $('#CompanyRegAddress').removeAttr('required');
+                $('#RegisteredNo').removeAttr('required');
+                $('#PAN_TAN').removeAttr('required');
+                $('#Pincode').removeAttr('required');
+                $('#C_RegistrationCertificate').removeAttr('required');
+
+                if ($('#Organization').val() == "I") {
+                    $('.IndividualDiv').show();
+                    $('#I_Aadhar').attr('required', 'required');
+                    $('#I_PAN').attr('required', 'required');
+                    $('#ProfilePic').attr('required', 'required');
+                    //$('#I_Reservoir').attr('required', 'required');
+                }
+                if ($('#Organization').val() == "C") {
+                    $('.CompDiv').show();
+                    $('#CompanyName').attr('required', 'required');
+                    $('#CompanyRegAddress').attr('required', 'required');
+                    $('#RegisteredNo').attr('required', 'required');
+                    $('#PAN_TAN').attr('required', 'required');
+                    $('#Pincode').attr('required', 'required');
+                    $('#C_RegistrationCertificate').attr('required', 'required');
+                }
+            });
+            $('#DistrictID').on('change', function () {
+                $('#SelDistrictName').val('');
+                if($('#DistrictID').val() != null && $('#DistrictID').val() != ""){
+                    $('#SelDistrictName').val($('#DistrictID option:selected').text());
+                }
+            });
+
+            $("#CategoryID").on("change", function () {
+                var categVal = $(this).val();
+                $('#ReservoirArea').val('');
+                $('#MinimumTurnover').val('');
+                $('#FeesRs').val('');
+                if (categVal == null || categVal == '') {
+                    return;
+                }
+                //alert(stateid);
+                $.ajax({
+                    type: "POST",
+                    url: "/Common/FetchCategoryDetails",
+                    data: JSON.stringify({ 'CatID': categVal }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        try {
+                            $('#ReservoirArea').val(response[0].ReservoirArea);
+                            $('#MinimumTurnover').val(response[0].MinimumTurnover);
+                            $('#FeesRs').val(response[0].FeeRs);
+                        } catch (e) {
+
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+                $('#C_HaisiyatProof').removeAttr('required');
+                $('#C_PropHouseIncometaxReturn').removeAttr('required');
+                $('#HaisiyatType').removeAttr('required');
+                $('.opt-req').hide();
+                if (categVal == '1' || categVal == '2' || categVal == '3') {
+                    $('#HaisiyatType').attr('required', 'required');
+                    $('#C_HaisiyatProof').attr('required', 'required');
+                    $('#C_PropHouseIncometaxReturn').attr('required', 'required');
+                    $('.opt-req').show();
+                }
+
+            });
+
+             var CatIDD = "@CatIDD";
+            if (CatIDD != null && CatIDD != "") {
+                $('#CategoryID').val(CatIDD);
+                $('#CategoryID').trigger("change");
+            }
+            var OrgID = "@OrgID";
+            if (OrgID != null && OrgID != "") {
+                $('#Organization').val(OrgID);
+                $('#Organization').trigger("change");
+            }
+            var DOBC = "@DOBC";
+            if (DOBC != null && DOBC != "") {
+                $('#DOB').val(DOBC);
+            }
+            var DistID = "@DistID";
+            if (DistID != null && DistID != "") {
+                $('#DistrictID').val(DistID);
+                $('#DistrictID').trigger("change");
+            }
+
+            var HaisiyatType = "@HaisiyatType";
+            if (HaisiyatType != null && HaisiyatType != "") {
+                $('#HaisiyatType').val(HaisiyatType);
+            }
+
+            var IsBlock = "@IsBlock";
+            if (IsBlock != null && IsBlock != "" && IsBlock.toLowerCase() == "false") {
+                $('.container').css('pointer-events', 'none');
+                $('a').css('pointer-events', 'auto');
+            }
+            $('.rem-req').each(function (i, e) {
+                var id = $(e).attr('refid');
+                $('#' + id).removeAttr('required');
+            });
+        });
+    </script>
+}
