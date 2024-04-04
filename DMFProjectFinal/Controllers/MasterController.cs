@@ -2218,13 +2218,9 @@ namespace DMFProjectFinal.Controllers
                     Info.CommitteeDesignationName = model.CommitteeDesignationName;
                     
                     Info.IsActive = true;
-
-
                 }
-
-
             }
-
+            //test commit and merge master
             int res = db.SaveChanges();
             if (res > 0)
             {
@@ -2237,7 +2233,6 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpPost]
