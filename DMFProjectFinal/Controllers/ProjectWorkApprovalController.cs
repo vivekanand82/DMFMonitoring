@@ -65,8 +65,6 @@ namespace DMFProjectFinal.Controllers
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
                           // join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
-                          // join psm in db.ProjectStatusMasters on ppp.ProjectStatusID equals psm.ProjectStatusID
-                           //join sm in db.SectorNameMasters on ppp.SectorID equals sm.SectorNameId
                            where ppp.IsActive == true
                            && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
                            && ppp.AgencyID == (AgencyID == null ? ppp.AgencyID : AgencyID)
