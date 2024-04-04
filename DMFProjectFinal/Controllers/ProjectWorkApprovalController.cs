@@ -60,7 +60,7 @@ namespace DMFProjectFinal.Controllers
                            join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
                            join tm in db.TehsilMasters on ppp.TehsilId equals tm.TehsilId
                            join bm in db.BlockMasters on ppp.BlockId equals bm.BlockId
-                          //join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
+                          join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
@@ -113,7 +113,7 @@ namespace DMFProjectFinal.Controllers
             //ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true), "SectorNameId", "SectorName", null);
             ViewBag.SectorTypeId = new SelectList(db.SectorTypeMasters.Where(x => x.IsActive == true), "SectorTypeId", "SectorType", null).ToList();
             ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true), "SectorNameId", "SectorName", null).ToList();
-            ViewBag.ProjectStatusID = new SelectList(db.ProjectStatusMasters.Where(x => x.IsActive == true), "ProjectStatusID", "ProjectStatus", null);
+            //ViewBag.ProjectStatusID = new SelectList(db.ProjectStatusMasters.Where(x => x.IsActive == true), "ProjectStatusID", "ProjectStatus", null);
 
 
             //var lstData = new SelectList(from pm in db.ProjectMasters
