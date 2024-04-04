@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace DMFProjectFinal.Controllers
 {
-    [SessionFilter]
+    [SessionFilter]   
     public class MasterController : Controller
     {
         private dfm_dbEntities db = new dfm_dbEntities();
@@ -2049,6 +2049,7 @@ namespace DMFProjectFinal.Controllers
             {
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
+            //demotest
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
         //commit test aftab sir
@@ -2069,6 +2070,7 @@ namespace DMFProjectFinal.Controllers
                         LogInfo = BusinessLogics.ConvertModelToJSONString(Info),
                         URLInfo = "DeleteDistrictMaster/POST"
                     });
+                    // demoone
 
                     db.DistrictMasters.Remove(Info);
                 }
@@ -2195,6 +2197,7 @@ namespace DMFProjectFinal.Controllers
 
             if (!ModelState.IsValid)
             {
+                //abc
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
