@@ -14,7 +14,7 @@ namespace DMFProjectFinal.Models
     
     public partial class VillageMaster
     {
-        public long VillageId { get; set; }
+        public Nullable<long> VillageId { get; set; }
         public string VillageNameInEnglish { get; set; }
         public string VillageNameInHindi { get; set; }
         public string VillageCode { get; set; }

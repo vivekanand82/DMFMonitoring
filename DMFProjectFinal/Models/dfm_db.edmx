@@ -245,7 +245,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="DistID" Type="int" />
           <Property Name="TehsilId" Type="int" />
           <Property Name="BlockId" Type="int" />
-          <Property Name="VillageId" Type="int" />
+          <Property Name="VillageId" Type="bigint" />
           <Property Name="ProjectName" Type="nvarchar(max)" />
           <Property Name="SectorID" Type="int" />
           <Property Name="SectorTypeId" Type="int" />
