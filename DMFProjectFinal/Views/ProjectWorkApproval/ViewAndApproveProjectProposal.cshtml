@@ -1,0 +1,238 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_ProjectProposalPrepration
+
+@{
+    ViewBag.Title = "ViewAndApprove ProjectProposal";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.ProjectPreparationID))
+    {
+        <h4 class="card-title">Project Proposal Prepration</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Project Proposal Prepration</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.ProjectPreparationID) ? "ViewAndApproveProjectProposal" : "ApproveOrRejectProjectProposal"), "ProjectWorkApproval", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row tab">
+                @Html.HiddenFor(x => x.ProjectPreparationID)
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>District<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID,SectorID", @refflg = "002,008,003,004,005,006",@readonly= "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Tehsil<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.TehsilId, null, "Select Tehsil", new { @class = "form-control form-control-sm  multiple-deps-ddl", @ref = "VillageId", @refflg = "003", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Block<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.BlockId, null, "Select Block", new { @class = "form-control form-control-sm ", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Village<sup><code>*</code></sup></strong>
+                            @if (Model.VillageId == null)
+                            {
+                                @Html.DropDownListFor(x => x.VillageId, Enumerable.Empty<SelectListItem>(), "Select Village", new { @class = "form-control form-control-sm ", @readonly = "readonly" })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(x => x.VillageId, null, "Select Village", new { @class = "form-control form-control-sm ", @readonly = "readonly" })
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Sector Type<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Type", new { @class = "form-control form-control-sm", @id = "SectorTypeId", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Sector Name<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.SectorID, null, "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorId", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Name (Project)<sup><code>*</code></sup></strong>
+                            @Html.TextAreaFor(x => x.ProjectName, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                            @* @Html.DropDownListFor(x => x.ProjectID, null, "Select Project", new { @class = "form-control form-control-sm" })*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Latitude<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.WorkLatitude, new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Longitude<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.WorkLongitude, new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Purpose of Work<sup><code>*</code></sup></strong>
+                            @Html.TextAreaFor(x => x.ProjectDescription, new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Prosposal No<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProsposalNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Proposal Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProposalDate, ((Model.ProposalDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.ProposalDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>
+                                Proposal Copy<sup><code>*</code></sup>
+                                @if (!String.IsNullOrEmpty(Model.ProposalCopy))
+                                {
+                                    <a href="@Model.ProposalCopy" target="_blank">View Doc</a>
+                                    <input type="hidden" value="prev" id="ProposalCopy" name="ProposalCopy" />
+                                }
+                            </strong>
+                            @Html.TextBoxFor(x => x.ProposalCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Proposed By<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProposedBy, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Estimated Project Cost<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProjectCost, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>GST and Other Charges<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.GSTAndOthers, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row tab">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Tender No<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.TenderNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Tender Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.TenderDate, ((Model.TenderDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.TenderDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Order No</strong>
+                            @Html.TextBoxFor(x => x.WorkOrderNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Work Order Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.WorkOrderDate, ((Model.WorkOrderDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.WorkOrderDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>
+                                WorkOrder Copy<sup><code>*</code></sup>
+                                @if (!String.IsNullOrEmpty(Model.WorkOrderCopy))
+                                {
+                                    <a href="@Model.WorkOrderCopy" target="_blank">View Doc</a>
+                                    <input type="hidden" value="prev" id="WorkOrderCopy" name="WorkOrderCopy" />
+                                }
+                            </strong>
+                            @Html.TextBoxFor(x => x.WorkOrderCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "WorkOrderCopy", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Agency<sup><code>*</code></sup></strong>
+                            @Html.DropDownListFor(x => x.AgencyID, null, "Select Agency", new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Sanctioned Project Cost<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.SanctionedProjectCost, "", new { @class = "form-control form-control-sm", @autocomplete = "off"})
+                        </div>
+                    </div>
+                    <h5 style="text-align:left">Meeting Details :-</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                <strong>Meeting Date<sup><code>*</code></sup></strong>
+                                @Html.TextBox("MeetingDate", "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                <strong>Available Members<sup><code>*</code></sup></strong>
+                                @Html.TextBox("PresentMembersId", "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                <strong>Menutes of Meeting<sup><code>*</code></sup></strong>
+                                @Html.TextBox("MenutesOfMeeting", "", new { @class = "form-control form-control-sm", @autocomplete = "off",@type="number",@min="1" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                <strong>Attendance Copy<sup><code>*</code></sup></strong>
+                                @*<strong>
+                                    Attendance Copy<sup><code>*</code></sup>
+                                    @if (!String.IsNullOrEmpty(Model.ProposalCopy))
+                                    {
+                                        <a href="@Model.ProposalCopy" target="_blank">View Doc</a>
+                                        <input type="hidden" value="prev" id="ProposalCopy" name="ProposalCopy" />
+                                    }
+                                </strong>*@
+                                @Html.TextBox("AttendanceCopy", "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="overflow:auto;">
+                <div style="float: right; margin-bottom: 100px ">
+                    <input type="button" id="btnApprove" value="Approve" class="btn btn-success"/>
+                    <input type="button" id="btnReject" value="Reject" class="btn btn-danger"/>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+
