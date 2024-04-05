@@ -618,6 +618,7 @@
     <Content Include="Views\Master\DistrictNameMaster.cshtml" />
     <Content Include="Views\Master\CreateCommitteeDesignation.cshtml" />
     <Content Include="Views\Master\CommitteeDesignationMaster.cshtml" />
+    <Content Include="Views\ProjectWorkApproval\ViewAndApproveProjectProposal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -454,6 +454,79 @@ namespace DMFProjectFinal.Controllers
 
         //    return Json(lst, JsonRequestBehavior.AllowGet);
         //}
+        public ActionResult ViewAndApproveProjectProposal(string id)//added by ramdhyan 04.04.2024
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            try
+            {
+                long _id = long.Parse(CryptoEngine.Decrypt(id));
+                //long _id = long.Parse(id);  use this code when u use server side datatable for display
+                var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
+                if (Info != null)
+                {
+                    int? DistID = null;
+                    if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+                    {
+                        DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                    // var Tehsil = db.TehsilMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
+                    ViewBag.DistID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
+                    ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "TehsilId", "TehsilName", null);
+                    ViewBag.BlockId = new SelectList(db.BlockMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "BlockId", "BlockName", null);
+                    ViewBag.VillageId = new SelectList(db.VillageMasters.Where(x => x.IsActive == true && x.TehsilId == (Info.TehsilId == null ? x.TehsilId : Info.TehsilId)), "VillageId", "VillageNameInEnglish", null);
+                    ViewBag.AgencyID = new SelectList(db.AgenciesInfoes.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.AgencyID, Text = x.Name + " / " + x.OwnerName }), "ID", "Text", Info.AgencyID);
+                    ViewBag.ProjectID = new SelectList(db.ProjectMasters.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.ProjectID, Text = x.ProjectName + " (" + x.ProjectCode + ")" }), "ID", "Text", Info.ProjectID);
+                    ViewBag.SectorTypeId = new SelectList(db.SectorTypeMasters.Where(x => x.IsActive == true && x.SectorTypeID == (Info.SectorTypeId == null ? x.SectorTypeID : Info.SectorTypeId)), "SectorTypeId", "SectorType", null).ToList();
+                    ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true), "SectorNameId", "SectorName", Info.SectorID);
+                    // ViewBag.ProjectStatusID = new SelectList(db.ProjectStatusMasters.Where(x => x.IsActive == true), "ProjectStatusID", "ProjectStatus", Info.ProjectStatusID);
+                    return View(new DTO_ProjectProposalPrepration
+                    {
+                        CreatedOn = DateTime.Now,
+                        IsActive = true,
+                        CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+                        DistID = Info.DistID,
+                        TehsilId = Info.TehsilId,
+                        BlockId = Info.BlockId,
+                        VillageId = Info.VillageId,
+                        SectorID = Info.SectorID,
+                        SectorTypeId = Info.SectorTypeId,
+                        ProjectName = Info.ProjectName,
+                        WorkLatitude = Convert.ToDecimal(Info.WorkLatitude),
+                        WorkLongitude = Convert.ToDecimal(Info.WorkLongitude),
+                        ProjectDescription = Info.ProjectDescription,
+                        ProsposalNo = Info.ProsposalNo,
+                        ProposalDate = Info.ProposalDate,
+                        ProposalCopy = Info.ProposalCopy,
+                        ProposedBy = Info.ProposedBy,
+                        ProjectCost = Info.ProjectCost,
+                        GSTAndOthers = Info.GSTAndOthers,
+                        TenderNo = Info.TenderNo,
+                        TenderDate = Info.TenderDate,
+                        WorkOrderNo = Info.WorkOrderNo,
+                        WorkOrderDate = Info.WorkOrderDate,
+                        WorkOrderCopy = Info.WorkOrderCopy,
+                        AgencyID = Info.AgencyID,
+                        SanctionedProjectCost = Info.SanctionedProjectCost,
+                        ProjectPreparationID = CryptoEngine.Encrypt(Info.ProjectPreparationID.ToString())
+                    });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
         #endregion
     }
 }
