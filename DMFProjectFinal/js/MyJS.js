@@ -61,6 +61,9 @@ $(".multiple-deps-ddl").on("change", function () {
     //alert(flgs)
    
     var n = $(this).val();
+    if (n == "") {//added by ramdhyan 06.04.2024
+        n = 0;
+    }
    
     $(ids).each(function (iii, eee) {
         var e = $('#' + ids[iii]);

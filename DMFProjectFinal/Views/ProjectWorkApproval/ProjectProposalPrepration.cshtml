@@ -17,13 +17,206 @@
         height: 40px;
         vertical-align: middle !important;
     }
+
     label {
         display: contents !important;
     }
+
     .form-group label {
         white-space: break-spaces !important;
     }
 </style>
+
+<div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-xxl" style="max-width: 90%;">
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Proposal Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="col-xxl-12">
+                    <div class="" style="padding:0px">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#base-justified-home" role="tab" aria-selected="false">
+                                    Basic
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " data-bs-toggle="tab" href="#base-justified-product" role="tab" aria-selected="false">
+                                    Proposal
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#base-justified-messages" role="tab" aria-selected="false">
+                                    Tender
+                                </a>
+                            </li>
+                            @*<li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#base-justified-settings" role="tab" aria-selected="true">
+                                    Settings
+                                </a>
+                            </li>*@
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content  text-muted">
+                            <div class="tab-pane active" id="base-justified-home" role="tabpanel">
+                                <h6>Distric Details</h6>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>District<sup><code>*</code></sup> : <b><span id="District"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Tehsil<sup><code>*</code></sup>: <b><span id="Tehsil"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Block<sup><code>*</code></sup>: <b><span id="Block"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Village<sup><code>*</code></sup>: <b><span id="Village"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Sector Type<sup><code>*</code></sup>: <b><span id="SectorType"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Sector Name<sup><code>*</code></sup>: <b><span id="SectorName"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Work Name (Project)<sup><code>*</code></sup>: <b><span id="WorkName"> </span></b></strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Work Latitude<sup><code>*</code></sup>: <b><span id="latitude"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Work Longitude<sup><code>*</code></sup>: <b><span id="longitude"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Purpose of Work<sup><code>*</code></sup>: <b><span id="Purpose"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="tab-pane " id="base-justified-product" role="tabpanel">
+                                <h6>Proposal and Project Cost</h6>
+                               <div class="row">
+                                   <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Prosposal No<sup><code>*</code></sup>: <b><span id="ProposalNo"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Proposal Date<sup><code>*</code></sup>: <b><span id="ProposalDate"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong class="myimg">
+                                        Proposal Copy<sup><code>*</code></sup>:<a id="ProposalCopy">View Doc</a>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Proposed By<sup><code>*</code></sup>: <b><span id="ProposedBy"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Estimated Project Cost<sup><code>*</code></sup>: <b><span id="EstCost"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>GST and Other Charges<sup><code>*</code></sup>: <b><span id="Gst"> </span></b></strong>
+                                </div>
+                            </div>
+                        </div>
+                               </div>
+                            <div class="tab-pane" id="base-justified-messages" role="tabpanel">
+                                <h6>Tender</h6>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Tender No<sup><code>*</code></sup>: <b><span id="TenderNo"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Tender  Date<sup><code>*</code></sup>: <b><span id="TenderDate"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Work Order<sup><code>*</code></sup>: <b><span id="WorkOrderNo"> </span></b></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Work Order Date<sup><code>*</code></sup>: <b><span id="WorkOrderDate"> </span></b></strong>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Work Order Copy<sup><code>*</code></sup>: :<a id="WorkOrderCopy">View Doc</a></strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Agencey<sup><code>*</code></sup>: <b><span id="AgencyName"> </span></b></strong>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Santioned Project Cost<sup><code>*</code></sup>: <b><span id="SanctionedProjectCost"> </span></b></strong>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            @*<div class="tab-pane" id="base-justified-settings" role="tabpanel">
+                                <h6>Settings</h6>
+                                <p class="mb-0">
+                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
+                                    art party before they sold out master cleanse gluten-free squid
+                                    scenester freegan cosby sweater. Fanny pack portland seitan DIY,
+                                    art party locavore wolf cliche high life echo park Austin. Cred
+                                    vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
+                                    farm-to-table VHS.
+                                </p>
+                            </div>*@
+                        </div>
+                    </div><!-- end card-body -->
+                </div><!-- end card -->
+            </div>
+        </div><!-- /.modal -->
+    </div>
 <div class="card-header">
     <h4 class="card-title">Project Proposal Prepration</h4>
 </div>
@@ -55,63 +248,82 @@
                                                 <th>Project Name</th>
                                                 <th>Sector Name</th>
                                                 <th>Prosposal No</th>
-                                                <th>Proposal Date</th>
-                                                <th>Proposal Copy</th>
-                                                <th>Proposed By</th>
+                                                @*<th>Proposal Date</th>*@
+                                                @*<th>Proposal Copy</th>*@
+                                                @*<th>Proposed By</th>*@
                                                 <th>Tender No</th>
                                                 <th>Tender Date</th>
                                                 <th>Work Order No</th>
                                                 <th>Work Order Date</th>
-                                                <th>Status</th>
-                                                @if (AM.RoleID == 2)
+                                                <th>Running  Status</th>
+                                                <th>Final Status</th>
+                                                <th>View</th>
+
+                                                @if (AM.CanUpdate || AM.CanDelete)
                                                 {
                                                     <th>Action</th>
                                                 }
-                                                else
-                                                {
-                                                    if (AM.CanUpdate || AM.CanDelete)
-                                                    {
-                                                        <th>Action</th>
-                                                    }
-                                                }
-                                                </tr>
+
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                             {
                                                 j++;
-                                            <tr>
-                                                <td>@j</td>
-                                                <td>@item.DistrictName</td>
-                                                <td>@item.ProjectName</td>
-                                                <td>@item.SectorName</td>
-                                                <td>@item.ProsposalNo</td>
-                                                <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
-                                                @if (String.IsNullOrEmpty(item.ProposalCopy))
-                                                {
-                                                    <td></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                }
-                                                <td>@item.ProposedBy</td>
-                                                <td>@item.TenderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                <td>@item.WorkOrderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.SectorName</td>
+                                                    <td>@item.ProsposalNo</td>
+                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
+                                                    @*@if (String.IsNullOrEmpty(item.ProposalCopy))
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                        }*@
+                                                    @*<td>@item.ProposedBy</td>*@
+                                                    <td>@item.TenderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                    <td>@item.WorkOrderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                    @if (item.Stageid == null)
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
+                                                    }
+                                                    else if (item.Stageid == 1)
+                                                    {
 
-                                                @if (AM.RoleID == 2)
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                    <th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
-                                                }
-                                                else
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Pending at Governing Council</a></td>
-                                                    if (AM.CanUpdate || AM.CanDelete)
+                                                        <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
+                                                    }
+                                                    else if (item.Stageid == 2)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-success">Approved By GOV Commette</a></td>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    }
+                                                    @if (item.Stageid == null)
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    }
+
+                                                    else if (item.Stageid == 2)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-success">Approved</a></td>
+                                                    }
+                                                    <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails"  value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                    @if (AM.CanUpdate || AM.CanDelete)
                                                     {
                                                         <th>
+                                                            @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
                                                             @if (AM.CanUpdate)
                                                             {
                                                                 <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -122,8 +334,8 @@
                                                             }
                                                         </th>
                                                     }
-                                                }
-                                            </tr>
+
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -136,39 +348,33 @@
                                 }
                             </div>
                         }
-                        <!--<table class="table center-aligned-table" id="tblData1" style="width:100%">
-                            <thead class="table-dark">
-                                <tr class="text-dark">
-                                    <th>क्र०सं०</th>
-                                    <th>District</th>
-                                    <th>Project Name</th>
-                                    <th>Sector Name</th>
-                                    <th>Prosposal No</th>-->
-                                    @*<th>Prosposal date</th>*@
-                                    <!--@if (AM.CanUpdate || AM.CanDelete)
-                                    {
-                                        <th>Action</th>
-                                    }
-                                    @if (AM.CanUpdate || AM.CanDelete)
-                                    {
-                                        <th>Action</th>
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>-->
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 @section Scripts {
-
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function () {//open modal
+            //$("#btnshowproject").click(function () {
+            //    $("#Projectdetail").show();
+
+            //    $("#basic").hide();
+
+
+            //})
+
+            //$("#btnbasic").click(function () {
+            //    $("#Projectdetail").hide();
+
+            //    $("#basic").show();
+
+
+            //})
             $('#tblData').DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
@@ -185,85 +391,51 @@
         }
     </script>
 
-    @*<script>
-        var i = 1;
-        $(document).ready(function ($) {
-            $('#tblData1').dataTable({
-                "Processing": false,
-                "ServerSide": true,
-                "Responsive": true,
-                "Searching": true,
-                "lengthMenu": [[10, 25, 50, 100, 200, 300, 400, 500, 1000, -1], [10, 25, 50, 100, 200, 300, 400, 500, 1000, "All"]],
-                "pageLength": 10,
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3]
-                        }
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3]
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        }
-                    },
+    <script>
+    //code for show the details on  modal
+        $(".viewdetails").click(function () {
+            $("#myModal").modal('hide');
+            var id = $(this).attr('value');
+            $.ajax({
+                url: "/ProjectworkApproval/ViewDetails?id=" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var ProposalDate = new Date(parseInt(data[0].ProposalDate.substr(6)));
+                    var TenderDate = new Date(parseInt(data[0].TenderDate.substr(6)));
+                    var WorkOrderDate = new Date(parseInt(data[0].WorkOrderDate.substr(6)));
+                    $("#District").text(data[0].DistrictName);
+                    $("#Tehsil").text(data[0].TehsilName);
+                    $("#Block").text(data[0].BlockName);
+                    $("#Village").text(data[0].VillageNameInHindi);
+                    $("#SectorType").text(data[0].SectorType);
+                    $("#SectorName").text(data[0].SectorName);
+                    $("#WorkName").text(data[0].ProjectName);
+                    $("#latitude").text(data[0].WorkLatitude);
+                    $("#longitude").text(data[0].WorkLongitude);
+                    $("#Purpose").text(data[0].ProjectDescription);
+                    $("#ProposalNo").text(data[0].ProsposalNo);
+                    $("#ProposalDate").text(ProposalDate.toLocaleDateString("es-CL"));
+                    $("#ProposalCopy").attr({ "href": data[0].ProposalCopy, "target": "_blank" });;
+                    $("#ProposedBy").text(data[0].ProposedBy);
+                    $("#EstCost").text(data[0].ProjectCost);
+                    $("#Gst").text(data[0].GSTAndOthers);
+                    $("#TenderNo").text(data[0].TenderNo);
+                    $("#TenderDate").text(TenderDate.toLocaleDateString("es-CL"));
+                    $("#WorkOrderNo").text(data[0].WorkOrderNo);
+                    $("#WorkOrderDate").text(WorkOrderDate.toLocaleDateString("es-CL"));
+                    $("#WorkOrderCopy").attr({ "href": data[0].WorkOrderCopy, "target": "_blank" });
+                    //$("#WorkOrderCopy").attr("href", data[0].WorkOrderCopy);
+                    //$("#WorkOrderCopy").attr("target", "_blank");
+                    $("#AgencyName").text(data[0].AgencyName);
+                    $("#SanctionedProjectCost").text(data[0].SanctionedProjectCost);
+                    console.log(data);
+                    $("#myModal").modal('show');
 
-                ],
-                "ajax": {
-                    "url": "/ProjectWorkApproval/GetProjectProposalPreprationList",
-                    "type": "GET",
-                    "datatype": "json",
-                    "dataSrc": ""
-                },
-                "language": {
-                    "search": "",
-                    "searchPlaceholder": "Search..."
-                },
-                "columns": [
-                    {
-                        "render": function () {
-                            return i++;
-                        }
-                    },
-                    { "data": "DistrictName", "autowidth": true, "searchable": true },
-                    { "data": "ProjectName", "autowidth": true, "searchable": true },
-                    { "data": "SectorName", "autowidth": true, "searchable": true },
-                    { "data": "ProsposalNo", "autowidth": true, "searchable": true },
-                    //{
-                    //    "data": "ProposalDate", "render": function (data) { return convertToDate(data); }},
+                }
+            })
+        })
+    </script>
 
-                    //{
-                    //    "render": function (data, type, JsonResultRow, meta) {
-                    //        return '<img src="/Content/images/' + JsonResultRow.Profile_Pic + '" height="30" width="30" style="border-radius:50%">';
-                    //    }
-                    //},
-                    {
-                        "mRender": function (data, type, row) {
-                          return ' <a href="/ProjectWorkApproval/EditProjectProposalPrepration/' + row.ProjectPreparationID +'" class="btn btn-info" ><i class="fa fa-pencil" aria-hidden="true"></i></a> ';
-                        }
-                    },
-                    {
-                        "mRender": function (data, type, row) {
-                           
-                            return ' <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration/' + row.ProjectPreparationID +'" class="btn btn-danger" ><i class="fa fa-trash" aria-hidden="true"></i></a> ';
-       
-    }
-},
-//{
-//    "mRender": function (data, type, row) {
-//        return ' <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" onclick="Details(' + row.Id + ')">Details</a>';
-//    }
-//}
-]
-});
-});
-    </script>*@
 }

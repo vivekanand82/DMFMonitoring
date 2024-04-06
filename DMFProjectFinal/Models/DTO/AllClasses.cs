@@ -358,13 +358,13 @@ namespace DMFProjectFinal.Models.DTO
         public string ProjectDescription { get; set; }
         public string RunningStatus { get; set; }
         public string FinalStatus { get; set; }
+        public Nullable<int> Stageid { get; set; }
         public Nullable<int> CommitteeID { get; set; }
 
 
         public Nullable<System.DateTime> MettingDate { get; set; }
         public Nullable<System.DateTime> Attendancedate { get; set; }
-        [Display(Name = "Meeting No")]
-        [Required]
+
         public string MeetingNo { get; set; }
         public string MinutesofMeeting { get; set; }
         public string MinutesofMeetingfile { get; set; }
@@ -374,10 +374,6 @@ namespace DMFProjectFinal.Models.DTO
         public string Status { get; set; }
 
         public string Remark { get; set; }
-       
-
-
-
     }
     public partial class DTO_SectorNameMaster
     {

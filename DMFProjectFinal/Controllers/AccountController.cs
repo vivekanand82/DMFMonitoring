@@ -50,6 +50,10 @@ namespace DMFProjectFinal.Controllers
                         {
                             return RedirectToAction("Index", "Admin");
                         }
+                        else if(Data.RoleID == 5)
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
                         else{
                             return RedirectToAction("Index", "Home");
                         }

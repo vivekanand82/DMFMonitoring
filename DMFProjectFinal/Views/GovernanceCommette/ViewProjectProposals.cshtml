@@ -1,0 +1,676 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_ProjectProposalPrepration
+@{
+    ViewBag.Title = "ProjectProposal Governance";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<style>
+    .form-label {
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+
+<!--modal for view Proposal details-->
+<div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-xxl" style="max-width: 90%;">
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Proposal Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="col-xxl-12">
+                <div class="" style="padding:0px">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#base-justified-home" role="tab" aria-selected="false">
+                                Basic
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " data-bs-toggle="tab" href="#base-justified-product" role="tab" aria-selected="false">
+                                Proposal
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#base-justified-messages" role="tab" aria-selected="false">
+                                Tender
+                            </a>
+                        </li>
+                        @*<li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#base-justified-settings" role="tab" aria-selected="true">
+                                    Settings
+                                </a>
+                            </li>*@
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content  text-muted">
+                        <div class="tab-pane active" id="base-justified-home" role="tabpanel">
+                            <h6>Distric Details</h6>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>District<sup><code>*</code></sup> : <b><span id="District"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Tehsil<sup><code>*</code></sup>: <b><span id="Tehsil"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Block<sup><code>*</code></sup>: <b><span id="Block"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Village<sup><code>*</code></sup>: <b><span id="Village"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Type<sup><code>*</code></sup>: <b><span id="SectorType"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name<sup><code>*</code></sup>: <b><span id="SectorName"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Work Name (Project)<sup><code>*</code></sup>: <b><span id="WorkName"> </span></b></strong>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Work Latitude<sup><code>*</code></sup>: <b><span id="latitude"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Work Longitude<sup><code>*</code></sup>: <b><span id="longitude"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Purpose of Work<sup><code>*</code></sup>: <b><span id="Purpose"> </span></b></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="base-justified-product" role="tabpanel">
+                            <h6>Proposal and Project Cost</h6>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Prosposal No<sup><code>*</code></sup>: <b><span id="ProposalNo"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Proposal Date<sup><code>*</code></sup>: <b><span id="ProposalDate"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong class="myimg">
+                                            Proposal Copy<sup><code>*</code></sup>:<a id="ProposalCopy">View Doc</a>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Proposed By<sup><code>*</code></sup>: <b><span id="ProposedBy"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Estimated Project Cost<sup><code>*</code></sup>: <b><span id="EstCost"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>GST and Other Charges<sup><code>*</code></sup>: <b><span id="Gst"> </span></b></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="base-justified-messages" role="tabpanel">
+                            <h6>Tender</h6>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Tender No<sup><code>*</code></sup>: <b><span id="TenderNo"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Tender  Date<sup><code>*</code></sup>: <b><span id="TenderDate"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Work Order<sup><code>*</code></sup>: <b><span id="WorkOrderNo"> </span></b></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Work Order Date<sup><code>*</code></sup>: <b><span id="WorkOrderDate"> </span></b></strong>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Work Order Copy<sup><code>*</code></sup>: :<a id="WorkOrderCopy">View Doc</a></strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Agencey<sup><code>*</code></sup>: <b><span id="AgencyName"> </span></b></strong>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Santioned Project Cost<sup><code>*</code></sup>: <b><span id="SanctionedProjectCost"> </span></b></strong>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        @*<div class="tab-pane" id="base-justified-settings1" role="tabpanel">
+                                <h6>Settings</h6>
+                                <p class="mb-0">
+                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
+                                    art party before they sold out master cleanse gluten-free squid
+                                    scenester freegan cosby sweater. Fanny pack portland seitan DIY,
+                                    art party locavore wolf cliche high life echo park Austin. Cred
+                                    vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
+                                    farm-to-table VHS.
+                                </p>
+                            </div>*@
+                    </div>
+                </div><!-- end card-body -->
+            </div><!-- end card -->
+            <h5>Managemnet Commetee Approval  Details :-</h5>
+            <div class="col-xxl-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Metting No</th>
+                        <th>Meeting Date</th>
+                        <th>Minutes of Meeting</th>
+                        <th>Minutes of Meeting Copy</th>
+                        <th>Attendance copy</th>
+                        <th>Approval Letter copy</th>
+                        <th>Members Name</th>
+                        <th>Project Status</th>
+                        <th>Approved Date</th>
+                        <th>Remarks</th>
+
+                    </tr>
+                    <tbody id="meetinginfo"></tbody>
+                    @*<tr>
+
+                                <td><b>#1234567890</b></td>
+                                <td>06-04-2024</td>
+                                <td>View Docs</td>
+                                <td>View Docs</td>
+                                <td>View Docs</td>
+                                <td>Members,Member2,MemberN</td>
+                                <td class="text-success">Approved </td>
+                                <td> 06-04-2024 </td>
+                                <td>This project is ok And Approved .</td>
+
+
+                        </tr>*@
+                </table>
+            </div>
+            <h5>Fill Meeting info And Approve/Reject</h5>
+            <div class="col-xxl-12 " style="border:1px solid lightgray;">
+                @using (Html.BeginForm("SaveMeetingInfo", "GovernanceCommette", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+                {
+                <div class="row" style="margin:30px">
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <input type="hidden" id="ProjectPreparationId" name="ProjectPreparationId" />
+                            <strong>Meeting NO<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.MeetingNo, new { @class = "form-control form-control-sm ", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Meeting Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.MettingDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong> Minutes Of Meeeting<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.MinutesofMeeting, new { @class = "form-control form-control-sm", @type = "time"})
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong> Minutes Of Meeeting Upload<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.MinutesofMeetingfile, new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Member Attendance Upload<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Approval  Member Letter<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>AttendanceDate<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.Attendancedate, "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <div class="form-group">
+                                <label>Multiple</label>
+                                @*<select id="CommitteeID" name="CommitteeID" class="form-control select2 " multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+            <option>Alabama</option>
+            <option>Alaska</option>
+            <option>California</option>
+            <option>Delaware</option>
+            <option>Tennessee</option>
+            <option>Texas</option>
+            <option>Washington</option>
+        </select>*@
+                             @Html.DropDownListFor(x => x.CommitteeID,Enumerable.Empty<SelectListItem>(), "Select Members", new { @class = "form-control form-control-sm", @multiple = "multiple", @id = "CommitteeID", @name = "Memberlist[]" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Status<sup><code>*</code></sup></strong>
+                            <select id="Status" name="Status" class="form-control">
+                                <option value="demo">select</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Return">Return</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Remarks<sup><code>*</code></sup></strong>
+                            @Html.TextAreaFor(x => x.Remark, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <div>
+                                <button type="submit" id="Forward" class="btn btn-secondary" style="margin-top:30px;">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div><!-- /.modal -->
+</div>
+<!--modal end for proposal details-->
+<!--Modal Start for fill meeting info and Approve Proposal -->
+@*<div id="myModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="max-width: 95%;">
+            <div class="modal-content" style="width:100%;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel"> Meeting Proposal Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body">
+                    <div id="basicone">
+                        @using (Html.BeginForm("ViewDetailProjectProposal", "GovernanceCommette", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+                        {
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Meeting No<sup><code>*</code></sup></strong>
+                                        <input type="hidden" id="ProjectPreparationID" name="ProjectPreparationID" />
+                                        @Html.TextBox("MeetingNo", "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Meeting Date<sup><code>*</code></sup></strong>
+                                        @Html.TextBox("MettingDate", "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Minutes Of Meeting<sup><code>*</code></sup></strong>
+                                        @Html.TextBox("MinutesofMeeting", "", new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "time" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong> Minutes Of Meeeting Upload<sup><code>*</code></sup></strong>
+                                        @Html.TextBox("MinutesofMeetingfile", "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Member Attendance Upload<sup><code>*</code></sup></strong>
+                                        @Html.TextBox("Memberattendancefile", "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Approval  Member Letter<sup><code>*</code></sup></strong>
+                                        @Html.TextBox("Approvelletterfile", "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Member List<sup><code>*</code></sup></strong>
+                                            @Html.DropDownList("CommitteeID", Enumerable.Empty<SelectListItem>(), "Select Members", new { @class = "form-control form-control-sm", @multiple = "multiple", @id = "CommitteeID" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Status<sup><code>*</code></sup></strong>
+                                            <select id="Status" class="form-control">
+                                                <option value="demo">select</option>
+                                                <option value="Forward">Forward</option>
+                                                <option value="Return">Return</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>AttendanceDate<sup><code>*</code></sup></strong>
+                                            @Html.TextBox("Attendancedate", "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <div>
+                                                <button type="submit" id="Forward" class="btn btn-secondary" style="margin-top:30px;">Forward</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<!--Modal End for fill meeting info and Approve Proposal -->
+<div class="card-header">
+    <h4 class="card-title">Project Proposal Prepration</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            <div class="col-md-6 text-right mb-1">
+                @if (AM.CanInsert)
+                {
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateProjectProposalPrepration", "ProjectWorkApproval")" id="addMonthlyRevenueReceive">Create<i class="fa fa-plus-circle"></i></a>
+                }
+            </div>
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>District</th>
+                                                <th>Project Name</th>
+                                                <th>Sector Name</th>
+                                                <th>Prosposal No</th>
+                                                <th>Tender No</th>
+                                                <th>Tender Date</th>
+                                                <th>Work Order No</th>
+                                                <th>Work Order Date</th>
+                                                <th>Running  Status</th>
+                                                <th>Final Status</th>
+                                                <th>View</th>
+                                                @*<th>Action</th>*@
+                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>Action</th>
+                                                }
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.SectorName</td>
+                                                    <td>@item.ProsposalNo</td>
+                                                    <td>@item.TenderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                    <td>@item.WorkOrderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                    @if (item.RunningStatus == null )
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending at MGMT commette</a></td>
+                                                    }
+                                                    else if (item.RunningStatus == "Forward")
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-info">Forwarded by MGMT commette</a></td>
+                                                    }
+                                                    else if (item.RunningStatus == "Approved")
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-success"> Approved</a></td>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-danger">Return</a></td>
+                                                    }
+                                                    @if (item.Stageid == null)
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    }
+
+                                                    else if (item.Stageid == 2)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-success">Approved</a></td>
+                                                    }
+
+                                                    <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                    <!--<td>-->@*<a data-bs-toggle="modal" data-bs-target="#myModal2" class="btn btn-small btn-warning AddMeetingInfo" value="@item.ProjectPreparationID"><i class="fa fa-edit" aria-hidden="true"></i></a>*@<!--</td>-->
+
+                                                    @if (AM.CanUpdate || AM.CanDelete)
+                                                    {
+                                                        <th>
+                                                            @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
+                                                            @if (AM.CanUpdate)
+                                                            {
+                                                                <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                            }
+                                                            @if (AM.CanDelete)
+                                                            {
+                                                                <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            }
+                                                        </th>
+                                                    }
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#tblData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('ProjectProposalPrepration.' + (type || 'xlsx')));
+        }
+    </script>
+
+    <script>
+        //code for show the details on  modal
+        $(".viewdetails").click(function () {
+            //alert(commiteid.CommiteName);
+            $("#myModal").modal('hide');
+            var id = $(this).attr('value');
+            MeetingInfo(id);
+            CommetteDropDown(id);
+            $.ajax({
+                url: "/GovernanceCommette/ViewDetailProjectProposal?id=" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var ProposalDate = new Date(parseInt(data[0].ProposalDate.substr(6)));
+                    var TenderDate = new Date(parseInt(data[0].TenderDate.substr(6)));
+                    var WorkOrderDate = new Date(parseInt(data[0].WorkOrderDate.substr(6)));
+                    $("#District").text(data[0].DistrictName);
+                    $("#Tehsil").text(data[0].TehsilName);
+                    $("#Block").text(data[0].BlockName);
+                    $("#Village").text(data[0].VillageNameInHindi);
+                    $("#SectorType").text(data[0].SectorType);
+                    $("#SectorName").text(data[0].SectorName);
+                    $("#WorkName").text(data[0].ProjectName);
+                    $("#latitude").text(data[0].WorkLatitude);
+                    $("#longitude").text(data[0].WorkLongitude);
+                    $("#Purpose").text(data[0].ProjectDescription);
+                    $("#ProposalNo").text(data[0].ProsposalNo);
+                    $("#ProposalDate").text(ProposalDate.toLocaleDateString("es-CL"));
+                    $("#ProposalCopy").attr({ "href": data[0].ProposalCopy, "target": "_blank" });;
+                    $("#ProposedBy").text(data[0].ProposedBy);
+                    $("#EstCost").text(data[0].ProjectCost);
+                    $("#Gst").text(data[0].GSTAndOthers);
+                    $("#TenderNo").text(data[0].TenderNo);
+                    $("#TenderDate").text(TenderDate.toLocaleDateString("es-CL"));
+                    $("#WorkOrderNo").text(data[0].WorkOrderNo);
+                    $("#WorkOrderDate").text(WorkOrderDate.toLocaleDateString("es-CL"));
+                    $("#WorkOrderCopy").attr({ "href": data[0].WorkOrderCopy, "target": "_blank" });
+                    //$("#WorkOrderCopy").attr("href", data[0].WorkOrderCopy);
+                    //$("#WorkOrderCopy").attr("target", "_blank");
+                    $("#AgencyName").text(data[0].AgencyName);
+                    $("#SanctionedProjectCost").text(data[0].SanctionedProjectCost);
+                    //console.log(data);
+                    $("#myModal").modal('show');
+
+                }
+            })
+        })
+    </script>
+    <script>
+        function MeetingInfo(Id) {
+            $.ajax({
+                url: "/GovernanceCommette/MeetingInfo?ProjectPreparationId=" + Id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#ProjectPreparationId").val(data.ProjectPreparationID);
+                    var html = "<tr><td>" + data.MeetingNo + "</td><td>" + data.MettingDate + "</td><td>" + data.MinutesofMeeting + "</td><td>" + data.MinutesofMeetingfile + "</td><td>" + data.Memberattendancefile + "</td><td>" + data.Approvelletterfile + "</td><td>" + data.Memberlist + "</td><td>" + data.Status + "</td><td>" + data.Attendancedate + "</td><td>" + data.Remark + "</td></tr>";
+                    $("#meetinginfo").html(html);
+                }
+            })
+
+        }
+
+        function CommetteDropDown(id) {
+            debugger
+            $.ajax({
+                url: "/GovernanceCommette/CommetteDropDown?id=" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#CommitteeID").empty();
+                    for (var i = 0; i < data.length; i++) {
+
+                    $("#CommitteeID").append('<option value=' + data[i].CommitteeID + '>' + data[i].CommitteeName+'</option>');
+                    }
+                }
+            })
+        }
+    </script>
+}
