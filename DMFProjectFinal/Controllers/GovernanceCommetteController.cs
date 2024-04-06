@@ -222,7 +222,7 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
               return Json(JR, JsonRequestBehavior.AllowGet);
-        }
+        }//bfdjkfdhjfkdsfsd
         public JsonResult CommetteDropDown(int id)
         {
             db.Configuration.ProxyCreationEnabled = false;

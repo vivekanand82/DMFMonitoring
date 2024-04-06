@@ -132,6 +132,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DistrictManagementController.cs" />
     <Compile Include="Controllers\DMFFundCollectionController.cs" />
+    <Compile Include="Controllers\GovernanceCommetteController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
     <Compile Include="Controllers\SessionFilters.cs" />
@@ -628,6 +629,7 @@
     <Content Include="Views\ProjectWorkApproval\ViewAndApproveProjectProposal.cshtml" />
     <Content Include="Views\DistrictManagement\ProjectProposalPrepration.cshtml" />
     <Content Include="Views\DistrictManagement\ViewProjectProposalPrepration.cshtml" />
+    <Content Include="Views\GovernanceCommette\ViewProjectProposals.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
