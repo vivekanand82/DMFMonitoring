@@ -60,7 +60,7 @@ namespace DMFProjectFinal.Controllers
                            join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
                            join tm in db.TehsilMasters on ppp.TehsilId equals tm.TehsilId
                            join bm in db.BlockMasters on ppp.BlockId equals bm.BlockId
-                          join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
+                           join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID

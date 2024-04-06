@@ -83,7 +83,7 @@
                     <nav class="main-menu menu-mobile" id="menu">
                         <ul class="menu">
                             <li class="mega-menu-item">@Html.ActionLink("Dashboard", "Index", "Admin")</li>
-                            @{ 
+                            @{
                                 var lstInfo = db.MenuMasters.Where(xx => db.MenuMasters.Where(_xx => db.RoleMenuMappings.Where(x => x.UserRoleID == AM.RoleID).Select(x => x.MenuID).ToList().Contains(_xx.MenuID)).Select(x => x.ParentId).ToList().Contains(xx.MenuID)).ToList();
                             }
                             @foreach (var pMenu in lstInfo)
@@ -164,6 +164,10 @@
     <script src="~/Scripts/DataTablesJS/cdn.datatables.net_1.10.23_js_jquery.dataTables.min.js"></script>
     <script src="~/Scripts/DataTablesJS/toastr.js"></script>
     <script src="~/js/MyJS.js"></script>
+
+
+   
+
     @RenderSection("scripts", required: false)
     <script>
         $(window).on('load', (function () {

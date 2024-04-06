@@ -237,6 +237,31 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="SectorTypeId" Type="int" />
           <Property Name="SectorNameId" Type="int" />
         </EntityType>
+        <EntityType Name="ProjectMetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="ProjectPreparationID" Type="int" />
+          <Property Name="DistID" Type="int" />
+          <Property Name="MeetingNo" Type="nvarchar" MaxLength="300" />
+          <Property Name="MettingDate" Type="datetime" />
+          <Property Name="MinutesofMeeting" Type="nvarchar" MaxLength="300" />
+          <Property Name="MinutesofMeetingfile" Type="nvarchar" MaxLength="1500" />
+          <Property Name="Memberattendancefile" Type="nvarchar" MaxLength="1500" />
+          <Property Name="Approvelletterfile" Type="nvarchar" MaxLength="1500" />
+          <Property Name="Memberlist" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar" MaxLength="300" />
+          <Property Name="Stageid" Type="int" />
+          <Property Name="Attendancedate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="Createddate" Type="datetime" />
+          <Property Name="Updatedby" Type="int" />
+          <Property Name="Updateddate" Type="datetime" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="ProjectProposalPrepration">
           <Key>
             <PropertyRef Name="ProjectPreparationID" />
@@ -272,6 +297,9 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifyBy" Type="bigint" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="RunningStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="FinalStatus" Type="nvarchar" MaxLength="100" />
+          <Property Name="Stageid" Type="int" />
         </EntityType>
         <EntityType Name="ProjectStatusMaster">
           <Key>
@@ -279,6 +307,14 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           </Key>
           <Property Name="ProjectStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProjectStatus" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProposalStatusMaster">
+          <Key>
+            <PropertyRef Name="ProposalStatusId" />
+          </Key>
+          <Property Name="ProposalStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProposalStatus" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="RoleMenuMappings">
@@ -571,8 +607,10 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="MenuMaster" EntityType="Self.MenuMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MineralNameMaster" EntityType="Self.MineralNameMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectMetting" EntityType="Self.ProjectMetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectProposalPrepration" EntityType="Self.ProjectProposalPrepration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectStatusMaster" EntityType="Self.ProjectStatusMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProposalStatusMaster" EntityType="Self.ProposalStatusMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleMenuMappings" EntityType="Self.RoleMenuMappings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoyaltyCollection" EntityType="Self.RoyaltyCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectorNameMaster" EntityType="Self.SectorNameMaster" Schema="dbo" store:Type="Tables" />
@@ -857,13 +895,16 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <NavigationProperty Name="SectorNameMaster" Relationship="Self.FK_ProjectProposalPrepration_SectorNameMaster" FromRole="ProjectProposalPrepration" ToRole="SectorNameMaster" />
           <Property Name="TehsilId" Type="Int32" />
           <Property Name="BlockId" Type="Int32" />
-          <Property Name="VillageId" Type="Int32" />
+          <Property Name="VillageId" Type="Int64" />
           <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SectorTypeId" Type="Int32" />
           <Property Name="WorkLatitude" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="WorkLongitude" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="ProjectDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="WorkOrderCopy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RunningStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FinalStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Stageid" Type="Int32" />
         </EntityType>
         <EntityType Name="ProjectStatusMaster">
           <Key>
@@ -1224,6 +1265,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="DemoStates" EntityType="dfm_dbModel.DemoState" />
           <EntitySet Name="CommitteeDesignationMasters" EntityType="dfm_dbModel.CommitteeDesignationMaster" />
           <EntitySet Name="BlockMasters" EntityType="dfm_dbModel.BlockMaster" />
+          <EntitySet Name="ProposalStatusMasters" EntityType="dfm_dbModel.ProposalStatusMaster" />
+          <EntitySet Name="ProjectMettings" EntityType="dfm_dbModel.ProjectMetting" />
         </EntityContainer>
         <EntityType Name="MenuMaster">
           <Key>
@@ -1302,6 +1345,39 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="SerialCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProposalStatusMaster">
+          <Key>
+            <PropertyRef Name="ProposalStatusId" />
+          </Key>
+          <Property Name="ProposalStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProposalStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ProjectMetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="ProjectPreparationID" Type="Int32" />
+          <Property Name="DistID" Type="Int32" />
+          <Property Name="MeetingNo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="MettingDate" Type="DateTime" Precision="3" />
+          <Property Name="MinutesofMeeting" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="MinutesofMeetingfile" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="Memberattendancefile" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="Approvelletterfile" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="Memberlist" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Stageid" Type="Int32" />
+          <Property Name="Attendancedate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="Createddate" Type="DateTime" Precision="3" />
+          <Property Name="Updatedby" Type="Int32" />
+          <Property Name="Updateddate" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1484,6 +1560,9 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="ProjectProposalPreprations">
             <EntityTypeMapping TypeName="dfm_dbModel.ProjectProposalPrepration">
               <MappingFragment StoreEntitySet="ProjectProposalPrepration">
+                <ScalarProperty Name="Stageid" ColumnName="Stageid" />
+                <ScalarProperty Name="FinalStatus" ColumnName="FinalStatus" />
+                <ScalarProperty Name="RunningStatus" ColumnName="RunningStatus" />
                 <ScalarProperty Name="WorkOrderCopy" ColumnName="WorkOrderCopy" />
                 <ScalarProperty Name="ProjectDescription" ColumnName="ProjectDescription" />
                 <ScalarProperty Name="WorkLongitude" ColumnName="WorkLongitude" />
@@ -1726,6 +1805,41 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
                 <ScalarProperty Name="BlockName" ColumnName="BlockName" />
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="BlockId" ColumnName="BlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProposalStatusMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProposalStatusMaster">
+              <MappingFragment StoreEntitySet="ProposalStatusMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ProposalStatus" ColumnName="ProposalStatus" />
+                <ScalarProperty Name="ProposalStatusId" ColumnName="ProposalStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectMettings">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProjectMetting">
+              <MappingFragment StoreEntitySet="ProjectMetting">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Updateddate" ColumnName="Updateddate" />
+                <ScalarProperty Name="Updatedby" ColumnName="Updatedby" />
+                <ScalarProperty Name="Createddate" ColumnName="Createddate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Attendancedate" ColumnName="Attendancedate" />
+                <ScalarProperty Name="Stageid" ColumnName="Stageid" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Memberlist" ColumnName="Memberlist" />
+                <ScalarProperty Name="Approvelletterfile" ColumnName="Approvelletterfile" />
+                <ScalarProperty Name="Memberattendancefile" ColumnName="Memberattendancefile" />
+                <ScalarProperty Name="MinutesofMeetingfile" ColumnName="MinutesofMeetingfile" />
+                <ScalarProperty Name="MinutesofMeeting" ColumnName="MinutesofMeeting" />
+                <ScalarProperty Name="MettingDate" ColumnName="MettingDate" />
+                <ScalarProperty Name="MeetingNo" ColumnName="MeetingNo" />
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

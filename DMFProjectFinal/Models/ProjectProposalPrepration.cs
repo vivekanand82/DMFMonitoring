@@ -38,13 +38,16 @@ namespace DMFProjectFinal.Models
         public Nullable<int> DistID { get; set; }
         public Nullable<int> TehsilId { get; set; }
         public Nullable<int> BlockId { get; set; }
-        public Nullable<int> VillageId { get; set; }
+        public Nullable<long> VillageId { get; set; }
         public string ProjectName { get; set; }
         public Nullable<int> SectorTypeId { get; set; }
         public Nullable<decimal> WorkLatitude { get; set; }
         public Nullable<decimal> WorkLongitude { get; set; }
         public string ProjectDescription { get; set; }
         public string WorkOrderCopy { get; set; }
+        public string RunningStatus { get; set; }
+        public string FinalStatus { get; set; }
+        public Nullable<int> Stageid { get; set; }
     
         public virtual AgenciesInfo AgenciesInfo { get; set; }
         public virtual DistrictMaster DistrictMaster { get; set; }

@@ -46,7 +46,7 @@ namespace DMFProjectFinal.Controllers
                     if (Data != null)
                     {
                         FormsAuthentication.SetAuthCookie("MDFProject"+Data.LoginID.ToString(), Lgn.RememberMe);
-                        if (Data.RoleID == 1 || Data.RoleID == 3 || Data.RoleID == 2)
+                        if (Data.RoleID == 1 || Data.RoleID == 3 || Data.RoleID == 2 || Data.RoleID == 4)
                         {
                             return RedirectToAction("Index", "Admin");
                         }

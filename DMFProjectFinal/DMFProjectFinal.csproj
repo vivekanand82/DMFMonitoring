@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DistrictManagementController.cs" />
     <Compile Include="Controllers\DMFFundCollectionController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
@@ -212,10 +213,16 @@
     <Compile Include="Models\ProjectMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectMetting.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectProposalPrepration.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectStatusMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProposalStatusMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\P_Login.cs" />
@@ -619,6 +626,8 @@
     <Content Include="Views\Master\CreateCommitteeDesignation.cshtml" />
     <Content Include="Views\Master\CommitteeDesignationMaster.cshtml" />
     <Content Include="Views\ProjectWorkApproval\ViewAndApproveProjectProposal.cshtml" />
+    <Content Include="Views\DistrictManagement\ProjectProposalPrepration.cshtml" />
+    <Content Include="Views\DistrictManagement\ViewProjectProposalPrepration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
