@@ -1,17 +1,19 @@
 ﻿@using DMFProjectFinal.Controllers;
 @using DMFProjectFinal.Models;
 @{
-    var LoginUser = "Admin";
+    //var LoginUser = "Admin";
     dfm_dbEntities db = new dfm_dbEntities();
     var AM = ViewBag.GetAccess as AccessManager;
+    var LoginUser = db.UserLogins.Where(x => x.RoleID == AM.RoleID).FirstOrDefault().Name; //06.04.2024
+    var RoleName = db.UserRoles.Where(x => x.RoleID == AM.RoleID).FirstOrDefault().RoleName;//Added by ramdhyan 06.04.2024
     var Roles = db.RoleMenuMappings.Where(x => x.UserRoleID == AM.RoleID).ToList();
     var menuParent = db.MenuMasters.Where(x => x.IsActive == true && x.IsParent == true).ToList();
-
 }
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         .logo-txt {
             margin-right: 15px;
@@ -111,7 +113,7 @@
                                 </li>
                             }
                             <li class="mega-menu-item login-right">
-                                <a href="#" class="mega-menu-link">@(LoginUser)<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
+                                <a href="#" class="mega-menu-link">@(LoginUser) @('('+RoleName+')')<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
                                 <ul class="mega-submenu login-submenu">
                                     <li><a href="/Admin/ChangePassword"> Change Password</a></li>
                                     <li><a href="/Account/Logout"> Logout </a></li>

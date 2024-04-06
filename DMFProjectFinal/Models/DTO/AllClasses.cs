@@ -266,6 +266,10 @@ namespace DMFProjectFinal.Models.DTO
     public partial class DTO_ProjectProposalPrepration
     {
         public string ProjectPreparationID { get; set; }
+        public string VillageNameInHindi { get; set; }
+        public string TehsilName { get; set; }
+        public string BlockName { get; set; }
+        public string VillageNameInEnglish { get; set; }
 
         [Display(Name = "Sector")]
         [Required]
@@ -342,16 +346,34 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<int> DistID { get; set; }
         public Nullable<int> TehsilId { get; set; }
         public Nullable<int> BlockId { get; set; }
-        public Nullable<int> VillageId { get; set; }
+        public Nullable<long> VillageId { get; set; }
         public string AgencyName { get; set; }
         public string DistrictName { get; set; }
         public string ProjectName { get; set; }
         public string ProjectStatus { get; set; }
         public string SectorName { get; set; }
         public string SectorType { get; set; }
-        public decimal WorkLatitude { get; set; }
-        public decimal WorkLongitude { get; set; }
+        public decimal? WorkLatitude { get; set; }
+        public decimal? WorkLongitude { get; set; }
         public string ProjectDescription { get; set; }
+        public string RunningStatus { get; set; }
+        public string FinalStatus { get; set; }
+        public Nullable<int> Stageid { get; set; }
+        public Nullable<int> CommitteeID { get; set; }
+
+
+        public Nullable<System.DateTime> MettingDate { get; set; }
+        public Nullable<System.DateTime> Attendancedate { get; set; }
+
+        public string MeetingNo { get; set; }
+        public string MinutesofMeeting { get; set; }
+        public string MinutesofMeetingfile { get; set; }
+        public string Memberattendancefile { get; set; }
+        public string Approvelletterfile { get; set; }
+        public string Memberlist { get; set; }
+        public string Status { get; set; }
+
+        public string Remark { get; set; }
     }
     public partial class DTO_SectorNameMaster
     {

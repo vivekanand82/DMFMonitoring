@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace DMFProjectFinal.Controllers
@@ -64,7 +65,7 @@ namespace DMFProjectFinal.Controllers
                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
-                          // join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
+                           //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
                            where ppp.IsActive == true
                            && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
                            && ppp.AgencyID == (AgencyID == null ? ppp.AgencyID : AgencyID)
@@ -88,7 +89,10 @@ namespace DMFProjectFinal.Controllers
                                TenderDate = ppp.TenderDate,
                                TenderNo = ppp.TenderNo,
                                WorkOrderDate = ppp.WorkOrderDate,
-                               WorkOrderNo = ppp.WorkOrderNo
+                               WorkOrderNo = ppp.WorkOrderNo,
+                               RunningStatus=ppp.RunningStatus,
+                               FinalStatus=ppp.FinalStatus,
+                               Stageid=ppp.Stageid
                            }).ToList();
             ViewBag.LstData = LstData;
             return View();
@@ -145,6 +149,12 @@ namespace DMFProjectFinal.Controllers
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
+            //HttpPostedFileBase file = Request.Files["ProposalCopy"];
+            //model.ProposalCopy = file.FileName;
+            //file.SaveAs(Server.MapPath("~/Documents/" + file.FileName+DateTime.Now.ToString("_yyyy_MM_dd_HH:mm:ss")));
+            //HttpPostedFileBase file1 = Request.Files["WorkOrderCopy"];
+            //model.WorkOrderCopy = file.FileName;
+            //file.SaveAs(Server.MapPath("~/Documents/" + file.FileName + DateTime.Now.ToString("_yyyy_MM_dd_HH:mm:ss")));
             if (!String.IsNullOrEmpty(model.ProposalCopy))
             {
                 model.ProposalCopy = BusinessLogics.UploadFileDMF(model.ProposalCopy);
@@ -154,7 +164,7 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
-           
+
             if (!String.IsNullOrEmpty(model.WorkOrderCopy)) //added by ramdhyan 03.04.2024
             {
                 model.WorkOrderCopy = BusinessLogics.UploadFileDMF(model.WorkOrderCopy);
@@ -164,12 +174,12 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
-            //model.ProposalCopy = BusinessLogics.UploadFileDMF(model.ProposalCopy);
-            //if (model.ProposalCopy.Contains("Expp::"))
-            //{
-            //    JR.Message = model.ProposalCopy;
-            //    return Json(JR, JsonRequestBehavior.AllowGet);
-            //}
+            model.ProposalCopy = BusinessLogics.UploadFileDMF(model.ProposalCopy);
+            if (model.ProposalCopy.Contains("Expp::"))
+            {
+                JR.Message = model.ProposalCopy;
+                return Json(JR, JsonRequestBehavior.AllowGet);
+            }
 
             db.ProjectProposalPreprations.Add(new Models.ProjectProposalPrepration
             {
@@ -523,6 +533,81 @@ namespace DMFProjectFinal.Controllers
                 }
             }
             catch (Exception)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+         [HttpGet]
+        public ActionResult ViewDetails(string id)//added by ramdhyan 05.04.2024 for view details on the modal popup usinf project preparation id
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            try
+            {
+                long _id = long.Parse(id);
+                //long _id = long.Parse(id);  use this code when u use server side datatable for display
+                var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
+                if (Info != null)
+                {
+                   // int? DistID = null;
+                    if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2 || UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 1)
+                    {
+                      //  DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                        var LstData = (from ppp in db.ProjectProposalPreprations
+                                       join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
+                                       join tm in db.TehsilMasters on ppp.TehsilId equals tm.TehsilId
+                                       join bm in db.BlockMasters on ppp.BlockId equals bm.BlockId
+                                       join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
+                                       join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
+                                       join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
+                                       join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
+                                       //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
+                                       where ppp.IsActive == true && ppp.ProjectPreparationID ==Info.ProjectPreparationID
+                                       select new DTO_ProjectProposalPrepration
+                                       {
+                                           DistrictName = dm.DistrictName,
+                                           TehsilName=tm.TehsilName,
+                                           BlockName=bm.BlockName,
+                                           VillageNameInEnglish=vm.VillageNameInEnglish,
+                                           VillageNameInHindi=vm.VillageNameInHindi,
+                                           SectorType=stm.SectorType,
+                                           SectorName=snm.SectorName,
+                                           GSTAndOthers = ppp.GSTAndOthers,
+                                           ProjectCost = ppp.ProjectCost,
+                                           ProjectName = ppp.ProjectName,
+                                           WorkLatitude=ppp.WorkLatitude,
+                                           WorkLongitude=ppp.WorkLongitude,
+                                           ProjectDescription=ppp.ProjectDescription,
+                                           //   ProjectStatus = psm.ProjectStatus,
+                                           ProjectPreparationID = ppp.ProjectPreparationID.ToString(),
+                                           ProposalCopy = ppp.ProposalCopy,
+                                           ProposalDate = ppp.ProposalDate,
+                                           ProposedBy = ppp.ProposedBy,
+                                           ProsposalNo = ppp.ProsposalNo,
+                                           TenderDate = ppp.TenderDate,
+                                           TenderNo = ppp.TenderNo,
+                                           WorkOrderDate = ppp.WorkOrderDate,
+                                           WorkOrderNo = ppp.WorkOrderNo,
+                                           WorkOrderCopy=ppp.WorkOrderCopy,
+                                           AgencyName = ag.Name,
+                                           SanctionedProjectCost = ppp.SanctionedProjectCost
+                                       }).ToList();
+
+                        return Json(LstData, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception ex)
             {
                 return RedirectToAction("Login", "Account");
             }
