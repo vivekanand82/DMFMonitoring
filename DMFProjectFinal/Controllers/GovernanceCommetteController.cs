@@ -8,11 +8,11 @@ using System.Web.Mvc;
 
 namespace DMFProjectFinal.Controllers
 {
-    [SessionFilter]
+    [SessionFilter]   
     public class GovernanceCommetteController : Controller
     {
         private dfm_dbEntities db = new dfm_dbEntities();
-        public ActionResult Index()
+        public ActionResult Index()//coment
         {
             return View();
         }
