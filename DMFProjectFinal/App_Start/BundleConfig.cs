@@ -10,9 +10,9 @@ namespace DMFProjectFinal
         {
             bundles.Add(new Bundle("~/MyJS").Include("~/js/bootstrap.bundle.js", "~/js/jquery-3.6.0.min.js", "~/js/main.js", "~/js/CommonValidation.js", "~/js/jquery-ui.js"));
             bundles.Add(new StyleBundle("~/MyCSSLogin").Include("~/css/login-style.css"));
-            bundles.Add(new StyleBundle("~/MyCSS").Include("~/css/bootstrap.min.css","~/css/main-dash.css", "~/css/megamenu-dash.css", "~/css/responsive-dash.css", "~/css/shortcodes-dash.css"));
+            bundles.Add(new StyleBundle("~/MyCSS").Include("~/css/bootstrap.min.css", "~/css/main-dash.css", "~/css/megamenu-dash.css", "~/css/responsive-dash.css", "~/css/shortcodes-dash.css"));
             bundles.Add(new StyleBundle("~/MyCSSJQUI").Include("~/css/jquery-ui.css"));
-           
+
             //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
             //            "~/Scripts/jquery-{version}.js"));
 

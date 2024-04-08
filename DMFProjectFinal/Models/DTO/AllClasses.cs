@@ -286,8 +286,8 @@ namespace DMFProjectFinal.Models.DTO
         //[Display(Name = "Proposal Copy")]
         //[Required]
         public string ProposalCopy { get; set; }
-        [Display(Name = "WorkOrder Copy")]
-        [Required]
+        //[Display(Name = "WorkOrder Copy")]
+        //[Required]
         public string WorkOrderCopy { get; set; }
 
         [Display(Name = "Proposed By")]
