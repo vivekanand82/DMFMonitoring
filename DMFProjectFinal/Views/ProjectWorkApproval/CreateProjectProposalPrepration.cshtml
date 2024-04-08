@@ -117,7 +117,7 @@
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>District<sup><code>*</code></sup></strong>
-                            @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID,SectorID", @refflg = "002,008,003,004,005,006" })
+                            @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -148,13 +148,21 @@
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Sector Type<sup><code>*</code></sup></strong>
-                            @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Type", new { @class = "form-control form-control-sm", @id = "SectorTypeId" })
+                            @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Type", new { @class = "form-control form-control-sm", @id = "SectorTypeId", @onchange = "BindSectorType()" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Sector Name<sup><code>*</code></sup></strong>
-                            @Html.DropDownListFor(x => x.SectorID, null, "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorId" })
+                            @if (Model.VillageId == null)
+                            {
+                                @Html.DropDownListFor(x => x.SectorID, Enumerable.Empty<SelectListItem>(), "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(x => x.SectorID, null, "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })
+
+                            }
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -298,7 +306,31 @@
         }
     </div>
 </div>
+<script>
 
+    function BindSectorType() {
+        var SectorTypeId = $("#SectorTypeId").val();
+        debugger
+        $.ajax({
+            type: "Post",
+            url: "/ProjectWorkApproval/BindSectorType?SectorTypeId=" + SectorTypeId,
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            //data: JSON.stringify({ SectorTypeId: SectorTypeId }),
+            success: function (data) {
+                //alert(data.length);
+                $("#SectorID").empty();
+                $("#SectorID").append("<option value='0'>Select</option>");
+                for (var i = 0; i < data.length; i++) {
+                    $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
+                }
+            }
+        })
+    }
+
+
+
+</script>
 <script>
     var currentTab = 0;
     showTab(currentTab);
@@ -328,6 +360,7 @@
     }
 
     function nextPrev(n) {
+        
         if (n == 1 && !validateForm())
             return false;
 
@@ -390,3 +423,4 @@
         x[n].className += " active";
     }
 </script>
+

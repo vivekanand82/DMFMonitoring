@@ -114,11 +114,6 @@ namespace DMFProjectFinal.Controllers
 
 
 
-
-
-
-
-
             return View(model);
         }
 
@@ -127,11 +122,11 @@ namespace DMFProjectFinal.Controllers
         public ActionResult ViewProjectProposalPrepration(DTO_ProjectProposalPrepration model, HttpPostedFileBase MinutesofMeetingfile, HttpPostedFileBase Memberattendancefile,  HttpPostedFileBase Approvelletterfile, List<string> CommitteeID, string Status )
         {
             JsonResponse JR = new JsonResponse();
-            if (!ModelState.IsValid)
-            {
-                JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
-                return Json(JR, JsonRequestBehavior.AllowGet);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+            //    return Json(JR, JsonRequestBehavior.AllowGet);
+            //}
 
 
             DTO_ProjectProposalPrepration obj = new DTO_ProjectProposalPrepration();
@@ -309,7 +304,7 @@ namespace DMFProjectFinal.Controllers
                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
-                            join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
+                            //join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
                            where 
 
                             ppp.ProjectPreparationID == ProjectId
@@ -336,9 +331,10 @@ namespace DMFProjectFinal.Controllers
                                TehsilName=tm.TehsilName,
                                VillageNameInHindi=vm.VillageNameInHindi,
                                BlockName=bm.BlockName,
+                               WorkOrderCopy=ppp.WorkOrderCopy,
                               
                                SectorType =stm.SectorType,
-                               ProjectDescription= pm.ProjectDescription,
+                               ProjectDescription=ppp.ProjectDescription,
                                WorkLatitude=ppp.WorkLatitude,
                                WorkLongitude=ppp.WorkLongitude,
 

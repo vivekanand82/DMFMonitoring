@@ -174,13 +174,7 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
-            model.ProposalCopy = BusinessLogics.UploadFileDMF(model.ProposalCopy);
-            if (model.ProposalCopy.Contains("Expp::"))
-            {
-                JR.Message = model.ProposalCopy;
-                return Json(JR, JsonRequestBehavior.AllowGet);
-            }
-
+          
             db.ProjectProposalPreprations.Add(new Models.ProjectProposalPrepration
             {
                 CreatedOn = DateTime.Now,
@@ -256,8 +250,8 @@ namespace DMFProjectFinal.Controllers
                     ViewBag.VillageId = new SelectList(db.VillageMasters.Where(x => x.IsActive == true && x.TehsilId == (Info.TehsilId == null ? x.TehsilId : Info.TehsilId)), "VillageId", "VillageNameInEnglish", null);
                     ViewBag.AgencyID = new SelectList(db.AgenciesInfoes.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.AgencyID, Text = x.Name + " / " + x.OwnerName }), "ID", "Text", Info.AgencyID);
                     ViewBag.ProjectID = new SelectList(db.ProjectMasters.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.ProjectID, Text = x.ProjectName + " (" + x.ProjectCode + ")" }), "ID", "Text", Info.ProjectID);
-                    ViewBag.SectorTypeId = new SelectList(db.SectorTypeMasters.Where(x => x.IsActive == true && x.SectorTypeID == (Info.SectorTypeId == null ? x.SectorTypeID : Info.SectorTypeId)), "SectorTypeId", "SectorType", null).ToList();
-                    ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true), "SectorNameId", "SectorName", Info.SectorID);
+                    ViewBag.SectorTypeId = new SelectList(db.SectorTypeMasters.Where(x => x.IsActive == true ), "SectorTypeId", "SectorType", Info.SectorTypeId).ToList();
+                    ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true && x.SectorTypeId==Info.SectorTypeId), "SectorNameId", "SectorName", Info.SectorID);
                    // ViewBag.ProjectStatusID = new SelectList(db.ProjectStatusMasters.Where(x => x.IsActive == true), "ProjectStatusID", "ProjectStatus", Info.ProjectStatusID);
 
                     return View("~/Views/ProjectWorkApproval/CreateProjectProposalPrepration.cshtml", new DTO_ProjectProposalPrepration
@@ -613,5 +607,32 @@ namespace DMFProjectFinal.Controllers
             }
         }
         #endregion
+        [HttpPost]
+        //public JsonResult BindSectorType(int SectorTypeId)
+        //{
+        //    var data = db.SectorNameMasters.Where(x => x.SectorTypeId == SectorTypeId).ToList();
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
+        public JsonResult BindSectorType(int SectorTypeId)
+        {
+            var lstData = (from snm in db.SectorNameMasters
+
+
+                           where snm.IsActive == true && snm.SectorTypeId == SectorTypeId
+                           select new DTO_ProjectMaster
+                           {
+                               SectorNameId = snm.SectorNameId,
+
+                               SectorName = snm.SectorName,
+
+
+                           }
+
+                                         ).ToList();
+
+            return Json(lstData, JsonRequestBehavior.AllowGet);
+
+
+        }
     }
 }
