@@ -1,0 +1,146 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_FundRelease
+
+@{
+    ViewBag.Title = "Create Fund Release";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.FundReleaseID))
+    {
+    <h4 class="card-title">Release Fund</h4>
+    }
+    else
+    {
+<h4 class="card-title">Update Fund</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundReleaseID) ? "CreateFundRelease" : "EditFundRelease"), "FundRelease", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.FundReleaseID)
+                @Html.HiddenFor(x => x.DistrictID)
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Select Project<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetprojectDetails()" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Release Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.RelaeseDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Release Amount<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Select Installment<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Attached Copy<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.FundReleaseCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "FundReleaseCopy" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.FundReleaseID)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.FundReleaseID))
+                        {
+                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-danger">Back</a>
+                            //href = "/UserManagement/UserRegistration"
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="display:none" id="DetailsRow">
+                <h6>Released installment details:-</h6>
+                <table class="table center-aligned-table">
+                    <tr>
+                        <th>Project Name</th>
+                        <th>Sector Type</th>
+                        <th>Sector Name</th>
+                        <th>Released Date</th>
+                        <th>Released Amount</th>
+                        <th>Installment Name</th>
+                    </tr>
+                    <tbody id="ReleaseinstallmentData"></tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function GetprojectDetails() {
+        $("#DetailsRow").show();
+            var DistrictID = $("#DistrictID").val();
+            var ProjectNo = $("#ProjectNo").val();
+            debugger
+            $.ajax({
+                url: "/FundRelease/GetProjectAndInstallmentDetails",
+                type: "POST",
+                contentType: "Application/json;charset=utf-8;",
+                dataType: "json",
+                data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+                success: function (data) {
+                    //alert("done");
+                        var html = "";
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            var ReleaseDateFormat = new Date(parseInt(data[i].RelaeseDate.substr(6)));
+                            html += "<td>" + data[i].ProjectName + "</td>";
+                            html += "<td>" + data[i].SectorType + "</td>";
+                            html += "<td>" + data[i].SectorName + "</td>";
+                            html += "<td>" + ReleaseDateFormat.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td style='color:green;font-weight:bold'>Rs." + data[i].ReleaseAmount + "</td>";
+                            html += "<td>" + data[i].InstallmentName + "</td>";
+                            html += "<tr>";
+                            html += "</tr>";
+                        }
+                        $("#ReleaseinstallmentData").html(html);
+                    }
+                    else {
+                        html += "<tr>";
+                        html += "<td colspan='6' style='text-align:center;font-size:15px'>No fund released for this project</td>";
+                        html += "</tr>";
+                        $("#ReleaseinstallmentData").html(html);
+                    }
+                  
+                }
+            })
+        }
+   
+</script>

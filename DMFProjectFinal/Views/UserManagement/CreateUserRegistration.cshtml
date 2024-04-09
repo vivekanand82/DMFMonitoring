@@ -20,54 +20,64 @@
     <div class="card-body">
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.LoginID) ? "CreateUserRegistration" : "EditUserRegistration"), "UserManagement", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
-            <div class="row">
-                @Html.HiddenFor(x => x.LoginID)
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Name <sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.Name, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+        <div class="row">
+            @Html.HiddenFor(x => x.LoginID)
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>District <sup><code>*</code></sup></strong>
+                    @Html.DropDownList("DistrictId", null, "-Select District-", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "DistrictID" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>User Role <sup><code>*</code></sup></strong>
+                    @Html.DropDownList("RoleID", null, "-Select Role-", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "RoleID", @onchange = "GetDataRoleWise()" })
+                </div>
+            </div>
+            <div class="col-md-4" style="display:none" id="usernamesdiv">
+                <div class="form-label">
+                    <strong>Select<sup><code>*</code></sup></strong>
+                    <select id="UserNames" class="form-control form-control-sm" onchange="GetDataByUserName()"></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Email <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.EmailId, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "EmailID" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Username <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.UserName, "", new { @class = "form-control form-control-sm", @autocomplete = "new-password", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Name <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.Name, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Name" })
 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Email <sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.EmailId, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Phone Number <sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.PhoneNumber, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>District <sup><code>*</code></sup></strong>
-                        @Html.DropDownList("DistrictId", null, "-Select District-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Username <sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.UserName, "", new { @class = "form-control form-control-sm", @autocomplete = "new-password", @readonly = "readonly" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Password <sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.Password, "", new { @class = "form-control form-control-sm", @autocomplete = "new-password", @type = "Password" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>User Role <sup><code>*</code></sup></strong>
-                        @Html.DropDownList("RoleID", null, "-Select Role-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                    </div>
+
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Phone Number <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.PhoneNumber, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "PhoneNumber" })
                 </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Password <sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.Password, "", new { @class = "form-control form-control-sm", @autocomplete = "new-password", @type = "Password" })
+                </div>
+            </div>
+        </div>
+            @*<div class="row">
+                
+
+            </div>*@
 
             <div class="row">
                 <div class="col-md-1">
@@ -102,5 +112,101 @@
             });
 
         });
+    </script>
+    <script>
+        function GetDataRoleWise() {
+            $("#EmailID").val('');
+            $("#UserName").val('');
+            $("#Name").val('');
+            $("#PhoneNumber").val('');
+            $("#Password").val('');
+            var DistrictID = $("#DistrictID").val() || 0;
+            var RoleID = $("#RoleID").val() || 0;
+            debugger
+            $.ajax({
+                url: "/UserManagement/GetDatabyRole",
+                type: "POST",
+                contentType: "Application/json;charset=utf-8;",
+                dataType: "json",
+                data: JSON.stringify({ DistrictID: DistrictID, RoleID: RoleID }),
+                success: function (data) {
+                    $("#UserNames").empty();
+                    if (data != "None") {
+                        $("#UserNames").append("<option value='0'>Select</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].RoleID == 3) {
+                                $("#usernamesdiv").show();
+                                $("#UserNames").append("<option value=" + data[i].LesseeID + ">" + data[i].LesseeName + "/" + data[i].EmailID + "</option>");
+
+                            }
+                            else if (data[i].RoleID == 6) {
+                                $("#usernamesdiv").show();
+                                $("#UserNames").append("<option value=" + data[i].AgencyID + ">" + data[i].OwnerName + "/" + data[i].EmailID + "</option>");
+
+                            }
+                            else {
+                                $("#usernamesdiv").hide();
+                            }
+                        }
+                    }
+                    else {
+                        $("#usernamesdiv").hide();
+
+                    }
+                    //alert("done")
+                    //console.log(data);
+                }
+            })
+        }
+    </script>
+    <script>
+        function GetDataByUserName() {
+            $("#EmailID").val('');
+            $("#UserName").val('');
+            $("#Name").val('');
+            $("#PhoneNumber").val('');
+            $("#Password").val('');
+            var DistrictID = $("#DistrictID").val() || 0;
+            var RoleID = $("#RoleID").val() || 0;
+            var UserID = $("#UserNames").val() ||0;
+            debugger
+            $.ajax({
+                url: "/UserManagement/GetDatabyUserID",
+                type: "POST",
+                contentType: "Application/json;charset=utf-8;",
+                dataType: "json",
+                data: JSON.stringify({ DistrictID: DistrictID, RoleID: RoleID, UserID: UserID }),
+                success: function (data) {
+                    if (data[0].RoleID == 3) {
+                        $("#EmailID").val(data[0].EmailID);
+                        $("#UserName").val(data[0].EmailID);
+                        $("#Name").val(data[0].LesseeName);
+                        $("#PhoneNumber").val(data[0].MobNo);
+                        $("#Password").val(data[0].Password);
+                    }
+                    else {
+                        $("#EmailID").val(data[0].EmailID);
+                        $("#UserName").val(data[0].EmailID);
+                        $("#Name").val(data[0].OwnerName);
+                        $("#PhoneNumber").val(data[0].MobileNo);
+                        $("#Password").val(data[0].Password);
+                    }
+                    //alert("done")
+                    console.log(data)
+                    }
+            })
+        }
+    </script>
+    <script>
+        $("#EmailID").keyup(function () {
+            debugger
+            var RoleID = $("#RoleID").val() ;
+            var username = $("#UserNames").val();
+            if (RoleID == 3 || RoleID == 6 && username == 0) {
+                alert("Please Select UserName First.");
+                $("#UserNames").focus();
+                return;
+            }
+        })
     </script>
 }

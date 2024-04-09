@@ -56,5 +56,7 @@ namespace DMFProjectFinal.Models
         public virtual DbSet<BlockMaster> BlockMasters { get; set; }
         public virtual DbSet<ProposalStatusMaster> ProposalStatusMasters { get; set; }
         public virtual DbSet<ProjectMetting> ProjectMettings { get; set; }
+        public virtual DbSet<FundRelease> FundReleases { get; set; }
+        public virtual DbSet<InstallmentMaster> InstallmentMasters { get; set; }
     }
 }

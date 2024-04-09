@@ -132,6 +132,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DistrictManagementController.cs" />
     <Compile Include="Controllers\DMFFundCollectionController.cs" />
+    <Compile Include="Controllers\FundReleaseController.cs" />
     <Compile Include="Controllers\GovernanceCommetteController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
@@ -196,6 +197,12 @@
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\AllClasses.cs" />
+    <Compile Include="Models\FundRelease.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InstallmentMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LesseeMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -630,6 +637,8 @@
     <Content Include="Views\DistrictManagement\ProjectProposalPrepration.cshtml" />
     <Content Include="Views\DistrictManagement\ViewProjectProposalPrepration.cshtml" />
     <Content Include="Views\GovernanceCommette\ViewProjectProposals.cshtml" />
+    <Content Include="Views\FundRelease\ReleaseFund.cshtml" />
+    <Content Include="Views\FundRelease\CreateFundRelease.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

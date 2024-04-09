@@ -250,19 +250,6 @@
 
                             </tr>
                             <tbody id="meetinginfo"></tbody>
-
-                                <td><b>#1234567890</b></td>
-                                <td>06-04-2024</td>
-                                <td>View Docs</td>
-                                <td>View Docs</td>
-                                <td>View Docs</td>
-                                <td>Members,Member2,MemberN</td>
-                                <td class="text-success">Approved </td>
-                                <td> 06-04-2024 </td>
-                                <td>This project is ok And Approved .</td>
-
-
-                        </tr>*@
                 </table>
             </div>
             <h5>Fill Meeting info And Approve/Reject</h5>
@@ -272,7 +259,7 @@
                 <div class="row" style="margin:30px">
                     <div class="col-md-3">
                         <div class="form-label">
-                            <input type="text" id="ProjectPreparationId" name="ProjectPreparationId" />
+                            <input type="hidden" id="ProjectPreparationId" name="ProjectPreparationId" />
                             <strong>Meeting NO<sup><code>*</code></sup></strong>
                             @Html.TextBoxFor(x => x.MeetingNo, new { @class = "form-control form-control-sm ", @autocomplete = "off" })
                         </div>
@@ -316,7 +303,7 @@
                     <div class="col-md-3">
                         <div class="form-label">
                             <div class="form-group">
-                                <label>Multiple</label>
+                                <strong>Members<sup>*</sup></strong>
                                 @*<select id="CommitteeID" name="CommitteeID" class="form-control select2 " multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
             <option>Alabama</option>
             <option>Alaska</option>

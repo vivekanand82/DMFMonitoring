@@ -11,6 +11,7 @@ namespace DMFProjectFinal.Controllers
         // GET: Account
         public ActionResult Login()
         {
+            var lg= CryptoEngine.Decrypt("nP/nCmNGAiA=");
             var IsLogIn = User.Identity.IsAuthenticated;
             if (IsLogIn && User.Identity.Name.Contains("MDFProject"))
             {

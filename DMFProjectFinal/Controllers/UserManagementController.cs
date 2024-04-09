@@ -178,6 +178,84 @@ namespace DMFProjectFinal.Controllers
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
         #endregion
+        #region Ramdhyan
+        [HttpPost]
+        public JsonResult GetDatabyRole(int DistrictID,int RoleID)
+        {
+            
+            if (RoleID == 3)
+            {
+                var lesse = (from u in db.LesseeMasters
+                             where u.DistID == DistrictID
+                             select new DTO_LesseeMaster
+                             {
+                                EmailID=u.EmailID,
+                                LesseeID=u.LesseeID.ToString(),
+                                LesseeName=u.LesseeName,
+                                RoleID=RoleID,
+
+                             }).ToList();
+
+               //var lessee = db.LesseeMasters.Where(x => x.DistID == DistrictID).ToList();
+                return Json(lesse, JsonRequestBehavior.AllowGet);
+            }
+            else if(RoleID == 6)
+            {
+                var data = (from u in db.AgenciesInfoes
+                            where u.DistID == DistrictID
+                             select new DTO_AgenciesInfo
+                             {
+                                 AgencyID = u.AgencyID.ToString(),
+                                 OwnerName = u.OwnerName,
+                                 EmailID=u.EmailID,
+                                 RoleID = RoleID
+
+                             }).ToList();
+                //var  data = db.AgenciesInfoes.Where(x => x.DistID == DistrictID).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json("None", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult GetDatabyUserID(int DistrictID, int RoleID,int UserID)
+        {
+
+            if (RoleID == 3)
+            {
+                var lesse = (from u in db.LesseeMasters
+                             where u.DistID == DistrictID && u.LesseeID==UserID
+                             select new DTO_LesseeMaster
+                             {
+                                 MobNo=u.MobNo,
+                                 EmailID = u.EmailID,
+                                 LesseeID = u.LesseeID.ToString(),
+                                 LesseeName = u.LesseeName,
+                                 RoleID = RoleID,
+
+                             }).ToList();
+
+                //var lessee = db.LesseeMasters.Where(x => x.DistID == DistrictID).ToList();
+                return Json(lesse, JsonRequestBehavior.AllowGet);
+            }
+            else if (RoleID == 6)
+            {
+                var data = (from u in db.AgenciesInfoes
+                            where u.DistID == DistrictID && u.AgencyID == UserID
+                            select new DTO_AgenciesInfo
+                            {
+                                MobileNo=u.MobileNo,
+                                AgencyID = u.AgencyID.ToString(),
+                                OwnerName = u.OwnerName,
+                                EmailID = u.EmailID,
+                                RoleID = RoleID
+
+                            }).ToList();
+                //var  data = db.AgenciesInfoes.Where(x => x.DistID == DistrictID).ToList();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            return Json("None", JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 
 }

@@ -100,6 +100,7 @@ namespace DMFProjectFinal.Models.DTO
         public string StateName { get; set; }
         public string DistName { get; set; }
         public string BankName { get; set; }
+        public int RoleID { get; set; }
     }
 
     public partial class DTO_CommitteeMaster
@@ -224,6 +225,7 @@ namespace DMFProjectFinal.Models.DTO
         public string Tehsil { get; set; }
         public string Village { get; set; }
         public string Minral { get; set; }
+        public int RoleID { get; set; }
     }
     public partial class DTO_ProjectMaster
     {
@@ -567,6 +569,28 @@ namespace DMFProjectFinal.Models.DTO
         public string CommitteeDesignationId { get; set; }
 
 
+    }
+    public partial class DTO_FundRelease
+    {
+        public string FundReleaseID { get; set; }
+        public string SectorName { get; set; }
+        public string SectorType { get; set; }
+        public decimal? SanctionedProjectCost { get; set; }
+        public string ProjectNo { get; set; }
+        public string ProjectName { get; set; }
+        public string DistrictName { get; set; }
+        public Nullable<int> DistrictID { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public Nullable<System.DateTime> RelaeseDate { get; set; }
+        public Nullable<decimal> ReleaseAmount { get; set; }
+        public Nullable<int> InstallmentID { get; set; }
+        public string InstallmentName { get; set; }
+        public string FundReleaseCopy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     }
 
 

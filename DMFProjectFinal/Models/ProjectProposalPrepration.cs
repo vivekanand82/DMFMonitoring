@@ -48,6 +48,7 @@ namespace DMFProjectFinal.Models
         public string RunningStatus { get; set; }
         public string FinalStatus { get; set; }
         public Nullable<int> Stageid { get; set; }
+        public string ProjectNo { get; set; }
     
         public virtual AgenciesInfo AgenciesInfo { get; set; }
         public virtual DistrictMaster DistrictMaster { get; set; }
