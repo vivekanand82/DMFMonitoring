@@ -376,7 +376,45 @@ namespace DMFProjectFinal.Models.DTO
         public string Status { get; set; }
 
         public string Remark { get; set; }
+
+        public string ProjectNo { get; set; }
+
     }
+
+    public partial class DTO_MileStoneMaster
+    {
+        public int  MileStoneID { get; set; }
+        public Nullable<int> DistrictID { get; set; }
+        public Nullable<int> FundReleaseID { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public Nullable<int> InstallmentID { get; set; }
+        public string Instext { get; set; }
+        public string InsPercentage { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string MofifiedBy { get; set; }
+
+        public string  ProjectNo { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+
+        public string InstallmentName { get; set; }
+        public decimal? Releaseperamount { get; set; }
+        public string Districtname { get; set; }
+
+
+
+
+    }
+
+
+
+
+
+
+
+
     public partial class DTO_SectorNameMaster
     {
         public string SectorNameId { get; set; }

@@ -135,6 +135,7 @@
     <Compile Include="Controllers\FundReleaseController.cs" />
     <Compile Include="Controllers\GovernanceCommetteController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\MileStoneController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
     <Compile Include="Controllers\SessionFilters.cs" />
     <Compile Include="Controllers\BusinessLogics.cs" />

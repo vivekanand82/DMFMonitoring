@@ -1,0 +1,318 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_MileStoneMaster
+@{
+    ViewBag.Title = "CreateProjectMilestone";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+
+    /*#btnSubmit {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }*/
+
+
+
+</style>
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.InstallmentName))
+    {
+        <h4 class="card-title">Project  Mile Stone</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Project  Mile Stone</h4>
+    }
+</div>
+
+<div id="divform">
+    <div class="card-body">
+        <div class="row tab">
+          
+            <div class="row">
+             
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>District Name<sup><code>*</code></sup></strong>
+                        @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                        @Html.DropDownListFor(x => x.DistrictID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID",  })
+
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Project Name<sup><code>*</code></sup></strong>
+                        @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                        @Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new 
+{ @class = "form-control form-control-sm multiple-deps-ddl", @id ="ProjectPreparationID",  })
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Installment Type<sup><code>*</code></sup></strong>
+                        @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                        @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange= "binddata()" })
+
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong> Remark</strong>
+                        @Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong> Percentage</strong>
+                        @Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange= "percentagedata()" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Realese Percentage Amount</strong>
+                        @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Savedata()"/>
+                    </div>
+                </div>
+
+
+                <input type="hidden" id="releaseamount" />
+
+
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.InstallmentName))
+                        {
+                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
+                        else
+                        {
+                            <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
+
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+
+    @*<script type="text/javascript">
+
+        $(document).ready(function ($) {
+
+            $("#InstallmentID").change(function () {
+                var DistID = $("#DistID").val();
+                var InstallmentID = $("#InstallmentID").val();
+                alert(DistID)
+                alert(InstallmentID)
+                $.ajax({
+                    type: "POST",
+                    url: "/MileStone/Bindamount",
+                    data: "{'DistID':'" + DistID + "','InstallmentID':'" + InstallmentID + "'}",
+                
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //alert(data.length);
+                        alert(data[0].Releaseperamount)
+                        
+                    }
+                })
+            })
+
+        })
+
+       </script>*@
+
+}
+
+
+
+<script>
+
+    function binddata() {
+
+        var DistID = $("#DistID").val();
+        var InstallmentID = $("#InstallmentID").val();
+       
+        $.ajax({
+            type: "POST",
+            url: "/MileStone/Bindamount",
+            data: "{'DistID':'" + DistID + "','InstallmentID':'" + InstallmentID + "'}",
+
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert(data.length);
+               
+
+                $("#releaseamount").val(data[0].Releaseperamount)
+
+            }
+        })
+
+    }
+
+
+
+    function percentagedata() {
+
+        var InsPercentage = $("#InsPercentage").val()
+
+        var amount = $("#releaseamount").val();
+        var calculate = parseFloat(amount) * parseFloat(InsPercentage) / 100
+
+        $("#Releaseperamount").val(calculate)
+
+    }
+
+
+
+
+    function Savedata() {
+        if ($("#DistID").val() == null || $("#DistID").val() == "0") {
+
+
+            alert("Please Select District Name");
+            return false;
+        }
+
+        if ($("#ProjectPreparationID").val() == null || $("#ProjectPreparationID").val() == "0") {
+
+
+            alert("Please select   Project Name");
+            return false;
+        }
+
+
+        if ($("#InstallmentID").val() == null || $("#InstallmentID").val() == "0") {
+
+
+            alert("Please select   Installment Name");
+            return false;
+        }
+
+        if ($("#Instext").val() == "") {
+
+
+            alert("Please select   Installment Name");
+            return false;
+        }
+
+        if ($("#InsPercentage").val() == "") {
+
+
+            alert("Please Enter   InsPercentage Percentage");
+            return false;
+        }
+        if ($("#Releaseperamount").val() == "") {
+
+
+            alert("Please Enter   Release Amount");
+            return false;
+        }
+
+     
+        var dataobject = {
+
+            DistrictID: $("#DistID").val(),
+
+            ProjectPreparationID: $("#ProjectPreparationID").val(),
+            InstallmentID: $("#InstallmentID").val(),
+            Instext: $("#Instext").val(),
+            InsPercentage: $("#InsPercentage").val(),
+            Releaseperamount: $("#Releaseperamount").val(),
+
+        }
+
+        $.ajax({
+            url: "/MileStone/insertMilestone",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: JSON.stringify(dataobject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+
+               
+                if (r.Message == "1") {
+                    
+                    alert('Record saved successfully!');
+
+                   
+                    //CrearFields();
+                    //location.reload();
+                } 
+                else {
+                    alert("Server is not responding!");
+                    //$("#showSpinner").hide();
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Server is not responding!");
+                // $("#showSpinner").hide();
+            }
+        })
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+</script>

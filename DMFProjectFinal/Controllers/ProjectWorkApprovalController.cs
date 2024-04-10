@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -57,6 +58,18 @@ namespace DMFProjectFinal.Controllers
             //                   WorkOrderDate = ppp.WorkOrderDate,
             //                   WorkOrderNo = ppp.WorkOrderNo
             //               }).ToList();
+
+
+
+           if(Request.QueryString["id"]!=null)
+            {
+
+
+
+            }
+
+
+
             var LstData = (from ppp in db.ProjectProposalPreprations
                            join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
                            join tm in db.TehsilMasters on ppp.TehsilId equals tm.TehsilId
@@ -92,7 +105,9 @@ namespace DMFProjectFinal.Controllers
                                WorkOrderNo = ppp.WorkOrderNo,
                                RunningStatus=ppp.RunningStatus,
                                FinalStatus=ppp.FinalStatus,
-                               Stageid=ppp.Stageid
+                               Stageid=ppp.Stageid,
+                               ProjectNo=ppp.ProjectNo
+                              
                            }).ToList();
             ViewBag.LstData = LstData;
             return View();
@@ -107,8 +122,8 @@ namespace DMFProjectFinal.Controllers
             var Tehsil = db.TehsilMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
             DTO_ProjectProposalPrepration model = new DTO_ProjectProposalPrepration();
             ViewBag.DistID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
-            ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "TehsilId", "TehsilName", null);
-            ViewBag.BlockId = new SelectList(db.BlockMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "BlockId", "BlockName", null);
+            //ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "TehsilId", "TehsilName", null);
+            //ViewBag.BlockId = new SelectList(db.BlockMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "BlockId", "BlockName", null);
             //ViewBag.VillageId = new SelectList(db.VillageMasters.Where(x => x.IsActive == true), "VillageId", "VillageNameInEnglish", null);
             ViewBag.AgencyID = new SelectList(db.AgenciesInfoes.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.AgencyID, Text = x.Name + " / " + x.OwnerName }), "ID", "Text", null);
             ViewBag.ProjectID = new SelectList(db.ProjectMasters.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.ProjectID, Text = x.ProjectName + " (" + x.ProjectCode + ")" }), "ID", "Text", null);
@@ -132,6 +147,24 @@ namespace DMFProjectFinal.Controllers
 
 
             //              ).ToList().Select(st => new { SectorTypeId = st.Selected });
+
+
+
+            ProjectProposalPrepration abc = new ProjectProposalPrepration();
+
+            abc.ProjectDescription = Convert.ToString((from o in db.ProjectProposalPreprations select (int?)o.ProjectPreparationID).Count());
+            int max;
+
+
+            //}
+
+            string id = "P000";
+            string Programid = id + abc.ProjectDescription;
+
+
+
+            ViewBag.acq =Programid;
+
 
 
             return View(model);
@@ -232,12 +265,367 @@ namespace DMFProjectFinal.Controllers
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult insertProjectworkproposal(DTO_ProjectProposalPrepration model)
+        {
+            JsonResponse JR = new JsonResponse();
+            db.ProjectProposalPreprations.Add(new Models.ProjectProposalPrepration
+            {
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+                DistID = model.DistID,
+                TehsilId = model.TehsilId,
+                BlockId = model.BlockId,
+                VillageId = model.VillageId,
+                SectorID = model.SectorID,
+                SectorTypeId = model.SectorTypeId,
+                ProjectName = model.ProjectName,
+                WorkLatitude = model.WorkLatitude,
+                WorkLongitude = model.WorkLongitude,
+                ProjectDescription = model.ProjectDescription,
+                ProsposalNo = model.ProsposalNo,
+                ProposalDate = model.ProposalDate,
+                ProposalCopy = model.ProposalCopy,
+                ProposedBy = model.ProposedBy,
+                ProjectCost = model.ProjectCost,
+                GSTAndOthers = model.GSTAndOthers,
+                TenderNo = model.TenderNo,
+                TenderDate = model.TenderDate,
+                WorkOrderNo = model.WorkOrderNo,
+                WorkOrderDate = model.WorkOrderDate,
+                WorkOrderCopy = model.WorkOrderCopy,
+                AgencyID = model.AgencyID,
+                SanctionedProjectCost = model.SanctionedProjectCost,
+                ProjectNo = model.ProjectNo
+
+
+
+
+            });
+
+            db.ProjectMasters.Add(new Models.ProjectMaster
+            {
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+                DistID = model.DistID,
+
+                SectorTypeId = model.SectorTypeId,
+                SectorNameId = model.SectorID,
+                ProjectName = model.ProjectName,
+                ProjectDescription = model.ProjectDescription,
+                ProjectNo = model.ProjectNo
+
+
+
+
+            }); ;
+
+
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+
+
+                JR.IsSuccess = true;
+                JR.Message = "1";
+                JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";
+            }
+            else
+            {
+
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+
+
+
+
+            return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult Updateworkprposla(DTO_ProjectProposalPrepration model)
+        {
+            JsonResponse JR = new JsonResponse();
+            ProjectProposalPrepration abc = new ProjectProposalPrepration();
+
+            int ProjectPreparationID = Convert.ToInt32(model.ProjectPreparationID);
+            abc = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                      abc.CreatedOn = DateTime.Now;
+
+
+                    abc.CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID;
+                         abc.DistID = model.DistID;
+            abc.TehsilId = model.TehsilId;
+            abc.BlockId = model.BlockId;
+            abc.VillageId = model.VillageId;
+            abc.SectorID = model.SectorID;
+            abc.SectorTypeId = model.SectorTypeId;
+            abc.ProjectName = model.ProjectName;
+            abc.WorkLatitude = model.WorkLatitude;
+            abc.WorkLongitude = model.WorkLongitude;
+            abc.ProjectDescription = model.ProjectDescription;
+            abc.ProsposalNo = model.ProsposalNo;
+            abc.ProposalDate = model.ProposalDate;
+            abc.ProposalCopy = model.ProposalCopy;
+            abc.ProposedBy = model.ProposedBy;
+            abc.ProjectCost = model.ProjectCost;
+            abc.GSTAndOthers = model.GSTAndOthers;
+            abc.TenderNo = model.TenderNo;
+            abc.TenderDate = model.TenderDate;
+            abc.WorkOrderNo = model.WorkOrderNo;
+            abc.WorkOrderDate = model.WorkOrderDate;
+            abc.WorkOrderCopy = model.WorkOrderCopy;
+            abc.AgencyID = model.AgencyID;
+            abc.SanctionedProjectCost = model.SanctionedProjectCost;
+            abc.ProjectNo = model.ProjectNo;
+
+            ProjectMaster abe = db.ProjectMasters.Where(x => x.ProjectNo == model.ProjectNo).FirstOrDefault();
+
+            abe.CreatedOn = DateTime.Now;
+            abe.IsActive = true;
+            abe.DistID = model.DistID;
+            abe.SectorTypeId = model.SectorTypeId;
+            abe.SectorNameId = model.SectorID;
+            abe.ProjectName = model.ProjectName;
+            abe.ProjectDescription = model.ProjectDescription;
+            abe.ProjectNo= model.ProjectNo;
+
+            //db.ProjectMasters.Add(new Models.ProjectMaster
+            //{
+            //    CreatedOn = DateTime.Now,
+            //    IsActive = true,
+            //    CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+            //    DistID = model.DistID,
+
+            //    SectorTypeId = model.SectorTypeId,
+            //    SectorNameId = model.SectorID,
+            //    ProjectName = model.ProjectName,
+            //    ProjectDescription = model.ProjectDescription,
+            //    ProjectNo = model.ProjectNo
+
+
+
+
+            //}); ;
+
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+
+
+                JR.IsSuccess = true;
+                JR.Message = "1";
+                JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";
+            }
+            else
+            {
+
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+
+            return Json(JR, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult UploadProposalcopy(string ProjectNo)
+
+        {
+
+            if (Request.Files.Count > 0)
+            {
+                ProjectProposalPrepration objP = new ProjectProposalPrepration();
+
+                objP= db.ProjectProposalPreprations.Where(x => x.ProjectNo == ProjectNo).FirstOrDefault();
+
+                 HttpPostedFileBase mainPic = Request.Files[0];
+                string fileExt = Path.GetExtension(mainPic.FileName);
+                string fName = ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var path = Path.Combine(Server.MapPath("~/Documents"), fName);
+
+              
+
+
+                mainPic.SaveAs(path);
+
+
+                objP.ProposalCopy = "/Documents/"+fName;
+                db.SaveChanges();
+
+               
+
+
+            }
+            else
+            {
+                //SaleEntry objP = new SaleEntry();
+                //objP.SessionId = Convert.ToString(Session["SessionId"]);
+                //objP.formno = formno;
+
+                //objP.Action = "updtimg";
+                //objP.photos = "../studentpic/userimg.jpg";
+                //int r = objL.updateStudentImage(objP);
+
+                //Common objP = new Common();
+
+                //objP.UserContactno = MobileNo;
+
+
+                //objP.Org_logo = "userimg.jpg";
+                //DataTable dt = objL.InsertCandidate(objP, "sp_cat_Reg_Id");
+
+
+
+
+            }
+
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View();
+            }
+
+
+            //return View();
+
+        }
+
+
+        public ActionResult Uploadworkordercopy(string ProjectNo)
+
+        {
+
+            if (Request.Files.Count > 0)
+            {
+                ProjectProposalPrepration objP = new ProjectProposalPrepration();
+
+                objP = db.ProjectProposalPreprations.Where(x => x.ProjectNo == ProjectNo).FirstOrDefault();
+
+                HttpPostedFileBase mainPic = Request.Files[0];
+                string fileExt = Path.GetExtension(mainPic.FileName);
+                string fName = ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var path = Path.Combine(Server.MapPath("~/Documents"), fName);
+
+                mainPic.SaveAs(path);
+
+
+                objP.WorkOrderCopy= "/Documents/" + fName;
+                db.SaveChanges();
+
+
+            }
+            else
+            {
+                //SaleEntry objP = new SaleEntry();
+                //objP.SessionId = Convert.ToString(Session["SessionId"]);
+                //objP.formno = formno;
+
+                //objP.Action = "updtimg";
+                //objP.photos = "../studentpic/userimg.jpg";
+                //int r = objL.updateStudentImage(objP);
+
+                //Common objP = new Common();
+
+                //objP.UserContactno = MobileNo;
+
+
+                //objP.Org_logo = "userimg.jpg";
+                //DataTable dt = objL.InsertCandidate(objP, "sp_cat_Reg_Id");
+
+
+
+
+            }
+
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View();
+            }
+
+
+            //return View();
+
+        }
+
+
+
+        public JsonResult EditData(int ProjectPreparationID)
+        {
+          ProjectProposalPrepration abc = new ProjectProposalPrepration();
+            abc = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+            DTO_ProjectProposalPrepration model = new DTO_ProjectProposalPrepration();
+            model.ProjectPreparationID = Convert.ToString(abc.ProjectPreparationID);
+
+            model.DistID = abc.DistID;
+            model.TehsilId = abc.TehsilId;
+            model.BlockId = abc.BlockId;
+            model.VillageId = abc.VillageId;
+            model.SectorTypeId = abc.SectorTypeId;
+            model.SectorID = abc.SectorID;
+
+            model.ProjectName = abc.ProjectName;
+
+            model.WorkLatitude = abc.WorkLatitude;
+            model.WorkLongitude = abc.WorkLongitude;
+            model.ProjectDescription = abc.ProjectDescription;
+            model.ProsposalNo = abc.ProsposalNo;
+            model.ProposalDate = abc.ProposalDate;
+            model.ProposedBy = abc.ProposedBy;
+            model.ProposalCopy = abc.ProposalCopy;
+            model.ProposedBy = abc.ProposedBy;
+            model.ProjectCost = abc.ProjectCost;
+            model.GSTAndOthers = abc.GSTAndOthers;
+            model.TenderNo = abc.TenderNo;
+            model.TenderDate = abc.TenderDate;
+            model.TenderNo = abc.TenderNo;
+
+            model.WorkOrderNo = abc.WorkOrderNo;
+            model.WorkOrderDate = abc.WorkOrderDate;
+            model.WorkOrderCopy = abc.WorkOrderCopy;
+            model.AgencyID = abc.AgencyID;
+            model.SanctionedProjectCost = abc.SanctionedProjectCost;
+            model.ProjectNo = abc.ProjectNo;
+          
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
         public ActionResult EditProjectProposalPrepration(string id)
         {
             if (String.IsNullOrEmpty(id))
             {
                 return RedirectToAction("Login", "Account");
             }
+
+
+            if (Request.QueryString["id"] != null)
+            {
+                ViewBag.id = CryptoEngine.Decrypt(id);
+
+
+            }
+
+
+
             try
             {
                long _id = long.Parse(CryptoEngine.Decrypt(id));
@@ -264,32 +652,32 @@ namespace DMFProjectFinal.Controllers
                     return View("~/Views/ProjectWorkApproval/CreateProjectProposalPrepration.cshtml", new DTO_ProjectProposalPrepration
                     {
                         
-                        CreatedOn = DateTime.Now,
-                        IsActive = true,
-                        CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
-                        DistID = Info.DistID,
-                        TehsilId = Info.TehsilId,
-                        BlockId = Info.BlockId,
-                        VillageId = Info.VillageId,
-                        SectorID = Info.SectorID,
-                        SectorTypeId = Info.SectorTypeId,
-                        ProjectName = Info.ProjectName,
-                        WorkLatitude = Convert.ToDecimal(Info.WorkLatitude),
-                        WorkLongitude = Convert.ToDecimal(Info.WorkLongitude),
-                        ProjectDescription = Info.ProjectDescription,
-                        ProsposalNo = Info.ProsposalNo,
-                        ProposalDate = Info.ProposalDate,
-                        ProposalCopy = Info.ProposalCopy,
-                        ProposedBy = Info.ProposedBy,
-                        ProjectCost = Info.ProjectCost,
-                        GSTAndOthers = Info.GSTAndOthers,
-                        TenderNo = Info.TenderNo,
-                        TenderDate = Info.TenderDate,
-                        WorkOrderNo = Info.WorkOrderNo,
-                        WorkOrderDate = Info.WorkOrderDate,
-                        WorkOrderCopy = Info.WorkOrderCopy,
-                        AgencyID = Info.AgencyID,
-                        SanctionedProjectCost = Info.SanctionedProjectCost,
+                        //CreatedOn = DateTime.Now,
+                        //IsActive = true,
+                        //CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+                        //DistID = Info.DistID,
+                        //TehsilId = Info.TehsilId,
+                        //BlockId = Info.BlockId,
+                        //VillageId = Info.VillageId,
+                        //SectorID = Info.SectorID,
+                        //SectorTypeId = Info.SectorTypeId,
+                        //ProjectName = Info.ProjectName,
+                        //WorkLatitude = Convert.ToDecimal(Info.WorkLatitude),
+                        //WorkLongitude = Convert.ToDecimal(Info.WorkLongitude),
+                        //ProjectDescription = Info.ProjectDescription,
+                        //ProsposalNo = Info.ProsposalNo,
+                        //ProposalDate = Info.ProposalDate,
+                        //ProposalCopy = Info.ProposalCopy,
+                        //ProposedBy = Info.ProposedBy,
+                        //ProjectCost = Info.ProjectCost,
+                        //GSTAndOthers = Info.GSTAndOthers,
+                        //TenderNo = Info.TenderNo,
+                        //TenderDate = Info.TenderDate,
+                        //WorkOrderNo = Info.WorkOrderNo,
+                        //WorkOrderDate = Info.WorkOrderDate,
+                        //WorkOrderCopy = Info.WorkOrderCopy,
+                        //AgencyID = Info.AgencyID,
+                        //SanctionedProjectCost = Info.SanctionedProjectCost,
                         ProjectPreparationID = CryptoEngine.Encrypt(Info.ProjectPreparationID.ToString())
                     });
                 }
@@ -484,8 +872,8 @@ namespace DMFProjectFinal.Controllers
                         DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
                     // var Tehsil = db.TehsilMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
                     ViewBag.DistID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
-                    ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "TehsilId", "TehsilName", null);
-                    ViewBag.BlockId = new SelectList(db.BlockMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "BlockId", "BlockName", null);
+                    //ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "TehsilId", "TehsilName", null);
+                    //ViewBag.BlockId = new SelectList(db.BlockMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "BlockId", "BlockName", null);
                     ViewBag.VillageId = new SelectList(db.VillageMasters.Where(x => x.IsActive == true && x.TehsilId == (Info.TehsilId == null ? x.TehsilId : Info.TehsilId)), "VillageId", "VillageNameInEnglish", null);
                     ViewBag.AgencyID = new SelectList(db.AgenciesInfoes.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.AgencyID, Text = x.Name + " / " + x.OwnerName }), "ID", "Text", Info.AgencyID);
                     ViewBag.ProjectID = new SelectList(db.ProjectMasters.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.ProjectID, Text = x.ProjectName + " (" + x.ProjectCode + ")" }), "ID", "Text", Info.ProjectID);
@@ -641,5 +1029,99 @@ namespace DMFProjectFinal.Controllers
 
 
         }
+
+        public JsonResult BindAgencey(int? Districtid)
+        {
+
+            var lstData =
+            (
+                from t in db.AgenciesInfoes
+                where t.IsActive == true && t.DistID == Districtid
+                select new DTO_ProjectProposalPrepration
+                {
+                    AgencyID = t.AgencyID,
+                    AgencyName = t.Name + " / " + t.OwnerName
+
+                }
+
+
+            ).ToList();
+
+            return Json(lstData, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+
+        public JsonResult BindTeshil(int? Districtid)
+        {
+
+            var lstData =
+            (
+                from t in db.TehsilMasters
+                where t.IsActive == true && t.DistrictId == Districtid
+                select new DTO_ProjectProposalPrepration
+                {
+                    TehsilId = t.TehsilId,
+                    TehsilName = t.TehsilName
+
+                }
+
+
+            ).ToList();
+
+            return Json(lstData, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult BindBlock(int? Districtid)
+        {
+
+            var lstData =
+            (
+                from t in db.BlockMasters
+                where t.IsActive == true && t.DistrictId == Districtid
+                select new DTO_ProjectProposalPrepration
+                {
+                    BlockId = t.BlockId,
+                    BlockName = t.BlockName
+
+                }
+
+
+            ).ToList();
+
+            return Json(lstData, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult BindVillage(int? TehsilId)
+        {
+
+            var lstData =
+            (
+                from t in db.VillageMasters
+                where t.IsActive == true && t.TehsilId == TehsilId
+                select new DTO_ProjectProposalPrepration
+                {
+                    VillageId = t.VillageId,
+                    VillageNameInEnglish =t.VillageNameInEnglish
+
+                }
+
+
+            ).ToList();
+
+            return Json(lstData, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+
+
     }
 }

@@ -244,6 +244,7 @@
                                         <thead class="table-dark">
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
+                                                <th>Project No</th>
                                                 <th>District</th>
                                                 <th>Project Name</th>
                                                 <th>Sector Name</th>
@@ -270,72 +271,73 @@
                                             @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                             {
                                                 j++;
-                                                <tr>
-                                                    <td>@j</td>
-                                                    <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
-                                                    <td>@item.SectorName</td>
-                                                    <td>@item.ProsposalNo</td>
-                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
-                                                    @*@if (String.IsNullOrEmpty(item.ProposalCopy))
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.ProjectNo</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.ProjectName</td>
+                                                <td>@item.SectorName</td>
+                                                <td>@item.ProsposalNo</td>
+                                                @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
+                                                @*@if (String.IsNullOrEmpty(item.ProposalCopy))
+        {
+            <td></td>
+        }
+        else
+        {
+            <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+        }*@
+                                                @*<td>@item.ProposedBy</td>*@
+                                                <td>@item.TenderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                <td>@item.WorkOrderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                @if (item.Stageid == null)
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
+                                                }
+                                                else if (item.Stageid == 1)
+                                                {
+
+                                                    <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
+                                                }
+                                                else if (item.Stageid == 2)
+                                                {
+
+                                                    <td><a class="badge bg-success-subtle text-success">Approved By GOV Commette</a></td>
+                                                }
+                                                else
+                                                {
+
+                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                }
+                                                @if (item.Stageid == null || item.Stageid == 1)
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                }
+
+                                                else if (item.Stageid == 2)
+                                                {
+
+                                                    <td><a class="badge bg-success-subtle text-success">Approved</a></td>
+                                                }
+                                                <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>
+                                                        @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
+                                                        @if (AM.CanUpdate)
                                                         {
-                                                            <td></td>
+                                                            <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                                         }
-                                                        else
+                                                        @if (AM.CanDelete)
                                                         {
-                                                            <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                        }*@
-                                                    @*<td>@item.ProposedBy</td>*@
-                                                    <td>@item.TenderNo</td>
-                                                    <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                    <td>@item.WorkOrderNo</td>
-                                                    <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
-                                                    @if (item.Stageid == null)
-                                                    {
-                                                        <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
-                                                    }
-                                                    else if (item.Stageid == 1)
-                                                    {
+                                                            <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        }
+                                                    </th>
+                                                }
 
-                                                        <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
-                                                    }
-                                                    else if (item.Stageid == 2)
-                                                    {
-
-                                                        <td><a class="badge bg-success-subtle text-success">Approved By GOV Commette</a></td>
-                                                    }
-                                                    else
-                                                    {
-
-                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                    }
-                                                    @if (item.Stageid == null || item.Stageid == 1)
-                                                    {
-                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                    }
-
-                                                    else if (item.Stageid == 2)
-                                                    {
-
-                                                        <td><a class="badge bg-success-subtle text-success">Approved</a></td>
-                                                    }
-                                                    <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails"  value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                    @if (AM.CanUpdate || AM.CanDelete)
-                                                    {
-                                                        <th>
-                                                            @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
-                                                            @if (AM.CanUpdate)
-                                                            {
-                                                                <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                            }
-                                                            @if (AM.CanDelete)
-                                                            {
-                                                                <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                            }
-                                                        </th>
-                                                    }
-
-                                                </tr>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
