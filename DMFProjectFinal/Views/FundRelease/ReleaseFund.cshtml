@@ -7,7 +7,6 @@
     var AM = ViewBag.GetAccess as AccessManager;
     int j = 0;
 }
-
 <div id="divform">
     <div class="card-body">
         <div class="row">
@@ -40,58 +39,73 @@
                                                 <th>FundRelease Copy</th>
                                                 <th>Sanctioned Amount</th>
                                                 <th>Release Amount</th>
-                                                @*<th>balance Amount</th>*@
+                                                <th>balance Amount</th>
                                                 <th>Installment name</th>
-
                                                 @if (AM.CanUpdate || AM.CanDelete)
                                                 {
                                                     <th>Action</th>
                                                 }
-
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (DTO_FundRelease item in ViewBag.LstData)
                                             {
+                                                decimal? balanceAmt = 0.0M;
+                                                if (j == 1)
+                                                {
+                                                    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount + item.ReleaseAmount);
+
+                                                }
+                                                else if(j ==2)
+                                                {
+                                                    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount+ ViewBag.LstData[j - 2].ReleaseAmount + item.ReleaseAmount);
+
+                                                }
+                                                else if (j==3)
+                                                {
+                                                    balanceAmt = 0.0M;
+                                                }
+                                                else
+                                                {
+                                                    balanceAmt = item.SanctionedProjectCost - item.ReleaseAmount;
+                                                }
                                                 j++;
-                                                <tr>
-                                                    <td>@j</td>
-                                                    <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
-                                                    <td>@item.SectorType</td>
-                                                    <td>@item.SectorName</td>
-                                                    <td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.ProjectName</td>
+                                                <td>@item.SectorType</td>
+                                                <td>@item.SectorName</td>
+                                                <td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>
 
-                                                    @if (String.IsNullOrEmpty(item.FundReleaseCopy))
-                                                    {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td><a href="@item.FundReleaseCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                    }
-                                                    <td>@item.SanctionedProjectCost</td>
-                                                    @{ 
-                                                        var balanceAmt = (item.SanctionedProjectCost - item.ReleaseAmount);
-                                                    }
-                                                    <td>@item.ReleaseAmount</td>
-                                                    <!--<td>-->@*@balanceAmt*@<!--</td>-->
-                                                    <td>@item.InstallmentName</td>
-                                                    @if (AM.CanUpdate || AM.CanDelete)
-                                                    {
-                                                        <th>
-                                                            @if (AM.CanUpdate)
-                                                            {
-                                                                <a href="#" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                            }
-                                                            @if (AM.CanDelete)
-                                                            {
-                                                                <a href="#" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                            }
-                                                        </th>
-                                                    }
+                                                @if (String.IsNullOrEmpty(item.FundReleaseCopy))
+                                                {
+                                                    <td></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><a href="@item.FundReleaseCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                }
+                                                <td>@item.SanctionedProjectCost</td>
+                                               
+                                                <td style="color:green;font-weight:bold">@item.ReleaseAmount</td>
 
-                                                </tr>
+                                                <td>@balanceAmt</td>
+                                                <td>@item.InstallmentName</td>
+                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>
+                                                        @if (AM.CanUpdate)
+                                                        {
+                                                            <a href="/Fundrelease/EditReleasedFund?FundReleaseID=@item.FundReleaseID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                        }
+                                                        @if (AM.CanDelete)
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        }
+                                                    </th>
+                                                }
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -104,11 +118,9 @@
                                 }
                             </div>
                         }
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

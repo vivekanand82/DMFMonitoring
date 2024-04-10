@@ -161,6 +161,7 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="InstallmentID" Type="int" />
           <Property Name="ProjectNo" Type="varchar" MaxLength="200" />
+          <Property Name="ProjectPreparationID" Type="bigint" />
         </EntityType>
         <EntityType Name="InstallmentMaster">
           <Key>
@@ -229,6 +230,26 @@
           <Property Name="CreatedBy" Type="bigint" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="ModifyBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="MileStoneMaster">
+          <Key>
+            <PropertyRef Name="MileStoneID" />
+          </Key>
+          <Property Name="MileStoneID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictID" Type="int" />
+          <Property Name="FundReleaseID" Type="int" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="InstallmentID" Type="int" />
+          <Property Name="Instext" Type="nvarchar(max)" />
+          <Property Name="InsPercentage" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="MofifiedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="Releaseperamount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ProjectPreparationID" Type="bigint" />
+          <Property Name="ProjectNo" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="MineralNameMaster">
           <Key>
@@ -639,6 +660,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="LesseeMaster" EntityType="Self.LesseeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LesseeOpeningDMFAmt" EntityType="Self.LesseeOpeningDMFAmt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuMaster" EntityType="Self.MenuMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MileStoneMaster" EntityType="Self.MileStoneMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MineralNameMaster" EntityType="Self.MineralNameMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMetting" EntityType="Self.ProjectMetting" Schema="dbo" store:Type="Tables" />
@@ -1305,6 +1327,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="ProjectMettings" EntityType="dfm_dbModel.ProjectMetting" />
           <EntitySet Name="FundReleases" EntityType="dfm_dbModel.FundRelease" />
           <EntitySet Name="InstallmentMasters" EntityType="dfm_dbModel.InstallmentMaster" />
+          <EntitySet Name="MileStoneMasters" EntityType="dfm_dbModel.MileStoneMaster" />
         </EntityContainer>
         <EntityType Name="MenuMaster">
           <Key>
@@ -1434,6 +1457,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="InstallmentID" Type="Int32" />
           <Property Name="ProjectNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectPreparationID" Type="Int64" />
         </EntityType>
         <EntityType Name="InstallmentMaster">
           <Key>
@@ -1446,6 +1470,26 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MileStoneMaster">
+          <Key>
+            <PropertyRef Name="MileStoneID" />
+          </Key>
+          <Property Name="MileStoneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictID" Type="Int32" />
+          <Property Name="FundReleaseID" Type="Int32" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="InstallmentID" Type="Int32" />
+          <Property Name="Instext" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsPercentage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="MofifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectNo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectPreparationID" Type="Int64" />
+          <Property Name="Releaseperamount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1916,6 +1960,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="FundReleases">
             <EntityTypeMapping TypeName="dfm_dbModel.FundRelease">
               <MappingFragment StoreEntitySet="FundRelease">
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
                 <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
                 <ScalarProperty Name="InstallmentID" ColumnName="InstallmentID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -1942,6 +1987,27 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="InstallmentName" ColumnName="InstallmentName" />
                 <ScalarProperty Name="InstallmentID" ColumnName="InstallmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MileStoneMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.MileStoneMaster">
+              <MappingFragment StoreEntitySet="MileStoneMaster">
+                <ScalarProperty Name="Releaseperamount" ColumnName="Releaseperamount" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="MofifiedBy" ColumnName="MofifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsPercentage" ColumnName="InsPercentage" />
+                <ScalarProperty Name="Instext" ColumnName="Instext" />
+                <ScalarProperty Name="InstallmentID" ColumnName="InstallmentID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="FundReleaseID" ColumnName="FundReleaseID" />
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="MileStoneID" ColumnName="MileStoneID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -27,5 +27,6 @@ namespace DMFProjectFinal.Models
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> InstallmentID { get; set; }
         public string ProjectNo { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
     }
 }

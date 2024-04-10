@@ -572,19 +572,26 @@ namespace DMFProjectFinal.Models.DTO
     }
     public partial class DTO_FundRelease
     {
+        public Nullable<long> ProjectPreparationID { get; set; }
         public string FundReleaseID { get; set; }
         public string SectorName { get; set; }
         public string SectorType { get; set; }
         public decimal? SanctionedProjectCost { get; set; }
+        [Required]
         public string ProjectNo { get; set; }
+       
         public string ProjectName { get; set; }
         public string DistrictName { get; set; }
         public Nullable<int> DistrictID { get; set; }
         public Nullable<int> ProjectID { get; set; }
+        [Required]
         public Nullable<System.DateTime> RelaeseDate { get; set; }
+        [Required]
         public Nullable<decimal> ReleaseAmount { get; set; }
         public Nullable<int> InstallmentID { get; set; }
+        [Required]
         public string InstallmentName { get; set; }
+        [Required]
         public string FundReleaseCopy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }

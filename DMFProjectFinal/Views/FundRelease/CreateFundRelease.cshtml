@@ -19,7 +19,7 @@
 </div>
 <div id="divform">
     <div class="card-body">
-        @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundReleaseID) ? "CreateFundRelease" : "EditFundRelease"), "FundRelease", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundReleaseID) ? "CreateFundRelease" : "EditReleasedFund"), "FundRelease", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
             <div class="row">
                 @Html.HiddenFor(x => x.FundReleaseID)
@@ -44,18 +44,33 @@
                         @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
+            </div><div class="row">
                 <div class="col-md-4">
                     <div class="form-label">
                         <strong>Select Installment<sup><code>*</code></sup></strong>
-                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        @if (String.IsNullOrEmpty(Model.FundReleaseID))
+                        {
+
+                            @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                        }
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-label">
-                        <strong>Attached Copy<sup><code>*</code></sup></strong>
+                        <strong>
+                            Attached Copy<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.FundReleaseCopy))
+                            {
+                                <a href="@Model.FundReleaseCopy" target="_blank">View Doc</a>
+                                <input type="hidden" value="prev" id="FundReleaseCopy" name="FundReleaseCopy" />
+                            }
+                        </strong>
+
                         @Html.TextBoxFor(x => x.FundReleaseCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "FundReleaseCopy" })
                     </div>
                 </div>
@@ -77,31 +92,54 @@
                         }
                         else
                         {
-                            <a href="#" class="btn btn-danger">Back</a>
+                            <a href="/FundRelease/ReleaseFund" class="btn btn-danger">Back</a>
                             //href = "/UserManagement/UserRegistration"
 
                         }
                     </div>
                 </div>
             </div>
-            <div class="row" style="display:none" id="DetailsRow">
-                <h6>Released installment details:-</h6>
-                <table class="table center-aligned-table">
-                    <tr>
-                        <th>Project Name</th>
-                        <th>Sector Type</th>
-                        <th>Sector Name</th>
-                        <th>Released Date</th>
-                        <th>Released Amount</th>
-                        <th>Installment Name</th>
-                    </tr>
-                    <tbody id="ReleaseinstallmentData"></tbody>
-                </table>
-            </div>
+            if (!String.IsNullOrEmpty(Model.FundReleaseID))
+            {
+                <div class="row"  id="DetailsRow">
+                    <h6>Released installment details:-</h6>
+                    <table class="table center-aligned-table">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Sector Type</th>
+                            <th>Sector Name</th>
+                            <th>Released Date</th>
+                            <th>Released Amount</th>
+                            <th>Installment Name</th>
+                        </tr>
+                        <tbody id="ReleaseinstallmentData"></tbody>
+                    </table>
+                </div>
+                
+            }
+            else
+            {
+                <div class="row" style="display:none" id="DetailsRow">
+                    <h6>Released installment details:-</h6>
+                    <table class="table center-aligned-table">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Sector Type</th>
+                            <th>Sector Name</th>
+                            <th>Released Date</th>
+                            <th>Sanctioned Amount</th>
+                            <th>Release Amount</th>
+                            <th>balance Amount</th>
+                            <th>Installment Name</th>
+                        </tr>
+                        <tbody id="ReleaseinstallmentData"></tbody>
+                    </table>
+                </div>
+            }
         }
     </div>
 </div>
-
+ 
 <script>
     function GetprojectDetails() {
         $("#DetailsRow").show();
@@ -125,7 +163,34 @@
                             html += "<td>" + data[i].SectorType + "</td>";
                             html += "<td>" + data[i].SectorName + "</td>";
                             html += "<td>" + ReleaseDateFormat.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td>" + data[i].SanctionedProjectCost + "</td>";
                             html += "<td style='color:green;font-weight:bold'>Rs." + data[i].ReleaseAmount + "</td>";
+                            //if (data[i] == 0) {
+
+                            //    html += "<td>" + (data[i].SanctionedProjectCost - data[i].ReleaseAmount) + "</td>";
+                            //}
+                            //else if (data[i] == 1) {
+
+                            //    html += "<td>" + (data[i].SanctionedProjectCost - (data[i].ReleaseAmount + data[i - 1].ReleaseAmount)) + "</td>";
+                            //}
+                            //else if (data[i] == 2) {
+
+                            //    html += "<td>" + (data[i].SanctionedProjectCost - (data[i].ReleaseAmount + data[i - 1].ReleaseAmount + data[i - 2].ReleaseAmount)) + "</td>";
+                            //}
+                            //else if (data[i] == 3) {
+
+                            //    html += "<td>" + (data[i].SanctionedProjectCost - (data[i].ReleaseAmount + data[i - 1].ReleaseAmount + data[i - 2].ReleaseAmount + data[i - 3].ReleaseAmount)) + "</td>";
+                            //}
+                            //else {
+                            //    html += "<td>0</td>";
+
+                            //}
+                            var balance = data[i].SanctionedProjectCost - data[i].ReleaseAmount;
+                            for (var j = 0; j < i; j++) {
+                                balance -= data[j].ReleaseAmount;
+                            }
+
+                            html += "<td>" + balance + "</td>";
                             html += "<td>" + data[i].InstallmentName + "</td>";
                             html += "<tr>";
                             html += "</tr>";
@@ -144,3 +209,14 @@
         }
    
 </script>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            debugger
+            var id = $("#FundReleaseID").val();
+            if (id != "" || id != null || id != 0) {
+                GetprojectDetails()
+            }
+        });
+    </script>
+}

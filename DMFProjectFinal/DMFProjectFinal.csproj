@@ -212,6 +212,9 @@
     <Compile Include="Models\MenuMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MileStoneMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MineralNameMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>

@@ -51,6 +51,7 @@
         <EntityTypeShape EntityType="dfm_dbModel.ProjectMetting" Width="1.5" PointX="17.375" PointY="4.75" />
         <EntityTypeShape EntityType="dfm_dbModel.FundRelease" Width="1.5" PointX="17.375" PointY="10.75" />
         <EntityTypeShape EntityType="dfm_dbModel.InstallmentMaster" Width="1.5" PointX="14.375" PointY="17.75" />
+        <EntityTypeShape EntityType="dfm_dbModel.MileStoneMaster" Width="1.5" PointX="17.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
