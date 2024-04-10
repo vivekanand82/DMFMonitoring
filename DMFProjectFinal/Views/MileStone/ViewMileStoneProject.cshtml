@@ -1,0 +1,135 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "View Mile Stone Project";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+
+<style>
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+
+
+<div class="card-header">
+    <h4 class="card-title">Project Proposal Prepration</h4>
+</div>
+
+
+
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            <div class="col-md-6 text-right mb-1">
+                @*@if (AM.CanInsert)
+                    {
+                        <a class="btn btn-primary btn-round" href="@Url.Action("CreateProjectProposalPrepration", "ProjectWorkApproval")" id="addMonthlyRevenueReceive">Create<i class="fa fa-plus-circle"></i></a>
+                    }*@
+            </div>
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>Project No</th>
+                                                <th>District</th>
+
+                                                <th> Installment Name</th>
+                                                <th> Remark</th>
+                                                <th> Percentage</th>
+                                                <th> Amount</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_MileStoneMaster item in ViewBag.LstData)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.ProjectNo</td>
+                                                    <td>@item.Districtname</td>
+                                                    <td>@item.InstallmentName</td>
+                                                    <td>@item.Instext</td>
+                                                    <td>@item.InsPercentage</td>
+                                                    <td>@item.Releaseperamount</td>
+
+
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {//open modal
+            //$("#btnshowproject").click(function () {
+            //    $("#Projectdetail").show();
+
+            //    $("#basic").hide();
+
+
+            //})
+
+            //$("#btnbasic").click(function () {
+            //    $("#Projectdetail").hide();
+
+            //    $("#basic").show();
+
+
+            //})
+            $('#tblData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+</script>
+
+}

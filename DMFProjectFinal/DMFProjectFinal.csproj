@@ -134,6 +134,7 @@
     <Compile Include="Controllers\DMFFundCollectionController.cs" />
     <Compile Include="Controllers\GovernanceCommetteController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\MileStoneController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
     <Compile Include="Controllers\SessionFilters.cs" />
     <Compile Include="Controllers\BusinessLogics.cs" />
@@ -196,6 +197,12 @@
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\AllClasses.cs" />
+    <Compile Include="Models\FundRelease.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InstallmentMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LesseeMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -203,6 +210,9 @@
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MileStoneMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MineralNameMaster.cs">
@@ -630,6 +640,8 @@
     <Content Include="Views\DistrictManagement\ProjectProposalPrepration.cshtml" />
     <Content Include="Views\DistrictManagement\ViewProjectProposalPrepration.cshtml" />
     <Content Include="Views\GovernanceCommette\ViewProjectProposals.cshtml" />
+    <Content Include="Views\MileStone\CreateProjectMilestone.cshtml" />
+    <Content Include="Views\MileStone\ViewMileStoneProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

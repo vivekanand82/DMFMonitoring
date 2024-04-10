@@ -99,27 +99,27 @@ $(".multiple-deps-ddl").on("change", function () {
         })
 
        
-        $.ajax({
-            type: "POST",
-            url: "/Common/BindDistrictname",
-            data: JSON.stringify({ DepID: id}),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Common/BindDistrictname",
+        //    data: JSON.stringify({ DepID: id}),
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (data) {
 
-                $("#SectorTypeId").empty();
-                $.each(data, function (k, value) {
+        //        $("#SectorTypeId").empty();
+        //        $.each(data, function (k, value) {
 
-                    $("#SectorTypeId").append($("<option></option>").val(value.SectorNameId).html(value.SectorName))
-                })
-
-
-
-            }
+        //            $("#SectorTypeId").append($("<option></option>").val(value.SectorNameId).html(value.SectorName))
+        //        })
 
 
 
-        })
+        //    }
+
+
+
+        //})
 
 
 

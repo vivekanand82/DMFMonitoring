@@ -32,6 +32,7 @@ namespace DMFProjectFinal.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<int> SectorTypeId { get; set; }
         public Nullable<int> SectorNameId { get; set; }
+        public string ProjectNo { get; set; }
     
         public virtual DistrictMaster DistrictMaster { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
