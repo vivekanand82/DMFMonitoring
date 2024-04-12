@@ -271,6 +271,28 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="MonthName" Type="varchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <EntityType Name="PhysicalProgressMaster">
+          <Key>
+            <PropertyRef Name="PhysicalprogressID" />
+          </Key>
+          <Property Name="PhysicalprogressID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictID" Type="int" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectNo" Type="varchar" MaxLength="100" />
+          <Property Name="MileStoneID" Type="int" />
+          <Property Name="FundReleaseID" Type="int" />
+          <Property Name="ProjectPreparationID" Type="bigint" />
+          <Property Name="PhysicalProgressDate" Type="datetime" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="PhysicalProgressCopy" Type="nvarchar(max)" />
+          <Property Name="PhysicalPInPer" Type="nvarchar" MaxLength="100" />
+          <Property Name="AmountSpend" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="100" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
         <EntityType Name="ProjectMaster">
           <Key>
             <PropertyRef Name="ProjectID" />
@@ -662,6 +684,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="MenuMaster" EntityType="Self.MenuMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MileStoneMaster" EntityType="Self.MileStoneMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MineralNameMaster" EntityType="Self.MineralNameMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhysicalProgressMaster" EntityType="Self.PhysicalProgressMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMetting" EntityType="Self.ProjectMetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectProposalPrepration" EntityType="Self.ProjectProposalPrepration" Schema="dbo" store:Type="Tables" />
@@ -1328,6 +1351,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="FundReleases" EntityType="dfm_dbModel.FundRelease" />
           <EntitySet Name="InstallmentMasters" EntityType="dfm_dbModel.InstallmentMaster" />
           <EntitySet Name="MileStoneMasters" EntityType="dfm_dbModel.MileStoneMaster" />
+          <EntitySet Name="PhysicalProgressMasters" EntityType="dfm_dbModel.PhysicalProgressMaster" />
         </EntityContainer>
         <EntityType Name="MenuMaster">
           <Key>
@@ -1490,6 +1514,28 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ProjectNo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="ProjectPreparationID" Type="Int64" />
           <Property Name="Releaseperamount" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="PhysicalProgressMaster">
+          <Key>
+            <PropertyRef Name="PhysicalprogressID" />
+          </Key>
+          <Property Name="PhysicalprogressID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictID" Type="Int32" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MileStoneID" Type="Int32" />
+          <Property Name="FundReleaseID" Type="Int32" />
+          <Property Name="ProjectPreparationID" Type="Int64" />
+          <Property Name="PhysicalProgressDate" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhysicalProgressCopy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhysicalPInPer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AmountSpend" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2008,6 +2054,29 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
                 <ScalarProperty Name="FundReleaseID" ColumnName="FundReleaseID" />
                 <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
                 <ScalarProperty Name="MileStoneID" ColumnName="MileStoneID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhysicalProgressMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.PhysicalProgressMaster">
+              <MappingFragment StoreEntitySet="PhysicalProgressMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="AmountSpend" ColumnName="AmountSpend" />
+                <ScalarProperty Name="PhysicalPInPer" ColumnName="PhysicalPInPer" />
+                <ScalarProperty Name="PhysicalProgressCopy" ColumnName="PhysicalProgressCopy" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="PhysicalProgressDate" ColumnName="PhysicalProgressDate" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="FundReleaseID" ColumnName="FundReleaseID" />
+                <ScalarProperty Name="MileStoneID" ColumnName="MileStoneID" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="PhysicalprogressID" ColumnName="PhysicalprogressID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -385,6 +385,7 @@ namespace DMFProjectFinal.Models.DTO
     {
         public int  MileStoneID { get; set; }
         public Nullable<int> DistrictID { get; set; }
+        public string ProjectName { get; set; }
         public Nullable<int> FundReleaseID { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public Nullable<int> InstallmentID { get; set; }
@@ -627,7 +628,7 @@ namespace DMFProjectFinal.Models.DTO
         [Required]
         public Nullable<decimal> ReleaseAmount { get; set; }
         public Nullable<int> InstallmentID { get; set; }
-        [Required]
+    
         public string InstallmentName { get; set; }
         [Required]
         public string FundReleaseCopy { get; set; }
@@ -639,7 +640,40 @@ namespace DMFProjectFinal.Models.DTO
     }
 
 
-
+    public partial class DTO_PhysicalProgressMaster
+    {
+        public string PhysicalprogressID { get; set; }
+        [Required]
+        public Nullable<int> DistrictID { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        [Required]
+        public string ProjectNo { get; set; }
+        public string DistrictName { get; set; }
+        public string ProjectName { get; set; }
+        public string InstallmentName { get; set; }
+        public string MileStonePercentage { get; set; }
+        public Nullable<int> MileStoneID { get; set; }
+        public Nullable<int> FundReleaseID { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+        [Required]
+        public Nullable<System.DateTime> PhysicalProgressDate { get; set; }
+        [Required]
+        public string Remark { get; set; }
+        [Required]
+        public string PhysicalProgressCopy { get; set; }
+        [Required]
+        public string PhysicalPInPer { get; set; }
+        public string SectorType { get; set; }
+        public string SectorName { get; set; }
+        [Required]
+        public Nullable<decimal> AmountSpend { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public decimal? Releaseperamount { get; set; }
+    }
 
 
 

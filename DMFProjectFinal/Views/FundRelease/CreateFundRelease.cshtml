@@ -101,26 +101,28 @@
             </div>
             if (!String.IsNullOrEmpty(Model.FundReleaseID))
             {
-                <div class="row"  id="DetailsRow">
-                    <h6>Released installment details:-</h6>
+                <div class="row" id="DetailsRow">
+                    <h6>Released Installment Details:-</h6>
                     <table class="table center-aligned-table">
                         <tr>
                             <th>Project Name</th>
                             <th>Sector Type</th>
                             <th>Sector Name</th>
                             <th>Released Date</th>
+                            <th>Sanction Amount</th>
                             <th>Released Amount</th>
+                            <th>Balance Amount</th>
                             <th>Installment Name</th>
                         </tr>
                         <tbody id="ReleaseinstallmentData"></tbody>
                     </table>
                 </div>
-                
+
             }
             else
             {
                 <div class="row" style="display:none" id="DetailsRow">
-                    <h6>Released installment details:-</h6>
+                    <h6>Released Installment Details:-</h6>
                     <table class="table center-aligned-table">
                         <tr>
                             <th>Project Name</th>

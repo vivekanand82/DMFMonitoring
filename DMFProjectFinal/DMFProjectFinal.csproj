@@ -136,6 +136,7 @@
     <Compile Include="Controllers\GovernanceCommetteController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\MileStoneController.cs" />
+    <Compile Include="Controllers\PhysicalProgressController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
     <Compile Include="Controllers\SessionFilters.cs" />
     <Compile Include="Controllers\BusinessLogics.cs" />
@@ -220,6 +221,9 @@
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MonthMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhysicalProgressMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectMaster.cs">
@@ -643,6 +647,10 @@
     <Content Include="Views\GovernanceCommette\ViewProjectProposals.cshtml" />
     <Content Include="Views\FundRelease\ReleaseFund.cshtml" />
     <Content Include="Views\FundRelease\CreateFundRelease.cshtml" />
+    <Content Include="Views\PhysicalProgress\CreatePhysicalProgress.cshtml" />
+    <Content Include="Views\PhysicalProgress\PhysicalProgressList.cshtml" />
+    <Content Include="Views\MileStone\CreateProjectMilestone.cshtml" />
+    <Content Include="Views\MileStone\ViewMileStoneProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

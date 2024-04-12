@@ -160,6 +160,7 @@
         var remainingDmf = null;
         $("#LesseeId").change(function () {
             debugger
+            remainingDmf = 0;
             var LesseeId = $("#LesseeId").val();
             if (LesseeId != "") {
                 $.ajax({

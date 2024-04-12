@@ -58,6 +58,42 @@ namespace DMFProjectFinal.Controllers
                                }).ToList();
                     ViewBag.LstData = LstData;
             }
+            else
+            {
+                var LstData = (from ppp in db.ProjectProposalPreprations
+                               join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
+                               join tm in db.TehsilMasters on ppp.TehsilId equals tm.TehsilId
+                               join bm in db.BlockMasters on ppp.BlockId equals bm.BlockId
+                               join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
+                               join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
+                               join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
+                               join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
+                               where ppp.IsActive == true
+                               select new DTO_ProjectProposalPrepration
+                               {
+                                   AgencyName = ag.Name,
+                                   DistrictName = dm.DistrictName,
+                                   GSTAndOthers = ppp.GSTAndOthers,
+                                   ProjectCost = ppp.ProjectCost,
+                                   ProjectName = ppp.ProjectName,
+                                   //   ProjectStatus = psm.ProjectStatus,
+                                   ProjectPreparationID = ppp.ProjectPreparationID.ToString(),
+                                   ProposalCopy = ppp.ProposalCopy,
+                                   ProposalDate = ppp.ProposalDate,
+                                   ProposedBy = ppp.ProposedBy,
+                                   ProsposalNo = ppp.ProsposalNo,
+                                   SectorName = snm.SectorName,
+                                   SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                   TenderDate = ppp.TenderDate,
+                                   TenderNo = ppp.TenderNo,
+                                   WorkOrderDate = ppp.WorkOrderDate,
+                                   WorkOrderNo = ppp.WorkOrderNo,
+                                   RunningStatus = ppp.RunningStatus,
+                                   FinalStatus = ppp.FinalStatus,
+                                   Stageid = ppp.Stageid
+                               }).ToList();
+                ViewBag.LstData = LstData;
+            }
 
             return View();
         }
@@ -88,8 +124,7 @@ namespace DMFProjectFinal.Controllers
                                        join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                                        join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
                                        //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
-                                       where ppp.IsActive == true &&
-                                        ppp.ProjectPreparationID == Info.ProjectPreparationID
+                                       where ppp.IsActive == true &&  ppp.ProjectPreparationID == Info.ProjectPreparationID && ppp.DistID==DistID
                                        select new DTO_ProjectProposalPrepration
                                        {
                                            DistrictName = dm.DistrictName,
@@ -124,7 +159,47 @@ namespace DMFProjectFinal.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Login", "Account");
+                        var LstData = (from ppp in db.ProjectProposalPreprations
+                                       join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
+                                       join tm in db.TehsilMasters on ppp.TehsilId equals tm.TehsilId
+                                       join bm in db.BlockMasters on ppp.BlockId equals bm.BlockId
+                                       join vm in db.VillageMasters on ppp.VillageId equals vm.VillageId
+                                       join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
+                                       join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
+                                       join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
+                                       //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
+                                       where ppp.IsActive == true && ppp.ProjectPreparationID == Info.ProjectPreparationID 
+                                       select new DTO_ProjectProposalPrepration
+                                       {
+                                           DistrictName = dm.DistrictName,
+                                           TehsilName = tm.TehsilName,
+                                           BlockName = bm.BlockName,
+                                           VillageNameInEnglish = vm.VillageNameInEnglish,
+                                           VillageNameInHindi = vm.VillageNameInHindi,
+                                           SectorType = stm.SectorType,
+                                           SectorName = snm.SectorName,
+                                           GSTAndOthers = ppp.GSTAndOthers,
+                                           ProjectCost = ppp.ProjectCost,
+                                           ProjectName = ppp.ProjectName,
+                                           WorkLatitude = ppp.WorkLatitude,
+                                           WorkLongitude = ppp.WorkLongitude,
+                                           ProjectDescription = ppp.ProjectDescription,
+                                           //   ProjectStatus = psm.ProjectStatus,
+                                           ProjectPreparationID = ppp.ProjectPreparationID.ToString(),
+                                           ProposalCopy = ppp.ProposalCopy,
+                                           ProposalDate = ppp.ProposalDate,
+                                           ProposedBy = ppp.ProposedBy,
+                                           ProsposalNo = ppp.ProsposalNo,
+                                           TenderDate = ppp.TenderDate,
+                                           TenderNo = ppp.TenderNo,
+                                           WorkOrderDate = ppp.WorkOrderDate,
+                                           WorkOrderNo = ppp.WorkOrderNo,
+                                           WorkOrderCopy = ppp.WorkOrderCopy,
+                                           AgencyName = ag.Name,
+                                           SanctionedProjectCost = ppp.SanctionedProjectCost
+                                       }).ToList();
+
+                        return Json(LstData, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
