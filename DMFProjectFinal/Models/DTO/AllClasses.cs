@@ -362,6 +362,11 @@ namespace DMFProjectFinal.Models.DTO
         public string FinalStatus { get; set; }
         public Nullable<int> Stageid { get; set; }
         public Nullable<int> CommitteeID { get; set; }
+        public string InstallmentName { get; set; }
+        public Nullable<decimal> ReleaseAmount { get; set; }
+        public string InsPercentage { get; set; }
+
+
 
 
         public Nullable<System.DateTime> MettingDate { get; set; }
@@ -403,6 +408,9 @@ namespace DMFProjectFinal.Models.DTO
         public string InstallmentName { get; set; }
         public decimal? Releaseperamount { get; set; }
         public string Districtname { get; set; }
+        public Nullable<decimal> ReleaseAmount { get; set; }
+        public Nullable<decimal> SanctionedProjectCost { get; set; }
+
 
 
 
@@ -637,6 +645,7 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public decimal? TotalReleaseAmount { get; set; }
     }
 
 
@@ -673,6 +682,9 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public decimal? Releaseperamount { get; set; }
+        public decimal? SanctionedProjectCost { get; set; }
+        public Nullable<decimal> ReleaseAmount { get; set; }
+
     }
 
 

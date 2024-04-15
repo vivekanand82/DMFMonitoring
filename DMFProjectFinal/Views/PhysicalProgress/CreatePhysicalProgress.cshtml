@@ -25,6 +25,7 @@
             <div class="row">
                 @Html.HiddenFor(x => x.PhysicalprogressID,new { @id= "PhysicalprogressID" })
                 @Html.HiddenFor(x => x.DistrictID)
+                @*@Html.HiddenFor(x => x.MileStoneID,new { @id= "MileStoneID" })*@
 
                 <div class="col-md-4">
                     <div class="form-label">
@@ -45,52 +46,7 @@
                         @Html.TextBoxFor(x => x.PhysicalPInPer, new { @class = "form-control form-control-sm", @autocomplete = "off" })
                     </div>
                 </div>
-                @if (!String.IsNullOrEmpty(Model.PhysicalprogressID))
-                {
-                    <div class="row" id="DetailsRow">
-                        <h6>Project Milestone Details:-</h6>
-                        <table class="table center-aligned-table">
-                            <tr>
-                                <th>Project Name</th>
-                                @*<th>Sector Type</th>*@
-                                @*<th>Sector Name</th>*@
-                                <th>MileStone Amt</th>
-                                <th>MileStone(%)</th>
-                                <th>Released Date</th>
-                                @*<th>Sanctioned Amount</th>
-                                    <th>Release Amount</th>
-                                    <th>balance Amount</th>*@
-                                <th>Installment Name</th>
-                                <th>Items Required(Complete)</th>
-                            </tr>
-                            <tbody id="MilestoneData"></tbody>
-                        </table>
-                    </div>
-
-                }
-                else
-                {
-                    <div class="row" style="display:none" id="DetailsRow">
-                        <h6>Project Milestone Details:-</h6>
-                        <table class="table center-aligned-table">
-                            <tr>
-                                <th>Project Name</th>
-                                @*<th>Sector Type</th>*@
-                                @*<th>Sector Name</th>*@
-
-                                <th>MileStone Amt</th>
-                                <th>MileStone(%)</th>
-                                <th>Released Date</th>
-                                @*<th>Sanctioned Amount</th>
-                                    <th>Release Amount</th>
-                                    <th>balance Amount</th>*@
-                                <th>Installment Name</th>
-                                <th>Work Required(Complete)</th>
-                            </tr>
-                            <tbody id="MilestoneData"></tbody>
-                        </table>
-                    </div>
-                }
+              
             </div><div class="row">
 
                 <div class="col-md-4">
@@ -150,7 +106,7 @@
 </div>
 
 
-<script>
+@*<script>
     function GetMilestoneDetails() {
         $("#DetailsRow").show();
         var DistrictID = $("#DistrictID").val();
@@ -174,11 +130,11 @@
                         html += "<tr>";
                         var CreatedDateFormat = new Date(parseInt(data[i].CreatedDate.substr(6)));
                         html += "<td>" + data[i].ProjectName + "</td>";
-                        html += "<td style='color:green;font-weight:bold;'>" + data[i].Releaseperamount + "</td>";
+                        html += "<td>" + data[i].SanctionedProjectCost + "</td>";
+                        html += "<td style='color:green;font-weight:bold;'>" + parseFloat(data[i].SanctionedProjectCost) * parseFloat(data[i].MileStonePercentage) / 100 + "</td>";
                         html += "<td>" + data[i].MileStonePercentage + "</td>";
                         //html += "<td>" + data[i].SectorName + "</td>";
                         html += "<td>" + CreatedDateFormat.toLocaleDateString("es-CL") + "</td>";
-                        //html += "<td>" + data[i].SanctionedProjectCost + "</td>";
                         //html += "<td style='color:green;font-weight:bold'>Rs." + data[i].ReleaseAmount + "</td>";
                         //var balance = data[i].SanctionedProjectCost - data[i].ReleaseAmount;
                         //for (var j = 0; j < i; j++) {
@@ -204,7 +160,7 @@
         })
     }
 
-</script>
+</script>*@
 @section scripts{
     <script>
         $(document).ready(function () {

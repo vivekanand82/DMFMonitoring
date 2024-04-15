@@ -33,6 +33,7 @@
     .form-group label {
         white-space: break-spaces !important;
     }
+
 </style>
 
 <!--modal for view Proposal details-->
@@ -261,43 +262,43 @@
                         <div class="form-label">
                             <input type="hidden" id="ProjectPreparationId" name="ProjectPreparationId" />
                             <strong>Meeting NO<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MeetingNo, new { @class = "form-control form-control-sm ", @autocomplete = "off" })
+                            @Html.TextBoxFor(x => x.MeetingNo, new { @class = "form-control form-control-sm ", @autocomplete = "off",@required= "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Meeting Date<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MettingDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                            @Html.TextBoxFor(x => x.MettingDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @required = "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong> Minutes Of Meeeting<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MinutesofMeeting, new { @class = "form-control form-control-sm", @type = "time"})
+                            @Html.TextBoxFor(x => x.MinutesofMeeting, new { @class = "form-control form-control-sm", @type = "time", @required = "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong> Minutes Of Meeeting Upload<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MinutesofMeetingfile, new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })
+                            @Html.TextBoxFor(x => x.MinutesofMeetingfile, new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile", @required = "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Member Attendance Upload<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile" })
+                            @Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile", @required = "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Approval  Member Letter<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile" })
+                            @Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile", @required = "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>AttendanceDate<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Attendancedate, "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                            @Html.TextBoxFor(x => x.Attendancedate, "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @required = "required" })
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -313,7 +314,7 @@
             <option>Texas</option>
             <option>Washington</option>
         </select>*@
-                             @Html.DropDownListFor(x => x.CommitteeID,Enumerable.Empty<SelectListItem>(), "Select Members", new { @class = "form-control form-control-sm", @multiple = "multiple", @id = "CommitteeID", @name = "Memberlist[]" })
+                             @Html.DropDownListFor(x => x.CommitteeID,Enumerable.Empty<SelectListItem>(), "Select Members", new { @class = "form-control form-control-sm", @multiple = "multiple", @id = "CommitteeID", @name = "Memberlist[]", @required = "required" })
                             </div>
                         </div>
                     </div>
