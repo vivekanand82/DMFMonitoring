@@ -152,7 +152,7 @@ namespace DMFProjectFinal.Controllers
 
             ProjectProposalPrepration abc = new ProjectProposalPrepration();
 
-            abc.ProjectDescription = Convert.ToString((from o in db.ProjectProposalPreprations select (int?)o.ProjectPreparationID).Count());
+            abc.ProjectDescription = Convert.ToString((from o in db.ProjectProposalPreprations select (int?)o.ProjectPreparationID).Max());
             int max;
 
 

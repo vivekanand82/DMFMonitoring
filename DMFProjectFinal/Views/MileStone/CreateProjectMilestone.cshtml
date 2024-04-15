@@ -47,6 +47,8 @@
 
                         @Html.DropDownListFor(x => x.DistrictID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID",  })
 
+                        <input type="hidden" id="MileStoneID" />
+
 
                     </div>
                 </div>
@@ -57,8 +59,8 @@
                         <strong>Project Name<sup><code>*</code></sup></strong>
                         @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
 
-                        @Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new 
-{ @class = "form-control form-control-sm multiple-deps-ddl", @id ="ProjectPreparationID",  })
+                        @Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                   { @class = "form-control form-control-sm multiple-deps-ddl", @id ="ProjectPreparationID",@onchange= "return changedata()" })
 
 
                     </div>
@@ -91,12 +93,12 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                @*<div class="col-md-3">
                     <div class="form-label">
                         <strong>Realese Percentage Amount</strong>
                         @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
                     </div>
-                </div>
+                </div>*@
 
 
                 <div class="col-md-1">
@@ -128,6 +130,20 @@
             </div>
             <div class="row">
 
+                <div class="row" id="DetailsRow">
+                    <h6>Project  Details:-</h6>
+                    <table class="table center-aligned-table">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Sector Type</th>
+                            <th>Sector Name</th>
+                            <th>Sanction Amount</th>
+                           
+                        </tr>
+                        <tbody id="ReleaseinstallmentData"></tbody>
+                    </table>
+                </div>
+
             </div>
 
 
@@ -142,6 +158,73 @@
 
 @section Scripts {
 
+
+    <script>
+       $(document).ready(function ($) {
+
+
+
+               //$.ajax({
+               //    type: "POST",
+               //    url: "/MileStone/ViewProject",
+               //    data: "{'ProjectPreparationID':'" + ProjectPreparationID + "'}",
+
+               //    dataType: "json",
+               //    contentType: "application/json; charset=utf-8",
+               //    success: function (data) {
+               //        //alert(data.length);
+               //        alert(data[0].SanctionedProjectCost)
+
+               //    }
+               //})
+           var id = '@ViewBag.id'
+
+           if (id) {
+
+               editdata(id);
+
+           }
+
+
+           })
+
+
+
+
+
+
+
+           //$("#ProjectPreparationID").change(function () {
+
+           //    var ProjectPreparationID = $("#ProjectPreparationID").val();
+           //    alert(ProjectPreparationID);
+
+           //    $.ajax({
+           //        type: "POST",
+           //        url: "/MileStone/ViewProject",
+           //        data: "{'ProjectPreparationID':'" + ProjectPreparationID + "'}",
+
+           //        dataType: "json",
+           //        contentType: "application/json; charset=utf-8",
+           //        success: function (data) {
+           //            //alert(data.length);
+           //            alert(data[0].SanctionedProjectCost)
+
+           //        }
+           //    })
+
+
+
+           //})
+
+
+
+
+
+
+
+
+    </script>
 
     @*<script type="text/javascript">
 
@@ -177,103 +260,85 @@
 
 <script>
 
-    function binddata() {
 
-        var DistID = $("#DistID").val();
-        var InstallmentID = $("#InstallmentID").val();
-       
-        $.ajax({
-            type: "POST",
-            url: "/MileStone/Bindamount",
-            data: "{'DistID':'" + DistID + "','InstallmentID':'" + InstallmentID + "'}",
+    function changedata() {
 
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                //alert(data.length);
-               
+        var ProjectPreparationID = $("#ProjectPreparationID").val();
+              
 
-                $("#releaseamount").val(data[0].Releaseperamount)
+               $.ajax({
+                   type: "POST",
+                   url: "/MileStone/ViewProject",
+                   data: "{'ProjectPreparationID':'" + ProjectPreparationID + "'}",
 
-            }
-        })
+                   dataType: "json",
+                   contentType: "application/json; charset=utf-8",
+                   success: function (data) {
+                       //alert(data.length);
+                       /*   alert(data[0].SanctionedProjectCost)*/
+
+                       $("#ReleaseinstallmentData").empty();
+
+                       $("#ReleaseinstallmentData").append("<tr><td>" + data[0].ProjectNo + " </td><td>" + data[0].SectorType + " </td><td>" + data[0].SectorName + " </td><td>" + data[0].SanctionedProjectCost + " </td></tr>")
+
+
+                   }
+               })
+
+
 
     }
 
 
 
-    function percentagedata() {
+    //function binddata() {
 
-        var InsPercentage = $("#InsPercentage").val()
+    //    var DistID = $("#DistID").val();
+    //    var InstallmentID = $("#InstallmentID").val();
 
-        var amount = $("#releaseamount").val();
-        var calculate = parseFloat(amount) * parseFloat(InsPercentage) / 100
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/MileStone/Bindamount",
+    //        data: "{'DistID':'" + DistID + "','InstallmentID':'" + InstallmentID + "'}",
 
-        $("#Releaseperamount").val(calculate)
-
-    }
-
-
-
-
-    function Savedata() {
-        if ($("#DistID").val() == null || $("#DistID").val() == "0") {
+    //        dataType: "json",
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function (data) {
+    //            //alert(data.length);
 
 
-            alert("Please Select District Name");
-            return false;
-        }
+    //            $("#releaseamount").val(data[0].Releaseperamount)
 
-        if ($("#ProjectPreparationID").val() == null || $("#ProjectPreparationID").val() == "0") {
+    //        }
+    //    })
 
-
-            alert("Please select   Project Name");
-            return false;
-        }
+    //}
 
 
-        if ($("#InstallmentID").val() == null || $("#InstallmentID").val() == "0") {
+
+    //function percentagedata() {
+
+    //    var InsPercentage = $("#InsPercentage").val()
+
+    //    var amount = $("#releaseamount").val();
+    //    var calculate = parseFloat(amount) * parseFloat(InsPercentage) / 100
+
+    //    $("#Releaseperamount").val(calculate)
+
+    //}
 
 
-            alert("Please select   Installment Name");
-            return false;
-        }
 
-        if ($("#Instext").val() == "") {
+    function editdata(id) {
 
 
-            alert("Please select   Installment Name");
-            return false;
-        }
-
-        if ($("#InsPercentage").val() == "") {
-
-
-            alert("Please Enter   InsPercentage Percentage");
-            return false;
-        }
-        if ($("#Releaseperamount").val() == "") {
-
-
-            alert("Please Enter   Release Amount");
-            return false;
-        }
-
-     
         var dataobject = {
 
-            DistrictID: $("#DistID").val(),
-
-            ProjectPreparationID: $("#ProjectPreparationID").val(),
-            InstallmentID: $("#InstallmentID").val(),
-            Instext: $("#Instext").val(),
-            InsPercentage: $("#InsPercentage").val(),
-            Releaseperamount: $("#Releaseperamount").val(),
-
-        }
+            MileStoneID: id
+        };
 
         $.ajax({
-            url: "/MileStone/insertMilestone",
+            url: "/MileStone/EdidData",
             type: "POST",
             contentType: false,
             processData: false,
@@ -281,29 +346,230 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {
+                $('#DistID').val(r.DistrictID)
 
-               
-                if (r.Message == "1") {
-                    
-                    alert('Record saved successfully!');
+                $("#ProjectPreparationID").val(r.ProjectPreparationID);
+                $("#ProjectPreparationID").val(r.ProjectPreparationID);
+                $("#InstallmentID").val(r.InstallmentID)
+                $("#Instext").val(r.Instext);
+                $("#InsPercentage").val(r.InsPercentage);
 
-                   
-                    //CrearFields();
-                    //location.reload();
-                } 
-                else {
-                    alert("Server is not responding!");
-                    //$("#showSpinner").hide();
-                }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Server is not responding!");
-                // $("#showSpinner").hide();
+                $("#MileStoneID").val(id);
+
             }
+
         })
 
 
 
+
+    }
+
+
+
+
+
+    function Savedata() {
+
+        if ($("#MileStoneID").val() == "" || $("#MileStoneID").val() == null) {
+
+
+
+
+
+
+
+            if ($("#DistID").val() == null || $("#DistID").val() == "0") {
+
+
+                alert("Please Select District Name");
+                return false;
+            }
+
+            if ($("#ProjectPreparationID").val() == null || $("#ProjectPreparationID").val() == "0") {
+
+
+                alert("Please select   Project Name");
+                return false;
+            }
+
+
+            if ($("#InstallmentID").val() == null || $("#InstallmentID").val() == "0") {
+
+
+                alert("Please select   Installment Name");
+                return false;
+            }
+
+            if ($("#Instext").val() == "") {
+
+
+                alert("Please select   Installment Name");
+                return false;
+            }
+
+            if ($("#InsPercentage").val() == "") {
+
+
+                alert("Please Enter   InsPercentage Percentage");
+                return false;
+            }
+            //if ($("#Releaseperamount").val() == "") {
+
+
+            //    alert("Please Enter   Release Amount");
+            //    return false;
+            //}
+
+
+            var dataobject = {
+
+                DistrictID: $("#DistID").val(),
+
+                ProjectPreparationID: $("#ProjectPreparationID").val(),
+                InstallmentID: $("#InstallmentID").val(),
+                Instext: $("#Instext").val(),
+                InsPercentage: $("#InsPercentage").val(),
+                Releaseperamount: 0,
+
+
+            }
+
+            $.ajax({
+                url: "/MileStone/insertMilestone",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: JSON.stringify(dataobject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+
+
+                    if (r.Message == "1") {
+
+                        alert('Record saved successfully!');
+                        window.location.href = "/MileStone/ViewMileStoneProject"
+
+                        //CrearFields();
+                        //location.reload();
+                    }
+
+                    else if(r.Message == "0") {
+
+                        alert('Record Already Exists!');
+                        return false;
+
+                        //CrearFields();
+                        //location.reload();
+                    }
+                    else {
+                        alert("Server is not responding!");
+                        //$("#showSpinner").hide();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Server is not responding!");
+                    // $("#showSpinner").hide();
+                }
+            })
+
+
+        }
+
+
+        else {
+            if ($("#DistID").val() == null || $("#DistID").val() == "0") {
+
+
+                alert("Please Select District Name");
+                return false;
+            }
+
+            if ($("#ProjectPreparationID").val() == null || $("#ProjectPreparationID").val() == "0") {
+
+
+                alert("Please select   Project Name");
+                return false;
+            }
+
+
+            if ($("#InstallmentID").val() == null || $("#InstallmentID").val() == "0") {
+
+
+                alert("Please select   Installment Name");
+                return false;
+            }
+
+            if ($("#Instext").val() == "") {
+
+
+                alert("Please select   Installment Name");
+                return false;
+            }
+
+            if ($("#InsPercentage").val() == "") {
+
+
+                alert("Please Enter   InsPercentage Percentage");
+                return false;
+            }
+            //if ($("#Releaseperamount").val() == "") {
+
+
+            //    alert("Please Enter   Release Amount");
+            //    return false;
+            //}
+
+
+            var dataobject = {
+
+                DistrictID: $("#DistID").val(),
+
+                ProjectPreparationID: $("#ProjectPreparationID").val(),
+                InstallmentID: $("#InstallmentID").val(),
+                Instext: $("#Instext").val(),
+                InsPercentage: $("#InsPercentage").val(),
+                Releaseperamount: 0,
+                 MileStoneID: $("#MileStoneID").val()
+            }
+
+            $.ajax({
+                url: "/MileStone/UpdatedMilestone",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: JSON.stringify(dataobject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+
+
+                    if (r.Message == "1") {
+
+                        alert('Record Updated successfully!');
+                        window.location.href = "/MileStone/ViewMileStoneProject"
+
+                        //CrearFields();
+                        //location.reload();
+                    }
+                    else {
+                        alert("Server is not responding!");
+                        //$("#showSpinner").hide();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Server is not responding!");
+                    // $("#showSpinner").hide();
+                }
+            })
+
+
+
+
+
+
+        }
 
 
 
