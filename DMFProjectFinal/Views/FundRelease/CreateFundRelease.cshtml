@@ -6,7 +6,12 @@
     ViewBag.Title = "Create Fund Release";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
+<style>
+    span{
+        float:left;
+        padding:3px;
+    }
+</style>
 <div class="card-header">
     @if (String.IsNullOrEmpty(Model.FundReleaseID))
     {
@@ -21,60 +26,74 @@
     <div class="card-body">
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundReleaseID) ? "CreateFundRelease" : "EditReleasedFund"), "FundRelease", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
-            <div class="row">
-                @Html.HiddenFor(x => x.FundReleaseID)
-                @Html.HiddenFor(x => x.DistrictID)
+        <div class="row">
+            @Html.HiddenFor(x => x.FundReleaseID)
+            @Html.HiddenFor(x => x.DistrictID)
 
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Select Project<sup><code>*</code></sup></strong>
-                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetprojectDetails()" })
-                    </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Select Project<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off",@onchange= "BindInstallment()" })
                 </div>
 
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Release Date<sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.RelaeseDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Release Amount<sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                    </div>
-                </div>
-            </div><div class="row">
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>Select Installment<sup><code>*</code></sup></strong>
-                        @if (String.IsNullOrEmpty(Model.FundReleaseID))
-                        {
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Select Installment<sup><code>*</code></sup></strong>
+                    @if (String.IsNullOrEmpty(Model.FundReleaseID))
+                    {
 
-                            @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off",@onchange= "GetMilestone()" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
 
-                        }
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>
-                            Attached Copy<sup><code>*</code></sup>
-                            @if (!String.IsNullOrEmpty(Model.FundReleaseCopy))
-                            {
-                                <a href="@Model.FundReleaseCopy" target="_blank">View Doc</a>
-                                <input type="hidden" value="prev" id="FundReleaseCopy" name="FundReleaseCopy" />
-                            }
-                        </strong>
-
-                        @Html.TextBoxFor(x => x.FundReleaseCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "FundReleaseCopy" })
-                    </div>
+                    }
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Release Amount<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                </div>
+            </div>
+          
+
+            <div id="details" style="display:none;background-color:lightgray;font-size:12px">
+                <span id="ProjectName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="SectorName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="SectorType"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="SenctionedProjectCost"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="milestonePercentage"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="ProposedBy"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="ProposalNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="ReleaseAmount"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                <span id="InstallmentName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            </div><br />
+        </div><div class="row">
+    <div class="col-md-4">
+        <div class="form-label">
+            <strong>Release Date<sup><code>*</code></sup></strong>
+            @Html.TextBoxFor(x => x.RelaeseDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-label">
+            <strong>
+                Attached Copy<sup><code>*</code></sup>
+                @if (!String.IsNullOrEmpty(Model.FundReleaseCopy))
+                {
+                    <a href="@Model.FundReleaseCopy" target="_blank">View Doc</a>
+                    <input type="hidden" value="prev" id="FundReleaseCopy" name="FundReleaseCopy" />
+                }
+            </strong>
+
+            @Html.TextBoxFor(x => x.FundReleaseCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "FundReleaseCopy" })
+        </div>
+    </div>
+</div>
 
             <div class="row">
                 <div class="col-md-1">
@@ -99,7 +118,7 @@
                     </div>
                 </div>
             </div>
-            if (!String.IsNullOrEmpty(Model.FundReleaseID))
+            @*if (!String.IsNullOrEmpty(Model.FundReleaseID))
             {
                 <div class="row" id="DetailsRow">
                     <h6>Released Installment Details:-</h6>
@@ -137,87 +156,140 @@
                         <tbody id="ReleaseinstallmentData"></tbody>
                     </table>
                 </div>
-            }
+            }*@
         }
     </div>
 </div>
  
-<script>
-    function GetprojectDetails() {
-        $("#DetailsRow").show();
-            var DistrictID = $("#DistrictID").val();
-            var ProjectNo = $("#ProjectNo").val();
-            debugger
-            $.ajax({
-                url: "/FundRelease/GetProjectAndInstallmentDetails",
-                type: "POST",
-                contentType: "Application/json;charset=utf-8;",
-                dataType: "json",
-                data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
-                success: function (data) {
-                    //alert("done");
-                        var html = "";
-                    if (data.length > 0) {
-                        for (var i = 0; i < data.length; i++) {
-                            html += "<tr>";
-                            var ReleaseDateFormat = new Date(parseInt(data[i].RelaeseDate.substr(6)));
-                            html += "<td>" + data[i].ProjectName + "</td>";
-                            html += "<td>" + data[i].SectorType + "</td>";
-                            html += "<td>" + data[i].SectorName + "</td>";
-                            html += "<td>" + ReleaseDateFormat.toLocaleDateString("es-CL") + "</td>";
-                            html += "<td>" + data[i].SanctionedProjectCost + "</td>";
-                            html += "<td style='color:green;font-weight:bold'>Rs." + data[i].ReleaseAmount + "</td>";
-                            //if (data[i] == 0) {
+@*<script>
+    //function GetFundDetails() {
+    //    GetProjectDetails()
+    //    $("#DetailsRow").show();
+    //        var DistrictID = $("#DistrictID").val();
+    //        var ProjectNo = $("#ProjectNo").val();
+    //        debugger
+    //        $.ajax({
+    //            url: "/FundRelease/GetProjectAndInstallmentDetails",
+    //            type: "POST",
+    //            contentType: "Application/json;charset=utf-8;",
+    //            dataType: "json",
+    //            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+    //            success: function (data) {
+    //                //alert("done");
+    //                    var html = "";
+    //                if (data.length > 0) {
+    //                    for (var i = 0; i < data.length; i++) {
+    //                        html += "<tr>";
+    //                        var ReleaseDateFormat = new Date(parseInt(data[i].RelaeseDate.substr(6)));
+    //                        html += "<td>" + data[i].ProjectName + "</td>";
+    //                        html += "<td>" + data[i].SectorType + "</td>";
+    //                        html += "<td>" + data[i].SectorName + "</td>";
+    //                        html += "<td>" + ReleaseDateFormat.toLocaleDateString("es-CL") + "</td>";
+    //                        html += "<td>" + data[i].SanctionedProjectCost + "</td>";
+    //                        html += "<td style='color:green;font-weight:bold'>Rs." + data[i].ReleaseAmount + "</td>";
+    //                        var balance = data[i].SanctionedProjectCost - data[i].ReleaseAmount;
+    //                        for (var j = 0; j < i; j++) {
+    //                            balance -= data[j].ReleaseAmount;
+    //                        }
 
-                            //    html += "<td>" + (data[i].SanctionedProjectCost - data[i].ReleaseAmount) + "</td>";
-                            //}
-                            //else if (data[i] == 1) {
-
-                            //    html += "<td>" + (data[i].SanctionedProjectCost - (data[i].ReleaseAmount + data[i - 1].ReleaseAmount)) + "</td>";
-                            //}
-                            //else if (data[i] == 2) {
-
-                            //    html += "<td>" + (data[i].SanctionedProjectCost - (data[i].ReleaseAmount + data[i - 1].ReleaseAmount + data[i - 2].ReleaseAmount)) + "</td>";
-                            //}
-                            //else if (data[i] == 3) {
-
-                            //    html += "<td>" + (data[i].SanctionedProjectCost - (data[i].ReleaseAmount + data[i - 1].ReleaseAmount + data[i - 2].ReleaseAmount + data[i - 3].ReleaseAmount)) + "</td>";
-                            //}
-                            //else {
-                            //    html += "<td>0</td>";
-
-                            //}
-                            var balance = data[i].SanctionedProjectCost - data[i].ReleaseAmount;
-                            for (var j = 0; j < i; j++) {
-                                balance -= data[j].ReleaseAmount;
-                            }
-
-                            html += "<td>" + balance + "</td>";
-                            html += "<td>" + data[i].InstallmentName + "</td>";
-                            html += "<tr>";
-                            html += "</tr>";
-                        }
-                        $("#ReleaseinstallmentData").html(html);
-                    }
-                    else {
-                        html += "<tr>";
-                        html += "<td colspan='6' style='text-align:center;font-size:15px'>No fund released for this project</td>";
-                        html += "</tr>";
-                        $("#ReleaseinstallmentData").html(html);
-                    }
+    //                        html += "<td>" + balance + "</td>";
+    //                        html += "<td>" + data[i].InstallmentName + "</td>";
+    //                        html += "<tr>";
+    //                        html += "</tr>";
+    //                    }
+    //                    $("#ReleaseinstallmentData").html(html);
+    //                }
+    //                else {
+    //                    html += "<tr>";
+    //                    html += "<td colspan='6' style='text-align:center;font-size:15px'>No fund released for this project</td>";
+    //                    html += "</tr>";
+    //                    $("#ReleaseinstallmentData").html(html);
+    //                }
                   
-                }
-            })
-        }
+    //            }
+    //        })
+    //    }
    
+</script>*@
+<script>
+    function GetProjectDetails() {
+        debugger
+        var DistrictID = $("#DistrictID").val();
+        var ProjectNo = $("#ProjectNo").val();
+        $.ajax({
+            url: "/FundRelease/GetProjectDetails",
+            type: "POST",
+            contentType: "Application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            success: function (data) {
+                //alert("done");
+                $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                $("#SectorName").html("Sector Name: <b>" + data[0].SectorName + "</b>");
+                $("#SectorType").html("Sector Type: <b>" + data[0].SectorType + "</b>");
+                $("#SenctionedProjectCost").html("Section project Cost : <b style='color:green'> " + data[0].SanctionedProjectCost + "</b>");
+                $("#ProposalNo").html("Proposal No: <b>" + data[0].ProsposalNo + "</b>");
+                $("#ProposedBy").html("Proposed By: <b>" + data[0].ProposedBy + "</b>");
+                $("#ReleaseAmount").html("Release Amount: <b>" + data[0].ReleaseAmount + "</b>");
+                //$("#InstallmentName").html("Installment Name: <b>" + data[0].InstallmentName + "</b>");
+                $("#details").show();
+            }
+        })
+    }
 </script>
+<script>
+    function BindInstallment() {
+        GetProjectDetails()
+        var DistrictID = $("#DistrictID").val();
+        var ProjectNo = $("#ProjectNo").val();
+        $.ajax({
+            url: "/FundRelease/BindInstallment",
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            success: function (data) {
+                $("#InstallmentID").empty();
+                $("#InstallmentID").append("<option value='0'>Select Installment</option>");
+                for (var i = 0; i < data.length; i++) {
+                    $("#InstallmentID").append("<option value=" + data[i].InstallmentID + ">" + data[i].InstallmentName + "</option>");
+                }
+            }
+        })
+    }
+</script>
+<script>
+    function GetMilestone() {
+        debugger
+        var InstallmentID = $("#InstallmentID").val();
+        var DistrictID = $("#DistrictID").val();
+        var ProjectNo = $("#ProjectNo").val();
+        $.ajax({
+            url: "/FundRelease/MileStoneByInstallment",
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo, InstallmentID: InstallmentID }),
+            success: function (data) {
+                console.log(data);
+                var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[0].InsPercentage)/100)
+                $("#ReleaseAmount").val(releaseamt);
+                $("#milestonePercentage").html("MileStone(%) :<b>" + data[0].InsPercentage + "<br/>")
+                $("#InstallmentName").html("Installment Name :<b>" + data[0].InstallmentName + "<br/>")
+
+            }
+        })
+
+    }
+</script>
+
 @section scripts{
     <script>
         $(document).ready(function () {
             debugger
             var id = $("#FundReleaseID").val();
             if (id != "" || id != null || id != 0) {
-                GetprojectDetails()
+                GetProjectDetails()
             }
         });
     </script>

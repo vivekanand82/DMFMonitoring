@@ -44,8 +44,8 @@ namespace DMFProjectFinal.Controllers
                                 AmountSpend = fr.AmountSpend,
                                 SectorType = stm.SectorType,
                                 SectorName=snm.SectorName,
-                                PhysicalprogressID=fr.PhysicalprogressID.ToString()
-                                //SanctionedProjectCost = ppp.SanctionedProjectCost
+                                PhysicalprogressID=fr.PhysicalprogressID.ToString(),
+                                SanctionedProjectCost = ppp.SanctionedProjectCost,
                             }).ToList();
                 ViewBag.LstData = data;
             }
@@ -91,17 +91,18 @@ namespace DMFProjectFinal.Controllers
             }
             DTO_PhysicalProgressMaster model = new DTO_PhysicalProgressMaster();
             //ViewBag.ProjectID = new SelectList(db.MileStoneMasters.Where(x => x.IsActive == true && x.ProjectNo != null  && x.DistrictID == (DistID == null ? x.DistrictID : DistID)), "ProjectNo", "ProjectName", null);
-            ViewBag.ProjectID = new SelectList((from ms in db.MileStoneMasters
-                                               join fr in db.FundReleases on ms.ProjectNo equals fr.ProjectNo
-                                               join ppp in db.ProjectProposalPreprations on ms.ProjectNo equals ppp.ProjectNo
-                                               where ms.IsActive == true && ppp.DistID == ms.DistrictID
-
-                                               select new DTO_MileStoneMaster
+            ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
+                                                    //join fr in db.FundReleases on ms.ProjectNo equals fr.ProjectNo
+                                                join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
+                                               where ppp.IsActive == true && ppp.DistID == DistID && pm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2
+                                               select new 
                                                {
-                                                   ProjectNo = ms.ProjectNo,
+                                                    ProjectNo = ppp.ProjectNo,
                                                    ProjectName = ppp.ProjectName
                                                }
                                              ), "ProjectNo", "ProjectName", null);
+
+            
             model.DistrictID = DistID;
             return View(model);
         }
@@ -114,14 +115,13 @@ namespace DMFProjectFinal.Controllers
             {
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
-
             }
-            var milestone = db.MileStoneMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID).FirstOrDefault();
-            if (db.PhysicalProgressMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.MileStoneID == milestone.MileStoneID).Any())
-            {
-                JR.Message =  "Physical Progress Aready Created  for this Milestone !";
-                return Json(JR, JsonRequestBehavior.AllowGet);
-            }
+            //var milestone = db.MileStoneMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID && x.MileStoneID==model.MileStoneID).FirstOrDefault();
+            //if (db.PhysicalProgressMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.MileStoneID == model.MileStoneID).Any())
+            //{
+            //    JR.Message =  "Physical Progress Aready Created  for this Milestone !";
+            //    return Json(JR, JsonRequestBehavior.AllowGet);
+            //}
             if (!String.IsNullOrEmpty(model.PhysicalProgressCopy))
             {
                 model.PhysicalProgressCopy = BusinessLogics.UploadFileDMF(model.PhysicalProgressCopy);
@@ -137,9 +137,9 @@ namespace DMFProjectFinal.Controllers
                 DistrictID = model.DistrictID,
                 ProjectID = model.ProjectID,
                 ProjectNo = model.ProjectNo,
-                MileStoneID = milestone.MileStoneID,
-                FundReleaseID = milestone.FundReleaseID,
-                ProjectPreparationID = milestone.ProjectPreparationID,
+                //MileStoneID = milestone.MileStoneID,
+                //FundReleaseID = milestone.FundReleaseID,
+                //ProjectPreparationID = milestone.ProjectPreparationID,
                 PhysicalProgressDate = model.PhysicalProgressDate,
                 Remark = model.Remark,
                 PhysicalProgressCopy = model.PhysicalProgressCopy,

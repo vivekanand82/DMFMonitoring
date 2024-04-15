@@ -46,6 +46,7 @@ namespace DMFProjectFinal.Controllers
                                 SanctionedProjectCost = ppp.SanctionedProjectCost
                             }).ToList();
             ViewBag.LstData = data;
+
             }
             else
             {
@@ -263,6 +264,70 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetProjectDetails(int DistrictID, string ProjectNo)
+        {
+            //int? DistID = null;
+            //if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            //{
+            //    DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            //}
+            var data = (from ppp in db.ProjectProposalPreprations
+                  join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
+                    join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
+                join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
+                join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
+                //join fr in db.FundReleases on ppp.ProjectPreparationID equals fr.ProjectPreparationID
+                //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                where ppp.IsActive == true && ppp.DistID == DistrictID && ppp.ProjectNo == ProjectNo
+                        select new DTO_ProjectProposalPrepration
+                        {
+                            DistID = ppp.DistID,
+                            ProjectNo = ppp.ProjectNo,
+                            DistrictName = dm.DistrictName,
+                            ProjectName = pm.ProjectName,
+                            SectorName = snm.SectorName,
+                            SectorType = stm.SectorType,
+                            SanctionedProjectCost = ppp.SanctionedProjectCost,
+                            ProsposalNo=ppp.ProsposalNo,
+                            ProposedBy=ppp.ProposedBy
+                            //ReleaseAmount=fr.ReleaseAmount,
+                            //InstallmentName=ins.InstallmentName
+                            
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult MileStoneByInstallment(int DistrictID, string ProjectNo,int InstallmentID)
+        {
+
+            var data = (from mm in db.MileStoneMasters
+                        join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
+                        join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID && mm.InstallmentID == InstallmentID
+                        select new DTO_MileStoneMaster
+                        {
+                           SanctionedProjectCost=ppp.SanctionedProjectCost,
+                           InsPercentage=mm.InsPercentage,
+                           InstallmentName=ins.InstallmentName
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult BindInstallment(int DistrictID, string ProjectNo)
+        {
+            var data = (from mm in db.MileStoneMasters
+                        join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+                        where mm.DistrictID==DistrictID && mm.ProjectNo==ProjectNo
+                        select new DTO_MileStoneMaster
+                        {
+                            InstallmentID = mm.InstallmentID,
+                            InstallmentName = ins.InstallmentName
+                        }).ToList();
+            return Json(data,JsonRequestBehavior.AllowGet);
         }
     }
 }
