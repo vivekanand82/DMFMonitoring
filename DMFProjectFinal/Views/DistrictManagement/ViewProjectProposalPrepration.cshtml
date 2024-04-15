@@ -195,6 +195,7 @@
                                     <thead class="table-dark">
                                         <tr class="text-dark">
                                             <th>क्र०सं०</th>
+                                            <th>Project No</th>
                                             <th>District</th>
                                             <th>Project Name</th>
                                             <th>Sector Name</th>
@@ -226,77 +227,78 @@
                                         @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                         {
                                             j++;
-                                        <tr>
-                                            <td>@j</td>
-                                            <td>@item.DistrictName</td>
-                                            <td>@item.ProjectName</td>
-                                            <td>@item.SectorName</td>
-                                            <td>@item.ProsposalNo</td>
-                                            <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
-                                            @if (String.IsNullOrEmpty(item.ProposalCopy))
-                                            {
-                                                <td></td>
-                                            }
-                                            else
-                                            {
-                                                <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                            }
-                                            <td>@item.ProposedBy</td>
-                                            <td>@item.TenderNo</td>
-                                            <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                            <td>@item.WorkOrderNo</td>
-                                            <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.ProjectNo</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.ProjectName</td>
+                                                <td>@item.SectorName</td>
+                                                <td>@item.ProsposalNo</td>
+                                                <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
+                                                @if (String.IsNullOrEmpty(item.ProposalCopy))
+                                                {
+                                                    <td></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                }
+                                                <td>@item.ProposedBy</td>
+                                                <td>@item.TenderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                <td>@item.WorkOrderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
 
-                                            @if (item.Status == "Forward")
-                                            {
-                                                <td><a class="badge bg-success-subtle text-danger">Forward</a></td>
-                                                @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
-            <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
+                                                @if (item.Status == "Forward")
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-danger">Forward</a></td>
+                                                    @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
+                                                        <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
 
-                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 
-                                                <td></td>
-
-
-                                            }
-
-                                            else if (item.Status == "Approved")
-                                            {
-                                                <td><a class="badge bg-success-subtle text-success">Approved</a></td>
-                                                @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
-            <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
-
-                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-
-                                                <td></td>
+                                                    <td></td>
 
 
-                                            }
-                                            @*else if (item.Status == "Forward")
-                                            {
+                                                }
 
-                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                <td></td>
+                                                else if (item.Status == "Approved")
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-success">Approved</a></td>
+                                                    @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
+                                                        <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
 
-                                                <td></td>
-                                            }*@
+                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 
-
-
-                                            else
-                                            {
-                                                <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-
-                                                <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info ">Forward To Governing Council</a></td>
+                                                    <td></td>
 
 
-                                            }
+                                                }
+                                                @*else if (item.Status == "Forward")
+                                                    {
+
+                                                        <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                        <td></td>
+
+                                                        <td></td>
+                                                    }*@
 
 
 
+                                                else
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 
-                                        </tr>
+                                                    <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info ">Forward To Governing Council</a></td>
+
+
+                                                }
+
+
+
+
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -557,7 +559,7 @@
                                     <input type="hidden" id="ProjectPreparationID" name="ProjectPreparationID" />
 
 
-                                    @Html.TextBoxFor(x => x.MeetingNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                                    @Html.TextBoxFor(x => x.MeetingNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id= "MeetingNo" })
 
 
                                 </div>
@@ -567,7 +569,9 @@
                                     <strong>Meeting Date<sup><code>*</code></sup></strong>
                                     @*@Html.DropDownListFor(x => x.TehsilId, null, "Select Tehsil", new { @class = "form-control form-control-sm  multiple-deps-ddl", @ref = "VillageId", @refflg = "003" })*@
 
-                                    @Html.TextBoxFor(x => x.MettingDate, ((Model.MettingDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.MettingDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                                    @Html.TextBoxFor(x => x.MettingDate, ((Model.MettingDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.MettingDate)), new { @class = "form-control", @autocomplete = "off", @id = "MettingDate" })
+
+                                 
 
 
 
@@ -579,7 +583,7 @@
                                     @*@Html.DropDownListFor(x => x.BlockId, null, "Select Block", new { @class = "form-control form-control-sm " })*@
 
 
-                                    @Html.TextBoxFor(x => x.MinutesofMeeting, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "time" })
+                                    @Html.TextBoxFor(x => x.MinutesofMeeting, "", new { @class = "form-control", @autocomplete = "off", @type = "time", @id= "MinutesofMeeting" })
 
 
                                 </div>
@@ -591,9 +595,9 @@
 
 
 
-                                    @Html.TextBoxFor(x => x.MinutesofMeetingfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })
+                                    @*@Html.TextBoxFor(x => x.MinutesofMeetingfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile" })*@
 
-
+                                    <input type="file" class="form-control" id="MinutesofMeetingfile" />
 
 
 
@@ -605,7 +609,10 @@
                                     <strong>Member Attendance Upload<sup><code>*</code></sup></strong>
 
 
-                                    @Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile" })
+                                    @*@Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile" })*@
+
+                                    <input type="file" class="form-control" id="Memberattendancefile" />
+
 
 
                                 </div>
@@ -616,8 +623,9 @@
                                     <strong>Approval  Member Letter<sup><code>*</code></sup></strong>
 
 
-                                    @Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile" })
+                                    @*@Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile" })*@
 
+                                    <input type="file" class="form-control" id="Approvelletterfile" />
 
 
                                 </div>
@@ -659,7 +667,7 @@
                             <div class="col-md-3">
                                 <div class="form-label">
                                     <strong>AttendanceDate<sup><code>*</code></sup></strong>
-                                    @Html.TextBoxFor(x => x.Attendancedate, ((Model.Attendancedate == null) ? "" : BusinessLogics.GetJSDateStr(Model.Attendancedate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                                    @Html.TextBoxFor(x => x.Attendancedate, ((Model.Attendancedate == null) ? "" : BusinessLogics.GetJSDateStr(Model.Attendancedate)), new { @class = "form-control", @autocomplete = "off",@id= "Attendancedate" })
 
 
 
@@ -673,7 +681,7 @@
                             <div class="col-md-3">
                                 <div class="form-label">
                                     <strong>Remark<sup><code>*</code></sup></strong>
-                                    @Html.TextBoxFor(x => x.Remark, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                                    @Html.TextBoxFor(x => x.Remark, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id= "Remark" })
 
 
 
@@ -699,7 +707,7 @@
 
                                     <div>
                                         @*<button type="submit" id="Forward" class="btn btn-secondary" style="margin-top:30px;">Forward</button>*@
-                                        <input type="submit" id="btnSubmit" class="btn btn-success" value="Forward" />
+                                        <input type="button" id="btnSubmit" class="btn btn-success" value="Forward" onclick="savedata();" />
 
                                     </div>
 
@@ -749,14 +757,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.min.js"></script>
     @*<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>*@
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function ($) {
 
             $('#tblData').DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
+         
+            //$("#MettingDate").datepicker()
+         
+            $('#MettingDate').datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date() // disabling past dates
+            });
 
-
+            $('#Attendancedate').datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date() // disabling past dates
+            });
+            
 
 
             //$("#abc").select2();
@@ -866,6 +889,236 @@
             $("#myModal2").modal('show')
 
         }
+
+
+        function savedata() {
+            if ($("#MeetingNo").val() == "") {
+
+                alert("Please Enter Meeting No")
+                return false;
+
+
+            }
+
+            if ($("#MettingDate").val() == "") {
+
+                alert("Please Enter Meeting Date")
+                return false;
+
+
+            }
+
+            if ($("#CommitteeID").val() == "") {
+
+                alert("Please select Member List")
+                return false;
+
+
+            }
+            if ($("#Status").val() == "") {
+
+                alert("Please select  Status")
+                return false;
+
+
+            }
+            if ($("#Attendancedate").val() == "") {
+
+                alert("Please Enter   Attendancedate")
+                return false;
+
+
+            }
+
+            if ($("#Remark").val() == "") {
+
+                alert("Please Enter   Remark")
+                return false;
+
+
+            }
+
+
+            var program_array = [];
+            $('#CommitteeID :selected').each(function () {
+
+
+                if ($(this).val() == "0") {
+
+
+
+                }
+                else {
+                    var commitid = $(this).val()
+
+                 
+                    item = {}
+
+                    item["commitid"] = commitid
+
+                  
+
+                    program_array.push(item)
+
+                }
+
+
+            });
+            var dataobject = {
+                MeetingNo: $("#MeetingNo").val(),
+                MettingDate: $("#MettingDate").val(),
+                MinutesofMeeting: $("#MinutesofMeeting").val(),
+                CommitteeID: program_array,
+                Status: $("#Status").val(),
+                Attendancedate: $("#Attendancedate").val(),
+                Remark: $("#Remark").val(),
+                ProjectPreparationID: $("#ProjectPreparationID").val()
+
+            }
+
+            $.ajax({
+                url: "/DistrictManagement/insertmeetingdata",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: JSON.stringify(dataobject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    if (r.Message == "1") {
+                        uploadImage($("#ProjectPreparationID").val());
+                        uploadpreparation($("#ProjectPreparationID").val())
+                        uploaduser($("#ProjectPreparationID").val())
+                        alert('Record saved successfully!');
+
+                        window.location.href = "/DistrictManagement/ViewProjectProposalPrepration"
+                        //CrearFields();
+                        //location.reload();
+                    }
+
+
+
+
+                }
+
+            })
+
+
+
+
+
+
+
+        }
+
+        function uploadImage(ProjectPreparationID) {
+
+
+
+            debugger;
+            var data1 = $("#MinutesofMeetingfile").val();
+
+
+            var fileUpload = $("#MinutesofMeetingfile").get(0);
+
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+
+            fileData.append('ProjectPreparationID', ProjectPreparationID);
+
+            $.ajax({
+                url: '/DistrictManagement/UploadMinutesofMeeting',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                },
+                error: function (err) {
+                }
+            });
+        }
+
+
+        function uploadpreparation(ProjectPreparationID) {
+
+
+
+            debugger;
+            var data1 = $("#Memberattendancefile").val();
+
+
+            var fileUpload = $("#Memberattendancefile").get(0);
+
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+
+            fileData.append('ProjectPreparationID', ProjectPreparationID);
+
+            $.ajax({
+                url: '/DistrictManagement/UploadMemberAttendances',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                },
+                error: function (err) {
+                }
+            });
+        }
+
+
+        function uploaduser(ProjectPreparationID) {
+
+
+
+            debugger;
+            var data1 = $("#Approvelletterfile").val();
+
+
+            var fileUpload = $("#Approvelletterfile").get(0);
+
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+
+            fileData.append('ProjectPreparationID', ProjectPreparationID);
+
+            $.ajax({
+                url: '/DistrictManagement/UploadApprovalletter',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                },
+                error: function (err) {
+                }
+            });
+        }
+
+
+
+
+
+
+
+
 
 
 

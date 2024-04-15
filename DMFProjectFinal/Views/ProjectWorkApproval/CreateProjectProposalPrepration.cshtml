@@ -268,7 +268,7 @@
                                 <a target="_blank" id="ProposalCopy1" style="display:none;">View Doc</a></strong>
                                 @*@Html.TextBoxFor(x => x.ProposalCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy", @id= "ProposalCopy" })*@
 
-                                <input type="file" id="ProposalCopy" />
+                                <input type="file" id="ProposalCopy" class="form-control" />
 
 
                         </div>
@@ -336,7 +336,7 @@
 
 
 
-                            <input type="file" id="WorkOrderCopy" />
+                            <input type="file" id="WorkOrderCopy" class="form-control" />
 
 
                         </div>
@@ -635,7 +635,7 @@
                 TehsilId = $("#hdntesil").val();
             }
             else {
-                alert(2)
+             
                 
                 TehsilId = $('#TehsilId').val();
             }
@@ -923,7 +923,7 @@
                         //CrearFields();
                         //location.reload();
                     } else if (r.strId == '2') {
-                        alert("This Mobile No. already exists!");
+                        //alert("This Mobile No. already exists!");
                         //location.reload();
                     }
                     else if (r.strId == '3') {

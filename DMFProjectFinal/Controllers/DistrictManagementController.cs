@@ -104,7 +104,9 @@ namespace DMFProjectFinal.Controllers
                                TenderNo = ppp.TenderNo,
                                WorkOrderDate = ppp.WorkOrderDate,
                                WorkOrderNo = ppp.WorkOrderNo,
-                               Status=ppp.RunningStatus
+                               Status=ppp.RunningStatus,
+                               ProjectNo=ppp.ProjectNo
+                               
                                
 
                            }).ToList();
@@ -291,6 +293,291 @@ namespace DMFProjectFinal.Controllers
             //return new JsonResult { Data = JR, JsonRequestBehavior = JsonRequestBehavior.AllowGet, ContentType = "application/json", MaxJsonLength = Int32.MaxValue };
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult insertmeetingdata(DTO_ProjectProposalPrepration model, List<string> CommitteeID)
+        {
+            JsonResponse JR = new JsonResponse();
+            ProjectMetting abc = new ProjectMetting();
+            long _id = long.Parse(model.ProjectPreparationID);
+            var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
+
+            string memberlist = "";
+
+            foreach (string s in CommitteeID)
+            {
+                if (s !="")
+                {
+                    memberlist += s + ",";
+
+
+                }
+
+
+            }
+
+
+
+            Info.Stageid = 1;
+            Info.RunningStatus =model.Status;
+            Info.ModifyDate = DateTime.Now;
+            Info.CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID;
+
+
+            abc.ProjectPreparationID = Convert.ToInt32(model.ProjectPreparationID);
+            abc.MeetingNo = model.MeetingNo;
+            abc.MettingDate = model.MettingDate;
+            abc.IsActive = true;
+            abc.MinutesofMeeting = model.MinutesofMeeting;
+            abc.MinutesofMeetingfile = model.MinutesofMeetingfile;
+            abc.Memberattendancefile = model.Memberattendancefile;
+            abc.Approvelletterfile = model.Approvelletterfile;
+
+            abc.Attendancedate = model.Attendancedate;
+            abc.Stageid = 1;
+            abc.Memberlist = memberlist;
+            abc.Status = model.Status;
+            abc.CreatedBy = 1;
+            abc.Createddate = DateTime.Now;
+            abc.DistID = Info.DistID;
+            abc.Remark = model.Remark;
+
+            db.ProjectMettings.Add(abc);
+
+            int res =db.SaveChanges();
+            if (res > 0)
+            {
+                //Response.Write("<script>alert('Data saved successfully');window.location.href='/ProjectWorkApproval/ProjectProposalPrepration'</script>");
+
+                JR.IsSuccess = true;
+                JR.Message = "1";
+                JR.RedURL = "/DistrictManagement/ViewProjectProposalPrepration";
+            }
+            else
+            {
+                //  Response.Write("<script>alert('Error');window.location.href='/ProjectWorkApproval/CreateProjectProposalPrepration'</script>");
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+            return Json(JR, JsonRequestBehavior.AllowGet);
+
+
+
+        }
+
+        [HttpPost]
+        public ActionResult UploadMinutesofMeeting(int ProjectPreparationID)
+
+        {
+
+            if (Request.Files.Count > 0)
+            {
+                ProjectMetting objP = new ProjectMetting();
+
+                objP = db.ProjectMettings.Where(x => x.ProjectPreparationID== ProjectPreparationID).FirstOrDefault();
+                var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                HttpPostedFileBase mainPic = Request.Files[0];
+                string fileExt = Path.GetExtension(mainPic.FileName);
+                string fName = info.ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var path = Path.Combine(Server.MapPath("~/Documents"), fName);
+
+
+
+
+                mainPic.SaveAs(path);
+
+
+                objP.MinutesofMeeting = "/Documents/" + fName; 
+                db.SaveChanges();
+
+
+
+
+            }
+            else
+            {
+                //SaleEntry objP = new SaleEntry();
+                //objP.SessionId = Convert.ToString(Session["SessionId"]);
+                //objP.formno = formno;
+
+                //objP.Action = "updtimg";
+                //objP.photos = "../studentpic/userimg.jpg";
+                //int r = objL.updateStudentImage(objP);
+
+                //Common objP = new Common();
+
+                //objP.UserContactno = MobileNo;
+
+
+                //objP.Org_logo = "userimg.jpg";
+                //DataTable dt = objL.InsertCandidate(objP, "sp_cat_Reg_Id");
+
+
+
+
+            }
+
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View();
+            }
+
+
+            //return View();
+
+        }
+        [HttpPost]
+        public ActionResult UploadMemberAttendances(int ProjectPreparationID)
+
+        {
+
+            if (Request.Files.Count > 0)
+            {
+                ProjectMetting objP = new ProjectMetting();
+
+                objP = db.ProjectMettings.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                HttpPostedFileBase mainPic = Request.Files[0];
+                string fileExt = Path.GetExtension(mainPic.FileName);
+                string fName = info.ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var path = Path.Combine(Server.MapPath("~/Documents"), fName);
+
+
+
+
+                mainPic.SaveAs(path);
+
+
+                objP.Memberattendancefile ="/Documents/" + fName; 
+                db.SaveChanges();
+
+
+
+
+            }
+            else
+            {
+                //SaleEntry objP = new SaleEntry();
+                //objP.SessionId = Convert.ToString(Session["SessionId"]);
+                //objP.formno = formno;
+
+                //objP.Action = "updtimg";
+                //objP.photos = "../studentpic/userimg.jpg";
+                //int r = objL.updateStudentImage(objP);
+
+                //Common objP = new Common();
+
+                //objP.UserContactno = MobileNo;
+
+
+                //objP.Org_logo = "userimg.jpg";
+                //DataTable dt = objL.InsertCandidate(objP, "sp_cat_Reg_Id");
+
+
+
+
+            }
+
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View();
+            }
+
+
+            //return View();
+
+        }
+
+
+
+        [HttpPost]
+        public ActionResult UploadApprovalletter(int ProjectPreparationID)
+
+        {
+
+            if (Request.Files.Count > 0)
+            {
+                ProjectMetting objP = new ProjectMetting();
+
+                objP = db.ProjectMettings.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+
+                HttpPostedFileBase mainPic = Request.Files[0];
+                string fileExt = Path.GetExtension(mainPic.FileName);
+                string fName = info.ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var path = Path.Combine(Server.MapPath("~/Documents"), fName);
+
+
+
+
+                mainPic.SaveAs(path);
+
+
+                objP.Approvelletterfile = "/Documents/" + fName; 
+                db.SaveChanges();
+
+
+
+
+            }
+            else
+            {
+                //SaleEntry objP = new SaleEntry();
+                //objP.SessionId = Convert.ToString(Session["SessionId"]);
+                //objP.formno = formno;
+
+                //objP.Action = "updtimg";
+                //objP.photos = "../studentpic/userimg.jpg";
+                //int r = objL.updateStudentImage(objP);
+
+                //Common objP = new Common();
+
+                //objP.UserContactno = MobileNo;
+
+
+                //objP.Org_logo = "userimg.jpg";
+                //DataTable dt = objL.InsertCandidate(objP, "sp_cat_Reg_Id");
+
+
+
+
+            }
+
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return View();
+            }
+
+
+            //return View();
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public JsonResult GetProjectDetailes(long ProjectId)
