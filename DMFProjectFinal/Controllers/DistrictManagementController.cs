@@ -377,7 +377,8 @@ namespace DMFProjectFinal.Controllers
                 var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                 HttpPostedFileBase mainPic = Request.Files[0];
                 string fileExt = Path.GetExtension(mainPic.FileName);
-                string fName = info.ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var id = Guid.NewGuid();
+                string fName = info.ProjectNo + "_" + DateTime.Now.ToString("yyyy-dd-MM-HH-mm-ss") + id + fileExt;
                 var path = Path.Combine(Server.MapPath("~/Documents"), fName);
 
 
@@ -443,7 +444,8 @@ namespace DMFProjectFinal.Controllers
                 var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                 HttpPostedFileBase mainPic = Request.Files[0];
                 string fileExt = Path.GetExtension(mainPic.FileName);
-                string fName = info.ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var id = Guid.NewGuid();
+                string fName = info.ProjectNo + "_" + DateTime.Now.ToString("yyyy-dd-MM-HH-mm-ss") + id + fileExt;
                 var path = Path.Combine(Server.MapPath("~/Documents"), fName);
 
 
@@ -510,10 +512,10 @@ namespace DMFProjectFinal.Controllers
 
                 objP = db.ProjectMettings.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                 var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
-
+                var id = Guid.NewGuid();
                 HttpPostedFileBase mainPic = Request.Files[0];
                 string fileExt = Path.GetExtension(mainPic.FileName);
-                string fName = info.ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                string fName = info.ProjectNo + "_" + DateTime.Now.ToString("yyyy-dd-MM-HH-mm-ss") + id + fileExt;
                 var path = Path.Combine(Server.MapPath("~/Documents"), fName);
 
 

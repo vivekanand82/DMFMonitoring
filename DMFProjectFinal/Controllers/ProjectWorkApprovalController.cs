@@ -447,7 +447,8 @@ namespace DMFProjectFinal.Controllers
 
                  HttpPostedFileBase mainPic = Request.Files[0];
                 string fileExt = Path.GetExtension(mainPic.FileName);
-                string fName = ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var id = Guid.NewGuid();
+                string fName = "Proposal" + DateTime.Now.ToString("yyyy-dd-MM-HH-mm-ss") + id + fileExt;
                 var path = Path.Combine(Server.MapPath("~/Documents"), fName);
 
               
@@ -514,7 +515,8 @@ namespace DMFProjectFinal.Controllers
 
                 HttpPostedFileBase mainPic = Request.Files[0];
                 string fileExt = Path.GetExtension(mainPic.FileName);
-                string fName = ProjectNo + "_" + DateTime.Now.Ticks + fileExt;
+                var id = Guid.NewGuid();
+                string fName = "Workorder"  + DateTime.Now.ToString("yyyy-dd-MM-HH-mm-ss") + id + fileExt;
                 var path = Path.Combine(Server.MapPath("~/Documents"), fName);
 
                 mainPic.SaveAs(path);
