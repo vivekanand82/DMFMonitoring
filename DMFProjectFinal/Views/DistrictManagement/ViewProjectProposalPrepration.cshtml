@@ -16,7 +16,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.css" rel="stylesheet" />
+
 @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />*@
 
 
@@ -559,7 +559,7 @@
                                     <input type="hidden" id="ProjectPreparationID" name="ProjectPreparationID" />
 
 
-                                    @Html.TextBoxFor(x => x.MeetingNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id= "MeetingNo" })
+                                    @Html.TextBoxFor(x => x.MeetingNo, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "MeetingNo" })
 
 
                                 </div>
@@ -571,7 +571,7 @@
 
                                     @Html.TextBoxFor(x => x.MettingDate, ((Model.MettingDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.MettingDate)), new { @class = "form-control", @autocomplete = "off", @id = "MettingDate" })
 
-                                 
+
 
 
 
@@ -583,7 +583,7 @@
                                     @*@Html.DropDownListFor(x => x.BlockId, null, "Select Block", new { @class = "form-control form-control-sm " })*@
 
 
-                                    @Html.TextBoxFor(x => x.MinutesofMeeting, "", new { @class = "form-control", @autocomplete = "off", @type = "time", @id= "MinutesofMeeting" })
+                                    @Html.TextBoxFor(x => x.MinutesofMeeting, "", new { @class = "form-control", @autocomplete = "off", @type = "time", @id = "MinutesofMeeting" })
 
 
                                 </div>
@@ -667,7 +667,7 @@
                             <div class="col-md-3">
                                 <div class="form-label">
                                     <strong>AttendanceDate<sup><code>*</code></sup></strong>
-                                    @Html.TextBoxFor(x => x.Attendancedate, ((Model.Attendancedate == null) ? "" : BusinessLogics.GetJSDateStr(Model.Attendancedate)), new { @class = "form-control", @autocomplete = "off",@id= "Attendancedate" })
+                                    @Html.TextBoxFor(x => x.Attendancedate, ((Model.Attendancedate == null) ? "" : BusinessLogics.GetJSDateStr(Model.Attendancedate)), new { @class = "form-control", @autocomplete = "off", @id = "Attendancedate" })
 
 
 
@@ -681,7 +681,7 @@
                             <div class="col-md-3">
                                 <div class="form-label">
                                     <strong>Remark<sup><code>*</code></sup></strong>
-                                    @Html.TextBoxFor(x => x.Remark, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id= "Remark" })
+                                    @Html.TextBoxFor(x => x.Remark, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Remark" })
 
 
 
@@ -752,7 +752,7 @@
 
 
 @section Scripts {
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.css" rel="stylesheet" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.min.js"></script>
     @*<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>*@
@@ -767,9 +767,9 @@
             $('#tblData').DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
-         
+
             //$("#MettingDate").datepicker()
-         
+
             $('#MettingDate').datepicker({
                 dateFormat: 'yy-mm-dd',
                 minDate: new Date() // disabling past dates
@@ -779,7 +779,7 @@
                 dateFormat: 'yy-mm-dd',
                 minDate: new Date() // disabling past dates
             });
-            
+
 
 
             //$("#abc").select2();
@@ -951,12 +951,12 @@
                 else {
                     var commitid = $(this).val()
 
-                 
+
                     item = {}
 
                     item["commitid"] = commitid
 
-                  
+
 
                     program_array.push(item)
 

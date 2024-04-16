@@ -1,6 +1,7 @@
 ﻿@using DMFProjectFinal.Models
 @using DMFProjectFinal.Models.DTO
 @using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_MileStoneMaster
 @{
     ViewBag.Title = "View Mile Stone Project";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -38,6 +39,8 @@
 
 <div id="divform">
     <div class="card-body">
+        
+
         <div class="row">
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
@@ -48,9 +51,43 @@
                     <a class="btn btn-primary btn-round" href="@Url.Action("CreateProjectMilestone", "MileStone")" id="addMonthlyRevenueReceive">Create<i class="fa fa-plus-circle"></i></a>
                 }
             </div>
+
+
+
+           
+
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
+                        <form action="/MileStone/ViewMileStoneProject" method="post">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-label">
+                                        <strong>Select Project<sup><code>*</code></sup></strong>
+                                        @Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                                { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        <input type="submit" id="btnSubmit" value="Search" class="btn btn-primary"  />
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </form>
+
+
+
                         @if (AM.CanView)
                         {
                             <div class="table-responsive mt-20">
@@ -64,7 +101,7 @@
                                                 <th>District</th>
 
                                                 <th> Installment Name</th>
-                                                <th> Remark</th>
+                                                <th> Value</th>
                                                 <th> Percentage</th>
                                                 <th>Action</th>
                                                 @*<th> Amount</th>*@
@@ -85,7 +122,7 @@
                                                     <td>@item.InsPercentage</td>
 
 
-                                                    <td><a href="/MileStone/CreateProjectMilestone?id=@item.MileStoneID.ToString()" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                                                    <td><a href="/MileStone/DeleteProject?MileStoneID=@item.MileStoneID" class="btn btn-small btn-danger" onclick="return confirm('Are you  want To Delete?');"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 
 
 

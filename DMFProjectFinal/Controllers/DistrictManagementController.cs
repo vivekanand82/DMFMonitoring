@@ -329,9 +329,9 @@ namespace DMFProjectFinal.Controllers
             abc.MettingDate = model.MettingDate;
             abc.IsActive = true;
             abc.MinutesofMeeting = model.MinutesofMeeting;
-            abc.MinutesofMeetingfile = model.MinutesofMeetingfile;
-            abc.Memberattendancefile = model.Memberattendancefile;
-            abc.Approvelletterfile = model.Approvelletterfile;
+            //abc.MinutesofMeetingfile = model.MinutesofMeetingfile;
+            //abc.Memberattendancefile = model.Memberattendancefile;
+            //abc.Approvelletterfile = model.Approvelletterfile;
 
             abc.Attendancedate = model.Attendancedate;
             abc.Stageid = 1;
@@ -387,7 +387,7 @@ namespace DMFProjectFinal.Controllers
                 mainPic.SaveAs(path);
 
 
-                objP.MinutesofMeeting = "/Documents/" + fName; 
+                objP.MinutesofMeetingfile = "/Documents/" + fName; 
                 db.SaveChanges();
 
 

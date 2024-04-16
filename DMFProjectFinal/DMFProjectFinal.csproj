@@ -134,6 +134,7 @@
     <Compile Include="Controllers\DMFFundCollectionController.cs" />
     <Compile Include="Controllers\FundReleaseController.cs" />
     <Compile Include="Controllers\GovernanceCommetteController.cs" />
+    <Compile Include="Controllers\InspectionController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\MileStoneController.cs" />
     <Compile Include="Controllers\PhysicalProgressController.cs" />
@@ -426,6 +427,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="Views\Common\" />
+    <Folder Include="Views\Inspection\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\main-dash.css-backup" />
