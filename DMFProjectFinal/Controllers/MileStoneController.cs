@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace DMFProjectFinal.Controllers
 {
@@ -51,10 +52,6 @@ namespace DMFProjectFinal.Controllers
 
 
                                                            }).Distinct().ToList(), "ProjectPreparationID", "ProjectNo", null);
-
-
-
-
 
 
 
@@ -165,6 +162,79 @@ namespace DMFProjectFinal.Controllers
 
         }
 
+
+        public JsonResult InsertRecord(string lis)
+        {
+
+            JsonResponse JR = new JsonResponse();
+            int res = 0;
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            DTO_MileStoneMaster model = new DTO_MileStoneMaster();
+            List<DTO_MileStoneMaster> list = js.Deserialize<List<DTO_MileStoneMaster>>(lis);
+            try
+            {
+                foreach (var item in list)
+                {
+                    MileStoneMaster ax = new MileStoneMaster();
+                    ax.ProjectPreparationID = Convert.ToInt32(item.ProjectPreparationID);
+                    ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).FirstOrDefault();
+                    model.ProjectNo = abc.ProjectNo;
+
+                    ax.ProjectNo = model.ProjectNo;
+                    ax.DistrictID = item.DistrictID;
+                    ax.InstallmentID = item.InstallmentID;
+                    ax.InsPercentage = item.InsPercentage;
+                    ax.Releaseperamount = 0;
+                    ax.CreatedBy = "1";
+                    ax.CreatedDate = DateTime.Now;
+                    ax.Instext = item.Instext;
+                    ax.FundReleaseID = 1;
+                    ax.IsActive = true;
+                    db.MileStoneMasters.Add(ax);
+
+
+
+
+                }
+
+                res = db.SaveChanges();
+
+
+                if (res > 0)
+                {
+
+
+                    JR.IsSuccess = true;
+                    JR.Message = "1";
+                    //JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";
+                }
+                else if (res == 0)
+                {
+                    JR.IsSuccess = true;
+                    JR.Message = "0";
+
+                }
+
+                else
+                {
+
+                    JR.Message = "Some Error Occured, Contact to Admin";
+                }
+
+
+
+
+            }
+
+            catch(Exception ex)
+            {
+
+            }
+            return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         public JsonResult UpdatedMilestone(DTO_MileStoneMaster model)
         {
             JsonResponse JR = new JsonResponse();
@@ -248,9 +318,108 @@ namespace DMFProjectFinal.Controllers
 
             ViewBag.LstData = lsit;
 
-            return View();
+
+            DTO_MileStoneMaster model = new DTO_MileStoneMaster();
+
+            ViewBag.ProjectPreparationID = new SelectList((from ppp in db.ProjectProposalPreprations
+
+
+                                                               //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
+                                                           where ppp.IsActive == true && ppp.Stageid == 2
+                                                           && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
+
+                                                           select new DTO_MileStoneMaster
+                                                           {
+                                                               ProjectPreparationID = ppp.ProjectPreparationID,
+
+                                                               ProjectNo = ppp.ProjectNo + " / " + ppp.ProjectName
+
+
+                                                           }).Distinct().ToList(), "ProjectPreparationID", "ProjectNo", null);
+
+
+
+
+
+
+
+
+            return View(model);
         }
 
+
+        [HttpPost]
+
+        public ActionResult ViewMileStoneProject(int? DistID, int? ProjectPreparationID)
+        {
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            }
+          
+
+            var lsit = (from ppp in db.ProjectProposalPreprations
+                        join mt in
+
+                   db.MileStoneMasters on ppp.ProjectPreparationID
+                         equals mt.ProjectPreparationID
+                        join dm in db.DistrictMasters
+                          on ppp.DistID equals dm.DistrictId
+                        join inst in db.InstallmentMasters
+                        on mt.InstallmentID equals inst.InstallmentID
+                        where ppp.IsActive == true && mt.ProjectPreparationID== (ProjectPreparationID == null ? mt.ProjectPreparationID : ProjectPreparationID)
+
+                         && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
+
+                        select new DTO_MileStoneMaster
+                        {
+
+                            ProjectNo = ppp.ProjectNo + " / " + ppp.ProjectName,
+                            InstallmentName = inst.InstallmentName,
+                            Releaseperamount = mt.Releaseperamount,
+
+                            Instext = mt.Instext,
+                            InsPercentage = mt.InsPercentage,
+                            MileStoneID = mt.MileStoneID,
+                            Districtname = dm.DistrictName
+
+
+
+                        }
+
+                      ).Distinct().ToList();
+
+
+            ViewBag.LstData = lsit;
+
+
+            DTO_MileStoneMaster model = new DTO_MileStoneMaster();
+
+            ViewBag.ProjectPreparationID = new SelectList((from ppp in db.ProjectProposalPreprations
+
+
+                                                               //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
+                                                           where ppp.IsActive == true && ppp.Stageid == 2
+                                                           && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
+
+                                                           select new DTO_MileStoneMaster
+                                                           {
+                                                               ProjectPreparationID = ppp.ProjectPreparationID,
+
+                                                               ProjectNo = ppp.ProjectNo + " / " + ppp.ProjectName
+
+
+                                                           }).Distinct().ToList(), "ProjectPreparationID", "ProjectNo", null);
+
+
+
+
+
+
+
+
+            return View(model);
+        }
 
         public JsonResult EdidData(int MileStoneID)
         {
@@ -305,8 +474,13 @@ namespace DMFProjectFinal.Controllers
 
 
 
-        public  ActionResult DeleteProject()
+        [HttpGet]
+        public  ActionResult DeleteProject(int MileStoneID)
         {
+            MileStoneMaster abc = db.MileStoneMasters.Where(x => x.MileStoneID == MileStoneID).FirstOrDefault();
+            db.MileStoneMasters.Remove(abc);
+            db.SaveChanges();
+            Response.Redirect("/MileStone/ViewMileStoneProject");
 
             return View();
         }

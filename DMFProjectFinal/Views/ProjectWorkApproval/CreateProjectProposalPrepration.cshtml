@@ -916,20 +916,16 @@
                     if (r.Message == "1") {
                         uploadImage($("#ProjectNo").val());
                         uploadworkorder($("#ProjectNo").val())
-                        alert('Record saved successfully!');
-
-                        window.location.href ="/ProjectWorkApproval/ProjectProposalPrepration"
+                       
+                        toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
+                       
                         //CrearFields();
                         //location.reload();
-                    } else if (r.strId == '2') {
-                        //alert("This Mobile No. already exists!");
-                        //location.reload();
-                    }
-                    else if (r.strId == '3') {
-                        window.location.href = '/Login/Index'
-                    }
+                    } 
                     else {
-                        alert("Server is not responding!");
+                        toastr.success("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
+
+                       
                         //$("#showSpinner").hide();
                     }
                 },
@@ -1160,24 +1156,17 @@
                     if (r.Message == "1") {
                         uploadImage($("#ProjectNo").val());
                         uploadworkorder($("#ProjectNo").val())
-                        alert('Record Updated successfully!');
-                        window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration"
+                        toastr.success("Record Updated successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
                         //CrearFields();
                         //location.reload();
-                    } else if (r.strId == '2') {
-                        alert("This Mobile No. already exists!");
-                        //location.reload();
-                    }
-                    else if (r.strId == '3') {
-                        window.location.href = '/Login/Index'
                     }
                     else {
-                        alert("Server is not responding!");
+                        toastr.error("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
                         //$("#showSpinner").hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Server is not responding!");
+                    toastr.error("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
                     // $("#showSpinner").hide();
                 }
             })

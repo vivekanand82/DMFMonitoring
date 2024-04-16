@@ -369,7 +369,7 @@ namespace DMFProjectFinal.Controllers
             abc.ProjectDescription = model.ProjectDescription;
             abc.ProsposalNo = model.ProsposalNo;
             abc.ProposalDate = model.ProposalDate;
-            abc.ProposalCopy = model.ProposalCopy;
+            //abc.ProposalCopy = model.ProposalCopy;
             abc.ProposedBy = model.ProposedBy;
             abc.ProjectCost = model.ProjectCost;
             abc.GSTAndOthers = model.GSTAndOthers;
@@ -377,7 +377,7 @@ namespace DMFProjectFinal.Controllers
             abc.TenderDate = model.TenderDate;
             abc.WorkOrderNo = model.WorkOrderNo;
             abc.WorkOrderDate = model.WorkOrderDate;
-            abc.WorkOrderCopy = model.WorkOrderCopy;
+            //abc.WorkOrderCopy = model.WorkOrderCopy;
             abc.AgencyID = model.AgencyID;
             abc.SanctionedProjectCost = model.SanctionedProjectCost;
             abc.ProjectNo = model.ProjectNo;

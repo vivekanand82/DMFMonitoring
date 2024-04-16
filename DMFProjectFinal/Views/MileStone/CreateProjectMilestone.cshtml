@@ -38,96 +38,132 @@
         <div class="row tab">
           
             <div class="row">
-             
-
-                <div class="col-md-3">
-                    <div class="form-label">
-                        <strong>District Name<sup><code>*</code></sup></strong>
-                        @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
-
-                        @Html.DropDownListFor(x => x.DistrictID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID",  })
-
-                        <input type="hidden" id="MileStoneID" />
 
 
-                    </div>
+                <table class="table table-hover" id="datatable1">
+                    <thead>
+                        <tr>
+                            <th>District Name</th>
+                            <th>Project Name</th>
+                            <th>Installment Type</th>
+                            <th>Value</th>
+                            <th>Percentage</th>
+                            <th>Add More</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td> @Html.DropDownListFor(x => x.DistrictID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID", })</td>
+                            <td>
+                                @Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                         { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })
+                            </td>
+
+                            <td>   @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })</td>
+
+                            <td>  @Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })</td>
+
+                            <td>   @Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })</td>
+                            <td><button type="button" class="btn btn-primary" id="btn"> Add More</button></td>
+
+
+
+                        </tr>
+                        </tfoot>
+                    </table>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                            
+
+                                <input type="hidden" id="MileStoneID" />
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                           { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Remark</strong>*@
+                                @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Percentage</strong>*@
+                                @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3">
+                <div class="form-label">
+                    <strong>Realese Percentage Amount</strong>
+                    @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
                 </div>
+            </div>*@
 
 
-                <div class="col-md-3">
-                    <div class="form-label">
-                        <strong>Project Name<sup><code>*</code></sup></strong>
-                        @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
-
-                        @Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
-                   { @class = "form-control form-control-sm multiple-deps-ddl", @id ="ProjectPreparationID",@onchange= "return changedata()" })
-
-
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-label">
-                        <strong>Installment Type<sup><code>*</code></sup></strong>
-                        @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
-
-                        @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange= "binddata()" })
+                        <div class="col-md-1">
+                            <div class="form-label">
+                                <strong>&nbsp;</strong>
+                                <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Savedata()" />
+                            </div>
+                        </div>
 
 
-                    </div>
-                </div>
+                        <input type="hidden" id="releaseamount" />
 
 
+                        <div class="col-md-1">
+                            <div class="form-label">
+                                <strong>&nbsp;</strong>
+                                @if (String.IsNullOrEmpty(Model.InstallmentName))
+                                {
+                                    <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
+                                else
+                                {
+                                    <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
 
-                <div class="col-md-3">
-                    <div class="form-label">
-                        <strong> Remark</strong>
-                        @Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-label">
-                        <strong> Percentage</strong>
-                        @Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange= "percentagedata()" })
-                    </div>
-                </div>
-
-                @*<div class="col-md-3">
-                    <div class="form-label">
-                        <strong>Realese Percentage Amount</strong>
-                        @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
-                    </div>
-                </div>*@
+                                }
+                            </div>
+                        </div>
 
 
-                <div class="col-md-1">
-                    <div class="form-label">
-                        <strong>&nbsp;</strong>
-                        <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Savedata()"/>
-                    </div>
-                </div>
-
-
-                <input type="hidden" id="releaseamount" />
-
-
-                <div class="col-md-1">
-                    <div class="form-label">
-                        <strong>&nbsp;</strong>
-                        @if (String.IsNullOrEmpty(Model.InstallmentName))
-                        {
-                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
-                        else
-                        {
-                            <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
-
-                        }
-                    </div>
-                </div>
-
-
-            </div>
+</div>
             <div class="row">
 
                 <div class="row" id="DetailsRow">
@@ -160,7 +196,7 @@
 
 
     <script>
-       $(document).ready(function ($) {
+       $(document).ready(function () {
 
 
 
@@ -177,6 +213,130 @@
 
                //    }
                //})
+
+           $("#btn").click(function () {
+
+              
+               var DistID = $("#DistID")
+
+               var ProjectPreparationID = $("#ProjectPreparationID")
+
+               var InstallmentID = $("#InstallmentID")
+
+               var Instext = $("#Instext")
+               var InsPercentage = $("#InsPercentage")
+
+               if (DistID.val() == "") {
+
+                   toastr.warning('Please Select District Name');
+                 
+                   return false;
+               }
+
+               if (ProjectPreparationID.val() == "") {
+
+
+                   alert("Please Select  Project Name")
+                   return false;
+               }
+
+               if (InstallmentID.val() == "") {
+
+                   toastr.warning('Please Select  Installment Type');
+                
+                   return false;
+               }
+
+               if (Instext.val() == "") {
+
+                   toastr.warning('Please Enter Value');
+              
+                   return false;
+               }
+
+               if (InsPercentage.val() == "") {
+
+                   toastr.warning('Please Enter Percentage');
+                   
+                   return false;
+               }
+
+               var tbody = $("#datatable1>tbody")[0];
+               var row = tbody.insertRow(-1);
+               var cell = $(row.insertCell(-1));
+               //cell.html($("#intime option:selected").text())
+               //$(cell).attr('val', $("#intime").val())
+               //cell = $(row.insertCell(-1));
+               //cell.html($("#outtime option:selected").text())
+               //$(cell).attr('val', $("#outtime").val())
+               //cell = $(row.insertCell(-1));
+               cell.html($("#DistID option:selected").text())
+               $(cell).attr('val', $("#DistID").val())
+               cell = $(row.insertCell(-1));
+               cell.html($("#ProjectPreparationID option:selected").text())
+               $(cell).attr('val', $("#ProjectPreparationID").val())
+               cell = $(row.insertCell(-1));
+               cell.html($("#InstallmentID option:selected").text())
+               $(cell).attr('val', $("#InstallmentID").val())
+               cell = $(row.insertCell(-1));
+
+               cell.html(Instext.val());
+               cell = $(row.insertCell(-1));
+               cell.html(InsPercentage.val());
+               cell = $(row.insertCell(-1));
+
+               //cell.html(taskname.val());
+               //cell = $(row.insertCell(-1));
+
+               
+
+
+             
+               var button = $("<input/>");
+               button.attr("type", "button");
+               button.attr("onclick", "RemoveItem(this)");
+               button.attr("class", "btn btn-danger");
+               button.val("Remove");
+               cell.append(button);
+               cell = $(row.insertCell(-1));
+
+               cell.html(DistID.val());
+               cell.hide()
+
+               //cell = $(row.insertCell(-1));
+
+               //cell.html(intime.val());
+               //cell.hide()
+               //cell = $(row.insertCell(-1));
+
+               //cell.html(outtime.val());
+               //cell.hide()
+
+               cell = $(row.insertCell(-1));
+
+               cell.html(ProjectPreparationID.val());
+               cell.hide()
+               cell = $(row.insertCell(-1));
+
+               cell.html(InstallmentID.val());
+               cell.hide()
+
+               Instext.val('');
+               InsPercentage.val('');
+
+             
+               DistID.val('');
+               ProjectPreparationID.val('')
+               InstallmentID.val('')
+
+
+
+
+
+           })
+
+
+
            var id = '@ViewBag.id'
 
            if (id) {
@@ -187,6 +347,16 @@
 
 
            })
+
+
+        function RemoveItem(button) {
+
+            var row = $(button).closest("tr");
+            var table = $("#datatable1")[0];
+
+            table.deleteRow(row[0].rowIndex);
+
+        }
 
 
 
@@ -371,72 +541,54 @@
 
     function Savedata() {
 
-        if ($("#MileStoneID").val() == "" || $("#MileStoneID").val() == null) {
+      
+
+
+        var d = $("#datatable1 tbody > tr").length;
+        if (d == 0) {
+
+            alert("Please select Row!")
+            return false;
+
+        }
+
+        else {
+
+            var program_array = [];
+
+            $("#datatable1 tbody tr").each(function () {
+
+                var row = $(this);
+                var DistrictID = row.find("td").eq(0).attr('val');
+
+                var ProjectPreparationID = row.find("td").eq(1).attr('val');
+
+                var InstallmentID = row.find("td").eq(2).attr('val');
+
+                var Instext = row.find("td").eq(3).html();
+                var InsPercentage = row.find("td").eq(4).html();
+                item = {}
+
+                item["DistrictID"] = DistrictID
+                item["ProjectPreparationID"] = ProjectPreparationID
+
+                item["InstallmentID"] = InstallmentID
+                item["Instext"] = Instext
+                item["InsPercentage"] = InsPercentage
+                program_array.push(item);
 
 
 
-
-
-
-
-            if ($("#DistID").val() == null || $("#DistID").val() == "0") {
-
-
-                alert("Please Select District Name");
-                return false;
-            }
-
-            if ($("#ProjectPreparationID").val() == null || $("#ProjectPreparationID").val() == "0") {
-
-
-                alert("Please select   Project Name");
-                return false;
-            }
-
-
-            if ($("#InstallmentID").val() == null || $("#InstallmentID").val() == "0") {
-
-
-                alert("Please select   Installment Name");
-                return false;
-            }
-
-            if ($("#Instext").val() == "") {
-
-
-                alert("Please select   Installment Name");
-                return false;
-            }
-
-            if ($("#InsPercentage").val() == "") {
-
-
-                alert("Please Enter   InsPercentage Percentage");
-                return false;
-            }
-            //if ($("#Releaseperamount").val() == "") {
-
-
-            //    alert("Please Enter   Release Amount");
-            //    return false;
-            //}
-
+            })
 
             var dataobject = {
-
-                DistrictID: $("#DistID").val(),
-
-                ProjectPreparationID: $("#ProjectPreparationID").val(),
-                InstallmentID: $("#InstallmentID").val(),
-                Instext: $("#Instext").val(),
-                InsPercentage: $("#InsPercentage").val(),
-                Releaseperamount: 0,
-
+               
+                lis: JSON.stringify(program_array)
 
             }
 
             $.ajax({
-                url: "/MileStone/insertMilestone",
+                url: "/MileStone/InsertRecord",
                 type: "POST",
                 contentType: false,
                 processData: false,
@@ -448,14 +600,13 @@
 
                     if (r.Message == "1") {
 
-                        alert('Record saved successfully!');
-                        window.location.href = "/MileStone/ViewMileStoneProject"
-
+                        
+                        toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                         //CrearFields();
                         //location.reload();
                     }
 
-                    else if(r.Message == "0") {
+                    else if (r.Message == "0") {
 
                         alert('Record Already Exists!');
                         return false;
@@ -464,106 +615,16 @@
                         //location.reload();
                     }
                     else {
-                        alert("Server is not responding!");
+
+                        toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                         //$("#showSpinner").hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Server is not responding!");
+                    toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                     // $("#showSpinner").hide();
                 }
             })
-
-
-        }
-
-
-        else {
-            if ($("#DistID").val() == null || $("#DistID").val() == "0") {
-
-
-                alert("Please Select District Name");
-                return false;
-            }
-
-            if ($("#ProjectPreparationID").val() == null || $("#ProjectPreparationID").val() == "0") {
-
-
-                alert("Please select   Project Name");
-                return false;
-            }
-
-
-            if ($("#InstallmentID").val() == null || $("#InstallmentID").val() == "0") {
-
-
-                alert("Please select   Installment Name");
-                return false;
-            }
-
-            if ($("#Instext").val() == "") {
-
-
-                alert("Please select   Installment Name");
-                return false;
-            }
-
-            if ($("#InsPercentage").val() == "") {
-
-
-                alert("Please Enter   InsPercentage Percentage");
-                return false;
-            }
-            //if ($("#Releaseperamount").val() == "") {
-
-
-            //    alert("Please Enter   Release Amount");
-            //    return false;
-            //}
-
-
-            var dataobject = {
-
-                DistrictID: $("#DistID").val(),
-
-                ProjectPreparationID: $("#ProjectPreparationID").val(),
-                InstallmentID: $("#InstallmentID").val(),
-                Instext: $("#Instext").val(),
-                InsPercentage: $("#InsPercentage").val(),
-                Releaseperamount: 0,
-                 MileStoneID: $("#MileStoneID").val()
-            }
-
-            $.ajax({
-                url: "/MileStone/UpdatedMilestone",
-                type: "POST",
-                contentType: false,
-                processData: false,
-                data: JSON.stringify(dataobject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-
-
-                    if (r.Message == "1") {
-
-                        alert('Record Updated successfully!');
-                        window.location.href = "/MileStone/ViewMileStoneProject"
-
-                        //CrearFields();
-                        //location.reload();
-                    }
-                    else {
-                        alert("Server is not responding!");
-                        //$("#showSpinner").hide();
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Server is not responding!");
-                    // $("#showSpinner").hide();
-                }
-            })
-
 
 
 
