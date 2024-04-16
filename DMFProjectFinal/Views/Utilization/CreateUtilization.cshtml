@@ -1,0 +1,178 @@
+﻿@using DMFProjectFinal.Controllers;
+@using DMFProjectFinal.Models;
+@model DMFProjectFinal.Models.DTO.DTO_UtilizationMaster
+@{
+    ViewBag.Title = "Create Utilization";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.UtilizationID))
+    {
+        <h4 class="card-title">Upload Utilization Certificate</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Utilization Certificate</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.UtilizationID)
+                @Html.HiddenFor(x => x.DistrictID)
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Select Project<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Utilization Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.UtilizationDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Utilization No<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.UtilizationNo, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+               
+            </div>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>
+                            Attached Copy<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.UtilizationCopy))
+                            {
+                                <a href="@Model.UtilizationCopy" target="_blank">View Doc</a>
+                                <input type="hidden" value="prev" id="UtilizationCopy" name="UtilizationCopyUtilizationCopy" />
+                            }
+                        </strong>
+
+                        @Html.TextBoxFor(x => x.UtilizationCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "UtilizationCopy" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Remarks<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+            </div><div class="row">
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.UtilizationID)) { 
+
+                        <input type="button" value="Save" class="btn btn-primary" onclick="SaveUtilization()" id="btnsave"/>
+                        }
+                        else
+                {
+                        <input type="button" value="Update" class="btn btn-primary" onclick="UpdateUtilization()"  id="btnupdate"/>
+
+                }
+                        @*<input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.UtilizationID)?"Save":"Update")" class="btn btn-primary" />*@
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.UtilizationID))
+                        {
+                            <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                        }
+                        else
+                        {
+                            <a href="/FundRelease/ReleaseFund" class="btn btn-danger">Back</a>
+                            //href = "/UserManagement/UserRegistration"
+
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+
+        function SaveUtilization() {
+            debugger
+            var frmdata = new FormData($('#frmCurrent')[0]);
+            $.ajax({
+                url: "/Utilization/CreateUtilization",
+                type: "POST",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: frmdata,
+                success: function (data) {
+                    if (data == "1") {
+                        toastr.success("utilization uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                        //alert("utilization uploaded succesfully !!");
+                    }
+                    else if (data == "0") {
+                        toastr.error("Something went wrong please try later  !!", "Error");
+
+                        //alert("Something went wrong please try later  !!");
+
+                    }
+                    else {
+                        toastr.error(data, "Error");
+
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong please try later  !!");
+
+                }
+            })
+        }
+    </script>
+    <script>
+        function UpdateUtilization() {
+            var frmdata = new FormData($('#frmCurrent')[0]);
+            $.ajax({
+                url: "/Utilization/UpdateUtilization",
+                type: "POST",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: frmdata,
+                success: function (data) {
+                    if (data == "1") {
+                        toastr.success("utilization Updated succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                        //alert("utilization uploaded succesfully !!");
+                    }
+                    else if (data == "0") {
+                        toastr.error("Something went wrong please try later  !!", "Error");
+
+                        //alert("Something went wrong please try later  !!");
+
+                    }
+                    else {
+                        toastr.error(data, "Error");
+
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong please try later  !!");
+
+                }
+            })
+        }
+    </script>
+}

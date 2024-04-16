@@ -33,9 +33,133 @@
     .form-group label {
         white-space: break-spaces !important;
     }
-
 </style>
+<!--Modal Start for fill meeting info and Approve Proposal -->
+<div id="myModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width: 95%;">
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"> Meeting Proposal Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <h5>Managemnet Commetee Approval  Details :-</h5>
+                <div class="col-xxl-12">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Metting No</th>
+                            <th>Meeting Date</th>
+                            <th>Minutes of Meeting</th>
+                            <th>Minutes of Meeting Copy</th>
+                            <th>Attendance copy</th>
+                            <th>Approval Letter copy</th>
+                            <th>Members Name</th>
+                            <th>Project Status</th>
+                            <th>Approved Date</th>
+                            <th>Remarks</th>
 
+                        </tr>
+                        <tbody id="meetinginfo"></tbody>
+                    </table>
+                </div>
+                <h5>Fill Meeting info And Approve/Reject</h5>
+                <div class="col-xxl-12 " style="border:1px solid lightgray;">
+                    @using (Html.BeginForm("SaveMeetingInfo", "GovernanceCommette", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+                    {
+                        <div class="row" style="margin:30px">
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <input type="hidden" id="ProjectPreparationId" name="ProjectPreparationId" />
+                                    <strong>Meeting NO<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.MeetingNo, new { @class = "form-control form-control-sm ", @autocomplete = "off", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Meeting Date<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.MettingDate, new { @class = "form-control form-control-sm ", @autocomplete = "off", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong> Minutes Of Meeeting<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.MinutesofMeeting, new { @class = "form-control form-control-sm", @type = "time", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong> Minutes Of Meeeting Upload<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.MinutesofMeetingfile, new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Member Attendance Upload<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Approval  Member Letter<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>AttendanceDate<sup><code>*</code></sup></strong>
+                                    @Html.TextBoxFor(x => x.Attendancedate, "", new { @class = "form-control form-control-sm ", @autocomplete = "off", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <div class="form-group">
+                                        <strong>Members<sup>*</sup></strong>
+                                        @*<select id="CommitteeID" name="CommitteeID" class="form-control select2 " multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                                <option>Alabama</option>
+                                                <option>Alaska</option>
+                                                <option>California</option>
+                                                <option>Delaware</option>
+                                                <option>Tennessee</option>
+                                                <option>Texas</option>
+                                                <option>Washington</option>
+                                            </select>*@
+                                        @Html.DropDownListFor(x => x.CommitteeID, Enumerable.Empty<SelectListItem>(), "Select Members", new { @class = "form-control form-control-sm", @multiple = "multiple", @id = "CommitteeID", @name = "Memberlist[]", @required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Status<sup><code>*</code></sup></strong>
+                                    <select id="Status" name="Status" class="form-control" required>
+                                        <option value="demo">select</option>
+                                        <option value="Approved">Approved</option>
+                                        <option value="Return">Return</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Remarks<sup><code>*</code></sup></strong>
+                                    @Html.TextAreaFor(x => x.Remark, new { @class = "form-control form-control-sm ", @autocomplete = "off", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <div>
+                                        <button type="submit" id="Forward" class="btn btn-secondary" style="margin-top:30px;">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal End for fill meeting info and Approve Proposal -->
 <!--modal for view Proposal details-->
 <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog modal-xxl" style="max-width: 90%;">
@@ -220,137 +344,12 @@
                     </div>
                 </div><!-- end card-body -->
             </div><!-- end card -->
-            
+
         </div>
     </div><!-- /.modal -->
 </div>
 <!--modal end for proposal details-->
-<!--Modal Start for fill meeting info and Approve Proposal -->
-<div id="myModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" style="max-width: 95%;">
-            <div class="modal-content" style="width:100%;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel"> Meeting Proposal Detail</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-                </div>
-                <div class="modal-body">
-                    <h5>Managemnet Commetee Approval  Details :-</h5>
-                    <div class="col-xxl-12">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Metting No</th>
-                                <th>Meeting Date</th>
-                                <th>Minutes of Meeting</th>
-                                <th>Minutes of Meeting Copy</th>
-                                <th>Attendance copy</th>
-                                <th>Approval Letter copy</th>
-                                <th>Members Name</th>
-                                <th>Project Status</th>
-                                <th>Approved Date</th>
-                                <th>Remarks</th>
 
-                            </tr>
-                            <tbody id="meetinginfo"></tbody>
-                </table>
-            </div>
-            <h5>Fill Meeting info And Approve/Reject</h5>
-            <div class="col-xxl-12 " style="border:1px solid lightgray;">
-                @using (Html.BeginForm("SaveMeetingInfo", "GovernanceCommette", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
-                {
-                <div class="row" style="margin:30px">
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <input type="hidden" id="ProjectPreparationId" name="ProjectPreparationId" />
-                            <strong>Meeting NO<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MeetingNo, new { @class = "form-control form-control-sm ", @autocomplete = "off",@required= "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong>Meeting Date<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MettingDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @required = "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong> Minutes Of Meeeting<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MinutesofMeeting, new { @class = "form-control form-control-sm", @type = "time", @required = "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong> Minutes Of Meeeting Upload<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.MinutesofMeetingfile, new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "MinutesofMeetingfile", @required = "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong>Member Attendance Upload<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Memberattendancefile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Memberattendancefile", @required = "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong>Approval  Member Letter<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Approvelletterfile, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "Approvelletterfile", @required = "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong>AttendanceDate<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Attendancedate, "", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @required = "required" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <div class="form-group">
-                                <strong>Members<sup>*</sup></strong>
-                                @*<select id="CommitteeID" name="CommitteeID" class="form-control select2 " multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
-            <option>Alabama</option>
-            <option>Alaska</option>
-            <option>California</option>
-            <option>Delaware</option>
-            <option>Tennessee</option>
-            <option>Texas</option>
-            <option>Washington</option>
-        </select>*@
-                             @Html.DropDownListFor(x => x.CommitteeID,Enumerable.Empty<SelectListItem>(), "Select Members", new { @class = "form-control form-control-sm", @multiple = "multiple", @id = "CommitteeID", @name = "Memberlist[]", @required = "required" })
-                            </div>
-                        </div>
-                    </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Status<sup><code>*</code></sup></strong>
-                                        <select id="Status" name="Status" class="form-control" required>
-                                            <option value="demo">select</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Return">Return</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Remarks<sup><code>*</code></sup></strong>
-                                        @Html.TextAreaFor(x => x.Remark, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @required = "required" })
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <div>
-                                            <button type="submit" id="Forward" class="btn btn-secondary" style="margin-top:30px;">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<!--Modal End for fill meeting info and Approve Proposal -->
 <div class="card-header">
     <h4 class="card-title">Project Proposal Prepration</h4>
 </div>
@@ -401,75 +400,75 @@
                                             @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                             {
                                                 j++;
-                                            <tr>
-                                                <td>@j</td>
-                                                <td>@item.DistrictName</td>
-                                                <td>@item.ProjectName</td>
-                                                <td>@item.SectorName</td>
-                                                <td>@item.ProsposalNo</td>
-                                                <td>@item.TenderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                <td>@item.WorkOrderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
-                                                @if (item.RunningStatus == null)
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Pending at MGMT commette</a></td>
-                                                }
-                                                else if (item.RunningStatus == "Forward")
-                                                {
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.SectorName</td>
+                                                    <td>@item.ProsposalNo</td>
+                                                    <td>@item.TenderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                    <td>@item.WorkOrderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                    @if (item.RunningStatus == null)
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending at MGMT commette</a></td>
+                                                    }
+                                                    else if (item.RunningStatus == "Forward")
+                                                    {
 
-                                                    <td><a class="badge bg-success-subtle text-info">Forwarded by MGMT commette</a></td>
-                                                }
-                                                else if (item.RunningStatus == "Approved")
-                                                {
+                                                        <td><a class="badge bg-success-subtle text-info">Forwarded by MGMT commette</a></td>
+                                                    }
+                                                    else if (item.RunningStatus == "Approved")
+                                                    {
 
-                                                    <td><a class="badge bg-success-subtle text-success"> Approved</a></td>
-                                                }
-                                                else
-                                                {
+                                                        <td><a class="badge bg-success-subtle text-success"> Approved</a></td>
+                                                    }
+                                                    else
+                                                    {
 
-                                                    <td><a class="badge bg-success-subtle text-danger">Return</a></td>
-                                                }
-                                                @if (item.Stageid == null || item.Stageid == 1 || item.Stageid == 2)
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                }
+                                                        <td><a class="badge bg-success-subtle text-danger">Return</a></td>
+                                                    }
+                                                    @if (item.Stageid == null || item.Stageid == 1 || item.Stageid == 2)
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    }
 
-                                                else
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-success">Closed</a></td>
-                                                }
-                                               
+                                                    else
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-success">Closed</a></td>
+                                                    }
+
                                                     <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 
-                                               
-                                                @if (item.Stageid == 1)
-                                                {
-                                                    <td><a data-bs-toggle="modal" data-bs-target="#myModal2" class="btn btn-small btn-info AddMeetingInfo" value="@item.ProjectPreparationID" onclick="MeetingInfo(@item.ProjectPreparationID)">Approve Project Proposal</a></td>
 
-                                                }
-                                                else
-                                                {
-                                                    <td></td>
+                                                    @if (item.Stageid == 1)
+                                                    {
+                                                        <td><a data-bs-toggle="modal" data-bs-target="#myModal2" class="btn btn-small btn-info AddMeetingInfo" value="@item.ProjectPreparationID" onclick="MeetingInfo(@item.ProjectPreparationID)">Approve Project Proposal</a></td>
 
-                                                }
+                                                    }
+                                                    else
+                                                    {
+                                                        <td></td>
 
-                                                @if (AM.CanUpdate || AM.CanDelete)
-                                                {
-                                                    <th>
-                                                        @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
-                                                        @if (AM.CanUpdate)
-                                                        {
-                                                            <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                        }
-                                                        @if (AM.CanDelete)
-                                                        {
-                                                            <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                        }
-                                                    </th>
-                                                }
+                                                    }
 
-                                            </tr>
+                                                    @if (AM.CanUpdate || AM.CanDelete)
+                                                    {
+                                                        <th>
+                                                            @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
+                                                            @if (AM.CanUpdate)
+                                                            {
+                                                                <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                            }
+                                                            @if (AM.CanDelete)
+                                                            {
+                                                                <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            }
+                                                        </th>
+                                                    }
+
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -516,6 +515,15 @@
             $('#tblData').DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
+            $('#MettingDate').datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date() // disabling past dates
+            });
+
+            $('#Attendancedate').datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date() // disabling past dates
+            });
         });
     </script>
     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
@@ -535,8 +543,8 @@
             //alert(commiteid.CommiteName);
             $("#myModal").modal('hide');
             var id = $(this).attr('value');
-          /*  MeetingInfo(id);*/
-          
+            /*  MeetingInfo(id);*/
+
             $.ajax({
                 url: "/GovernanceCommette/ViewDetailProjectProposal?id=" + id,
                 type: "GET",
@@ -618,6 +626,7 @@
             })
         }
     </script>
+
 
 }
 

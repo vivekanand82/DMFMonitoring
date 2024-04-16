@@ -1,0 +1,121 @@
+﻿
+@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "Utilization List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            <div class="col-md-6 text-right mb-1">
+                @if (AM.CanInsert)
+                {
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateUtilization", "Utilization")" id="">Create<i class="fa fa-plus-circle"></i></a>
+                }
+            </div>
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>District</th>
+                                                <th>Project Name</th>
+                                                <th> UtilizationNo</th>
+                                                <th>Utilization Copy</th>
+                                                <th> Utilization Date</th>
+                                                <th>Remarks </th>
+
+                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>Action</th>
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_UtilizationMaster item in ViewBag.LstData)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.UtilizationNo</td>
+                                                    @if (String.IsNullOrEmpty(item.UtilizationCopy))
+                                                    {
+                                                        <td></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                    }
+                                                    <td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>
+
+
+
+                                                    @*<td>@item.SanctionedProjectCost</td>*@
+                                                    <td style="color:green;font-weight:bold">@item.Remarks</td>
+                                                    @if (AM.CanUpdate || AM.CanDelete)
+                                                    {
+                                                        <th>
+                                                            @if (AM.CanUpdate)
+                                                            {
+                                                                <a href="/Utilization/EditUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                            }
+                                                            @if (AM.CanDelete)
+                                                            {
+                                                                <a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            }
+                                                        </th>
+                                                    }
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script>
+        function GetUtilizationById() {
+            var UtilizationID = $(this).attr('value');
+            $.ajax({
+                url: "/Utilization/EditUtilization",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert("done");
+
+                }
+            })
+        }
+    </script>*@

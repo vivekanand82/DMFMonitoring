@@ -92,15 +92,15 @@ namespace DMFProjectFinal.Controllers
             DTO_PhysicalProgressMaster model = new DTO_PhysicalProgressMaster();
             //ViewBag.ProjectID = new SelectList(db.MileStoneMasters.Where(x => x.IsActive == true && x.ProjectNo != null  && x.DistrictID == (DistID == null ? x.DistrictID : DistID)), "ProjectNo", "ProjectName", null);
             ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
-                                                    //join fr in db.FundReleases on ms.ProjectNo equals fr.ProjectNo
+                                                   join fr in db.FundReleases on ppp.ProjectPreparationID equals fr.ProjectPreparationID
                                                 join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
-                                               where ppp.IsActive == true && ppp.DistID == DistID && pm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2
+                                               where ppp.IsActive == true && ppp.DistID == DistID && pm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2 && fr.Phyicalinstallmentflag==null
                                                select new 
                                                {
                                                     ProjectNo = ppp.ProjectNo,
                                                    ProjectName = ppp.ProjectName
                                                }
-                                             ), "ProjectNo", "ProjectName", null);
+                                             ).Distinct(), "ProjectNo", "ProjectName", null);
 
             
             model.DistrictID = DistID;
@@ -131,15 +131,18 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
+            
             //var milestone = db.MileStoneMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID).FirstOrDefault();
+           var updateFlag= db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.Phyicalinstallmentflag == null).FirstOrDefault();
+
             db.PhysicalProgressMasters.Add(new PhysicalProgressMaster
             {
                 DistrictID = model.DistrictID,
                 ProjectID = model.ProjectID,
                 ProjectNo = model.ProjectNo,
                 //MileStoneID = milestone.MileStoneID,
-                //FundReleaseID = milestone.FundReleaseID,
-                //ProjectPreparationID = milestone.ProjectPreparationID,
+                FundReleaseID = updateFlag.FundReleaseID,
+                ProjectPreparationID = updateFlag.ProjectPreparationID,
                 PhysicalProgressDate = model.PhysicalProgressDate,
                 Remark = model.Remark,
                 PhysicalProgressCopy = model.PhysicalProgressCopy,
@@ -147,8 +150,9 @@ namespace DMFProjectFinal.Controllers
                 AmountSpend = model.AmountSpend,
                 CreatedDate = DateTime.Now,
                 CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
-                IsActive=true
-                            });
+                IsActive = true,
+                Phyicalintsallmentflag = updateFlag.InstallmentID.ToString()
+            }) ;
             int res = db.SaveChanges();
             if (res > 0)
             {
@@ -160,6 +164,11 @@ namespace DMFProjectFinal.Controllers
             {
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
+
+           //var updateFlag= db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.Phyicalinstallmentflag == null).FirstOrDefault();
+            updateFlag.Phyicalinstallmentflag = updateFlag.InstallmentID.ToString();
+            db.Entry(updateFlag).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
             return Json(JR, JsonRequestBehavior.AllowGet);
           
         }

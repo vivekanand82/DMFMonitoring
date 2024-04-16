@@ -12,20 +12,20 @@ namespace DMFProjectFinal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PhysicalProgressMaster
+    public partial class UtilizationMaster
     {
-        public int PhysicalprogressID { get; set; }
+        public int UtilizationID { get; set; }
+        public string ProjectNo { get; set; }
+        public Nullable<System.DateTime> UtilizationDate { get; set; }
+        public string UtilizationNo { get; set; }
+        public string UtilizationCopy { get; set; }
+        public string Remarks { get; set; }
         public Nullable<int> DistrictID { get; set; }
         public Nullable<int> ProjectID { get; set; }
-        public string ProjectNo { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+        public Nullable<int> PhysicalProgressID { get; set; }
         public Nullable<int> MileStoneID { get; set; }
         public Nullable<int> FundReleaseID { get; set; }
-        public Nullable<long> ProjectPreparationID { get; set; }
-        public Nullable<System.DateTime> PhysicalProgressDate { get; set; }
-        public string Remark { get; set; }
-        public string PhysicalProgressCopy { get; set; }
-        public string PhysicalPInPer { get; set; }
-        public Nullable<decimal> AmountSpend { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }

@@ -686,7 +686,28 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<decimal> ReleaseAmount { get; set; }
 
     }
-
+    public partial class DTO_UtilizationMaster
+    {
+        public string UtilizationID { get; set; }
+        public string ProjectName { get; set; }
+        public string DistrictName { get; set; }
+        public string ProjectNo { get; set; }
+        public Nullable<System.DateTime> UtilizationDate { get; set; }
+        public string UtilizationNo { get; set; }
+        public string UtilizationCopy { get; set; }
+        public string Remarks { get; set; }
+        public Nullable<int> DistrictID { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+        public Nullable<int> PhysicalProgressID { get; set; }
+        public Nullable<int> MileStoneID { get; set; }
+        public Nullable<int> FundReleaseID { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+    }
 
 
 

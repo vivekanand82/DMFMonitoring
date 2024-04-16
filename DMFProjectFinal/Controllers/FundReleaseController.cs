@@ -128,7 +128,7 @@ namespace DMFProjectFinal.Controllers
                 FundReleaseCopy = model.FundReleaseCopy,
                 CreatedDate = DateTime.Now,
                 IsActive=true,
-                CreatedBy= UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
+                CreatedBy= UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString()
             });
             int res = db.SaveChanges();
             if (res > 0)
@@ -326,7 +326,7 @@ namespace DMFProjectFinal.Controllers
                         {
                             InstallmentID = mm.InstallmentID,
                             InstallmentName = ins.InstallmentName
-                        }).ToList();
+                        }).Distinct().ToList();
             return Json(data,JsonRequestBehavior.AllowGet);
         }
     }

@@ -60,5 +60,6 @@ namespace DMFProjectFinal.Models
         public virtual DbSet<InstallmentMaster> InstallmentMasters { get; set; }
         public virtual DbSet<MileStoneMaster> MileStoneMasters { get; set; }
         public virtual DbSet<PhysicalProgressMaster> PhysicalProgressMasters { get; set; }
+        public virtual DbSet<UtilizationMaster> UtilizationMasters { get; set; }
     }
 }

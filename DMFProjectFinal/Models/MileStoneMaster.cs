@@ -29,5 +29,6 @@ namespace DMFProjectFinal.Models
         public string ProjectNo { get; set; }
         public Nullable<long> ProjectPreparationID { get; set; }
         public Nullable<decimal> Releaseperamount { get; set; }
+        public string Phyicalflag { get; set; }
     }
 }

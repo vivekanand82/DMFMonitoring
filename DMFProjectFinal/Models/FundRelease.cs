@@ -28,5 +28,6 @@ namespace DMFProjectFinal.Models
         public Nullable<int> InstallmentID { get; set; }
         public string ProjectNo { get; set; }
         public Nullable<long> ProjectPreparationID { get; set; }
+        public string Phyicalinstallmentflag { get; set; }
     }
 }
