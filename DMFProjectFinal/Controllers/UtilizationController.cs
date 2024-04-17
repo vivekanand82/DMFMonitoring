@@ -19,25 +19,62 @@ namespace DMFProjectFinal.Controllers
             return View();
         }
 
-        public ActionResult UtilizationList()
+        public ActionResult UtilizationList(string ProjectName, string SectorName, string SectorType)
         {
-            var data = (from uc in db.UtilizationMasters
-                        join
-                            pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
-                        join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
-                        select new DTO_UtilizationMaster
-                        {
-                            DistrictName = dm.DistrictName,
-                            ProjectName = pm.ProjectName,
-                            DistrictID = uc.DistrictID,
-                            UtilizationID = uc.UtilizationID.ToString(),
-                            UtilizationCopy = uc.UtilizationCopy,
-                            UtilizationDate = uc.UtilizationDate,
-                            Remarks = uc.Remarks,
-                            UtilizationNo = uc.UtilizationNo
-
-                        }).ToList();
-            ViewBag.LstData = data;
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                var data = (from uc in db.UtilizationMasters
+                            join
+                                pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
+                            join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
+                            join ppp in db.ProjectProposalPreprations on uc.ProjectPreparationID equals ppp.ProjectPreparationID
+                            join stm in db.SectorNameMasters on ppp.SectorID equals stm.SectorNameId
+                            join sym in db.SectorTypeMasters on ppp.SectorTypeId equals sym.SectorTypeID
+                            where uc.IsActive==true && uc.DistrictID==DistID && (pm.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName)) && (stm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName)) && (sym.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
+                            select new DTO_UtilizationMaster
+                            {
+                                ProjectPreparationID = uc.ProjectPreparationID,
+                                DistrictName = dm.DistrictName,
+                                ProjectName = pm.ProjectName,
+                                DistrictID = uc.DistrictID,
+                                //UtilizationID = uc.UtilizationID.ToString(),
+                                //UtilizationCopy = uc.UtilizationCopy,
+                                //UtilizationDate = uc.UtilizationDate,
+                                //Remarks = uc.Remarks,
+                                //UtilizationNo = uc.UtilizationNo
+                                SectorName = stm.SectorName,
+                                SectorType = sym.SectorType
+                            }).Distinct().ToList();
+                ViewBag.LstData = data;
+            }
+            else
+            {
+                var data = (from uc in db.UtilizationMasters
+                            join
+                                pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
+                            join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
+                            join ppp in db.ProjectProposalPreprations on uc.ProjectPreparationID equals ppp.ProjectPreparationID
+                            join stm in db.SectorNameMasters on ppp.SectorID equals stm.SectorNameId
+                            join sym in db.SectorTypeMasters on ppp.SectorTypeId equals sym.SectorTypeID
+                            where (pm.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName)) && (stm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName)) && (sym.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
+                            select new DTO_UtilizationMaster
+                            {
+                                ProjectPreparationID = uc.ProjectPreparationID,
+                                DistrictName = dm.DistrictName,
+                                ProjectName = pm.ProjectName,
+                                DistrictID = uc.DistrictID,
+                                //UtilizationID = uc.UtilizationID.ToString(),
+                                //UtilizationCopy = uc.UtilizationCopy,
+                                //UtilizationDate = uc.UtilizationDate,
+                                //Remarks = uc.Remarks,
+                                //UtilizationNo = uc.UtilizationNo
+                                SectorName = stm.SectorName,
+                                SectorType = sym.SectorType
+                            }).Distinct().ToList();
+                ViewBag.LstData = data;
+            }
             return View();
         }
         public ActionResult CreateUtilization()
@@ -71,8 +108,7 @@ namespace DMFProjectFinal.Controllers
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
-            var physicalflag = db.PhysicalProgressMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID && x.Phyicalintsallmentflag != null).FirstOrDefault();
-
+            var physicalflag = db.PhysicalProgressMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID && x.Phyicalintsallmentflag != null).OrderByDescending(x=>x.Phyicalintsallmentflag).FirstOrDefault();
             if (db.UtilizationMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.PhysicalProgressID== physicalflag.PhysicalprogressID).Any())
             {
                 msg ="Utilization Certificate  for "+ model.ProjectNo + " Aready Uploaded for this Progress !";
@@ -202,6 +238,27 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUtilizationDetails(int ProjectPreparationID)
+        {
+            var data = (from uc in db.UtilizationMasters
+                            //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                        join pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
+                        join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
+                        where uc.ProjectPreparationID == ProjectPreparationID
+                        select new DTO_UtilizationMaster
+                        {
+                            //InstallmentName = fr.InstallmentName,
+                            UtilizationID = uc.UtilizationID.ToString(),
+                            ProjectName = pm.ProjectName,
+                            DistrictName = dm.DistrictName,
+                            UtilizationNo=uc.UtilizationNo,
+                            UtilizationDate=uc.UtilizationDate,
+                            UtilizationCopy=uc.UtilizationCopy,
+                            Remarks=uc.Remarks
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

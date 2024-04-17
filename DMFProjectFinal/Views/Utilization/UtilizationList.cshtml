@@ -8,21 +8,90 @@
     var AM = ViewBag.GetAccess as AccessManager;
     int j = 0;
 }
+<!--Modal For Physical Progress details-->
+<div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Physical Progress Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td id="ProjectName"></td>
+                    </tr>
+                </table>
+                @*<div style="font-size:15px;margin:10px"><span id="ProjectName" class="text-dark"></span></div>*@
+                <table class="table table-bordered">
+                    <tr>
+                        <th>UtilizationNo</th>
+                        <th>UtilizationDate</th>
+                        <th>UtilizationCopy</th>
+                        <th>Attched Copy</th>
+                        @*<th>Installment</th>*@
+                        <th>Remarks</th>
+                        <th>Action</th>
+                    </tr>
+                    <tbody id="UtilizationDetails"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="divform">
     <div class="card-body">
         <div class="row">
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
-            <div class="col-md-6 text-right mb-1">
+            @*<div class="col-md-6 text-right mb-1">
                 @if (AM.CanInsert)
                 {
                     <a class="btn btn-primary btn-round" href="@Url.Action("CreateUtilization", "Utilization")" id="">Create<i class="fa fa-plus-circle"></i></a>
                 }
-            </div>
+            </div>*@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
+                        <form action="/Utilization/UtilizationList" method="get">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        <input type="text" name="ProjectName" class="form-control" autocomplete="off"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>SectorType</strong>
+                                        <input type="text" name="SectorType" class="form-control" autocomplete="off"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name</strong>
+                                        <input type="text" name="SectorName" class="form-control" autocomplete="off"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        <input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
                         @if (AM.CanView)
                         {
                             <div class="table-responsive mt-20">
@@ -34,12 +103,14 @@
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
                                                 <th>Project Name</th>
-                                                <th> UtilizationNo</th>
-                                                <th>Utilization Copy</th>
-                                                <th> Utilization Date</th>
-                                                <th>Remarks </th>
+                                                <th>Sector Name</th>
+                                                <th>Sector Type</th>
+                                                @*<th> UtilizationNo</th>
+                                <th>Utilization Copy</th>
+                                <th> Utilization Date</th>
+                                <th>Remarks </th>*@
 
-                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
                                                 {
                                                     <th>Action</th>
                                                 }
@@ -53,31 +124,36 @@
                                                     <td>@j</td>
                                                     <td>@item.DistrictName</td>
                                                     <td>@item.ProjectName</td>
-                                                    <td>@item.UtilizationNo</td>
-                                                    @if (String.IsNullOrEmpty(item.UtilizationCopy))
-                                                    {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                    }
-                                                    <td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>
+                                                    <td>@item.SectorName</td>
+                                                    <td>@item.SectorType</td>
+                                                    @*@if (String.IsNullOrEmpty(item.UtilizationCopy))
+                                    {
+                                        <td></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                    }*@
+                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>*@
 
 
 
                                                     @*<td>@item.SanctionedProjectCost</td>*@
-                                                    <td style="color:green;font-weight:bold">@item.Remarks</td>
-                                                    @if (AM.CanUpdate || AM.CanDelete)
+                                                    @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
+                                                    @if (AM.CanInsert || AM.CanView)
                                                     {
                                                         <th>
-                                                            @if (AM.CanUpdate)
+                                                            @if (AM.CanView)
                                                             {
-                                                                <a href="/Utilization/EditUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                                                                @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
+
                                                             }
-                                                            @if (AM.CanDelete)
+                                                            @if (AM.CanInsert)
                                                             {
-                                                                <a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                                <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
                                                             }
                                                         </th>
                                                     }
@@ -103,19 +179,63 @@
 
 
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-@*<script>
-        function GetUtilizationById() {
-            var UtilizationID = $(this).attr('value');
+            $('#tblData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('Utilization.' + (type || 'xlsx')));
+        }
+    </script>
+    <script>
+        function Utilizationdetails(ProjectPreparationID) {
+            $("#exampleModal").hide();
+            debugger
+            //var ProjectPreparationID = $(this).attr('value');
             $.ajax({
-                url: "/Utilization/EditUtilization",
-                type: "GET",
-                contentType: "application/json;charset=utf-8",
+                url: "/Utilization/GetUtilizationDetails?ProjectPreparationID=" + ProjectPreparationID,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    alert("done");
+                    $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var UtilizationDate = new Date(parseInt(data[i].UtilizationDate.substr(6)));
+                        html += "<tr>";
+                        html += "<td>" + data[i].UtilizationNo + "</td>";
+                        html += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
+                        html += "<td>" + data[i].AmountSpend + "</td>";
+                        html += "<td><a href=" + data[i].UtilizationCopy + " target='_blank'>View Doc</a></td>";
+                        //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
+                        //    html += "<td>NO</td>";
 
+                        //}
+                        //else {
+                        //    html += "<td>Done</td>";
+                        //}
+                        html += "<td>" + data[i].Remarks + "</td>";
+
+                        html += "<td><a href='/Utilization/EditUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a href='/Utilization/DeleteUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        html += "</tr>";
+
+                    }
+                    $("#UtilizationDetails").html(html);
+                    $("#exampleModal").show();
                 }
             })
         }
-    </script>*@
+    </script>
+}

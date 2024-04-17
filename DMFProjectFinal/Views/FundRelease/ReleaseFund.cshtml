@@ -7,120 +7,276 @@
     var AM = ViewBag.GetAccess as AccessManager;
     int j = 0;
 }
-<div id="divform">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-6 text-left mb-1">
-                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+
+<div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Released Fund Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-6 text-right mb-1">
-                @if (AM.CanInsert)
-                {
-                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>
-                }
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td id="ProjectName"></td>
+                    </tr>
+                </table>
+                @*<div style="font-size:15px;margin:10px"><span id="ProjectName" class="text-dark"></span></div>*@
+                <table class="table table-bordered">
+                    <tr>
+                        <th>InstallmentName</th>
+                        <th>RelaeseDate</th>
+                        <th>ReleaseAmount</th>
+                        <th>FundReleaseCopy</th>
+                        <th>Is Pysical Progress Done</th>
+                        <th>Action</th>
+                    </tr>
+                    <tbody id="FundReleaseDetails"></tbody>
+                </table>
             </div>
-            <div class="col-md-12 mb-30">
-                <div class="card card-statistics h-100">
-                    <div class="card-body">
-                        @if (AM.CanView)
-                        {
-                            <div class="table-responsive mt-20">
-                                @if (ViewBag.LstData != null)
-                                {
-                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
-                                                <th>क्र०सं०</th>
-                                                <th>District</th>
-                                                <th>Project Name</th>
-                                                <th>Sector Type</th>
-                                                <th>Sector Name</th>
-                                                <th>Release Date</th>
-                                                <th>FundRelease Copy</th>
-                                                <th>Sanctioned Amount</th>
-                                                <th>Release Amount</th>
-                                                <th>balance Amount</th>
-                                                <th>Installment name</th>
-                                                @if (AM.CanUpdate || AM.CanDelete)
-                                                {
-                                                    <th>Action</th>
-                                                }
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (DTO_FundRelease item in ViewBag.LstData)
-                                            {
-                                                decimal? balanceAmt = 0.0M;
-                                                if (j == 1)
-                                                {
-                                                    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount + item.ReleaseAmount);
-
-                                                }
-                                                else if(j ==2)
-                                                {
-                                                    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount+ ViewBag.LstData[j - 2].ReleaseAmount + item.ReleaseAmount);
-
-                                                }
-                                                else if (j==3)
-                                                {
-                                                    balanceAmt = 0.0M;
-                                                }
-                                                else
-                                                {
-                                                    balanceAmt = item.SanctionedProjectCost - item.ReleaseAmount;
-                                                }
-                                                j++;
-                                            <tr>
-                                                <td>@j</td>
-                                                <td>@item.DistrictName</td>
-                                                <td>@item.ProjectName</td>
-                                                <td>@item.SectorType</td>
-                                                <td>@item.SectorName</td>
-                                                <td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>
-
-                                                @if (String.IsNullOrEmpty(item.FundReleaseCopy))
-                                                {
-                                                    <td></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><a href="@item.FundReleaseCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                }
-                                                <td>@item.SanctionedProjectCost</td>
-                                               
-                                                <td style="color:green;font-weight:bold">@item.ReleaseAmount</td>
-
-                                                <td>@balanceAmt</td>
-                                                <td>@item.InstallmentName</td>
-                                                @if (AM.CanUpdate || AM.CanDelete)
-                                                {
-                                                    <th>
-                                                        @if (AM.CanUpdate)
-                                                        {
-                                                            <a href="/Fundrelease/EditReleasedFund?FundReleaseID=@item.FundReleaseID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                        }
-                                                        @if (AM.CanDelete)
-                                                        {
-                                                            <a href="#" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                        }
-                                                    </th>
-                                                }
-                                            </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                }
-                                else
-                                {
-                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
-                                        <span>No Record Found</span>
-                                    </div>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
             </div>
         </div>
     </div>
 </div>
+<div class="card-header">
+    <h4 class="card-title">Fund Released Project List</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            @*<div class="col-md-6 text-right mb-1">
+            @if (AM.CanInsert)
+            {
+                <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>
+            }
+        </div>*@
+            
+        <div class="col-md-12 mb-30">
+            <div class="card card-statistics h-100">
+                <div class="card-body">
+                        <form action="/FundRelease/ReleaseFund" method="get">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>SectorType</strong>
+                                        @Html.DropDownList("SectorType", ViewBag.SectorType as SelectList, "Choose", new { @class = "form-control", @onchange = "BindSectroName()" })
+                                        @*<input type="text" name="SectorType" class="form-control" autocomplete="off"/>*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name</strong>
+                                        @Html.DropDownList("SectorName", ViewBag.SectorName as SelectList, "Choose", new { @class = "form-control", @id = "SectorName" })
+
+                                        @*<input type="text" name="SectorName" class="form-control" autocomplete="off"/>*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        <input type="text" name="ProjectName" class="form-control" autocomplete="off" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        <input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    @if (AM.CanView)
+                    {
+                        <div class="table-responsive mt-20">
+                            @if (ViewBag.LstData != null)
+                            {
+                                <table class="table center-aligned-table" id="tblFundData" style="width:100%">
+                                    <thead class="table-dark">
+                                        <tr class="text-dark">
+                                            <th>क्र०सं०</th>
+                                            <th>District</th>
+                                            <th>Project Name</th>
+                                            <th>Sector Type</th>
+                                            <th>Sector Name</th>
+                                            @*<th>Release Date</th>
+                                <th>FundRelease Copy</th>*@
+                                            <th>Sanctioned Amount</th>
+                                            @*<th>Release Amount</th>
+                                <th>balance Amount</th>*@
+                                            @*<th>Installment name</th>*@
+                                            @*<th>View Details</th>*@
+                                            @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
+                                            {
+                                                <th>Action</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (DTO_FundRelease item in ViewBag.LstData)
+                                        {
+                                            //decimal? balanceAmt = 0.0M;
+                                            //if (j == 1)
+                                            //{
+                                            //    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount + item.ReleaseAmount);
+
+                                            //}
+                                            //else if(j ==2)
+                                            //{
+                                            //    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount+ ViewBag.LstData[j - 2].ReleaseAmount + item.ReleaseAmount);
+
+                                            //}
+                                            //else if (j==3)
+                                            //{
+                                            //    balanceAmt = 0.0M;
+                                            //}
+                                            //else
+                                            //{
+                                            //    balanceAmt = item.SanctionedProjectCost - item.ReleaseAmount;
+                                            //}
+                                            j++;
+                                        <tr>
+                                            <td>@j</td>
+                                            <td>@item.DistrictName</td>
+                                            <td>@item.ProjectName</td>
+                                            <td>@item.SectorType</td>
+                                            <td>@item.SectorName</td>
+                                            @*<td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>*@
+
+                                            @*@if (String.IsNullOrEmpty(item.FundReleaseCopy))
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                <td><a href="@item.FundReleaseCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                            }*@
+                                            <td>@item.SanctionedProjectCost</td>
+
+                                            @*<td style="color:green;font-weight:bold">@item.ReleaseAmount</td>*@
+
+                                            @*<td>@balanceAmt</td>*@
+                                            @*<td>@item.InstallmentName</td>*@
+                                            <th>
+                                                @if (AM.CanInsert || AM.CanView)
+                                                {
+                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                               
+                                                if (AM.CanInsert)
+                                                {
+                                            <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                            @*<a href="/Fundrelease/EditReleasedFund?FundReleaseID=@item.FundReleaseID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>*@
+
+
+
+                                            }
+                                            }
+                                        </th>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                    <span>No Record Found</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblFundData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblFundData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('FundReleased.' + (type || 'xlsx')));
+        }
+    </script>
+    <script>
+        function FundReleasedetails(ProjectPreparationID) {
+            $("#exampleModal").hide();
+            debugger
+            //var ProjectPreparationID = $(this).attr('value');
+            $.ajax({
+                url: "/FundRelease/GetFundReleaseDetails?ProjectPreparationID=" + ProjectPreparationID,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var RelaeseDate = new Date(parseInt(data[i].RelaeseDate.substr(6)));
+                        html += "<tr>";
+                        html += "<td>" + data[i].InstallmentName + "</td>";
+                        html += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
+                        html += "<td>" + data[i].ReleaseAmount + "</td>";
+                        html += "<td><a href=" + data[i].FundReleaseCopy + " target='_blank'>View Doc</a></td>";
+                        if (data[i].Physicalinstallmentflag == "" || data[i].Physicalinstallmentflag == undefined) {
+                            html += "<td>NO</td>";
+
+                        }
+                        else {
+                            html += "<td>Done</td>";
+                        }
+                      
+                        html += "<td><a href='/Fundrelease/EditReleasedFund?FundReleaseID=" + data[i].FundReleaseID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID + "' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        html += "</tr>";
+
+                    }
+                    $("#FundReleaseDetails").html(html);
+                    $("#exampleModal").show();
+                }
+            })
+        }
+    </script>
+    <script>
+        function BindSectroName() {
+            debugger
+            var SectorType = $("#SectorType").val();
+            $.ajax({
+                url: "/FundRelease/BindSector?SectorType=" + SectorType,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "GET",
+                success: function (data) {
+                    $("#SectorName").empty();
+                    $("#SectorName").append("<option value='0'>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#SectorName").append("<option value='" + data[i].SectorName + "'>" + data[i].SectorName + "</option>");
+                    }
+                }
+            })
+        }
+    </script>
+}
