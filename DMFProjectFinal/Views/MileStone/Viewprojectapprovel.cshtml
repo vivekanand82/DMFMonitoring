@@ -1,0 +1,1874 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_ProjectProposalPrepration
+
+@{
+    ViewBag.Title = "Viewprojectapprovel";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+
+@*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />*@
+
+
+@*<style type="text/css">
+        .select2-selection__choice {
+            background-color: var(--bs-gray-200);
+            border: none !important;
+            font-size: 12px;
+            font-size: 0.85rem !important;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
+            width: 0.75rem;
+            height: 0.75rem;
+            padding: 0.25em;
+            margin-right: 0.25rem;
+            overflow: hidden;
+            text-indent: 100%;
+            white-space: nowrap;
+            /* background: transparent url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23676a6d'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e) 50%/0.75rem auto no-repeat; */
+            /* border: 0; */
+        }
+
+        .select2-results__option[aria-selected] {
+            background: white;
+            cursor: pointer;
+            /* color: #fff; */
+        }
+
+            .select2-results__option[aria-selected]:hover {
+                background: grey !important;
+                cursor: pointer;
+                color: #fff !important;
+            }
+    </style>*@
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    #frmCurrent {
+        background-color: #ffffff;
+        /*margin: 100px auto;*/
+        font-family: Raleway;
+        padding: 40px;
+        width: 100%;
+        min-width: 300px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    /* .valid {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }*/
+
+    /* Mark input boxes that gets an error on validation: */
+    /* input.invalid {
+        background-color: #ffdddd;
+    }
+    select.invalid {
+        background-color: #ffdddd;
+    }*/
+    /*  Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    #btnSubmit {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        /*padding: 10px 20px;*/
+        font-size: 15px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #083853;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #083853;
+        }
+</style>
+
+
+<style>
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+
+
+
+
+
+
+<div class="card-header">
+    <h4 class="card-title">View Project Proposal </h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+
+
+
+
+
+            <div class="col-md-6 text-right mb-1">
+
+            </div>
+
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        <form action="/MileStone/ViewMileStoneProject" method="post">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-label">
+                                        <strong>Select Project<sup><code>*</code></sup></strong>
+                                        @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Sector Type", new { @class = "form-control form-control-sm", @id ="SectorTypeId", @onchange = "BindSectorType()" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name<sup><code>*</code></sup></strong>
+                                       
+                                        @Html.DropDownListFor(x => x.SectorID, null, "Select Sector Name", new { @class = "form-control form-control-sm", @id = "SectorID",  })
+
+
+
+                                      
+
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        @*<input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />*@
+
+                                    <button type="button" onclick="Search()" class="btn btn-primary" value="Search">Search</button>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+
+                        <div class="table-responsive mt-20">
+                            @if (ViewBag.LstData != null)
+                            {
+                                <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                    <thead class="table-dark">
+                                        <tr class="text-dark">
+                                            <th>क्र०सं०</th>
+                                            <th>Project No</th>
+                                            <th>District</th>
+                                            <th>Project Name</th>
+                                            <th>Sector Type</th>
+                                            <th>Sector Name</th>
+                                            <th>Prosposal No</th>
+                                            <th>Proposal Date</th>
+                                            <th>Proposal Copy</th>
+                                            <th>Proposed By</th>
+                                            <th>Tender No</th>
+                                            <th>Tender Date</th>
+                                            <th>Work Order No</th>
+                                            <th>Work Order Date</th>
+                                            <th>Status</th>
+                                            <th>Detail</th>
+                                            <th>Mile Stone</th>
+                                            <th>View Mile Stone</th>
+                                            <th> Mile Stone Edit </th>
+                                            @*@if (AM.RoleID == 2)
+                                        {
+                                            <th>Action</th>
+                                        }
+                                        else
+                                        {
+                                            if (AM.CanUpdate || AM.CanDelete)
+                                            {
+                                                <th>Action</th>
+                                            }
+                                        }*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
+                                        {
+                                            j++;
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.ProjectNo</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.ProjectName</td>
+                                                <td>@item.SectorType</td>
+                                                <td>@item.SectorName</td>
+                                                <td>@item.ProsposalNo</td>
+                                                <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
+                                                @if (String.IsNullOrEmpty(item.ProposalCopy))
+                                                {
+                                                    <td></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                }
+                                                <td>@item.ProposedBy</td>
+                                                <td>@item.TenderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                <td>@item.WorkOrderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+
+                                                @if (item.Status == "Forward")
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-danger">Forward</a></td>
+                                                    @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
+                                                <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
+
+                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+                                                    <td></td>
+
+
+                                                }
+
+                                                else if (item.Status == "Approved")
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-success">Approved</a></td>
+                                                    @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
+                                                <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
+
+                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+                                                    <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+
+
+                                                    <td><a onclick="Viewmilestone(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+                                                    <td><a onclick="Editmilestone(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+
+
+
+
+                                                }
+                                                @*else if (item.Status == "Forward")
+                                            {
+
+                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                <td></td>
+
+                                                <td></td>
+                                            }*@
+
+
+
+                                                else
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+                                                    <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info ">Forward To Governing Council</a></td>
+
+
+                                                }
+
+
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                    <span>No Record Found</span>
+                                </div>
+                            }
+                        </div>
+
+                        <!--<table class="table center-aligned-table" id="tblData1" style="width:100%">
+                <thead class="table-dark">
+                    <tr class="text-dark">
+                        <th>क्र०सं०</th>
+                        <th>District</th>
+                        <th>Project Name</th>
+                        <th>Sector Name</th>
+                        <th>Prosposal No</th>-->
+                        @*<th>Prosposal date</th>*@
+                        <!--
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+                </div>
+            </div>
+
+            <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 95%;">
+                    <div class="modal-content" style="width:100%;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Proposal Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                        </div>
+                        <div class="col-xxl-12">
+                            <div class="" style="padding:0px">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs nav-justified" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#base-justified-home" role="tab" aria-selected="false">
+                                            Basic
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " data-bs-toggle="tab" href="#base-justified-product" role="tab" aria-selected="false">
+                                            Proposal
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#base-justified-messages" role="tab" aria-selected="false">
+                                            Tender
+                                        </a>
+                                    </li>
+                                    @*<li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#base-justified-settings" role="tab" aria-selected="true">
+                                        Settings
+                                    </a>
+                                </li>*@
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content  text-muted">
+                                    <div class="tab-pane active" id="base-justified-home" role="tabpanel">
+                                        <h6>Distric Details</h6>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>District<sup><code>*</code></sup> : <b><span id="District"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Tehsil<sup><code>*</code></sup>: <b><span id="Tehsil"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Block<sup><code>*</code></sup>: <b><span id="Block"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Village<sup><code>*</code></sup>: <b><span id="Village"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Sector Type<sup><code>*</code></sup>: <b><span id="SectorType"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Sector Name<sup><code>*</code></sup>: <b><span id="SectorName"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Work Name (Project)<sup><code>*</code></sup>: <b><span id="WorkName"> </span></b></strong>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Work Latitude<sup><code>*</code></sup>: <b><span id="latitude"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Work Longitude<sup><code>*</code></sup>: <b><span id="longitude"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Purpose of Work<sup><code>*</code></sup>: <b><span id="Purpose"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane " id="base-justified-product" role="tabpanel">
+                                        <h6>Proposal and Project Cost</h6>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Prosposal No<sup><code>*</code></sup>: <b><span id="ProposalNo"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Proposal Date<sup><code>*</code></sup>: <b><span id="ProposalDate"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong class="myimg">
+                                                        Proposal Copy<sup><code>*</code></sup>:<a id="ProposalCopy">View Doc</a>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Proposed By<sup><code>*</code></sup>: <b><span id="ProposedBy"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Estimated Project Cost<sup><code>*</code></sup>: <b><span id="EstCost"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>GST and Other Charges<sup><code>*</code></sup>: <b><span id="Gst"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="base-justified-messages" role="tabpanel">
+                                        <h6>Tender</h6>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Tender No<sup><code>*</code></sup>: <b><span id="TenderNo"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Tender  Date<sup><code>*</code></sup>: <b><span id="TenderDate"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Work Order<sup><code>*</code></sup>: <b><span id="WorkOrderNo"> </span></b></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Work Order Date<sup><code>*</code></sup>: <b><span id="WorkOrderDate"> </span></b></strong>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Work Order Copy<sup><code>*</code></sup>: :<a id="WorkOrderCopy">View Doc</a></strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Agencey<sup><code>*</code></sup>: <b><span id="AgencyName"> </span></b></strong>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    <strong>Santioned Project Cost<sup><code>*</code></sup>: <b><span id="SanctionedProjectCost"> </span></b></strong>
+
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    @*<div class="tab-pane" id="base-justified-settings" role="tabpanel">
+                                    <h6>Settings</h6>
+                                    <p class="mb-0">
+                                        Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
+                                        art party before they sold out master cleanse gluten-free squid
+                                        scenester freegan cosby sweater. Fanny pack portland seitan DIY,
+                                        art party locavore wolf cliche high life echo park Austin. Cred
+                                        vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
+                                        farm-to-table VHS.
+                                    </p>
+                                </div>*@
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div>
+                </div><!-- /.modal -->
+            </div>
+
+
+            <div id="myModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 95%;">
+                    <div class="modal-content" style="width:100%;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel"> Create Mile Stone</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+
+
+                            <div id="divformone">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-label">
+                                            <strong> District Name<sup><code>*</code></sup></strong>
+                                            @Html.DropDownListFor(x => x.DistID, null, new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID", })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-label">
+                                            <strong>Project Name<sup><code>*</code></sup></strong>
+                                            @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+                                            @Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationID", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+
+                                    <table class="table table-bordered" id="datatable1">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Installment Type</th>
+                                                <th>Value</th>
+                                                <th>Percentage</th>
+                                                <th>Add More</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+
+                                                <td>   @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })</td>
+
+                                                <td>  @Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })</td>
+
+                                                <td>   @Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })</td>
+                                                <td><button type="button" class="btn btn-primary" id="btn"> Add More</button></td>
+
+
+
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+                                            <input type="hidden" id="MileStoneID" />
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                            @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                            @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong> Remark</strong>*@
+                                            @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong> Percentage</strong>*@
+                                            @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Realese Percentage Amount</strong>
+                                        @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+                                    </div>
+                                </div>*@
+
+
+                                    <div class="col-md-1">
+                                        <div class="form-label">
+                                            <strong>&nbsp;</strong>
+                                            <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Savedata()" />
+                                        </div>
+                                    </div>
+
+
+                                    <input type="hidden" id="releaseamount" />
+
+
+                                    <div class="col-md-1">
+                                        <div class="form-label">
+                                            <strong>&nbsp;</strong>
+                                            @if (String.IsNullOrEmpty(Model.InstallmentName))
+                                            {
+                                                <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
+                                            else
+                                            {
+                                                <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
+
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div style="overflow:auto;">
+
+
+
+
+                                </div><!-- /.modal-content -->
+                                @*<div style="overflow:auto;">
+                            <div style="float:right;">
+                                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+                            </div>*@
+
+
+
+                            </div>
+
+
+
+
+
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+
+
+            <div id="myModal3" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 95%;">
+                    <div class="modal-content" style="width:100%;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel"> View Mile Stone</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+
+
+                            <div id="divformone">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-label">
+                                            <strong> District Name:<label id="viewdistict"></label></strong>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-label">
+                                            <strong>Project Name:<label id="viewprojectname"></label></strong>
+                                            @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+
+                                    <table class="table table-bordered" id="Viewdatatable">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Installment Type</th>
+                                                <th>Value</th>
+                                                <th>Percentage</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+
+                                    </table>
+
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                            @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                            @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong> Remark</strong>*@
+                                            @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong> Percentage</strong>*@
+                                            @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Realese Percentage Amount</strong>
+                                        @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+                                    </div>
+                                </div>*@
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <div style="overflow:auto;">
+
+
+
+
+                                </div><!-- /.modal-content -->
+                                @*<div style="overflow:auto;">
+                            <div style="float:right;">
+                                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+                            </div>*@
+
+
+
+                            </div>
+
+
+
+
+
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+
+
+            <div id="myModal4" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="max-width: 95%;">
+                    <div class="modal-content" style="width:100%;">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel"> Update Mile Stone</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+
+
+                            <div id="divformone">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-label">
+                                            <strong> District Name<sup><code>*</code></sup></strong>
+                                            @Html.DropDownListFor(x => x.DistID, null, new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistIDUpdate", })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-label">
+                                            <strong>Project Name<sup><code>*</code></sup></strong>
+                                            @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+                                            @Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationIDupdate", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div id="DivMain">
+                                        <table class="table table-bordered" id="datatable1Update">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Installment Type</th>
+                                                    <th>Value</th>
+                                                    <th>Percentage</th>
+                                                    <th style="display:none;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            @*<tfoot>
+                                            <tr>
+
+                                                <td>   @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })</td>
+
+                                                <td>  @Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })</td>
+
+                                                <td>   @Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })</td>
+                                                <td><button type="button" class="btn btn-primary" id="btn"> Add More</button></td>
+
+
+
+                                            </tr>
+                                        </tfoot>*@
+                                        </table>
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+                                            <input type="hidden" id="MileStoneID" />
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                            @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                            @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong> Remark</strong>*@
+                                            @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            @*<strong> Percentage</strong>*@
+                                            @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Realese Percentage Amount</strong>
+                                        @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+                                    </div>
+                                </div>*@
+
+
+                                    <div class="col-md-1">
+                                        <div class="form-label">
+                                            <strong>&nbsp;</strong>
+                                            <input type="button" id="btnupdate" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="updatedateuser()" />
+                                        </div>
+                                    </div>
+
+
+                                    <input type="hidden" id="releaseamount" />
+
+
+                                    <div class="col-md-1">
+                                        <div class="form-label">
+                                            <strong>&nbsp;</strong>
+                                            @if (String.IsNullOrEmpty(Model.InstallmentName))
+                                            {
+                                                <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
+                                            else
+                                            {
+                                                <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
+
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div style="overflow:auto;">
+
+
+
+
+                                </div><!-- /.modal-content -->
+                                @*<div style="overflow:auto;">
+                            <div style="float:right;">
+                                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+                            </div>*@
+
+
+
+                            </div>
+
+
+
+
+
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+
+
+
+
+
+
+
+            @section Scripts {
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.css" rel="stylesheet" />
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.min.js"></script>
+                @*<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>*@
+
+                <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+                <link rel="stylesheet" href="/resources/demos/style.css">
+                <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function ($) {
+
+                        $('#tblData').DataTable({
+                            lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+                        });
+
+                        //$("#MettingDate").datepicker()
+
+                        $('#MettingDate').datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date() // disabling past dates
+                        });
+
+                        $('#Attendancedate').datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date() // disabling past dates
+                        });
+
+
+
+                        //$("#abc").select2();
+                        //$("#Status").select2();
+                        //$('#CommitteeID').select2({
+                        //    theme: "bootstrap-5",
+                        //    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                        //    placeholder: $(this).data('placeholder'),
+                        //    closeOnSelect: true,
+                        //});
+
+                        $("#CommitteeID").select2();
+
+                        $("#btn").click(function () {
+
+
+
+
+                            var InstallmentID = $("#InstallmentID")
+
+                            var Instext = $("#Instext")
+                            var InsPercentage = $("#InsPercentage")
+
+
+
+                            if (InstallmentID.val() == "") {
+
+                                toastr.warning('Please Select  Installment Type');
+
+                                return false;
+                            }
+
+                            if (Instext.val() == "") {
+
+                                toastr.warning('Please Enter Value');
+
+                                return false;
+                            }
+
+                            if (InsPercentage.val() == "") {
+
+                                toastr.warning('Please Enter Percentage');
+
+                                return false;
+                            }
+
+                            var tbody = $("#datatable1>tbody")[0];
+                            var row = tbody.insertRow(-1);
+                            var cell = $(row.insertCell(-1));
+                            //cell.html($("#intime option:selected").text())
+                            //$(cell).attr('val', $("#intime").val())
+                            //cell = $(row.insertCell(-1));
+                            //cell.html($("#outtime option:selected").text())
+                            //$(cell).attr('val', $("#outtime").val())
+                            //cell = $(row.insertCell(-1));
+
+                            cell.html($("#InstallmentID option:selected").text())
+                            $(cell).attr('val', $("#InstallmentID").val())
+                            cell = $(row.insertCell(-1));
+
+                            cell.html(Instext.val());
+                            cell = $(row.insertCell(-1));
+                            cell.html(InsPercentage.val());
+                            cell = $(row.insertCell(-1));
+
+                            //cell.html(taskname.val());
+                            //cell = $(row.insertCell(-1));
+
+
+
+
+
+                            var button = $("<input/>");
+                            button.attr("type", "button");
+                            button.attr("onclick", "RemoveItem(this)");
+                            button.attr("class", "btn btn-danger");
+                            button.val("Remove");
+                            cell.append(button);
+
+
+                            //cell = $(row.insertCell(-1));
+
+                            //cell.html(intime.val());
+                            //cell.hide()
+                            //cell = $(row.insertCell(-1));
+
+                            //cell.html(outtime.val());
+                            //cell.hide()
+
+
+                            cell = $(row.insertCell(-1));
+
+                            cell.html(InstallmentID.val());
+                            cell.hide()
+
+                            Instext.val('');
+                            InsPercentage.val('');
+
+
+
+                            InstallmentID.val('')
+
+
+
+
+
+                        })
+
+
+
+
+                        //$("#checkbox").click(function () {
+                        //    if ($("#checkbox").is(':checked')) {
+                        //        $("#CommitteeID > option").prop("selected", "selected");
+                        //        $("#CommitteeID").trigger("change");
+                        //    } else {
+                        //        $("#CommitteeID > option").removeAttr("selected");
+                        //        $("#CommitteeID").trigger("change");
+                        //    }
+                        //});
+
+                        //$("#button").click(function () {
+                        //    alert($("#CommitteeID").val());
+                        //});
+
+
+                        $("#btnshowproject").click(function () {
+                            $("#Projectdetail").show();
+
+                            $("#basic").hide();
+
+                        })
+
+                        $("#btnbasic").click(function () {
+                            $("#Projectdetail").hide();
+
+                            $("#basic").show();
+
+
+                        })
+
+
+
+
+                    });
+
+
+                    function RemoveItem(button) {
+
+                        var row = $(button).closest("tr");
+                        var table = $("#datatable1")[0];
+
+                        table.deleteRow(row[0].rowIndex);
+
+                    }
+
+
+                    function Search() {
+                        var SectorTypeId = $("#SectorTypeId").val()
+
+                        var SectorID = $("#SectorID").val()
+
+window.location.href ="/MileStone/Viewprojectapprovel?SectorTypeId="+SectorTypeId+"&SectorID="+SectorID+"";
+
+                    }
+
+
+
+                    function BindSectorType() {
+                        var SectorTypeId = $("#SectorTypeId").val();
+
+                        debugger
+                        $.ajax({
+                            type: "Post",
+                            url: "/ProjectWorkApproval/BindSectorType?SectorTypeId=" + SectorTypeId,
+                            contentType: "application/json;charset=utf-8;",
+                            dataType: "json",
+                            //data: JSON.stringify({ SectorTypeId: SectorTypeId }),
+                            success: function (data) {
+                                //alert(data.length);
+                                $("#SectorID").empty();
+                                $("#SectorID").append("<option value='0'>Select</option>");
+                                for (var i = 0; i < data.length; i++) {
+                                    $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
+                                }
+                                $("#SectorID").val($("#hdnsectorid").val());
+
+
+
+                            }
+                        })
+                    }
+
+
+
+                    function GetProgram(Id) {
+
+                        $.ajax({
+
+                            url: "/DistrictManagement/GetProjectDetailes",
+                            type: "Post",
+                            data: "{'ProjectId':'" + Id + "'}",
+
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                var ProposalDate = new Date(parseInt(data[0].ProposalDate.substr(6)));
+                                var TenderDate = new Date(parseInt(data[0].TenderDate.substr(6)));
+                                var WorkOrderDate = new Date(parseInt(data[0].WorkOrderDate.substr(6)));
+                                $("#District").text(data[0].DistrictName)
+                                $("#Tehsil").text(data[0].TehsilName)
+                                $("#Block").text(data[0].BlockName)
+
+                                $("#Village").text(data[0].VillageNameInHindi)
+                                $("#SectorType").text(data[0].SectorType)
+                                $("#SectorName").text(data[0].SectorName)
+                                $("#WorkName").text(data[0].ProjectName)
+                                $("#latitude").text(data[0].WorkLatitude)
+                                $("#longitude").text(data[0].WorkLongitude)
+                                $("#Purpose").text(data[0].ProjectDescription)
+                                $("#ProposalNo").text(data[0].ProsposalNo)
+                                $("#ProposalDate").text(ProposalDate.toLocaleDateString("es-CL"));
+
+                                $("#ProposalCopy").attr({ "href": data[0].ProposalCopy, "target": "_blank" });;
+                                $("#ProposedBy").text(data[0].ProposedBy);
+                                $("#EstCost").text(data[0].ProjectCost);
+
+                                $("#Gst").text(data[0].GSTAndOthers);
+                                $("#TenderNo").text(data[0].TenderNo);
+                                $("#TenderDate").text(TenderDate.toLocaleDateString("es-CL"));
+                                $("#WorkOrderNo").text(data[0].WorkOrderNo);
+                                $("#WorkOrderDate").text(WorkOrderDate.toLocaleDateString("es-CL"));
+                                $("#WorkOrderCopy").attr({ "href": data[0].WorkOrderCopy, "target": "_blank" });
+                                //$("#WorkOrderCopy").attr("href", data[0].WorkOrderCopy);
+                                ////$("#WorkOrderCopy").attr("target", "_blank");
+                                $("#AgencyName").text(data[0].AgencyName);
+                                $("#SanctionedProjectCost").text(data[0].SanctionedProjectCost);
+
+
+
+                            }
+
+
+                        })
+
+
+                        $("#myModal").modal('show')
+
+                    }
+
+                    function Viewmeeting(Id) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/BindProjectName",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#ProjectPreparationID').empty();
+                                $.each(data, function (key, value) {
+                                    $('#ProjectPreparationID').append($("<option></option>").val(value.ProjectPreparationIDother).html(value.ProjectNo));
+                                });
+
+                            }
+                        })
+
+
+
+                        //$("#ProjectPreparationID").val(Id)
+
+
+                        $("#myModal2").modal('show')
+
+                    }
+
+                    function Viewmilestone(Id) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/ViewMilestone",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#Viewdatatable tbody').empty();
+
+                                $("#viewdistict").text(data[0].Districtname);
+                                $("#viewprojectname").text(data[0].ProjectNo);
+
+                                $.each(data, function (key, value) {
+
+
+                                    $('#Viewdatatable tbody').append("<tr><td>" + value.InstallmentName + "</td><td>" + value.Instext + "</td><td>" + value.InsPercentage + "</td></tr > ")
+
+                                });
+
+                            }
+                        })
+
+
+
+                        $("#myModal3").modal('show')
+
+                    }
+
+
+                    function Editmilestone(Id) {
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/BindProjectName",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#ProjectPreparationIDupdate').empty();
+                                $.each(data, function (key, value) {
+                                    $('#ProjectPreparationIDupdate').append($("<option></option>").val(value.ProjectPreparationIDother).html(value.ProjectNo));
+                                });
+
+                            }
+                        })
+
+
+
+
+                        var optionHtml = "";
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/BindInstallentData",
+
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+
+                            success: function (data) {
+                                debugger;
+                                var i = 1;
+                                $.each(data, function (key, value) {
+                                    //$('#demo' + i).empty();
+                                    //console.log(value.InstallmentID)
+
+
+                                    optionHtml = "<option value=" + value.InstallmentID + ">" + value.InstallmentName + "</option>";
+
+                                    $('#demo' + 1).append(optionHtml);
+                                    $('#demo' + 2).append(optionHtml);
+                                    $('#demo' + 3).append(optionHtml);;
+                                    $('#demo' + 4).append(optionHtml);
+
+
+
+                                    i = i + 1;
+                                });
+
+
+
+
+
+                            }
+                        })
+
+
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/ViewMilestone",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#datatable1Update tbody').empty();
+
+                                var i = 1;
+
+                                $.each(data, function (key, value) {
+
+                                    $('#datatable1Update tbody').append("<tr><td><input type='checkbox' id='chkId' class='chkRow' name='chkId'></td><td>" + value.InstallmentName + "</td><td><input type='text' value='" + value.Instext + "' class='form-control form-control-sm'></td><td><input type='text' value=" + value.InsPercentage + " class='form-control form-control-sm'></td><td><input type='hidden' value=" + value.InstallmentID + " class='form-control form-control-sm'></td></tr > ")
+                                    i = i + 1;
+
+                                });
+
+                            }
+                        })
+
+
+                        //alert(optionHtml)
+
+
+                        $("#myModal4").modal('show')
+
+
+
+
+                    }
+
+
+
+
+
+
+
+
+                    function Savedata() {
+
+
+                        if ($("#DistID").val() == "") {
+
+                            ///toastr.success
+                            toastr.info('Please Select District Name')
+                            return false;
+
+                        }
+
+                        if ($("#ProjectPreparationID").val() == "") {
+
+                            ///toastr.success
+                            toastr.info('Please Select Project Name')
+                            return false;
+
+                        }
+
+
+
+
+                        var d = $("#datatable1 tbody > tr").length;
+                        if (d == 0) {
+
+
+
+                            toastr.info('Please select Row!')
+                            return false;
+
+                        }
+
+                        else {
+
+                            var program_array = [];
+
+                            $("#datatable1 tbody tr").each(function () {
+
+                                var row = $(this);
+
+
+                                var InstallmentID = row.find("td").eq(0).attr('val');
+
+                                var Instext = row.find("td").eq(1).html();
+                                var InsPercentage = row.find("td").eq(2).html();
+                                item = {}
+
+                                //item["DistrictID"] = DistrictID
+                                //item["ProjectPreparationID"] = ProjectPreparationID
+
+                                item["InstallmentID"] = InstallmentID
+                                item["Instext"] = Instext
+                                item["InsPercentage"] = InsPercentage
+                                program_array.push(item);
+
+
+
+                            })
+
+                            var dataobject = {
+                                DistrictID: $("#DistID").val(),
+                                ProjectPreparationID: $("#ProjectPreparationID").val(),
+                                lis: JSON.stringify(program_array)
+
+                            }
+
+                            $.ajax({
+                                url: "/MileStone/InsertRecord",
+                                type: "POST",
+                                contentType: false,
+                                processData: false,
+                                data: JSON.stringify(dataobject),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (r) {
+
+
+                                    if (r.Message == "1") {
+
+
+                                        toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/Viewprojectapprovel" } });
+                                        //CrearFields();
+                                        //location.reload();
+                                    }
+
+                                    else if (r.Message == "0") {
+
+                                        alert('Record Already Exists!');
+                                        return false;
+
+                                        //CrearFields();
+                                        //location.reload();
+                                    }
+                                    else {
+
+                                        toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                                        //$("#showSpinner").hide();
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                                    // $("#showSpinner").hide();
+                                }
+                            })
+
+
+
+
+
+                        }
+
+
+
+
+
+
+                    }
+
+
+                    function updatedateuser() {
+                        var program_array = [];
+                        $("#datatable1Update input[name=chkId]:checked").each(function () {
+
+                            var InstallmentID = $($(this).parent().parent().find("td")[4]).children().val()
+                            var Instext = $($(this).parent().parent().find("td")[2]).children().val()
+                            var InsPercentage = $($(this).parent().parent().find("td")[3]).children().val()
+                            item = {}
+
+                            //item["DistrictID"] = DistrictID
+                            //item["ProjectPreparationID"] = ProjectPreparationID
+
+                            item["InstallmentID"] = InstallmentID
+                            item["Instext"] = Instext
+                            item["InsPercentage"] = InsPercentage
+                            program_array.push(item);
+
+
+
+                        })
+
+
+
+                        var dataobject = {
+                            DistrictID: $("#DistIDUpdate").val(),
+                            ProjectPreparationID: $("#ProjectPreparationIDupdate").val(),
+                            lis: JSON.stringify(program_array)
+
+                        }
+
+
+
+                        if (program_array.length > 0) {
+
+
+
+
+                            $.ajax({
+                                url: "/MileStone/UpdateInsertRecord",
+                                type: "POST",
+                                contentType: false,
+                                processData: false,
+                                data: JSON.stringify(dataobject),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (r) {
+
+
+                                    if (r.Message == "1") {
+
+
+                                        toastr.success("Record Updated successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/Viewprojectapprovel" } });
+                                        //CrearFields();
+                                        //location.reload();
+                                    }
+
+                                    else if (r.Message == "0") {
+
+                                        alert('Record Already Exists!');
+                                        return false;
+
+                                        //CrearFields();
+                                        //location.reload();
+                                    }
+                                    else {
+
+                                        toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                                        //$("#showSpinner").hide();
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                                }
+                            })
+
+                        }
+
+                        else {
+                            alert('Please Select Row');
+                            return false;
+
+
+                        }
+
+
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+
+
+
+
+                </script>
+                <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+                <script>
+                    function ExportToExcel(type, fn, dl) {
+                        var elt = document.getElementById('tblData');
+                        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+                        return dl ?
+                            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                            XLSX.writeFile(wb, fn || ('ProjectProposalPrepration.' + (type || 'xlsx')));
+                    }
+                </script>
+
+                @*<script>
+                    var i = 1;
+                    $(document).ready(function ($) {
+                        $('#tblData1').dataTable({
+                            "Processing": false,
+                            "ServerSide": true,
+                            "Responsive": true,
+                            "Searching": true,
+                            "lengthMenu": [[10, 25, 50, 100, 200, 300, 400, 500, 1000, -1], [10, 25, 50, 100, 200, 300, 400, 500, 1000, "All"]],
+                            "pageLength": 10,
+                            dom: 'Bfrtip',
+                            buttons: [
+                                {
+                                    extend: 'copyHtml5',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3]
+                                    }
+                                },
+                                {
+                                    extend: 'excelHtml5',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3]
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: [0, 1, 2, 3, 4]
+                                    }
+                                },
+
+                            ],
+                            "ajax": {
+                                "url": "/ProjectWorkApproval/GetProjectProposalPreprationList",
+                                "type": "GET",
+                                "datatype": "json",
+                                "dataSrc": ""
+                            },
+                            "language": {
+                                "search": "",
+                                "searchPlaceholder": "Search..."
+                            },
+                            "columns": [
+                                {
+                                    "render": function () {
+                                        return i++;
+                                    }
+                                },
+                                { "data": "DistrictName", "autowidth": true, "searchable": true },
+                                { "data": "ProjectName", "autowidth": true, "searchable": true },
+                                { "data": "SectorName", "autowidth": true, "searchable": true },
+                                { "data": "ProsposalNo", "autowidth": true, "searchable": true },
+                                //{
+                                //    "data": "ProposalDate", "render": function (data) { return convertToDate(data); }},
+
+                                //{
+                                //    "render": function (data, type, JsonResultRow, meta) {
+                                //        return '<img src="/Content/images/' + JsonResultRow.Profile_Pic + '" height="30" width="30" style="border-radius:50%">';
+                                //    }
+                                //},
+                                {
+                                    "mRender": function (data, type, row) {
+                                      return ' <a href="/ProjectWorkApproval/EditProjectProposalPrepration/' + row.ProjectPreparationID +'" class="btn btn-info" ><i class="fa fa-pencil" aria-hidden="true"></i></a> ';
+                                    }
+                                },
+                                {
+                                    "mRender": function (data, type, row) {
+
+                                        return ' <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration/' + row.ProjectPreparationID +'" class="btn btn-danger" ><i class="fa fa-trash" aria-hidden="true"></i></a> ';
+
+                }
+            },
+            //{
+            //    "mRender": function (data, type, row) {
+            //        return ' <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" onclick="Details(' + row.Id + ')">Details</a>';
+            //    }
+            //}
+            ]
+            });
+            });
+                </script>*@
+            }
+

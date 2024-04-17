@@ -659,6 +659,7 @@
     <Content Include="Views\MileStone\ViewMileStoneProject.cshtml" />
     <Content Include="Views\Utilization\CreateUtilization.cshtml" />
     <Content Include="Views\Utilization\UtilizationList.cshtml" />
+    <Content Include="Views\MileStone\Viewprojectapprovel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -384,6 +384,11 @@ namespace DMFProjectFinal.Models.DTO
 
         public string ProjectNo { get; set; }
 
+        public Nullable<int> InstallmentID { get; set; }
+
+        public string Instext { get; set; }
+        public Nullable<long> ProjectPreparationIDother { get; set; }
+
     }
 
     public partial class DTO_MileStoneMaster
