@@ -7,21 +7,89 @@
     var AM = ViewBag.GetAccess as AccessManager;
     int j = 0;
 }
+<!--Modal For Physical Progress details-->
+<div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Physical Progress Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td id="ProjectName"></td>
+                    </tr>
+                </table>
+                @*<div style="font-size:15px;margin:10px"><span id="ProjectName" class="text-dark"></span></div>*@
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Ph. Proress(%)</th>
+                        <th>Ph. Date</th>
+                        <th>Spent Amount</th>
+                        <th>Attched Copy</th>
+                        @*<th>Installment</th>*@
+                        <th>Remark</th>
+                        <th>Action</th>
+                    </tr>
+                    <tbody id="PhysicalProgressDetails"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
 <div id="divform">
     <div class="card-body">
         <div class="row">
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
-            <div class="col-md-6 text-right mb-1">
-                @if (AM.CanInsert)
-                {
-                    <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
-                }
-            </div>
+            @*<div class="col-md-6 text-right mb-1">
+                    @if (AM.CanInsert)
+                    {
+                        <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
+                    }
+                </div>*@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
+                        <form action="/PhysicalProgress/PhysicalProgressList" method="get">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        <input type="text" name="ProjectName" class="form-control" autocomplete="off"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>SectorType</strong>
+                                        <input type="text" name="SectorType" class="form-control" autocomplete="off"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name</strong>
+                                        <input type="text" name="SectorName" class="form-control" autocomplete="off"/>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        <input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
                         @if (AM.CanView)
                         {
                             <div class="table-responsive mt-20">
@@ -35,13 +103,13 @@
                                                 <th>Project Name</th>
                                                 <th>Sector Type</th>
                                                 <th>Sector Name</th>
-                                                <th>Physical Pro. Date</th>
-                                                <th>PhysicalProgress Copy </th>
+                                                <!--<th>Physical Pro. Date</th>
+                            <th>PhysicalProgress Copy </th>-->
                                                 @*<th>Sanctioned Amt</th>*@
-                                                <th> Amount Spend</th>
-                                                <th>Physical Pro (%)</th>
-                                                <th>Remarks</th>
-                                                @if (AM.CanUpdate || AM.CanDelete)
+                                                <!--<th> Amount Spend</th>
+                            <th>Physical Pro (%)</th>
+                            <th>Remarks</th>-->
+                                                @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
                                                 {
                                                     <th>Action</th>
                                                 }
@@ -51,43 +119,48 @@
                                             @foreach (DTO_PhysicalProgressMaster item in ViewBag.LstData)
                                             {
                                                 j++;
-                                                <tr>
-                                                    <td>@j</td>
-                                                    <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
-                                                    <td>@item.SectorType</td>
-                                                    <td>@item.SectorName</td>
-                                                    <td>@(BusinessLogics.GetJSDateStr(item.PhysicalProgressDate))</td>
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.ProjectName</td>
+                                                <td>@item.SectorType</td>
+                                                <td>@item.SectorName</td>
+                                                <!--<td>@(BusinessLogics.GetJSDateStr(item.PhysicalProgressDate))</td>
 
-                                                    @if (String.IsNullOrEmpty(item.PhysicalProgressCopy))
-                                                    {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td><a href="@item.PhysicalProgressCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                    }
-                                                 
-                                                    @*<td>@item.SanctionedProjectCost</td>*@
-                                                    <td style="color:green;font-weight:bold">@item.AmountSpend</td>
+    @if (String.IsNullOrEmpty(item.PhysicalProgressCopy))
+    {
+        <td></td>
+    }
+    else
+    {
+        <td><a href="@item.PhysicalProgressCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+    }-->
+                                                @*<td>@item.SanctionedProjectCost</td>*@
+                                                <!--<td style="color:green;font-weight:bold">@item.AmountSpend</td>
 
-                                                    <td>@item.PhysicalPInPer</td>
-                                                    <td>@item.Remark</td>
-                                                    @if (AM.CanUpdate || AM.CanDelete)
+    <td>@item.PhysicalPInPer</td>
+    <td>@item.Remark</td>-->
+                                            <th>
+                                                @if (AM.CanView)
+                                                {
+
+                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="PhysicalProgressdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+
+
+                                                    if (AM.CanUpdate || AM.CanDelete)
                                                     {
-                                                        <th>
-                                                            @if (AM.CanUpdate)
-                                                            {
-                                                                <a href="/PhysicalProgress/EditPhysicalProgress?PhysicalProgressID=@item.PhysicalprogressID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                            }
-                                                            @if (AM.CanDelete)
-                                                            {
-                                                                <a href="/PhysicalProgress/DeletePhysicalProgress?PhysicalProgressID=@item.PhysicalprogressID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                            }
-                                                        </th>
+
+
+                                                        <a href="/PhysicalProgress/CreatePhysicalProgress" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+
+
                                                     }
+                                                }
+                                            </th>
                                                 </tr>
-                                            }
+                }
                                         </tbody>
                                     </table>
                                 }
@@ -106,3 +179,63 @@
     </div>
 </div>
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            $('#tblData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('PhysicalProgress.' + (type || 'xlsx')));
+        }
+    </script>
+    <script>
+        function PhysicalProgressdetails(ProjectPreparationID) {
+            $("#exampleModal").hide();
+            debugger
+            //var ProjectPreparationID = $(this).attr('value');
+            $.ajax({
+                url: "/PhysicalProgress/GetPhysicalProgressDetails?ProjectPreparationID=" + ProjectPreparationID,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        var PhysicalProgressDate = new Date(parseInt(data[i].PhysicalProgressDate.substr(6)));
+                        html += "<tr>";
+                        html += "<td>" + data[i].PhysicalPInPer + "</td>";
+                        html += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
+                        html += "<td>" + data[i].AmountSpend + "</td>";
+                        html += "<td><a href=" + data[i].PhysicalProgressCopy + " target='_blank'>View Doc</a></td>";
+                        //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
+                        //    html += "<td>NO</td>";
+
+                        //}
+                        //else {
+                        //    html += "<td>Done</td>";
+                        //}
+                        html += "<td>" + data[i].Remark + "</td>";
+
+                        html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a href='/PhysicalProgress/DeletePhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        html += "</tr>";
+
+                    }
+                    $("#PhysicalProgressDetails").html(html);
+                    $("#exampleModal").show();
+                }
+            })
+        }
+    </script>
+}

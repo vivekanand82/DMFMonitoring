@@ -14,7 +14,7 @@ namespace DMFProjectFinal.Controllers
         private dfm_dbEntities db = new dfm_dbEntities();
 
         // GET: PhysicalProgress
-        public ActionResult PhysicalProgressList()
+        public ActionResult PhysicalProgressList(string ProjectName, string SectorName, string SectorType)
         {
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -28,25 +28,18 @@ namespace DMFProjectFinal.Controllers
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null 
+                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null && (pm.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName)) && (snm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName)) && (stm.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
                             select new DTO_PhysicalProgressMaster
                             {
-                                FundReleaseID = fr.FundReleaseID,
+                                ProjectPreparationID=fr.ProjectPreparationID,
                                 DistrictID = fr.DistrictID,
                                 ProjectNo = fr.ProjectNo,
                                 DistrictName = dm.DistrictName,
                                 ProjectName = pm.ProjectName,
-                                PhysicalProgressDate = fr.PhysicalProgressDate,
-                                Remark = fr.Remark,
-                                PhysicalProgressCopy = fr.PhysicalProgressCopy,
-                                PhysicalPInPer = fr.PhysicalPInPer,
-                                //InstallmentName = ins.InstallmentName,
-                                AmountSpend = fr.AmountSpend,
                                 SectorType = stm.SectorType,
                                 SectorName=snm.SectorName,
-                                PhysicalprogressID=fr.PhysicalprogressID.ToString(),
                                 SanctionedProjectCost = ppp.SanctionedProjectCost,
-                            }).ToList();
+                            }).Distinct().ToList();
                 ViewBag.LstData = data;
             }
             else
@@ -54,29 +47,21 @@ namespace DMFProjectFinal.Controllers
                 var data = (from fr in db.PhysicalProgressMasters
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
-                            //join ins in db.InstallmentMasters on ppp.InstallmkentID equals ins.InstallmentID
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.ProjectNo != null
+                            where fr.IsActive == true  && fr.ProjectNo != null && (pm.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName)) && (snm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName)) && (stm.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
                             select new DTO_PhysicalProgressMaster
                             {
-                                FundReleaseID = fr.FundReleaseID,
+                                ProjectPreparationID = fr.ProjectPreparationID,
                                 DistrictID = fr.DistrictID,
                                 ProjectNo = fr.ProjectNo,
                                 DistrictName = dm.DistrictName,
                                 ProjectName = pm.ProjectName,
-                                PhysicalProgressDate = fr.PhysicalProgressDate,
-                                Remark = fr.Remark,
-                                PhysicalProgressCopy = fr.PhysicalProgressCopy,
-                                PhysicalPInPer = fr.PhysicalPInPer,
-                                //InstallmentName = ins.InstallmentName,
-                                AmountSpend = fr.AmountSpend,
                                 SectorType = stm.SectorType,
                                 SectorName = snm.SectorName,
-                                PhysicalprogressID = fr.PhysicalprogressID.ToString()
-                                //SanctionedProjectCost = ppp.SanctionedProjectCost
-                            }).ToList();
+                                SanctionedProjectCost = ppp.SanctionedProjectCost,
+                            }).Distinct().ToList();
                 ViewBag.LstData = data;
             }
                 return View();
@@ -328,6 +313,29 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPhysicalProgressDetails(int ProjectPreparationID)
+        {
+            var data = (from fr in db.PhysicalProgressMasters
+                        //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                        join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
+                        join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
+                        where fr.ProjectPreparationID == ProjectPreparationID
+                        select new DTO_PhysicalProgressMaster
+                        {
+                            //InstallmentName = fr.InstallmentName,
+                         PhysicalprogressID=fr.PhysicalprogressID.ToString(),
+                            ProjectName = pm.ProjectName
+                            ,DistrictName =dm.DistrictName,
+                            PhysicalPInPer=fr.PhysicalPInPer,
+                            PhysicalProgressDate=fr.PhysicalProgressDate,
+                            Remark=fr.Remark,
+                            PhysicalProgressCopy=fr.PhysicalProgressCopy,
+                            AmountSpend=fr.AmountSpend,
+                            Phyicalintsallmentflag = fr.Phyicalintsallmentflag
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

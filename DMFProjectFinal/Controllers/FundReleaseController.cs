@@ -14,37 +14,42 @@ namespace DMFProjectFinal.Controllers
         // GET: FundRelease
         private dfm_dbEntities db = new dfm_dbEntities();
 
-        public ActionResult ReleaseFund( )
+        public ActionResult ReleaseFund(string ProjectName,string SectorName,string SectorType)
         {
+            ViewBag.SectorType = new SelectList(db.SectorTypeMasters, "SectorType", "SectorType", null);
+            ViewBag.SectorName = new SelectList(db.SectorNameMasters, "SectorName", "SectorName", null);
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
             {
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
-
                 var data = (from fr in db.FundReleases
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
-                            join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                            //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null && ppp.Stageid == 2
+                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null && ppp.Stageid == 2 
+                            && (pm.ProjectName==ProjectName || String.IsNullOrEmpty(ProjectName)) 
+                            && (snm.SectorName==SectorName || String.IsNullOrEmpty(SectorName)) 
+                            && (stm.SectorType==SectorType || String.IsNullOrEmpty(SectorType))
                             select new DTO_FundRelease
                             {
-                                FundReleaseID = fr.FundReleaseID.ToString(),
+                                //FundReleaseID = fr.FundReleaseID.ToString(),
+                                ProjectPreparationID=fr.ProjectPreparationID,
                                 DistrictID = fr.DistrictID,
                                 ProjectNo = fr.ProjectNo,
                                 DistrictName = dm.DistrictName,
                                 ProjectName = pm.ProjectName,
-                                RelaeseDate = fr.RelaeseDate,
-                                ReleaseAmount = fr.ReleaseAmount,
-                                FundReleaseCopy = fr.FundReleaseCopy,
-                                InstallmentID = fr.InstallmentID,
-                                InstallmentName = ins.InstallmentName,
+                                //RelaeseDate = fr.RelaeseDate,
+                                //ReleaseAmount = fr.ReleaseAmount,
+                                //FundReleaseCopy = fr.FundReleaseCopy,
+                                //InstallmentID = fr.InstallmentID,
+                                //InstallmentName = ins.InstallmentName,
                                 SectorName = snm.SectorName,
                                 SectorType = stm.SectorType,
                                 SanctionedProjectCost = ppp.SanctionedProjectCost
-                            }).ToList();
+                            }).Distinct().ToList();
             ViewBag.LstData = data;
 
             }
@@ -53,27 +58,30 @@ namespace DMFProjectFinal.Controllers
                 var data = (from fr in db.FundReleases
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
-                            join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                            //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.ProjectNo != null && ppp.Stageid == 2
+                            where fr.IsActive == true && fr.ProjectNo != null && ppp.Stageid == 2 && (pm.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                            && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                            && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
                             select new DTO_FundRelease
                             {
-                                FundReleaseID = fr.FundReleaseID.ToString(),
+                                //FundReleaseID = fr.FundReleaseID.ToString(),
+                                ProjectPreparationID = fr.ProjectPreparationID,
                                 DistrictID = fr.DistrictID,
                                 ProjectNo = fr.ProjectNo,
                                 DistrictName = dm.DistrictName,
                                 ProjectName = pm.ProjectName,
-                                RelaeseDate = fr.RelaeseDate,
-                                ReleaseAmount = fr.ReleaseAmount,
-                                FundReleaseCopy = fr.FundReleaseCopy,
-                                InstallmentID = fr.InstallmentID,
-                                InstallmentName = ins.InstallmentName,
+                                //RelaeseDate = fr.RelaeseDate,
+                                //ReleaseAmount = fr.ReleaseAmount,
+                                //FundReleaseCopy = fr.FundReleaseCopy,
+                                //InstallmentID = fr.InstallmentID,
+                                //InstallmentName = ins.InstallmentName,
                                 SectorName = snm.SectorName,
                                 SectorType = stm.SectorType,
                                 SanctionedProjectCost = ppp.SanctionedProjectCost
-                            }).ToList();
+                            }).Distinct().ToList();
                 ViewBag.LstData = data;
             }
             return View();
@@ -266,6 +274,30 @@ namespace DMFProjectFinal.Controllers
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult DeleteReleasedFund(int FundReleaseID)
+        {
+            JsonResponse JR = new JsonResponse();
+            if (FundReleaseID > 0)
+            {
+                var Info = db.FundReleases.Where(x => x.FundReleaseID == FundReleaseID).FirstOrDefault();
+                if (Info != null)
+                {
+                    db.FundReleases.Remove(Info);
+                }
+            }
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+                JR.IsSuccess = true;
+                JR.Message = "Data Deleted Successfully";
+                JR.RedURL = "/FundRelease/ReleaseFund";
+            }
+            else
+            {
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+            return Json(JR, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public JsonResult GetProjectDetails(int DistrictID, string ProjectNo)
         {
@@ -329,5 +361,50 @@ namespace DMFProjectFinal.Controllers
                         }).Distinct().ToList();
             return Json(data,JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetFundReleaseDetails(int ProjectPreparationID)
+        {
+            var data = (from fr in db.FundReleases
+                        join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                        join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
+                        where fr.ProjectPreparationID == ProjectPreparationID
+                        select new DTO_FundRelease
+                        {
+                            FundReleaseID = fr.FundReleaseID.ToString(),
+                            InstallmentName = ins.InstallmentName,
+                            RelaeseDate = fr.RelaeseDate,
+                            ReleaseAmount = fr.ReleaseAmount,
+                            FundReleaseCopy = fr.FundReleaseCopy,
+                            Physicalinstallmentflag=fr.Phyicalinstallmentflag,
+                            ProjectName=pm.ProjectName
+                        }).ToList();
+            return Json(data,JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BindSector(string SectorType)
+        {
+            var sectortypeID = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault()?? new SectorTypeMaster();
+          
+                var data = (from st in db.SectorNameMasters
+                            where st.SectorTypeId == sectortypeID.SectorTypeID
+                            select new DTO_SectorNameMaster
+                            {
+                                SectorName = st.SectorName
+                            }).ToList();
+
+            return Json(data,JsonRequestBehavior.AllowGet);
+        }
+        //public JsonResult BindProject(string SectorName)
+        //{
+        //    var sectorID = db.SectorNameMasters.Where(x => x.SectorName == SectorName).FirstOrDefault() ?? new SectorTypeMaster();
+
+        //    var data = (from st in db.SectorNameMasters
+        //                where st.SectorTypeId == sectortypeID.SectorTypeID
+        //                select new DTO_SectorNameMaster
+        //                {
+        //                    SectorName = st.SectorName
+        //                }).ToList();
+
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

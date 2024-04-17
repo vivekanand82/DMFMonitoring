@@ -646,6 +646,7 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public decimal? TotalReleaseAmount { get; set; }
+        public string Physicalinstallmentflag { get; set; }
     }
 
 
@@ -684,6 +685,7 @@ namespace DMFProjectFinal.Models.DTO
         public decimal? Releaseperamount { get; set; }
         public decimal? SanctionedProjectCost { get; set; }
         public Nullable<decimal> ReleaseAmount { get; set; }
+        public string Phyicalintsallmentflag { get; set; }
 
     }
     public partial class DTO_UtilizationMaster
@@ -707,6 +709,8 @@ namespace DMFProjectFinal.Models.DTO
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public string SectorType { get; set; }
+        public string SectorName { get; set; }
     }
 
 

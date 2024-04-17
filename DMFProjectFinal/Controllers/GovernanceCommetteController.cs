@@ -16,7 +16,7 @@ namespace DMFProjectFinal.Controllers
         {
             return View();
         }
-        public ActionResult ViewProjectProposals(int? DistID, int? AgencyID, int? SectorID)
+        public ActionResult ViewProjectProposals(int? DistID, int? AgencyID, int? SectorID , string ProjectName, string SectorName, string SectorType)
         {
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 5)
             {
@@ -33,6 +33,9 @@ namespace DMFProjectFinal.Controllers
                                && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
                                && ppp.AgencyID == (AgencyID == null ? ppp.AgencyID : AgencyID)
                                && ppp.SectorID == (SectorID == null ? ppp.SectorID : SectorID)
+                             && (ppp.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName))
+                             && (snm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName))
+                             && (stm.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
                                select new DTO_ProjectProposalPrepration
                                {
                                    AgencyName = ag.Name,
@@ -47,6 +50,7 @@ namespace DMFProjectFinal.Controllers
                                    ProposedBy = ppp.ProposedBy,
                                    ProsposalNo = ppp.ProsposalNo,
                                    SectorName = snm.SectorName,
+                                   SectorType=stm.SectorType,
                                    SanctionedProjectCost = ppp.SanctionedProjectCost,
                                    TenderDate = ppp.TenderDate,
                                    TenderNo = ppp.TenderNo,
@@ -68,7 +72,10 @@ namespace DMFProjectFinal.Controllers
                                join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                                join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                                join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
-                               where ppp.IsActive == true
+                               where ppp.IsActive == true 
+                               && (ppp.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName))
+                             && (snm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName))
+                             && (stm.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
                                select new DTO_ProjectProposalPrepration
                                {
                                    AgencyName = ag.Name,
@@ -83,6 +90,7 @@ namespace DMFProjectFinal.Controllers
                                    ProposedBy = ppp.ProposedBy,
                                    ProsposalNo = ppp.ProsposalNo,
                                    SectorName = snm.SectorName,
+                                   SectorType = stm.SectorType,
                                    SanctionedProjectCost = ppp.SanctionedProjectCost,
                                    TenderDate = ppp.TenderDate,
                                    TenderNo = ppp.TenderNo,

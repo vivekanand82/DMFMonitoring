@@ -368,6 +368,41 @@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
+
+                        <!--Form for filter the data-->
+                        <form action="/GovernanceCommette/ViewProjectProposals" method="get">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        <input type="text" name="ProjectName" class="form-control" autocomplete="off" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>SectorType</strong>
+                                        <input type="text" name="SectorType" class="form-control" autocomplete="off" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name</strong>
+                                        <input type="text" name="SectorName" class="form-control" autocomplete="off" />
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        <input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
                         @if (AM.CanView)
                         {
                             <div class="table-responsive mt-20">
@@ -380,6 +415,7 @@
                                                 <th>District</th>
                                                 <th>Project Name</th>
                                                 <th>Sector Name</th>
+                                                <th>Sector Type</th>
                                                 <th>Prosposal No</th>
                                                 <th>Tender No</th>
                                                 <th>Tender Date</th>
@@ -405,6 +441,7 @@
                                                     <td>@item.DistrictName</td>
                                                     <td>@item.ProjectName</td>
                                                     <td>@item.SectorName</td>
+                                                    <td>@item.SectorType</td>
                                                     <td>@item.ProsposalNo</td>
                                                     <td>@item.TenderNo</td>
                                                     <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
@@ -513,7 +550,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#tblData').DataTable({
-                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+                lengthMenu: [[10,25, 50, -1], [10,25, 50, "All"]],
             });
             $('#MettingDate').datepicker({
                 dateFormat: 'yy-mm-dd',
