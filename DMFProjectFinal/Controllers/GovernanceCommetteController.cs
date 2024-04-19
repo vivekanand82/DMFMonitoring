@@ -345,7 +345,23 @@ namespace DMFProjectFinal.Controllers
             var commetedata = db.CommitteeMasters.Where(x => x.CommitteeTypeID == 2 && x.DistID == data).ToList();
             return Json(commetedata, JsonRequestBehavior.AllowGet);
         }
-
+        //code for get senction amount to change at metting project approve
+        public JsonResult GetSectionAmount(int ProjectPreparationId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var data = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationId).FirstOrDefault().SanctionedProjectCost;
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult UpdateProjectCost(int ProjectPreparationId, decimal SanctionedProjectCost)
+        {
+            
+            var data = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationId).FirstOrDefault();
+            data.SanctionedProjectCost = SanctionedProjectCost;
+            db.Entry(data).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult BindSector(string SectorType)
         {
             var sectortypeID = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();

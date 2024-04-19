@@ -300,6 +300,22 @@
     <Content Include="css\megamenu-dash.css" />
     <Content Include="css\responsive-dash.css" />
     <Content Include="css\shortcodes-dash.css" />
+    <Content Include="Documents\UsersDocs\Bank_Doc_MT-0001-2023-24-05--23-20-46.png" />
+    <Content Include="Documents\UsersDocs\Bank_Doc_MT-0003-2023-05-06--22-19-44.png" />
+    <Content Include="Documents\UsersDocs\Bank_Doc_MT-0007-2023-30-06--06-54-58.jpg" />
+    <Content Include="Documents\UsersDocs\Bank_Doc_MT-0007-2024-03-02--17-59-53.png" />
+    <Content Include="Documents\UsersDocs\Bank_Doc_MT-0008-2023-30-06--07-16-17.jpg" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_+uxqpB9Mv6U=-2023-14-06--23-59-12.jpg" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_10-2023-15-06--06-56-56.jpg" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_10-2023-15-06--07-12-23.jpg" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_18-2023-30-06--08-17-08.png" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_18-2023-30-06--11-04-12.png" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_19-2023-30-06--08-21-49.png" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_44-2024-03-02--18-56-11.png" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_8-2023-15-06--00-01-15.jpg" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_8-2023-15-06--00-01-59.png" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_8-2023-15-06--08-08-25.png" />
+    <Content Include="Documents\UsersDocs\Update_Attachment_8-2023-15-06--08-10-02.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fa-brands-400.svg" />
     <Content Include="fonts\fa-regular-400.svg" />
@@ -429,7 +445,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Documents\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Inspection\" />
   </ItemGroup>

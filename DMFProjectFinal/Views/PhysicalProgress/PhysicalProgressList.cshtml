@@ -27,10 +27,10 @@
                         <th>Ph. Proress(%)</th>
                         <th>Ph. Date</th>
                         <th>Spent Amount</th>
-                        <th>Attched Copy</th>
+                        <th>Ph Progress Copy</th>
                         @*<th>Installment</th>*@
                         <th>Remark</th>
-                        <th>Action</th>
+                        @*<th>Action</th>*@
                     </tr>
                     <tbody id="PhysicalProgressDetails"></tbody>
                 </table>
@@ -123,9 +123,9 @@
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
-                                                <th>Project Name</th>
                                                 <th>Sector Type</th>
                                                 <th>Sector Name</th>
+                                                <th>Project Name</th>
                                                 <!--<th>Physical Pro. Date</th>
                                                 <th>PhysicalProgress Copy </th>-->
                                                 @*<th>Sanctioned Amt</th>*@
@@ -145,9 +145,9 @@
                                                 <tr>
                                                     <td>@j</td>
                                                     <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
                                                     <td>@item.SectorType</td>
                                                     <td>@item.SectorName</td>
+                                                    <td>@item.ProjectName</td>
                                                     <!--<td>@(BusinessLogics.GetJSDateStr(item.PhysicalProgressDate))</td>
 
                                                     @if (String.IsNullOrEmpty(item.PhysicalProgressCopy))
@@ -224,7 +224,6 @@
     <script>
         function PhysicalProgressdetails(ProjectPreparationID) {
             $("#exampleModal").hide();
-            debugger
             //var ProjectPreparationID = $(this).attr('value');
             $.ajax({
                 url: "/PhysicalProgress/GetPhysicalProgressDetails?ProjectPreparationID=" + ProjectPreparationID,
@@ -240,7 +239,7 @@
                         html += "<td>" + data[i].PhysicalPInPer + "</td>";
                         html += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
                         html += "<td>" + data[i].AmountSpend + "</td>";
-                        html += "<td><a href=" + data[i].PhysicalProgressCopy + " target='_blank'>View Doc</a></td>";
+                        html += "<td><a href=" + data[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
                         //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
                         //    html += "<td>NO</td>";
 
@@ -250,7 +249,7 @@
                         //}
                         html += "<td>" + data[i].Remark + "</td>";
 
-                        html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephProgress(" + data[i].PhysicalprogressID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        //html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephProgress(" + data[i].PhysicalprogressID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         html += "</tr>";
 
@@ -263,7 +262,6 @@
     </script>
     <script>
         function BindSectroName() {
-            debugger
             var SectorType = $("#SectorType").val();
             $.ajax({
                 url: "/PhysicalProgress/BindSector?SectorType=" + SectorType,
@@ -282,7 +280,6 @@
     </script>
     <script>
         function BindProjects() {
-            debugger
             var SectorType = $("#SectorType").val();
             var SectorName = $("#SectorName").val();
             var DistrictName = $("#DistrictName").val();
@@ -305,7 +302,6 @@
 
     <script>
         function DeletephProgress(PhysicalprogressID) {
-            debugger
             var conf = confirm("Are you sure you want to delete this Record ??");
             if (conf) {
                 $.ajax({

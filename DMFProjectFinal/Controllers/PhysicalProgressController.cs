@@ -92,9 +92,9 @@ namespace DMFProjectFinal.Controllers
             DTO_PhysicalProgressMaster model = new DTO_PhysicalProgressMaster();
             //ViewBag.ProjectID = new SelectList(db.MileStoneMasters.Where(x => x.IsActive == true && x.ProjectNo != null  && x.DistrictID == (DistID == null ? x.DistrictID : DistID)), "ProjectNo", "ProjectName", null);
             ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
-                                                   join fr in db.FundReleases on ppp.ProjectPreparationID equals fr.ProjectPreparationID
-                                                join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
-                                               where ppp.IsActive == true && ppp.DistID == DistID && pm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2 && fr.IsPhProgressDone==null
+                                                   join mm in db.MileStoneMasters on ppp.ProjectPreparationID equals mm.ProjectPreparationID
+                                                //join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
+                                               where ppp.IsActive == true && ppp.DistID == DistID && mm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2 && mm.IsPhProgressDone==null && mm.IsFundReleased==true
                                                select new 
                                                {
                                                     ProjectNo = ppp.ProjectNo,
@@ -295,29 +295,53 @@ namespace DMFProjectFinal.Controllers
             }
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult BindMileStoneData(int DistrictID, string ProjectNo)
-        {
-            var data = (from ms in db.MileStoneMasters
-                        join fr in db.FundReleases on ms.FundReleaseID equals fr.FundReleaseID
-                        join dm in db.DistrictMasters on ms.DistrictID equals dm.DistrictId
-                        join insM in db.InstallmentMasters on ms.InstallmentID equals insM.InstallmentID
-                        join pm in db.ProjectMasters on ms.ProjectNo equals pm .ProjectNo
-                        where ms.IsActive == true && ms.DistrictID == DistrictID && ms.ProjectNo == ProjectNo
-                        select new DTO_PhysicalProgressMaster
-                        {
-                            MileStoneID = ms.MileStoneID,
-                            FundReleaseID = ms.FundReleaseID,
-                            ProjectNo = ms.ProjectNo,
-                            DistrictID = ms.DistrictID,
-                            DistrictName = dm.DistrictName,
-                            Remark = ms.Instext,
-                            Releaseperamount = ms.Releaseperamount,
-                            ProjectPreparationID = ms.ProjectPreparationID,
-                            CreatedDate=ms.CreatedDate,
-                            ProjectName=pm.ProjectName,
-                            InstallmentName=insM.InstallmentName,
-                            MileStonePercentage=ms.InsPercentage
+        //public JsonResult BindMileStoneData(int DistrictID, string ProjectNo)
+        //{
+        //    var data = (from ms in db.MileStoneMasters
+        //                join fr in db.FundReleases on ms.FundReleaseID equals fr.FundReleaseID
+        //                join dm in db.DistrictMasters on ms.DistrictID equals dm.DistrictId
+        //                join insM in db.InstallmentMasters on ms.InstallmentID equals insM.InstallmentID
+        //                join pm in db.ProjectMasters on ms.ProjectNo equals pm .ProjectNo
+        //                where ms.IsActive == true && ms.DistrictID == DistrictID && ms.ProjectNo == ProjectNo
+        //                select new DTO_PhysicalProgressMaster
+        //                {
+        //                    MileStoneID = ms.MileStoneID,
+        //                    FundReleaseID = ms.FundReleaseID,
+        //                    ProjectNo = ms.ProjectNo,
+        //                    DistrictID = ms.DistrictID,
+        //                    DistrictName = dm.DistrictName,
+        //                    Remark = ms.Instext,
+        //                    Releaseperamount = ms.Releaseperamount,
+        //                    ProjectPreparationID = ms.ProjectPreparationID,
+        //                    CreatedDate=ms.CreatedDate,
+        //                    ProjectName=pm.ProjectName,
+        //                    InstallmentName=insM.InstallmentName,
+        //                    MileStonePercentage=ms.InsPercentage
 
+        //                }).ToList();
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
+
+        [HttpPost]
+        public JsonResult MileStoneByProject(int DistrictID, string ProjectNo)
+        {
+            var data = (from mm in db.MileStoneMasters
+                        join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
+                        join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+                        join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID && mm.IsFundReleased==true && mm.IsPhProgressDone !=true
+                        select new DTO_MileStoneMaster
+                        {
+                            Districtname = dm.DistrictName,
+                            ProjectName = ppp.ProjectName,
+                            Instext = mm.Instext,
+                            SanctionedProjectCost = ppp.SanctionedProjectCost,
+                            InsPercentage = mm.InsPercentage,
+                            InstallmentName = ins.InstallmentName,
+                            IsFundReleased = mm.IsFundReleased,
+                            IsPhProgressDone = mm.IsPhProgressDone,
+                            IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                            IsInspectionDone = mm.IsInspectionDone
                         }).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -348,13 +372,13 @@ namespace DMFProjectFinal.Controllers
         public JsonResult GetPhysicalProgressDetails(int ProjectPreparationID)
         {
             var data = (from fr in db.PhysicalProgressMasters
-                        //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+                       // join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
                         join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
                         join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                         where fr.ProjectPreparationID == ProjectPreparationID
                         select new DTO_PhysicalProgressMaster
                         {
-                            //InstallmentName = fr.InstallmentName,
+                           // InstallmentName = fr.InstallmentName,
                          PhysicalprogressID=fr.PhysicalprogressID.ToString(),
                             ProjectName = pm.ProjectName
                             ,DistrictName =dm.DistrictName,
@@ -367,7 +391,7 @@ namespace DMFProjectFinal.Controllers
                         }).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
+        //code start for filter
         public JsonResult BindSector(string SectorType)
         {
             var sectortypeID = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();

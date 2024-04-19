@@ -32,5 +32,6 @@ namespace DMFProjectFinal.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string Phyicalintsallmentflag { get; set; }
+        public string UC_Against_ReleaseAmount { get; set; }
     }
 }

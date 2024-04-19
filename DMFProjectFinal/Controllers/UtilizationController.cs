@@ -101,13 +101,13 @@ namespace DMFProjectFinal.Controllers
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
             }
             DTO_UtilizationMaster model = new DTO_UtilizationMaster();
-            ViewBag.ProjectID = new SelectList((from ph in db.PhysicalProgressMasters
-                                                join pm in db.ProjectMasters on ph.ProjectNo equals pm.ProjectNo into pms_left
-                                                from pm in pms_left.DefaultIfEmpty()
-                                                where pm.IsActive == true && ph.DistrictID == DistID && ph.ProjectNo == pm.ProjectNo && ph.Phyicalintsallmentflag!=null
+            ViewBag.ProjectID = new SelectList((from mm in db.MileStoneMasters
+                                                join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo into pps_left
+                                                from pm in pps_left.DefaultIfEmpty()
+                                                where pm.IsActive == true && mm.DistrictID == DistID && mm.ProjectNo == pm.ProjectNo && mm.IsPhProgressDone==true && mm.IsUtilizationUploaded!=true
                                                 select new
                                                 {
-                                                    ProjectNo = ph.ProjectNo,
+                                                    ProjectNo = mm.ProjectNo,
                                                     ProjectName = pm.ProjectName
                                                 }).Distinct(), "ProjectNo", "ProjectName", null);
 
@@ -147,6 +147,7 @@ namespace DMFProjectFinal.Controllers
                 UtilizationNo = model.UtilizationNo,
                 UtilizationCopy = model.UtilizationCopy,
                 Remarks = model.Remarks,
+                UC_Against_ReleaseAmount=model.UC_Against_ReleaseAmount,
                 CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
                 CreatedDate = DateTime.Now,
                 IsActive=true,
@@ -204,7 +205,7 @@ namespace DMFProjectFinal.Controllers
                                                 }).Distinct(), "ProjectNo", "ProjectName", data.ProjectNo);
             //return View("~/Views/FundRelease/CreateFundRelease.cshtml", new DTO_FundRelease { FundReleaseID = Info.FundReleaseID.ToString(), RelaeseDate = Info.RelaeseDate, ReleaseAmount = Info.ReleaseAmount, InstallmentID = Info.InstallmentID, FundReleaseCopy = Info.FundReleaseCopy, DistrictID = Info.DistrictID });
 
-            return View("~/Views/Utilization/CreateUtilization.cshtml",new DTO_UtilizationMaster { UtilizationID =data.UtilizationID.ToString(),UtilizationNo=data.UtilizationNo,DistrictID=data.DistrictID,ProjectNo=data.ProjectNo,UtilizationCopy=data.UtilizationCopy,UtilizationDate=data.UtilizationDate,Remarks=data.Remarks});
+            return View("~/Views/Utilization/CreateUtilization.cshtml",new DTO_UtilizationMaster { UtilizationID =data.UtilizationID.ToString(),UtilizationNo=data.UtilizationNo,DistrictID=data.DistrictID,ProjectNo=data.ProjectNo,UtilizationCopy=data.UtilizationCopy,UtilizationDate=data.UtilizationDate,Remarks=data.Remarks, UC_Against_ReleaseAmount =data.UC_Against_ReleaseAmount});
         }
         [HttpPost]
         public JsonResult UpdateUtilization(DTO_UtilizationMaster model)
@@ -232,6 +233,7 @@ namespace DMFProjectFinal.Controllers
                 data.UtilizationNo = model.UtilizationNo;
                 data.UtilizationCopy = model.UtilizationCopy;
                 data.Remarks = model.Remarks;
+            data.UC_Against_ReleaseAmount = model.UC_Against_ReleaseAmount;
                 data.ModifiedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString();
                 data.ModifiedDate = DateTime.Now;
             
@@ -288,10 +290,35 @@ namespace DMFProjectFinal.Controllers
                             UtilizationNo=uc.UtilizationNo,
                             UtilizationDate=uc.UtilizationDate,
                             UtilizationCopy=uc.UtilizationCopy,
-                            Remarks=uc.Remarks
+                            Remarks=uc.Remarks,
+                            UC_Against_ReleaseAmount=uc.UC_Against_ReleaseAmount
                         }).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult MileStoneByProject(int DistrictID, string ProjectNo)
+        {
+            var data = (from mm in db.MileStoneMasters
+                        join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
+                        join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+                        join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID && mm.IsFundReleased == true && mm.IsPhProgressDone == true
+                        select new DTO_MileStoneMaster
+                        {
+                            Districtname = dm.DistrictName,
+                            ProjectName = ppp.ProjectName,
+                            Instext = mm.Instext,
+                            SanctionedProjectCost = ppp.SanctionedProjectCost,
+                            InsPercentage = mm.InsPercentage,
+                            InstallmentName = ins.InstallmentName,
+                            IsFundReleased = mm.IsFundReleased,
+                            IsPhProgressDone = mm.IsPhProgressDone,
+                            IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                            IsInspectionDone = mm.IsInspectionDone
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        //code start for binding dropdowns using filter
         public JsonResult BindSector(string SectorType)
         {
             var sectortypeID = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();

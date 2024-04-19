@@ -28,8 +28,10 @@
                         <th>RelaeseDate</th>
                         <th>ReleaseAmount</th>
                         <th>FundReleaseCopy</th>
-                        <th>Is Pysical Progress Done</th>
-                        <th>Action</th>
+                        <th>Pysical Progress</th>
+                        <th>Utilization </th>
+                        <th>Inspection </th>
+                        @*<th>Action</th>*@
                     </tr>
                     <tbody id="FundReleaseDetails"></tbody>
                 </table>
@@ -124,9 +126,9 @@
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
-                                                <th>Project Name</th>
                                                 <th>Sector Type</th>
                                                 <th>Sector Name</th>
+                                                <th>Project Name</th>
                                                 @*<th>Release Date</th>
                                                     <th>FundRelease Copy</th>*@
                                                 <th>Sanctioned Amount</th>
@@ -166,9 +168,9 @@
                                                 <tr>
                                                     <td>@j</td>
                                                     <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
                                                     <td>@item.SectorType</td>
                                                     <td>@item.SectorName</td>
+                                                    <td>@item.ProjectName</td>
                                                     @*<td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>*@
 
                                                     @*@if (String.IsNullOrEmpty(item.FundReleaseCopy))
@@ -185,21 +187,25 @@
 
                                                     @*<td>@balanceAmt</td>*@
                                                     @*<td>@item.InstallmentName</td>*@
-                                                    <th>
-                                                        @if (AM.CanInsert || AM.CanView)
+                                                <th>
+                                                    @if (AM.CanInsert || AM.CanView)
+                                                    {
+                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        @*if (item.IsUtilizationUploaded == true)
                                                         {
-                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                            <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-warning">Need To Release Next Installment</a>
 
-                                                            <!--if (AM.CanInsert)
-                                                            {
-                                                                <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
-                                                                @*<a href="/Fundrelease/EditReleasedFund?FundReleaseID=@item.FundReleaseID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>*@
+                                                        }*@
+                                                        <!--if (AM.CanInsert)
+                                                        {
+                                                            <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
+                                                        @*<a href="/Fundrelease/EditReleasedFund?FundReleaseID=@item.FundReleaseID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>*@
 
 
 
-                                                            <!--}-->
-                                                        }
-                                                    </th>
+                                                        <!--}-->
+                                                    }
+                                                </th>
                                                 </tr>
                                             }
                                         </tbody>
@@ -241,7 +247,6 @@
     <script>
         function FundReleasedetails(ProjectPreparationID) {
             $("#exampleModal").hide();
-            debugger
             //var ProjectPreparationID = $(this).attr('value');
             $.ajax({
                 url: "/FundRelease/GetFundReleaseDetails?ProjectPreparationID=" + ProjectPreparationID,
@@ -257,16 +262,29 @@
                         html += "<td>" + data[i].InstallmentName + "</td>";
                         html += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
                         html += "<td>" + data[i].ReleaseAmount + "</td>";
-                        html += "<td><a href=" + data[i].FundReleaseCopy + " target='_blank'>View Doc</a></td>";
-                        if (data[i].Physicalinstallmentflag == "" || data[i].Physicalinstallmentflag == undefined) {
-                            html += "<td>NO</td>";
+                        html += "<td><a href=" + data[i].FundReleaseCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                        if (data[i].IsPhProgressDone == true) {
+                            html += "<td>Yes&nbsp;<a href=" + data[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
 
                         }
                         else {
-                            html += "<td>Done</td>";
+                            html += "<td>No</td>";
                         }
+                        if (data[i].IsUtilizationUploaded == true) {
+                            html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
 
-                        html += "<td><a href='/Fundrelease/EditReleasedFund?FundReleaseID=" + data[i].FundReleaseID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeleteFund(" + data[i].FundReleaseID +")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        }
+                        else {
+                            html += "<td>No</td>";
+                        }
+                        if (data[i].IsInspectionDone == true) {
+                            html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+
+                        }
+                        else {
+                            html += "<td>No</td>";
+                        }
+                        //html += "<td><a href='/Fundrelease/EditReleasedFund?FundReleaseID=" + data[i].FundReleaseID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeleteFund(" + data[i].FundReleaseID +")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         html += "</tr>";
 
@@ -279,7 +297,6 @@
     </script>
     <script>
         function BindSectroName() {
-            debugger
             var SectorType = $("#SectorType").val();
             $.ajax({
                 url: "/FundRelease/BindSector?SectorType=" + SectorType,
@@ -298,7 +315,6 @@
     </script>
     <script>
         function BindProjects() {
-            debugger
             var SectorType = $("#SectorType").val();
             var SectorName = $("#SectorName").val();
             var DistrictName = $("#DistrictName").val();
@@ -320,7 +336,6 @@
     </script>
     <script>
         function DeleteFund(FundReleaseID) {
-            debugger
             var conf = confirm("Are you sure you want to delete this Record ??");
             if (conf) {
                 $.ajax({

@@ -415,8 +415,14 @@ namespace DMFProjectFinal.Models.DTO
         public string Districtname { get; set; }
         public Nullable<decimal> ReleaseAmount { get; set; }
         public Nullable<decimal> SanctionedProjectCost { get; set; }
-
-
+        public Nullable<bool> IsFundReleased { get; set; }
+        public Nullable<bool> IsPhProgressDone { get; set; }
+        public Nullable<bool> IsUtilizationUploaded { get; set; }
+        public Nullable<bool> IsInspectionDone { get; set; }
+        public string FundReleaseCopy { get; set; }
+        public string PhysicalProgressCopy { get; set; }
+        public string UtilizationCopy { get; set; }
+        public string InspectionCopy { get; set; }
 
 
 
@@ -652,6 +658,12 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<bool> IsActive { get; set; }
         public decimal? TotalReleaseAmount { get; set; }
         public string Physicalinstallmentflag { get; set; }
+        public Nullable<bool> IsPhProgressDone { get; set; }
+        public Nullable<bool> IsUtilizationUploaded { get; set; }
+        public Nullable<bool> IsInspectionDone { get; set; }
+        public string PhysicalProgressCopy { get; set; }
+        public string UtilizationCopy { get; set; }
+        public string InspectionCopy { get; set; }
     }
 
 
@@ -703,6 +715,7 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<System.DateTime> UtilizationDate { get; set; }
         public string UtilizationNo { get; set; }
         public string UtilizationCopy { get; set; }
+        public string UC_Against_ReleaseAmount { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> DistrictID { get; set; }
         public Nullable<int> ProjectID { get; set; }

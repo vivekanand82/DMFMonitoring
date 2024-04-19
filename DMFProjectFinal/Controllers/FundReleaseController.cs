@@ -24,7 +24,7 @@ namespace DMFProjectFinal.Controllers
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
                 var district = db.DistrictMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
                 ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x=>x.DistrictName== district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
-                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x=>x.DistID== DistID && x.Stageid==2), "ProjectName", "ProjectName", null);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
                 var data = (from fr in db.FundReleases
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
@@ -39,7 +39,7 @@ namespace DMFProjectFinal.Controllers
                             && (ppp.ProjectName==ProjectName || String.IsNullOrEmpty(ProjectName)) 
                             select new DTO_FundRelease
                             {
-                                //FundReleaseID = fr.FundReleaseID.ToString(),
+                               // FundReleaseID = fr.FundReleaseID.ToString(),
                                 ProjectPreparationID=fr.ProjectPreparationID,
                                 DistrictID = fr.DistrictID,
                                 ProjectNo = fr.ProjectNo,
@@ -53,6 +53,9 @@ namespace DMFProjectFinal.Controllers
                                 SectorName = snm.SectorName,
                                 SectorType = stm.SectorType,
                                 SanctionedProjectCost = ppp.SanctionedProjectCost
+                                //IsPhProgressDone=fr.IsPhProgressDone,
+                                //IsUtilizationUploaded=fr.IsUtilizationUploaded,
+                                //IsInspectionDone=fr.IsInspectionDone
                             }).Distinct().ToList();
             ViewBag.LstData = data;
             }
@@ -88,6 +91,9 @@ namespace DMFProjectFinal.Controllers
                                 SectorName = snm.SectorName,
                                 SectorType = stm.SectorType,
                                 SanctionedProjectCost = ppp.SanctionedProjectCost
+                                //IsPhProgressDone = fr.IsPhProgressDone,
+                                //IsUtilizationUploaded = fr.IsUtilizationUploaded,
+                                //IsInspectionDone = fr.IsInspectionDone
                             }).Distinct().ToList();
                 ViewBag.LstData = data;
             }
@@ -123,11 +129,17 @@ namespace DMFProjectFinal.Controllers
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
-            if (db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID== model.InstallmentID).Any())
+            var installment = model.InstallmentID - 1;
+            if (installment != 0)
             {
-                JR.Message =  model.InstallmentID + "st Installment Aready Release for this Project !";
-                return Json(JR, JsonRequestBehavior.AllowGet);
+                var validate = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == installment).FirstOrDefault();
+                if (validate.IsInspectionDone == null || validate.IsPhProgressDone == null || validate.IsUtilizationUploaded == null)
+                {
+                    JR.Message = "First complete the All Steps for " + installment + "st Installment  !!";
+                    return Json(JR, JsonRequestBehavior.AllowGet);
+                }
             }
+           
             if (!String.IsNullOrEmpty(model.FundReleaseCopy))
             {
                 model.FundReleaseCopy = BusinessLogics.UploadFileDMF(model.FundReleaseCopy);
@@ -355,18 +367,42 @@ namespace DMFProjectFinal.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        //[HttpPost]
+        //public JsonResult MileStoneByInstallment(int DistrictID, string ProjectNo,int InstallmentID)
+        //{
+        //    var data = (from mm in db.MileStoneMasters
+        //                join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
+        //                join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+        //                where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID && mm.InstallmentID == InstallmentID
+        //                select new DTO_MileStoneMaster
+        //                {
+        //                   SanctionedProjectCost=ppp.SanctionedProjectCost,
+        //                   InsPercentage=mm.InsPercentage,
+        //                   InstallmentName=ins.InstallmentName
+        //                }).ToList();
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
+
         [HttpPost]
-        public JsonResult MileStoneByInstallment(int DistrictID, string ProjectNo,int InstallmentID)
+        public JsonResult MileStoneByProject(int DistrictID, string ProjectNo)
         {
             var data = (from mm in db.MileStoneMasters
                         join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
-                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID && mm.InstallmentID == InstallmentID
+                        join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID
                         select new DTO_MileStoneMaster
                         {
-                           SanctionedProjectCost=ppp.SanctionedProjectCost,
-                           InsPercentage=mm.InsPercentage,
-                           InstallmentName=ins.InstallmentName
+                            Districtname=dm.DistrictName,
+                            ProjectName=ppp.ProjectName,
+                            Instext=mm.Instext,
+                            SanctionedProjectCost = ppp.SanctionedProjectCost,
+                            InsPercentage = mm.InsPercentage,
+                            InstallmentName = ins.InstallmentName,
+                            IsFundReleased=mm.IsFundReleased,
+                            IsPhProgressDone=mm.IsPhProgressDone,
+                            IsUtilizationUploaded=mm.IsUtilizationUploaded,
+                            IsInspectionDone=mm.IsInspectionDone
                         }).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -375,32 +411,61 @@ namespace DMFProjectFinal.Controllers
         {
             var data = (from mm in db.MileStoneMasters
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
-                        where mm.DistrictID==DistrictID && mm.ProjectNo==ProjectNo
+                        where mm.DistrictID == DistrictID && mm.ProjectNo == ProjectNo
+                        where mm.IsFundReleased != true && mm.IsPhProgressDone != true && mm.IsUtilizationUploaded != true
                         select new DTO_MileStoneMaster
                         {
                             InstallmentID = mm.InstallmentID,
                             InstallmentName = ins.InstallmentName
-                        }).Distinct().ToList();
+                        }).FirstOrDefault();
             return Json(data,JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetFundReleaseDetails(int ProjectPreparationID)
         {
             var data = (from fr in db.FundReleases
                         join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                        join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
+                        join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
+                        join ph in db.PhysicalProgressMasters on fr.FundReleaseID equals ph.FundReleaseID into php from ph in php.DefaultIfEmpty()
+                        join uc in db.UtilizationMasters on ph.PhysicalprogressID equals uc.PhysicalProgressID into ucc from uc in ucc.DefaultIfEmpty()
+                        //join inpec in db.inr on ppp.ProjectPreparationID equals inpec.ProjectPreparationID
                         where fr.ProjectPreparationID == ProjectPreparationID
                         select new DTO_FundRelease
                         {
-                            FundReleaseID = fr.FundReleaseID.ToString(),
+                            //FundReleaseID = fr.FundReleaseID.ToString(),
                             InstallmentName = ins.InstallmentName,
                             RelaeseDate = fr.RelaeseDate,
                             ReleaseAmount = fr.ReleaseAmount,
                             FundReleaseCopy = fr.FundReleaseCopy,
-                            Physicalinstallmentflag=fr.Phyicalinstallmentflag,
-                            ProjectName=pm.ProjectName
+                            //Physicalinstallmentflag = fr.Phyicalinstallmentflag,
+                            ProjectName = ppp.ProjectName,
+                            IsInspectionDone=fr.IsInspectionDone,
+                            IsUtilizationUploaded=fr.IsUtilizationUploaded,
+                            IsPhProgressDone=fr.IsPhProgressDone,
+                            PhysicalProgressCopy=ph.PhysicalProgressCopy,
+                            UtilizationCopy=uc.UtilizationCopy,
+                            //InspectionCopy=inpec.InspectionCopy
                         }).ToList();
-            return Json(data,JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
+        //public JsonResult GetFundReleaseDetails(int ProjectPreparationID)
+        //{
+        //    var data = (from fr in db.FundReleases
+        //                join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
+        //                join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
+        //                where fr.ProjectPreparationID == ProjectPreparationID
+        //                select new DTO_FundRelease
+        //                {
+        //                    FundReleaseID = fr.FundReleaseID.ToString(),
+        //                    InstallmentName = ins.InstallmentName,
+        //                    RelaeseDate = fr.RelaeseDate,
+        //                    ReleaseAmount = fr.ReleaseAmount,
+        //                    FundReleaseCopy = fr.FundReleaseCopy,
+        //                    Physicalinstallmentflag=fr.Phyicalinstallmentflag,
+        //                    ProjectName=pm.ProjectName
+        //                }).ToList();
+        //    return Json(data,JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult BindSector(string SectorType)
         {

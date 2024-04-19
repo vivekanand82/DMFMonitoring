@@ -33,21 +33,22 @@
             <div class="col-md-4">
                 <div class="form-label">
                     <strong>Select Project<sup><code>*</code></sup></strong>
-                    @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off",@onchange= "BindInstallment()" })
+                    @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
                 </div>
 
             </div>
+
             <div class="col-md-4">
                 <div class="form-label">
                     <strong>Select Installment<sup><code>*</code></sup></strong>
                     @if (String.IsNullOrEmpty(Model.FundReleaseID))
                     {
 
-                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off",@onchange= "GetMilestone()" })
+                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
                     }
                     else
                     {
-                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off" })
 
                     }
                 </div>
@@ -58,19 +59,43 @@
                     @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
                 </div>
             </div>
-          
+            <div class="row" style="display:none" id="MileStoneTable">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Project Name</th>
+                            <th>Approved Amt</th>
+                            <th>MileStone Values</th>
+                            <th>Milestone (%)</th>
+                            <th>Milestone AMT</th>
+                            <th>Installment</th>
+                            <th>Fund Released</th>
+                            <th>Physical Progress</th>
+                            <th>Utilization Uploaded</th>
+                            <th>Inspection Done</th>
 
-            <div id="details" style="display:none;background-color:lightgray;font-size:12px">
-                <span id="ProjectName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="SectorName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="SectorType"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="SenctionedProjectCost"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="milestonePercentage"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="ProposedBy"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="ProposalNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="ReleaseAmount"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span id="InstallmentName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            </div><br />
+                        </tr>
+                        <tbody id="MIlestone">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            @*<div id="details" style="display:none;background-color:lightgray;font-size:12px">
+            <span id="ProjectName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="SectorName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="SectorType"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="SenctionedProjectCost"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="milestonePercentage"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="ProposedBy"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="ProposalNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="ReleaseAmount"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="InstallmentName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div><br />*@
+
         </div><div class="row">
     <div class="col-md-4">
         <div class="form-label">
@@ -213,7 +238,6 @@
 </script>*@
 <script>
     function GetProjectDetails() {
-        debugger
         var DistrictID = $("#DistrictID").val();
         var ProjectNo = $("#ProjectNo").val();
         $.ajax({
@@ -239,7 +263,7 @@
 </script>
 <script>
     function BindInstallment() {
-        GetProjectDetails()
+        //GetProjectDetails()
         var DistrictID = $("#DistrictID").val();
         var ProjectNo = $("#ProjectNo").val();
         $.ajax({
@@ -251,14 +275,131 @@
             success: function (data) {
                 $("#InstallmentID").empty();
                 $("#InstallmentID").append("<option value='0'>Select Installment</option>");
-                for (var i = 0; i < data.length; i++) {
-                    $("#InstallmentID").append("<option value=" + data[i].InstallmentID + ">" + data[i].InstallmentName + "</option>");
-                }
+                    $("#InstallmentID").append("<option value=" + data.InstallmentID + ">" + data.InstallmentName + "</option>");
+                //for (var i = 0; i < data.length; i++) {
+                //}
             }
         })
     }
 </script>
 <script>
+    function GetMilestone() {
+        BindInstallment();
+        $("#ReleaseAmount").val('');
+        $("#RelaeseDate").val('');
+        $("#TmpFundReleaseCopy").val('');
+        var DistrictID = $("#DistrictID").val();
+        var ProjectNo = $("#ProjectNo").val();
+        if (ProjectNo != "") {
+            $("#MileStoneTable").show();
+        }
+        else {
+            $("#MileStoneTable").hide();
+        }
+        $.ajax({
+            url: "/FundRelease/MileStoneByProject",
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            success: function (data) {
+                var html = "";
+                // Output district name, project name, and project cost only once
+                html += "<tr>";
+                html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].Districtname + "</td>";
+                html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
+                html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
+                html += "</tr>";
+                // Output milestone details for each milestone
+                for (var i = 0; i < data.length; i++) {
+                    html += "<tr>";
+                    html += "<td>" + data[i].Instext + "</td>";
+                    html += "<td>" + data[i].InsPercentage + "</td>";
+                    var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[i].InsPercentage) / 100)
+                    html += "<td>" + releaseamt + "</td>";
+                    html += "<td>" + data[i].InstallmentName + "</td>";
+                    if (data[i].IsFundReleased == true) {
+
+                        html += "<td>YES</td>";
+                    }
+                    else {
+                        html += "<td>NO</td>";
+
+                    }
+                    if (data[i].IsPhProgressDone == true) {
+
+                        html += "<td>YES</td>";
+                    }
+                    else {
+                        html += "<td>NO</td>";
+
+                    }
+                    if (data[i].IsUtilizationUploaded == true) {
+
+                        html += "<td>YES</td>";
+                    }
+                    else {
+                        html += "<td>NO</td>";
+
+                    }
+                    if (data[i].IsInspectionDone == true) {
+
+                        html += "<td>YES</td>";
+                    }
+                    else {
+                        html += "<td>NO</td>";
+
+                    }
+                    html += "</tr>";
+                }
+                $("#MIlestone").html(html);
+                console.log(data);
+            }
+        })
+    }
+
+</script>
+@*<script>
+    function GetMilestone() {
+        debugger
+        var DistrictID = $("#DistrictID").val();
+        var ProjectNo = $("#ProjectNo").val();
+        $.ajax({
+            url: "/FundRelease/MileStoneByProject",
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            success: function (data) {
+
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += "<tr>";
+                    html += "<td rowspan='4'>" + data[0].Districtname + "</td>";
+                    html += "<td rowspan='4'>" + data[0].ProjectName + "</td>";
+                    html += "<td rowspan='4'>" + data[0].SanctionedProjectCost + "</td>";
+                    html += "<td>" + data[i].Instext + "</td>";
+                    html += "<td>" + data[i].InsPercentage + "</td>";
+                    html += "<td>" + data[i].InstallmentName + "</td>";
+                    html += "<td>" + data[i].IsFundReleased + "</td>";
+                    html += "<td>" + data[i].IsPhProgressDone + "</td>";
+                    html += "<td>" + data[i].IsUtilizationUploaded + "</td>";
+                    html += "<td>" + data[i].IsInspectionDone + "</td>";
+                    html += "</tr>";
+                }
+                $("#MIlestone").html(html);
+                console.log(data);
+                //var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[0].InsPercentage) / 100)
+                //$("#ReleaseAmount").val(releaseamt);
+                //$("#milestonePercentage").html("MileStone(%) :<b>" + data[0].InsPercentage + "<br/>")
+                //$("#InstallmentName").html("Installment Name :<b>" + data[0].InstallmentName + "<br/>")
+
+            }
+        })
+
+    }
+</script>*@
+@*<script>
     function GetMilestone() {
         debugger
         var InstallmentID = $("#InstallmentID").val();
@@ -281,12 +422,11 @@
         })
 
     }
-</script>
+</script>*@
 
 @section scripts{
     <script>
         $(document).ready(function () {
-            debugger
             var id = $("#FundReleaseID").val();
             if (id != "" || id != null || id != 0) {
                 GetProjectDetails()

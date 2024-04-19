@@ -13,7 +13,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Physical Progress Details</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Utilization Details</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -27,11 +27,11 @@
                     <tr>
                         <th>UtilizationNo</th>
                         <th>UtilizationDate</th>
+                        <th>UC(%) against Release Amount</th>
                         <th>UtilizationCopy</th>
-                        <th>Attched Copy</th>
                         @*<th>Installment</th>*@
                         <th>Remarks</th>
-                        <th>Action</th>
+                        @*<th>Action</th>*@
                     </tr>
                     <tbody id="UtilizationDetails"></tbody>
                 </table>
@@ -124,9 +124,9 @@
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
-                                                <th>Project Name</th>
                                                 <th>Sector Name</th>
                                                 <th>Sector Type</th>
+                                                <th>Project Name</th>
                                                 @*<th> UtilizationNo</th>
                                                     <th>Utilization Copy</th>
                                                     <th> Utilization Date</th>
@@ -145,9 +145,9 @@
                                                 <tr>
                                                     <td>@j</td>
                                                     <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
                                                     <td>@item.SectorName</td>
                                                     <td>@item.SectorType</td>
+                                                    <td>@item.ProjectName</td>
                                                     @*@if (String.IsNullOrEmpty(item.UtilizationCopy))
                                                         {
                                                             <td></td>
@@ -223,7 +223,6 @@
     <script>
         function Utilizationdetails(ProjectPreparationID) {
             $("#exampleModal").hide();
-            debugger
             //var ProjectPreparationID = $(this).attr('value');
             $.ajax({
                 url: "/Utilization/GetUtilizationDetails?ProjectPreparationID=" + ProjectPreparationID,
@@ -238,8 +237,8 @@
                         html += "<tr>";
                         html += "<td>" + data[i].UtilizationNo + "</td>";
                         html += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
-                        html += "<td>" + data[i].AmountSpend + "</td>";
-                        html += "<td><a href=" + data[i].UtilizationCopy + " target='_blank'>View Doc</a></td>";
+                        html += "<td>" + data[i].UC_Against_ReleaseAmount + "</td>";
+                        html += "<td><a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
                         //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
                         //    html += "<td>NO</td>";
 
@@ -249,7 +248,7 @@
                         //}
                         html += "<td>" + data[i].Remarks + "</td>";
 
-                        html += "<td><a href='/Utilization/EditUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephUtilization(" + data[i].UtilizationID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        //html += "<td><a href='/Utilization/EditUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephUtilization(" + data[i].UtilizationID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         html += "</tr>";
 
@@ -262,7 +261,6 @@
     </script>
     <script>
         function BindSectroName() {
-            debugger
             var SectorType = $("#SectorType").val();
             $.ajax({
                 url: "/Utilization/BindSector?SectorType=" + SectorType,
@@ -281,7 +279,6 @@
     </script>
     <script>
         function BindProjects() {
-            debugger
             var SectorType = $("#SectorType").val();
             var SectorName = $("#SectorName").val();
             var DistrictName = $("#DistrictName").val();
@@ -303,7 +300,6 @@
     </script>
     <script>
         function DeletephUtilization(UtilizationID) {
-            debugger
             var conf = confirm("Are you sure you want to delete this Record ??");
             if (conf) {
                 $.ajax({
