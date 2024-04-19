@@ -14,12 +14,17 @@ namespace DMFProjectFinal.Controllers
         private dfm_dbEntities db = new dfm_dbEntities();
 
         // GET: PhysicalProgress
-        public ActionResult PhysicalProgressList(string ProjectName, string SectorName, string SectorType)
+        public ActionResult PhysicalProgressList(string SectorType, string SectorName, string DistrictName, string ProjectName)
         {
+            ViewBag.SectorType = new SelectList(db.SectorTypeMasters, "SectorType", "SectorType", null);
+            ViewBag.SectorName = new SelectList(db.SectorNameMasters, "SectorName", "SectorName", null);
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
             {
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                var district = db.DistrictMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x => x.DistrictName == district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
 
                 var data = (from fr in db.PhysicalProgressMasters
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
@@ -28,7 +33,11 @@ namespace DMFProjectFinal.Controllers
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null && (pm.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName)) && (snm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName)) && (stm.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
+                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null
+                              && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                            && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                            && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                            && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
                             select new DTO_PhysicalProgressMaster
                             {
                                 ProjectPreparationID=fr.ProjectPreparationID,
@@ -44,13 +53,19 @@ namespace DMFProjectFinal.Controllers
             }
             else
             {
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters, "DistrictName", "DistrictName", null);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
                 var data = (from fr in db.PhysicalProgressMasters
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true  && fr.ProjectNo != null && (pm.ProjectName.StartsWith(ProjectName) || String.IsNullOrEmpty(ProjectName)) && (snm.SectorName.StartsWith(SectorName) || String.IsNullOrEmpty(SectorName)) && (stm.SectorType.StartsWith(SectorType) || String.IsNullOrEmpty(SectorType))
+                            where fr.IsActive == true  && fr.ProjectNo != null
+                             && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                            && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                            && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                            && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
                             select new DTO_PhysicalProgressMaster
                             {
                                 ProjectPreparationID = fr.ProjectPreparationID,
@@ -79,7 +94,7 @@ namespace DMFProjectFinal.Controllers
             ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
                                                    join fr in db.FundReleases on ppp.ProjectPreparationID equals fr.ProjectPreparationID
                                                 join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
-                                               where ppp.IsActive == true && ppp.DistID == DistID && pm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2 && fr.Phyicalinstallmentflag==null
+                                               where ppp.IsActive == true && ppp.DistID == DistID && pm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2 && fr.IsPhProgressDone==null
                                                select new 
                                                {
                                                     ProjectNo = ppp.ProjectNo,
@@ -118,7 +133,7 @@ namespace DMFProjectFinal.Controllers
             }
             
             //var milestone = db.MileStoneMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID).FirstOrDefault();
-           var updateFlag= db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.Phyicalinstallmentflag == null).FirstOrDefault();
+           var updateFlag= db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.IsPhProgressDone == null).FirstOrDefault();
 
             db.PhysicalProgressMasters.Add(new PhysicalProgressMaster
             {
@@ -144,6 +159,22 @@ namespace DMFProjectFinal.Controllers
                 JR.IsSuccess = true;
                 JR.Message = "Data Saved Successfully";
                 JR.RedURL = "/PhysicalProgress/PhysicalProgressList";
+                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
+                var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
+                if (milestone != null)
+                {
+                    //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
+                    milestone.IsPhProgressDone = true;
+                    db.Entry(milestone).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                if (fundupdt != null)
+                {
+                    //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
+                    fundupdt.IsPhProgressDone = true;
+                    db.Entry(fundupdt).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
             else
             {
@@ -292,7 +323,8 @@ namespace DMFProjectFinal.Controllers
         }
         public JsonResult DeletePhysicalProgress(int PhysicalprogressID)
         {
-            JsonResponse JR = new JsonResponse();
+            string msg = "";
+            //JsonResponse JR = new JsonResponse();
             if (PhysicalprogressID > 0)
             {
                 var Info = db.PhysicalProgressMasters.Where(x => x.PhysicalprogressID == PhysicalprogressID).FirstOrDefault();
@@ -304,15 +336,13 @@ namespace DMFProjectFinal.Controllers
             int res = db.SaveChanges();
             if (res > 0)
             {
-                JR.IsSuccess = true;
-                JR.Message = "Data Deleted Successfully";
-                JR.RedURL = "/PhysicalProgress/PhysicalProgressList";
+                msg = "1";
             }
             else
             {
-                JR.Message = "Some Error Occured, Contact to Admin";
+                msg = "0";
             }
-            return Json(JR, JsonRequestBehavior.AllowGet);
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetPhysicalProgressDetails(int ProjectPreparationID)
@@ -335,6 +365,40 @@ namespace DMFProjectFinal.Controllers
                             AmountSpend=fr.AmountSpend,
                             Phyicalintsallmentflag = fr.Phyicalintsallmentflag
                         }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BindSector(string SectorType)
+        {
+            var sectortypeID = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();
+
+            var data = (from st in db.SectorNameMasters
+                        where st.SectorTypeId == sectortypeID.SectorTypeID
+                        select new DTO_SectorNameMaster
+                        {
+                            SectorName = st.SectorName
+                        }).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult BindProject(string SectorType, string SectorName, string DistrictName)
+        {
+            var sectorID = db.SectorNameMasters.Where(x => x.SectorName == SectorName).FirstOrDefault() ?? new SectorNameMaster();
+            var SectorTypeId = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();
+            var District = db.DistrictMasters.Where(x => x.DistrictName == DistrictName).FirstOrDefault() ?? new DistrictMaster();
+
+            var data = (from ppp in db.ProjectProposalPreprations
+                        where ppp.Stageid == 2
+
+                        && ppp.SectorTypeId == (SectorTypeId.SectorTypeID == 0 ? ppp.SectorTypeId : SectorTypeId.SectorTypeID)
+                        && ppp.SectorID == (sectorID.SectorNameId == 0 ? ppp.SectorID : sectorID.SectorNameId)
+                        && ppp.DistID == (District.DistrictId == 0 ? ppp.DistID : District.DistrictId)
+                        select new DTO_ProjectProposalPrepration
+                        {
+                            ProjectName = ppp.ProjectName
+
+                        }).ToList();
+
             return Json(data, JsonRequestBehavior.AllowGet);
         }
     }

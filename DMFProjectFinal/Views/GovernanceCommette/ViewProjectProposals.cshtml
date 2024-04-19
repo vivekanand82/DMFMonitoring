@@ -372,28 +372,61 @@
                         <!--Form for filter the data-->
                         <form action="/GovernanceCommette/ViewProjectProposals" method="get">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Project Name</strong>
-                                        <input type="text" name="ProjectName" class="form-control" autocomplete="off" />
-                                    </div>
 
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-label">
                                         <strong>SectorType</strong>
-                                        <input type="text" name="SectorType" class="form-control" autocomplete="off" />
+                                        @Html.DropDownList("SectorType", ViewBag.SectorType as SelectList, "Choose", new { @class = "form-control", @onchange = "BindSectroName()", @id = "SectorTypeNAme" })
+                                        @*<input type="text" name="SectorType" class="form-control" autocomplete="off"/>*@
                                     </div>
 
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-label">
                                         <strong>Sector Name</strong>
-                                        <input type="text" name="SectorName" class="form-control" autocomplete="off" />
+                                        @Html.DropDownList("SectorName", ViewBag.SectorName as SelectList, "Choose", new { @class = "form-control", @id = "Sector", @onchange = "BindProjects()" })
+                                        @*<input type="hidden" value="@ViewBag.LstData[0].DistrictID" name="DistrictID" />*@
+                                        @*<input type="text" name="SectorName" class="form-control" autocomplete="off"/>*@
                                     </div>
 
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>District Name</strong>
+                                        @if (AM.RoleID == 2)
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, new { @class = "form-control", @id = "DistrictName", disabled = "disabled" })
 
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, "Choose", new { @class = "form-control", @id = "DistrictName", @onchange = "BindProjects()" })
+
+                                        }
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        @*<input type="text" name="ProjectName" class="form-control" autocomplete="off" />*@
+                                        @Html.DropDownList("ProjectName", ViewBag.ProjectName as SelectList, "Choose", new { @class = "form-control", @id = "Project" })
+                                    </div>
+
+                                </div>
+                                @*<div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>Running Status</strong>
+                                        
+                                        @Html.DropDownList("RunningStatus", new List<SelectListItem>
+                                   {
+                                       new SelectListItem{Text="Pending at MGMT commette",Value="NULL"},
+                                       new SelectListItem{Text="Forwarded by MGMT commette",Value="Forward"},
+                                       new SelectListItem{Text="Approved",Value="Approved"},
+                                   },"Choose", new { @class = "form-control", @id = "RunningStatus" })
+                                    </div>
+
+                                </div>*@
                                 <div class="col-md-2">
                                     <div class="form-label">
                                         <strong>&nbsp;</strong>
@@ -550,7 +583,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#tblData').DataTable({
-                lengthMenu: [[10,25, 50, -1], [10,25, 50, "All"]],
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             });
             $('#MettingDate').datepicker({
                 dateFormat: 'yy-mm-dd',
@@ -664,7 +697,47 @@
         }
     </script>
 
-
+    <script>
+        function BindSectroName() {
+            debugger
+            var SectorType = $("#SectorTypeNAme").val();
+            $.ajax({
+                url: "/GovernanceCommette/BindSector?SectorType=" + SectorType,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "GET",
+                success: function (data) {
+                    $("#Sector").empty();
+                    $("#Sector").append("<option value=''>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#Sector").append("<option value='" + data[i].SectorName + "'>" + data[i].SectorName + "</option>");
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function BindProjects() {
+            debugger
+            var SectorType = $("#SectorTypeNAme").val();
+            var SectorName = $("#Sector").val();
+            var DistrictName = $("#DistrictName").val();
+            $.ajax({
+                url: "/GovernanceCommette/BindProject?SectorType=" + SectorType + "&&SectorName=" + SectorName + "&&DistrictName=" + DistrictName,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "POST",
+                success: function (data) {
+                    $("#Project").empty();
+                    $("#Project").append("<option value=''>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#Project").append("<option value='" + data[i].ProjectName + "'>" + data[i].ProjectName + "</option>");
+                        console.log(data[i].ProjectNo)
+                    }
+                }
+            })
+        }
+    </script>
 }
 
 

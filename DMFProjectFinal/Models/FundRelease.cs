@@ -29,5 +29,8 @@ namespace DMFProjectFinal.Models
         public string ProjectNo { get; set; }
         public Nullable<long> ProjectPreparationID { get; set; }
         public string Phyicalinstallmentflag { get; set; }
+        public Nullable<bool> IsPhProgressDone { get; set; }
+        public Nullable<bool> IsUtilizationUploaded { get; set; }
+        public Nullable<bool> IsInspectionDone { get; set; }
     }
 }

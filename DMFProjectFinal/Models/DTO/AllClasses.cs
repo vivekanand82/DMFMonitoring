@@ -691,6 +691,7 @@ namespace DMFProjectFinal.Models.DTO
         public decimal? SanctionedProjectCost { get; set; }
         public Nullable<decimal> ReleaseAmount { get; set; }
         public string Phyicalintsallmentflag { get; set; }
+        public bool IsPhProgressDone { get; set; }
 
     }
     public partial class DTO_UtilizationMaster

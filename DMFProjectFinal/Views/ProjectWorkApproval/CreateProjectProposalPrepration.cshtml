@@ -203,13 +203,15 @@
                             <strong>Sector Name<sup><code>*</code></sup></strong>
                             @if (Model.VillageId == null)
                             {
-                                @Html.DropDownListFor(x => x.SectorID, Enumerable.Empty<SelectListItem>(), "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })
+                                @*@Html.DropDownListFor(x => x.SectorID, Enumerable.Empty<SelectListItem>(), "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })*@
                             }
                             else
                             {
-                                @Html.DropDownListFor(x => x.SectorID, null, "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })
+                                @*@Html.DropDownListFor(x => x.SectorID, null, "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })*@
 
                             }
+                            @Html.DropDownListFor(x => x.SectorID, Enumerable.Empty<SelectListItem>(), "Select Sector", new { @class = "form-control form-control-sm", @id = "SectorID" })
+
 
                             <input type="hidden" id="hdnsectorid" />
 
@@ -263,11 +265,12 @@
 
                                     @*<input type="hidden" value="prev" id="ProposalCopy1"  />*@
                                 }
-                          
-                                <a target="_blank" id="ProposalCopy1" style="display:none;">View Doc</a></strong>
-                                @*@Html.TextBoxFor(x => x.ProposalCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy", @id= "ProposalCopy" })*@
 
-                                <input type="file" id="ProposalCopy" class="form-control" />
+                                <a target="_blank" id="ProposalCopy1" style="display:none;">View Doc</a>
+                            </strong>
+                            @*@Html.TextBoxFor(x => x.ProposalCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy", @id= "ProposalCopy" })*@
+
+                            <input type="file" id="ProposalCopy" class="form-control" />
 
 
                         </div>
@@ -331,7 +334,8 @@
                             </strong>
                             @*@Html.TextBoxFor(x => x.WorkOrderCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "WorkOrderCopy", @id= "WorkOrderCopy" })*@
                             <strong>
-                            <a  target="_blank" id="WorkOrderCopy1" style="display:none;">View Doc</a></strong>
+                                <a target="_blank" id="WorkOrderCopy1" style="display:none;">View Doc</a>
+                            </strong>
 
 
 
@@ -387,7 +391,7 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-       
+
         var id = '@ViewBag.id'
 
         if (id) {
@@ -405,7 +409,7 @@
         //    //alert($("#<%=labelcity.ClientID %>").text());
         //    $("#hdntesil").val();
         //}
-     
+
 
 
         //if ($("#hdnvillage").val() == null || $("#hdnvillage").val() == "") {
@@ -415,7 +419,7 @@
         //else {
         //    //alert('Not')
         //    bindvillage();
-          
+
         //    $('#VillageId').val($("#hdnvillage").val())
         //    //alert($("#<%=labelcity.ClientID %>").text());
         //    $("#hdnvillage").val();
@@ -434,10 +438,10 @@
 
 
         function editdata(id) {
-            
+
 
             var dataobject = {
-              
+
                 ProjectPreparationID:id
             };
 
@@ -456,22 +460,22 @@
                     $("#AgencyID").val(r.AgencyID);
                     $("#hdnagencey").val(r.AgencyID)
                     binddata();
-                   
+
 
                     $("#TehsilId").val(r.TehsilId)
 
-                   
+
 
                     $("#hdnvillage").val(r.VillageId)
                     //bindvillage(r.TehsilId);
-                    
+
                     $("#BlockId").val(r.BlockId);
                     $("#VillageId").val(r.VillageId);
-                  
+
                     $("#hdntesil").val(r.TehsilId)
                     $("#hdnvillage").val(r.VillageId);
                     //$("#TehsilId").onchange();
-                    
+
                     bindvillage();
 
 
@@ -488,7 +492,7 @@
                     $("#ProjectDescription").val(r.ProjectDescription);
                     $("#ProposedBy").val(r.ProposedBy)
                     $("#ProjectCost").val(r.ProjectCost)
-                 
+
                     $("#GSTAndOthers").val(r.GSTAndOthers);
                     var ProposalDate = new Date(parseInt(r.ProposalDate.substr(6)));
                     var TenderDate = new Date(parseInt(r.TenderDate.substr(6)));
@@ -517,8 +521,8 @@
 
                     $("#ProjectPreparationID").val(id)
 
-                
-                   
+
+
 
                 }
 
@@ -533,27 +537,55 @@
 
         function BindSectorType() {
             var SectorTypeId = $("#SectorTypeId").val();
-           
-            debugger
+            //alert(SectorTypeId)
+            debugger;
+            //$.ajax({
+
+            //    url: "/ProjectWorkApproval/BindSectorname",
+            //    type: "Get",
+            //    data: "{'SectorTypeId':'" + SectorTypeId + "'}",
+            //    dataType: "json",
+            //    contentType: "application/json;charset=utf-8;",
+            //    //data: JSON.stringify({ SectorTypeId: SectorTypeId }),
+            //    success: function (data) {
+            //        //alert(data.length);
+            //        $("#SectorID").empty();
+            //        $("#SectorID").append("<option value='0'>Select</option>");
+            //        for (var i = 0; i < data.length; i++) {
+            //            $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
+            //        }
+            //        $("#SectorID").val($("#hdnsectorid").val());
+
+
+
+            //    }
+            //})
+
+
+
             $.ajax({
-                type: "Post",
-                url: "/ProjectWorkApproval/BindSectorType?SectorTypeId=" + SectorTypeId,
-                contentType: "application/json;charset=utf-8;",
+                url: "/FundRelease/BindSectorname?SectorTypeId=" + SectorTypeId,
                 dataType: "json",
-                //data: JSON.stringify({ SectorTypeId: SectorTypeId }),
+                contentType: "application/json;charset=utf-8",
+                type: "GET",
                 success: function (data) {
-                    //alert(data.length);
                     $("#SectorID").empty();
                     $("#SectorID").append("<option value='0'>Select</option>");
                     for (var i = 0; i < data.length; i++) {
                         $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
                     }
+
                     $("#SectorID").val($("#hdnsectorid").val());
-
-
 
                 }
             })
+
+
+
+
+
+
+
         }
 
         function binddata() {
@@ -592,7 +624,7 @@
                 }
             })
 
-          
+
             $.ajax({
                 type: "POST",
                 url: "/ProjectWorkApproval/BindAgencey",
@@ -606,7 +638,7 @@
                         $('#AgencyID').append($("<option></option>").val(value.AgencyID).html(value.AgencyName));
                     });
                     $('#AgencyID').val($("#hdnagencey").val());
-                    
+
 
                     /* $('#Block').val($("#hdnblock").val())*/
                 }
@@ -624,25 +656,25 @@
 
 
         function bindvillage() {
-          
+
 
             var TehsilId = "";
 
             if ($("#hdntesil").val() != "") {
-                
-             
+
+
                 TehsilId = $("#hdntesil").val();
             }
             else {
-             
-                
+
+
                 TehsilId = $('#TehsilId').val();
             }
-           
+
             //alert($("#hdnvillage").val());
 
             //alert(TehsilId);
-          
+
             $.ajax({
                 type: "POST",
                 url: "/ProjectWorkApproval/BindVillage",
@@ -651,7 +683,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     //alert(data.length);
-                  
+
                     $.each(data, function (key, value) {
 
                         $('#VillageId').append($("<option></option>").val(value.VillageId).html(value.VillageNameInEnglish));
@@ -668,7 +700,7 @@
 
 
 
-       
+
 
 
 
@@ -680,15 +712,15 @@
 
 
 
-    }
+}
 
-    <script>
-
-
+<script>
 
 
 
-    
+
+
+
 
 
 
@@ -916,16 +948,16 @@
                     if (r.Message == "1") {
                         uploadImage($("#ProjectNo").val());
                         uploadworkorder($("#ProjectNo").val())
-                       
+
                         toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
-                       
+
                         //CrearFields();
                         //location.reload();
-                    } 
+                    }
                     else {
                         toastr.success("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
 
-                       
+
                         //$("#showSpinner").hide();
                     }
                 },
@@ -1138,7 +1170,7 @@
                 WorkOrderDate: $("#WorkOrderDate").val(),
                 AgencyID: $("#AgencyID").val(),
                 SanctionedProjectCost: $("#SanctionedProjectCost").val(),
-                ProjectPreparationID:$("#ProjectPreparationID").val()
+                ProjectPreparationID: $("#ProjectPreparationID").val()
             }
 
 
@@ -1243,97 +1275,97 @@
 
 
 
-    </script>
-    <script>
-        var currentTab = 0;
+</script>
+<script>
+    var currentTab = 0;
+    showTab(currentTab);
+
+    function showTab(n) {
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "none";
+        }
+        else {
+            document.getElementById("prevBtn").style.display = "inline";
+            document.getElementById("btnSubmit").style.display = "none";
+        }
+        if (n == (x.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "inline";
+
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").style.display = "inline";
+        }
+        fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+
+        if (n == 1 && !validateForm())
+            return false;
+
+        var x = document.getElementsByClassName("tab");
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        if (currentTab >= x.length) {
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("btnSubmit").style.display = "inline";
+            return false;
+        }
         showTab(currentTab);
+    }
 
-        function showTab(n) {
-            var x = document.getElementsByClassName("tab");
-            x[n].style.display = "block";
+    function validateForm() {
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        // Get the current tab
+        var currentTabElement = x[currentTab];
 
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-                document.getElementById("btnSubmit").style.display = "none";
-            }
-            else {
-                document.getElementById("prevBtn").style.display = "inline";
-                document.getElementById("btnSubmit").style.display = "none";
-            }
-            if (n == (x.length - 1)) {
-                document.getElementById("nextBtn").innerHTML = "Submit";
-                document.getElementById("nextBtn").style.display = "none";
-                document.getElementById("btnSubmit").style.display = "inline";
-
-            } else {
-                document.getElementById("nextBtn").innerHTML = "Next";
-                document.getElementById("nextBtn").style.display = "inline";
-            }
-            fixStepIndicator(n)
-        }
-
-        function nextPrev(n) {
-
-            if (n == 1 && !validateForm())
-                return false;
-
-            var x = document.getElementsByClassName("tab");
-            x[currentTab].style.display = "none";
-            currentTab = currentTab + n;
-            if (currentTab >= x.length) {
-                document.getElementById("nextBtn").style.display = "none";
-                document.getElementById("btnSubmit").style.display = "inline";
-                return false;
-            }
-            showTab(currentTab);
-        }
-
-        function validateForm() {
-            var x, y, i, valid = true;
-            x = document.getElementsByClassName("tab");
-            // Get the current tab
-            var currentTabElement = x[currentTab];
-
-            // Get the elements within the current tab
-            y = currentTabElement.getElementsByTagName("select");
-            var emptyFields = [];
-            // Check select elements
-            if (y.length > 0) {
-                for (i = 0; i < y.length; i++) {
-                    if (y[i].value == "") {
-                        y[i].className += " invalid";
-                        emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
-                        valid = false;
-                    }
-                }
-            } else {
-                // If no select elements found, check input elements
-                /*y = currentTabElement.getElementsByTagName("input");*/
-                // If no select elements found, check input elements except file inputs
-                y = currentTabElement.querySelectorAll("input:not([type='file'])");
-                for (i = 0; i < y.length; i++) {
-                    if (y[i].value == "") {
-                        y[i].className += " invalid";
-                        emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
-                        valid = false;
-                    }
+        // Get the elements within the current tab
+        y = currentTabElement.getElementsByTagName("select");
+        var emptyFields = [];
+        // Check select elements
+        if (y.length > 0) {
+            for (i = 0; i < y.length; i++) {
+                if (y[i].value == "") {
+                    y[i].className += " invalid";
+                    emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
+                    valid = false;
                 }
             }
-
-            if (!valid) {
-
-                toastr.error("Please fill in the following fields:\n" + emptyFields.join("\n"));
-            } else {
-                document.getElementsByClassName("step")[currentTab].className += " finish";
+        } else {
+            // If no select elements found, check input elements
+            /*y = currentTabElement.getElementsByTagName("input");*/
+            // If no select elements found, check input elements except file inputs
+            y = currentTabElement.querySelectorAll("input:not([type='file'])");
+            for (i = 0; i < y.length; i++) {
+                if (y[i].value == "") {
+                    y[i].className += " invalid";
+                    emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
+                    valid = false;
+                }
             }
-            return valid;
         }
-        function fixStepIndicator(n) {
-            var i, x = document.getElementsByClassName("step");
-            for (i = 0; i < x.length; i++) {
-                x[i].className = x[i].className.replace(" active", "");
-            }
-            x[n].className += " active";
+
+        if (!valid) {
+
+            toastr.error("Please fill in the following fields:\n" + emptyFields.join("\n"));
+        } else {
+            document.getElementsByClassName("step")[currentTab].className += " finish";
         }
-    </script>
+        return valid;
+    }
+    function fixStepIndicator(n) {
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
+        }
+        x[n].className += " active";
+    }
+</script>
 

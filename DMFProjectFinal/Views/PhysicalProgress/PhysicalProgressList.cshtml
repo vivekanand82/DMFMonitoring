@@ -42,45 +42,68 @@
         </div>
     </div>
 </div>
+<div class="card-header">
+    <h4 class="card-title">Physical Progress List</h4>
+</div>
 <div id="divform">
     <div class="card-body">
         <div class="row">
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
-            @*<div class="col-md-6 text-right mb-1">
+            <div class="col-md-6 text-right mb-1">
                     @if (AM.CanInsert)
                     {
                         <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
                     }
-                </div>*@
+                </div>
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
                         <form action="/PhysicalProgress/PhysicalProgressList" method="get">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Project Name</strong>
-                                        <input type="text" name="ProjectName" class="form-control" autocomplete="off"/>
-                                    </div>
 
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-label">
                                         <strong>SectorType</strong>
-                                        <input type="text" name="SectorType" class="form-control" autocomplete="off"/>
+                                        @Html.DropDownList("SectorType", ViewBag.SectorType as SelectList, "Choose", new { @class = "form-control", @onchange = "BindSectroName()" })
+                                        @*<input type="text" name="SectorType" class="form-control" autocomplete="off"/>*@
                                     </div>
 
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-label">
                                         <strong>Sector Name</strong>
-                                        <input type="text" name="SectorName" class="form-control" autocomplete="off"/>
+                                        @Html.DropDownList("SectorName", ViewBag.SectorName as SelectList, "Choose", new { @class = "form-control", @id = "SectorName", @onchange = "BindProjects()" })
+                                        @*<input type="hidden" value="@ViewBag.LstData[0].DistrictID" name="DistrictID" />*@
+                                        @*<input type="text" name="SectorName" class="form-control" autocomplete="off"/>*@
                                     </div>
 
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>District Name</strong>
+                                        @if (AM.RoleID == 2)
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, new { @class = "form-control", @id = "DistrictName", disabled = "disabled" })
 
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, "Choose", new { @class = "form-control", @id = "DistrictName", @onchange = "BindProjects()" })
+
+                                        }
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        @*<input type="text" name="ProjectName" class="form-control" autocomplete="off" />*@
+                                        @Html.DropDownList("ProjectName", ViewBag.ProjectName as SelectList, "Choose", new { @class = "form-control", @id = "Project" })
+                                    </div>
+
+                                </div>
                                 <div class="col-md-2">
                                     <div class="form-label">
                                         <strong>&nbsp;</strong>
@@ -104,11 +127,11 @@
                                                 <th>Sector Type</th>
                                                 <th>Sector Name</th>
                                                 <!--<th>Physical Pro. Date</th>
-                            <th>PhysicalProgress Copy </th>-->
+                                                <th>PhysicalProgress Copy </th>-->
                                                 @*<th>Sanctioned Amt</th>*@
                                                 <!--<th> Amount Spend</th>
-                            <th>Physical Pro (%)</th>
-                            <th>Remarks</th>-->
+                                                <th>Physical Pro (%)</th>
+                                                <th>Remarks</th>-->
                                                 @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
                                                 {
                                                     <th>Action</th>
@@ -119,48 +142,48 @@
                                             @foreach (DTO_PhysicalProgressMaster item in ViewBag.LstData)
                                             {
                                                 j++;
-                                            <tr>
-                                                <td>@j</td>
-                                                <td>@item.DistrictName</td>
-                                                <td>@item.ProjectName</td>
-                                                <td>@item.SectorType</td>
-                                                <td>@item.SectorName</td>
-                                                <!--<td>@(BusinessLogics.GetJSDateStr(item.PhysicalProgressDate))</td>
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.SectorType</td>
+                                                    <td>@item.SectorName</td>
+                                                    <!--<td>@(BusinessLogics.GetJSDateStr(item.PhysicalProgressDate))</td>
 
-    @if (String.IsNullOrEmpty(item.PhysicalProgressCopy))
-    {
-        <td></td>
-    }
-    else
-    {
-        <td><a href="@item.PhysicalProgressCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-    }-->
-                                                @*<td>@item.SanctionedProjectCost</td>*@
-                                                <!--<td style="color:green;font-weight:bold">@item.AmountSpend</td>
-
-    <td>@item.PhysicalPInPer</td>
-    <td>@item.Remark</td>-->
-                                            <th>
-                                                @if (AM.CanView)
-                                                {
-
-                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="PhysicalProgressdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-
-
-
-                                                    if (AM.CanUpdate || AM.CanDelete)
+                                                    @if (String.IsNullOrEmpty(item.PhysicalProgressCopy))
                                                     {
-
-
-                                                        <a href="/PhysicalProgress/CreatePhysicalProgress" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
-
-
-
+                                                        <td></td>
                                                     }
-                                                }
-                                            </th>
+                                                    else
+                                                    {
+                                                        <td><a href="@item.PhysicalProgressCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                    }-->
+                                                    @*<td>@item.SanctionedProjectCost</td>*@
+                                                    <!--<td style="color:green;font-weight:bold">@item.AmountSpend</td>
+
+                                                    <td>@item.PhysicalPInPer</td>
+                                                    <td>@item.Remark</td>-->
+                                                    <th>
+                                                        @if (AM.CanView)
+                                                        {
+
+                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="PhysicalProgressdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+
+
+                                                            @*if (AM.CanUpdate || AM.CanDelete)
+                                                            {
+
+
+                                                                <a href="/PhysicalProgress/CreatePhysicalProgress" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+
+
+                                                            }*@
+                                                        }
+                                                    </th>
                                                 </tr>
-                }
+                                            }
                                         </tbody>
                                     </table>
                                 }
@@ -182,7 +205,7 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-           
+
             $('#tblData').DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
@@ -227,7 +250,7 @@
                         //}
                         html += "<td>" + data[i].Remark + "</td>";
 
-                        html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a href='/PhysicalProgress/DeletePhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                        html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephProgress(" + data[i].PhysicalprogressID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
                         html += "</tr>";
 
@@ -236,6 +259,72 @@
                     $("#exampleModal").show();
                 }
             })
+        }
+    </script>
+    <script>
+        function BindSectroName() {
+            debugger
+            var SectorType = $("#SectorType").val();
+            $.ajax({
+                url: "/PhysicalProgress/BindSector?SectorType=" + SectorType,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "GET",
+                success: function (data) {
+                    $("#SectorName").empty();
+                    $("#SectorName").append("<option value=''>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#SectorName").append("<option value='" + data[i].SectorName + "'>" + data[i].SectorName + "</option>");
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function BindProjects() {
+            debugger
+            var SectorType = $("#SectorType").val();
+            var SectorName = $("#SectorName").val();
+            var DistrictName = $("#DistrictName").val();
+            $.ajax({
+                url: "/PhysicalProgress/BindProject?SectorType=" + SectorType + "&&SectorName=" + SectorName + "&&DistrictName=" + DistrictName,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "POST",
+                success: function (data) {
+                    $("#Project").empty();
+                    $("#Project").append("<option value=''>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#Project").append("<option value='" + data[i].ProjectName + "'>" + data[i].ProjectName + "</option>");
+                        console.log(data[i].ProjectNo)
+                    }
+                }
+            })
+        }
+    </script>
+
+    <script>
+        function DeletephProgress(PhysicalprogressID) {
+            debugger
+            var conf = confirm("Are you sure you want to delete this Record ??");
+            if (conf) {
+                $.ajax({
+                    url: "/PhysicalProgress/DeletePhysicalProgress?PhysicalprogressID=" + PhysicalprogressID,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    type: "POST",
+                    success: function (data) {
+                        if (data == "1") {
+                            toastr.success("data Deleted Successfully !!", "Success");
+                            window.location.reload();
+                        }
+                        else if (data == "0") {
+                            toastr.success("Something went wrong plz try later !!", "Error");
+                        }
+                    }
+                })
+            }
+
         }
     </script>
 }

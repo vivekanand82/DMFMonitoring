@@ -38,10 +38,10 @@ namespace DMFProjectFinal.Controllers
             //ViewBag.ProjectPreparationID= new SelectList(( from ppp in db.ProjectProposalPreprations join fm in db.FundReleases on ppp.ProjectPreparationID equals fm.ProjectPreparationID where ppp.DistID == (DistID == null ? ppp.DistID : DistID) ), "DistrictId", "DistrictName", null);
 
             ViewBag.ProjectPreparationID = new SelectList((from ppp in db.ProjectProposalPreprations
-                                                           
 
-                                                           //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
-                                                           where ppp.IsActive == true && ppp.Stageid==2
+
+                                                               //join pm in db.ProposalStatusMasters on ppp.ProjectPreparationID equals pm.ProjectID
+                                                           where ppp.IsActive == true && ppp.Stageid == 2
                                                            && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
 
                                                            select new DTO_MileStoneMaster
@@ -59,7 +59,7 @@ namespace DMFProjectFinal.Controllers
 
             ViewBag.DistrictID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
 
-            ViewBag.InstallmentID = new SelectList((from  inst in db.InstallmentMasters 
+            ViewBag.InstallmentID = new SelectList((from inst in db.InstallmentMasters
                                                     select new DTO_MileStoneMaster
                                                     {
                                                         InstallmentID = inst.InstallmentID,
@@ -98,7 +98,7 @@ namespace DMFProjectFinal.Controllers
         }
 
 
-        
+
         public JsonResult insertMilestone(DTO_MileStoneMaster model)
         {
             JsonResponse JR = new JsonResponse();
@@ -110,7 +110,7 @@ namespace DMFProjectFinal.Controllers
             //FundRelease fund = db.FundReleases.Where(x => x.ProjectPreparationID == model.ProjectPreparationID).FirstOrDefault();
             MileStoneMaster ak = db.MileStoneMasters.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == model.InstallmentID).FirstOrDefault();
 
-            if(ak!=null)
+            if (ak != null)
             {
                 res = 0;
 
@@ -132,10 +132,10 @@ namespace DMFProjectFinal.Controllers
                 db.MileStoneMasters.Add(ax);
                 res = db.SaveChanges();
             }
-            
+
 
             //db.SaveChanges();
-           
+
             if (res > 0)
             {
 
@@ -144,7 +144,7 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "1";
                 //JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";
             }
-            else if( res ==0)
+            else if (res == 0)
             {
                 JR.IsSuccess = true;
                 JR.Message = "0";
@@ -177,7 +177,7 @@ namespace DMFProjectFinal.Controllers
                 {
                     MileStoneMaster ax = new MileStoneMaster();
                     ax.ProjectPreparationID = Convert.ToInt32(ProjectPreparationID);
-ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                    ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                     model.ProjectNo = abc.ProjectNo;
 
                     ax.ProjectNo = model.ProjectNo;
@@ -226,7 +226,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
 
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -245,7 +245,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
             {
                 foreach (var item in list)
                 {
-                    MileStoneMaster ax = db.MileStoneMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID && x.InstallmentID == x.InstallmentID).FirstOrDefault();
+                    MileStoneMaster ax = db.MileStoneMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID && x.InstallmentID == item.InstallmentID).FirstOrDefault();
                     ax.ProjectPreparationID = Convert.ToInt32(ProjectPreparationID);
                     ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                     model.ProjectNo = abc.ProjectNo;
@@ -261,13 +261,13 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
                     ax.FundReleaseID = 1;
                     ax.IsActive = true;
                     //db.MileStoneMasters.Add(ax);
-
+                    db.Entry(ax).State = System.Data.Entity.EntityState.Modified;
                     res = db.SaveChanges();
 
 
                 }
 
-              
+
 
 
                 if (res > 0)
@@ -313,7 +313,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
             MileStoneMaster abc = db.MileStoneMasters.Where(x => x.MileStoneID == model.MileStoneID).FirstOrDefault();
 
             abc.DistrictID = model.DistrictID;
-           
+
 
             ProjectProposalPrepration abc1 = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == model.ProjectPreparationID).FirstOrDefault();
             model.ProjectNo = abc1.ProjectNo;
@@ -378,7 +378,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
 
                             Instext = mt.Instext,
                             InsPercentage = mt.InsPercentage,
-                            MileStoneID =mt.MileStoneID,
+                            MileStoneID = mt.MileStoneID,
                             Districtname = dm.DistrictName
 
 
@@ -429,7 +429,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
             {
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
             }
-          
+
 
             var lsit = (from ppp in db.ProjectProposalPreprations
                         join mt in
@@ -440,7 +440,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
                           on ppp.DistID equals dm.DistrictId
                         join inst in db.InstallmentMasters
                         on mt.InstallmentID equals inst.InstallmentID
-                        where ppp.IsActive == true && mt.ProjectPreparationID== (ProjectPreparationID == null ? mt.ProjectPreparationID : ProjectPreparationID)
+                        where ppp.IsActive == true && mt.ProjectPreparationID == (ProjectPreparationID == null ? mt.ProjectPreparationID : ProjectPreparationID)
 
                          && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
 
@@ -549,7 +549,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
 
 
         [HttpGet]
-        public  ActionResult DeleteProject(int MileStoneID)
+        public ActionResult DeleteProject(int MileStoneID)
         {
             MileStoneMaster abc = db.MileStoneMasters.Where(x => x.MileStoneID == MileStoneID).FirstOrDefault();
             db.MileStoneMasters.Remove(abc);
@@ -560,7 +560,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
         }
 
 
-        public ActionResult  Viewprojectapprovel(int? DistID, int? AgencyID, long? ProjectID, int? SectorID,int? SectorTypeId)
+        public ActionResult Viewprojectapprovel(int? DistID, int? AgencyID, long? ProjectID, int? SectorID, int? SectorTypeId)
         {
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
             {
@@ -577,7 +577,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
                            // join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
-                           where ppp.IsActive == true && ppp.Stageid==2
+                           where ppp.IsActive == true && ppp.Stageid == 2
                            && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
                            && ppp.AgencyID == (AgencyID == null ? ppp.AgencyID : AgencyID)
                            //&& ppp.ProjectID == (ProjectID == null ? ppp.ProjectID : ProjectID)
@@ -604,7 +604,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
                                WorkOrderNo = ppp.WorkOrderNo,
                                Status = ppp.RunningStatus,
                                ProjectNo = ppp.ProjectNo,
-                               SectorType=stm.SectorType
+                               SectorType = stm.SectorType
 
 
 
@@ -688,7 +688,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
                         on mt.InstallmentID equals inst.InstallmentID
                         where ppp.IsActive == true && mt.ProjectPreparationID == (ProjectPreparationID == null ? mt.ProjectPreparationID : ProjectPreparationID)
 
-                        
+
 
                         select new DTO_MileStoneMaster
                         {
@@ -701,9 +701,9 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
                             InsPercentage = mt.InsPercentage,
                             MileStoneID = mt.MileStoneID,
                             Districtname = dm.DistrictName,
-                            InstallmentID=inst.InstallmentID
-                           
-                            
+                            InstallmentID = inst.InstallmentID
+
+
 
                         }
 
@@ -713,15 +713,15 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
             return Json(lsit, JsonRequestBehavior.AllowGet);
         }
 
-       public JsonResult BindInstallentData()
+        public JsonResult BindInstallentData()
         {
             var list = (from inst in db.InstallmentMasters
-                                     select new DTO_MileStoneMaster
-                                     {
-                                         InstallmentID = inst.InstallmentID,
-                                         InstallmentName = inst.InstallmentName
+                        select new DTO_MileStoneMaster
+                        {
+                            InstallmentID = inst.InstallmentID,
+                            InstallmentName = inst.InstallmentName
 
-                                     }).Distinct().ToList();
+                        }).Distinct().ToList();
 
             return Json(list, JsonRequestBehavior.AllowGet);
 
@@ -730,7 +730,7 @@ ProjectProposalPrepration abc = db.ProjectProposalPreprations.Where(x => x.Proje
 
 
 
-  
+
 
 
 

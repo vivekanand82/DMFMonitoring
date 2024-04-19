@@ -14,7 +14,7 @@ namespace DMFProjectFinal.Controllers
         // GET: FundRelease
         private dfm_dbEntities db = new dfm_dbEntities();
 
-        public ActionResult ReleaseFund(string ProjectName,string SectorName,string SectorType)
+        public ActionResult ReleaseFund(string SectorType, string SectorName, string DistrictName, string ProjectName)
         {
             ViewBag.SectorType = new SelectList(db.SectorTypeMasters, "SectorType", "SectorType", null);
             ViewBag.SectorName = new SelectList(db.SectorNameMasters, "SectorName", "SectorName", null);
@@ -22,6 +22,9 @@ namespace DMFProjectFinal.Controllers
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
             {
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                var district = db.DistrictMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x=>x.DistrictName== district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x=>x.DistID== DistID && x.Stageid==2), "ProjectName", "ProjectName", null);
                 var data = (from fr in db.FundReleases
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
@@ -30,9 +33,10 @@ namespace DMFProjectFinal.Controllers
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
                             where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null && ppp.Stageid == 2 
-                            && (pm.ProjectName==ProjectName || String.IsNullOrEmpty(ProjectName)) 
-                            && (snm.SectorName==SectorName || String.IsNullOrEmpty(SectorName)) 
                             && (stm.SectorType==SectorType || String.IsNullOrEmpty(SectorType))
+                            && (snm.SectorName==SectorName || String.IsNullOrEmpty(SectorName)) 
+                            && (dm.DistrictName== DistrictName || String.IsNullOrEmpty(DistrictName)) 
+                            && (ppp.ProjectName==ProjectName || String.IsNullOrEmpty(ProjectName)) 
                             select new DTO_FundRelease
                             {
                                 //FundReleaseID = fr.FundReleaseID.ToString(),
@@ -51,10 +55,11 @@ namespace DMFProjectFinal.Controllers
                                 SanctionedProjectCost = ppp.SanctionedProjectCost
                             }).Distinct().ToList();
             ViewBag.LstData = data;
-
             }
             else
             {
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters, "DistrictName", "DistrictName", null);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x=>x.Stageid==2), "ProjectName", "ProjectName", null);
                 var data = (from fr in db.FundReleases
                             join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
                             join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
@@ -62,9 +67,11 @@ namespace DMFProjectFinal.Controllers
                             join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
                             join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
                             join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.ProjectNo != null && ppp.Stageid == 2 && (pm.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
-                            && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                            where fr.IsActive == true && fr.ProjectNo != null && ppp.Stageid == 2
                             && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                            && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                            && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                            && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
                             select new DTO_FundRelease
                             {
                                 //FundReleaseID = fr.FundReleaseID.ToString(),
@@ -95,9 +102,16 @@ namespace DMFProjectFinal.Controllers
             }
             DTO_FundRelease model = new DTO_FundRelease();
             ViewBag.DistrictID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
-            ViewBag.ProjectID = new SelectList(db.ProjectProposalPreprations.Where(x => x.IsActive == true && x.ProjectNo !=null  && x.Stageid==2 && x.DistID == (DistID == null ? x.DistID : DistID)), "ProjectNo", "ProjectName", null);
+            //ViewBag.ProjectID = new SelectList(db.ProjectProposalPreprations.Where(x => x.IsActive == true && x.ProjectNo !=null  && x.Stageid==2 && x.DistID == (DistID == null ? x.DistID : DistID)), "ProjectNo", "ProjectName", null);
             ViewBag.InstallmentID = new SelectList(db.InstallmentMasters.Where(x => x.IsActive == true), "InstallmentID", "InstallmentName", null);
             model.DistrictID = DistID;
+            ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
+                                       join ml in db.MileStoneMasters on ppp.ProjectNo equals ml.ProjectNo
+                                       select new
+                                       {
+                                           ProjectNo = ml.ProjectNo,
+                                           ProjectName = ppp.ProjectName
+                                       }).Distinct(), "ProjectNo", "ProjectName", null);
             return View(model);
         }
         [HttpPost]
@@ -144,11 +158,21 @@ namespace DMFProjectFinal.Controllers
                 JR.IsSuccess = true;
                 JR.Message = "Data Saved Successfully";
                 JR.RedURL = "/FundRelease/ReleaseFund";
+                //code added for update the milestone flag 18-04-2024
+                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == model.InstallmentID).FirstOrDefault();
+                if (milestone != null)
+                {
+                //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
+                    milestone.IsFundReleased = true;
+                    db.Entry(milestone).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
             else
             {
                 JR.Message = "Some Error Occured, Contact to Admin";
             }
+
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -276,7 +300,8 @@ namespace DMFProjectFinal.Controllers
 
         public JsonResult DeleteReleasedFund(int FundReleaseID)
         {
-            JsonResponse JR = new JsonResponse();
+            string msg = "";
+            //JsonResponse JR = new JsonResponse();
             if (FundReleaseID > 0)
             {
                 var Info = db.FundReleases.Where(x => x.FundReleaseID == FundReleaseID).FirstOrDefault();
@@ -288,15 +313,13 @@ namespace DMFProjectFinal.Controllers
             int res = db.SaveChanges();
             if (res > 0)
             {
-                JR.IsSuccess = true;
-                JR.Message = "Data Deleted Successfully";
-                JR.RedURL = "/FundRelease/ReleaseFund";
+                msg = "1";
             }
             else
             {
-                JR.Message = "Some Error Occured, Contact to Admin";
+                msg = "0";
             }
-            return Json(JR, JsonRequestBehavior.AllowGet);
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult GetProjectDetails(int DistrictID, string ProjectNo)
@@ -335,7 +358,6 @@ namespace DMFProjectFinal.Controllers
         [HttpPost]
         public JsonResult MileStoneByInstallment(int DistrictID, string ProjectNo,int InstallmentID)
         {
-
             var data = (from mm in db.MileStoneMasters
                         join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
@@ -393,18 +415,46 @@ namespace DMFProjectFinal.Controllers
 
             return Json(data,JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult BindProject(string SectorName)
-        //{
-        //    var sectorID = db.SectorNameMasters.Where(x => x.SectorName == SectorName).FirstOrDefault() ?? new SectorTypeMaster();
+        public JsonResult BindProject(string SectorType, string SectorName,string DistrictName)
+        {
+            var sectorID = db.SectorNameMasters.Where(x => x.SectorName == SectorName).FirstOrDefault() ?? new SectorNameMaster();
+            var SectorTypeId = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();
+            var District = db.DistrictMasters.Where(x => x.DistrictName == DistrictName).FirstOrDefault() ?? new DistrictMaster();
 
-        //    var data = (from st in db.SectorNameMasters
-        //                where st.SectorTypeId == sectortypeID.SectorTypeID
-        //                select new DTO_SectorNameMaster
-        //                {
-        //                    SectorName = st.SectorName
-        //                }).ToList();
+            var data = (from ppp in db.ProjectProposalPreprations
+                        where ppp.Stageid == 2 
+                        
+                        && ppp.SectorTypeId == (SectorTypeId.SectorTypeID == 0? ppp.SectorTypeId:SectorTypeId.SectorTypeID) 
+                        && ppp.SectorID == (sectorID.SectorNameId == 0 ? ppp.SectorID : sectorID.SectorNameId) 
+                        && ppp.DistID==(District.DistrictId == 0 ? ppp.DistID : District.DistrictId)
+                        select new DTO_ProjectProposalPrepration
+                        {
+                           ProjectName=ppp.ProjectName
+                     
+                        }).ToList();
 
-        //    return Json(data, JsonRequestBehavior.AllowGet);
-        //}
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult BindSectorname(int? SectorTypeId)
+        {
+            var lstData = (from snm in db.SectorNameMasters
+
+
+                           where snm.IsActive == true && snm.SectorTypeId == SectorTypeId
+                           select new DTO_ProjectMaster
+                           {
+                               SectorNameId = snm.SectorNameId,
+
+                               SectorName = snm.SectorName,
+
+
+                           }
+
+                                         ).ToList();
+
+            return Json(lstData, JsonRequestBehavior.AllowGet);
+
+
+        }
     }
 }
