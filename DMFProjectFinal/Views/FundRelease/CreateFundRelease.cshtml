@@ -303,6 +303,7 @@
             dataType: "json",
             data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
             success: function (data) {
+                if ($.trim(data) != "") {
                 var html = "";
                 // Output district name, project name, and project cost only once
                 html += "<tr>";
@@ -353,7 +354,11 @@
                     html += "</tr>";
                 }
                 $("#MIlestone").html(html);
-                console.log(data);
+                }
+                else {
+                    $("#MIlestone").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                    //$("#exampleModal").show();
+                }
             }
         })
     }
@@ -430,6 +435,7 @@
             var id = $("#FundReleaseID").val();
             if (id != "" || id != null || id != 0) {
                 GetProjectDetails()
+                GetMilestone();
             }
         });
     </script>

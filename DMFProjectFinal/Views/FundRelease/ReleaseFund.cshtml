@@ -145,6 +145,8 @@
                                         <tbody>
                                             @foreach (DTO_FundRelease item in ViewBag.LstData)
                                             {
+                                                dfm_dbEntities db = new dfm_dbEntities();
+                                                var fund = db.FundReleases.Where(x => x.ProjectNo == item.ProjectNo).OrderByDescending(x=>x.FundReleaseID).FirstOrDefault();
                                                 //decimal? balanceAmt = 0.0M;
                                                 //if (j == 1)
                                                 //{
@@ -190,15 +192,30 @@
                                                 <th>
                                                     @if (AM.CanInsert || AM.CanView)
                                                     {
-                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                        @*if (item.IsUtilizationUploaded == true)
-                                                        {
-                                                            <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-warning">Need To Release Next Installment</a>
 
-                                                        }*@
-                                                        <!--if (AM.CanInsert)
+                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        if (fund != null)
                                                         {
-                                                            <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
+
+                                                            if (fund.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true)
+                                                            {
+                                                                <a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Release Next Installment</a>
+
+                                                            }
+                                                            else if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == null)
+                                                            {
+                                                                @*<a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-warning">Release 1st Installment</a>*@
+
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-warning">Release 1st Installment</a>
+                                                        }
+
+                                                        <!--if (AM.CanInsert)
+        {
+            <a href="/Fundrelease/CreateFundRelease" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>-->
                                                         @*<a href="/Fundrelease/EditReleasedFund?FundReleaseID=@item.FundReleaseID" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>*@
 
 
@@ -246,6 +263,7 @@
     </script>
     <script>
         function FundReleasedetails(ProjectPreparationID) {
+            debugger
             $("#exampleModal").hide();
             //var ProjectPreparationID = $(this).attr('value');
             $.ajax({
@@ -254,44 +272,54 @@
                 contentType: "Application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
-                    var html = "";
-                    for (var i = 0; i < data.length; i++) {
-                        var RelaeseDate = new Date(parseInt(data[i].RelaeseDate.substr(6)));
-                        html += "<tr>";
-                        html += "<td>" + data[i].InstallmentName + "</td>";
-                        html += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
-                        html += "<td>" + data[i].ReleaseAmount + "</td>";
-                        html += "<td><a href=" + data[i].FundReleaseCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-                        if (data[i].IsPhProgressDone == true) {
-                            html += "<td>Yes&nbsp;<a href=" + data[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                    //console.log(data.length)
+
+                    if ($.trim(data)!= "") {
+                        $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            var RelaeseDate = new Date(parseInt(data[i].RelaeseDate.substr(6)));
+                            html += "<tr>";
+                            html += "<td>" + data[i].InstallmentName + "</td>";
+                            html += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td>" + data[i].ReleaseAmount + "</td>";
+                            html += "<td><a href=" + data[i].FundReleaseCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            if (data[i].IsPhProgressDone == true) {
+                                html += "<td>Yes&nbsp;<a href=" + data[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+
+                            }
+                            else {
+                                html += "<td>No</td>";
+                            }
+                            if (data[i].IsUtilizationUploaded == true) {
+                                html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+
+                            }
+                            else {
+                                html += "<td>No</td>";
+                            }
+                            if (data[i].IsInspectionDone == true) {
+                                html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+
+                            }
+                            else {
+                                html += "<td>No</td>";
+                            }
+                            //html += "<td><a href='/Fundrelease/EditReleasedFund?FundReleaseID=" + data[i].FundReleaseID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeleteFund(" + data[i].FundReleaseID +")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            html += "</tr>";
 
                         }
-                        else {
-                            html += "<td>No</td>";
-                        }
-                        if (data[i].IsUtilizationUploaded == true) {
-                            html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-
-                        }
-                        else {
-                            html += "<td>No</td>";
-                        }
-                        if (data[i].IsInspectionDone == true) {
-                            html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-
-                        }
-                        else {
-                            html += "<td>No</td>";
-                        }
-                        //html += "<td><a href='/Fundrelease/EditReleasedFund?FundReleaseID=" + data[i].FundReleaseID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeleteFund(" + data[i].FundReleaseID +")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                        //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                        html += "</tr>";
-
+                        $("#FundReleaseDetails").html(html);
+                        $("#exampleModal").show();
                     }
-                    $("#FundReleaseDetails").html(html);
-                    $("#exampleModal").show();
-                }
+                    else {
+                        $("#FundReleaseDetails").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                        $("#exampleModal").show();
+                    }
+                   
+                    }
+                
             })
         }
     </script>

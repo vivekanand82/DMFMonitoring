@@ -47,7 +47,7 @@ namespace DMFProjectFinal.Controllers
                             {
                                 ProjectPreparationID = uc.ProjectPreparationID,
                                 DistrictName = dm.DistrictName,
-                                ProjectName = pm.ProjectName,
+                                ProjectName = ppp.ProjectName,
                                 DistrictID = uc.DistrictID,
                                 //UtilizationID = uc.UtilizationID.ToString(),
                                 //UtilizationCopy = uc.UtilizationCopy,
@@ -79,7 +79,7 @@ namespace DMFProjectFinal.Controllers
                             {
                                 ProjectPreparationID = uc.ProjectPreparationID,
                                 DistrictName = dm.DistrictName,
-                                ProjectName = pm.ProjectName,
+                                ProjectName = ppp.ProjectName,
                                 DistrictID = uc.DistrictID,
                                 //UtilizationID = uc.UtilizationID.ToString(),
                                 //UtilizationCopy = uc.UtilizationCopy,

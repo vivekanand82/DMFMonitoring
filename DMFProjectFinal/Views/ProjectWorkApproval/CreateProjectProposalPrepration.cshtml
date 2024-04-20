@@ -346,6 +346,18 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
+                            <strong>Project Start Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProjectStartDate, ((Model.ProjectStartDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.ProjectStartDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @id = "ProjectStartDate" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
+                            <strong>Project Completion Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.ProjectCompletionDate, ((Model.ProjectCompletionDate == null) ? "" : BusinessLogics.GetJSDateStr(Model.ProjectCompletionDate)), new { @class = "form-control form-control-sm ui-date", @autocomplete = "off", @id = "ProjectCompletionDate" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-label">
                             <strong>Agency<sup><code>*</code></sup></strong>
                             @*@Html.DropDownListFor(x => x.AgencyID, null, "Select Agency", new { @class = "form-control form-control-sm", @id = "AgencyID" })*@
 
@@ -358,12 +370,9 @@
                         <div class="form-label">
                             <strong>Sanctioned Project Cost<sup><code>*</code></sup></strong>
                             @Html.TextBoxFor(x => x.SanctionedProjectCost, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "SanctionedProjectCost" })
-
-
-
-
                         </div>
                     </div>
+
                 </div>
             </div>
             <div style="overflow:auto;">
@@ -931,6 +940,8 @@
                 WorkOrderDate: $("#WorkOrderDate").val(),
                 AgencyID: $("#AgencyID").val(),
                 SanctionedProjectCost: $("#SanctionedProjectCost").val(),
+                ProjectStartDate: $("#ProjectStartDate").val(),
+                ProjectCompletionDate: $("#ProjectCompletionDate").val(),
             }
 
 
@@ -1170,7 +1181,9 @@
                 WorkOrderDate: $("#WorkOrderDate").val(),
                 AgencyID: $("#AgencyID").val(),
                 SanctionedProjectCost: $("#SanctionedProjectCost").val(),
-                ProjectPreparationID: $("#ProjectPreparationID").val()
+                ProjectPreparationID: $("#ProjectPreparationID").val(),
+                ProjectStartDate: $("#ProjectStartDate").val(),
+                ProjectCompletionDate: $("#ProjectCompletionDate").val(),
             }
 
 

@@ -169,7 +169,7 @@ namespace DMFProjectFinal.Controllers
 
             return View(model);
         }
-        [HttpPost]
+        [HttpPost]//insertProjectworkproposal working for insert prosposal
         public JsonResult CreateProjectProposalPrepration(DTO_ProjectProposalPrepration model)
         {
             JsonResponse JR = new JsonResponse();
@@ -298,7 +298,9 @@ namespace DMFProjectFinal.Controllers
                 WorkOrderCopy = model.WorkOrderCopy,
                 AgencyID = model.AgencyID,
                 SanctionedProjectCost = model.SanctionedProjectCost,
-                ProjectNo = model.ProjectNo
+                ProjectNo = model.ProjectNo,
+                ProjectStartDate = model.ProjectStartDate,
+                ProjectCompletionDate = model.ProjectCompletionDate
 
 
 
@@ -381,7 +383,8 @@ namespace DMFProjectFinal.Controllers
             abc.AgencyID = model.AgencyID;
             abc.SanctionedProjectCost = model.SanctionedProjectCost;
             abc.ProjectNo = model.ProjectNo;
-
+            abc.ProjectStartDate = model.ProjectStartDate;
+            abc. ProjectCompletionDate = model.ProjectCompletionDate;
             ProjectMaster abe = db.ProjectMasters.Where(x => x.ProjectNo == model.ProjectNo).FirstOrDefault();
 
             abe.CreatedOn = DateTime.Now;
@@ -603,7 +606,9 @@ namespace DMFProjectFinal.Controllers
             model.AgencyID = abc.AgencyID;
             model.SanctionedProjectCost = abc.SanctionedProjectCost;
             model.ProjectNo = abc.ProjectNo;
-          
+            model.ProjectStartDate = abc.ProjectStartDate;
+            model.ProjectCompletionDate = abc.ProjectCompletionDate;
+
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

@@ -25,81 +25,79 @@ namespace DMFProjectFinal.Controllers
                 var district = db.DistrictMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
                 ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x=>x.DistrictName== district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
-                var data = (from fr in db.FundReleases
-                            join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
-                            join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
-                            //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                            join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
-                            join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
-                            join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.DistrictID == DistID && fr.ProjectNo != null && ppp.Stageid == 2 
-                            && (stm.SectorType==SectorType || String.IsNullOrEmpty(SectorType))
-                            && (snm.SectorName==SectorName || String.IsNullOrEmpty(SectorName)) 
-                            && (dm.DistrictName== DistrictName || String.IsNullOrEmpty(DistrictName)) 
-                            && (ppp.ProjectName==ProjectName || String.IsNullOrEmpty(ProjectName)) 
-                            select new DTO_FundRelease
-                            {
-                               // FundReleaseID = fr.FundReleaseID.ToString(),
-                                ProjectPreparationID=fr.ProjectPreparationID,
-                                DistrictID = fr.DistrictID,
-                                ProjectNo = fr.ProjectNo,
-                                DistrictName = dm.DistrictName,
-                                ProjectName = pm.ProjectName,
-                                //RelaeseDate = fr.RelaeseDate,
-                                //ReleaseAmount = fr.ReleaseAmount,
-                                //FundReleaseCopy = fr.FundReleaseCopy,
-                                //InstallmentID = fr.InstallmentID,
-                                //InstallmentName = ins.InstallmentName,
-                                SectorName = snm.SectorName,
-                                SectorType = stm.SectorType,
-                                SanctionedProjectCost = ppp.SanctionedProjectCost
-                                //IsPhProgressDone=fr.IsPhProgressDone,
-                                //IsUtilizationUploaded=fr.IsUtilizationUploaded,
-                                //IsInspectionDone=fr.IsInspectionDone
-                            }).Distinct().ToList();
-            ViewBag.LstData = data;
+              var data = (from ppp in db.ProjectProposalPreprations
+                          join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
+                          join mm in db.MileStoneMasters on ppp.ProjectNo equals mm.ProjectNo
+                          join fr in db.FundReleases on ppp.ProjectNo equals fr.ProjectNo into frm
+                          from fr in frm.DefaultIfEmpty()
+                          join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
+                          join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
+                          where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
+                              && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                              && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                              && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                              && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                          select new DTO_FundRelease
+                          {
+                              ProjectPreparationID = ppp.ProjectPreparationID,
+                              DistrictID = ppp.DistID,
+                              ProjectNo = ppp.ProjectNo,
+                              DistrictName = dm.DistrictName,
+                              ProjectName = ppp.ProjectName,
+                              SectorName = snm.SectorName,
+                              SectorType = stm.SectorType,
+                              SanctionedProjectCost = ppp.SanctionedProjectCost,
+                              IsPhProgressDone = fr.IsPhProgressDone,
+                              IsUtilizationUploaded = fr.IsUtilizationUploaded,
+                              IsInspectionDone = fr.IsInspectionDone,
+                              IsFundReleased = fr.IsFundReleased 
+                              //IsFundReleased = (fr.IsPhProgressDone != null && fr.IsUtilizationUploaded != null) ? mm.IsFundReleased : null
+                          })
+            .GroupBy(x => x.ProjectPreparationID)
+            .Select(group => group.OrderByDescending(x => x.ProjectPreparationID).FirstOrDefault())
+            .ToList();
+
+                ViewBag.LstData = data;
             }
             else
             {
                 ViewBag.DistrictName = new SelectList(db.DistrictMasters, "DistrictName", "DistrictName", null);
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x=>x.Stageid==2), "ProjectName", "ProjectName", null);
-                var data = (from fr in db.FundReleases
-                            join dm in db.DistrictMasters on fr.DistrictID equals dm.DistrictId
-                            join pm in db.ProjectMasters on fr.ProjectNo equals pm.ProjectNo
-                            //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                            join stm in db.SectorTypeMasters on pm.SectorTypeId equals stm.SectorTypeID
-                            join snm in db.SectorNameMasters on pm.SectorNameId equals snm.SectorNameId
-                            join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
-                            where fr.IsActive == true && fr.ProjectNo != null && ppp.Stageid == 2
-                            && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
-                            && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
-                            && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
-                            && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                var data = (from ppp in db.ProjectProposalPreprations
+                            join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
+                            join mm in db.MileStoneMasters on ppp.ProjectNo equals mm.ProjectNo
+                            join fr in db.FundReleases on ppp.ProjectNo equals fr.ProjectNo into frm
+                            from fr in frm.DefaultIfEmpty()
+                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
+                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
+                            where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
+                                && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
                             select new DTO_FundRelease
                             {
-                                //FundReleaseID = fr.FundReleaseID.ToString(),
-                                ProjectPreparationID = fr.ProjectPreparationID,
-                                DistrictID = fr.DistrictID,
-                                ProjectNo = fr.ProjectNo,
+                                ProjectPreparationID = ppp.ProjectPreparationID,
+                                DistrictID = ppp.DistID,
+                                ProjectNo = ppp.ProjectNo,
                                 DistrictName = dm.DistrictName,
-                                ProjectName = pm.ProjectName,
-                                //RelaeseDate = fr.RelaeseDate,
-                                //ReleaseAmount = fr.ReleaseAmount,
-                                //FundReleaseCopy = fr.FundReleaseCopy,
-                                //InstallmentID = fr.InstallmentID,
-                                //InstallmentName = ins.InstallmentName,
+                                ProjectName = ppp.ProjectName,
                                 SectorName = snm.SectorName,
                                 SectorType = stm.SectorType,
-                                SanctionedProjectCost = ppp.SanctionedProjectCost
-                                //IsPhProgressDone = fr.IsPhProgressDone,
-                                //IsUtilizationUploaded = fr.IsUtilizationUploaded,
-                                //IsInspectionDone = fr.IsInspectionDone
-                            }).Distinct().ToList();
-                ViewBag.LstData = data;
+                                SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                IsPhProgressDone = fr.IsPhProgressDone,
+                                IsUtilizationUploaded = fr.IsUtilizationUploaded,
+                                IsInspectionDone = fr.IsInspectionDone,
+                                IsFundReleased = (fr.IsPhProgressDone != null && fr.IsUtilizationUploaded != null) ? mm.IsFundReleased : null
+                            })
+            .GroupBy(x => x.ProjectPreparationID)
+            .Select(group => group.OrderByDescending(x => x.ProjectPreparationID).FirstOrDefault())
+            .ToList();
+
             }
             return View();
         }
-        public ActionResult CreateFundRelease()
+        public ActionResult CreateFundRelease(string ProjectNo)
         {
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -111,13 +109,14 @@ namespace DMFProjectFinal.Controllers
             //ViewBag.ProjectID = new SelectList(db.ProjectProposalPreprations.Where(x => x.IsActive == true && x.ProjectNo !=null  && x.Stageid==2 && x.DistID == (DistID == null ? x.DistID : DistID)), "ProjectNo", "ProjectName", null);
             ViewBag.InstallmentID = new SelectList(db.InstallmentMasters.Where(x => x.IsActive == true), "InstallmentID", "InstallmentName", null);
             model.DistrictID = DistID;
+            model.ProjectNo = ProjectNo;
             ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
                                        join ml in db.MileStoneMasters on ppp.ProjectNo equals ml.ProjectNo
                                        select new
                                        {
-                                           ProjectNo = ml.ProjectNo,
+                                           ProjectNo = ppp.ProjectNo,
                                            ProjectName = ppp.ProjectName
-                                       }).Distinct(), "ProjectNo", "ProjectName", null);
+                                       }).Distinct(), "ProjectNo", "ProjectName", ProjectNo);
             return View(model);
         }
         [HttpPost]
@@ -135,7 +134,31 @@ namespace DMFProjectFinal.Controllers
                 var validate = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == installment).FirstOrDefault();
                 if (validate.IsInspectionDone == null || validate.IsPhProgressDone == null || validate.IsUtilizationUploaded == null)
                 {
-                    JR.Message = "First complete the All Steps for " + installment + "st Installment  !!";
+                    if (installment == 1)
+                    {
+                        JR.Message = "First complete the All Steps for " + installment + "st Installment  !!";
+                    }
+                    else if (installment == 2)
+                    {
+                        JR.Message = "First complete the All Steps for " + installment + "nd Installment  !!";
+                    }
+                    else if (installment == 3)
+                    {
+                        JR.Message = "First complete the All Steps for " + installment + "rd Installment  !!";
+                    }
+                    else if (installment == 4)
+                    {
+                        JR.Message = "First complete the All Steps for " + installment + "th Installment  !!";
+                    }
+                    else if (installment == 5)
+                    {
+                        JR.Message = "First complete the All Steps for " + installment + "th Installment  !!";
+                    }
+                    else
+                    {
+                        JR.Message = "First complete the All Steps for Previous Installment  !!";
+
+                    }
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }

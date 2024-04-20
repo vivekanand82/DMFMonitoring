@@ -332,6 +332,12 @@ namespace DMFProjectFinal.Models.DTO
         [Required]
         public Nullable<decimal> SanctionedProjectCost { get; set; }
 
+        [Display(Name = "Project Start Date")]
+        [Required]
+        public Nullable<System.DateTime> ProjectStartDate { get; set; }
+        [Display(Name = "Project Completion Date")]
+        [Required]
+        public Nullable<System.DateTime> ProjectCompletionDate { get; set; }
         //[Display(Name = "Project Status")]
         //[Required]
         public Nullable<int> ProjectStatusID { get; set; }
@@ -664,6 +670,7 @@ namespace DMFProjectFinal.Models.DTO
         public string PhysicalProgressCopy { get; set; }
         public string UtilizationCopy { get; set; }
         public string InspectionCopy { get; set; }
+        public Nullable<bool> IsFundReleased { get; set; }
     }
 
 
