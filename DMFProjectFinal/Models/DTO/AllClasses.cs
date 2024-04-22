@@ -440,7 +440,25 @@ namespace DMFProjectFinal.Models.DTO
     {
 
       public string InspectionQuestion { get; set; }
+        public int InspectionCheckListAnswerID { get; set; }
         public string InspectionAnswer { get; set; }
+        public Nullable<int> InspectionQuestionID { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        //public string InspectionQuestion { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+        public string ProjectNo { get; set; }
+        public Nullable<int> Districtid { get; set; }
+        public string Attachmentfile { get; set; }
+        public string Remark { get; set; }
+        public string Photographuploadfile { get; set; }
+
+        public Nullable<int>  InstallentId { get; set; }
+
 
     }
 
@@ -449,6 +467,8 @@ namespace DMFProjectFinal.Models.DTO
 
         public string InspectionQuestion { get; set; }
         public string IsChecked { get; set; }
+
+        public  Nullable<int> InspectionCheckListQuestionID { get; set; }
 
     }
 

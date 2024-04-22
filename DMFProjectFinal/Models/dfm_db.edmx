@@ -561,6 +561,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsActive" Type="bit" />
           <Property Name="Phyicalintsallmentflag" Type="nvarchar" MaxLength="200" />
           <Property Name="UC_Against_ReleaseAmount" Type="nvarchar" MaxLength="100" />
+          <Property Name="inspectionflag" Type="int" />
         </EntityType>
         <EntityType Name="VillageMaster">
           <Key>
@@ -1655,6 +1656,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="Phyicalintsallmentflag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UC_Against_ReleaseAmount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="inspectionflag" Type="Int32" />
         </EntityType>
         <EntityType Name="InspectionCheckListAnswerMaster">
           <Key>
@@ -2252,6 +2254,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="UtilizationMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.UtilizationMaster">
               <MappingFragment StoreEntitySet="UtilizationMaster">
+                <ScalarProperty Name="inspectionflag" ColumnName="inspectionflag" />
                 <ScalarProperty Name="UC_Against_ReleaseAmount" ColumnName="UC_Against_ReleaseAmount" />
                 <ScalarProperty Name="Phyicalintsallmentflag" ColumnName="Phyicalintsallmentflag" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />

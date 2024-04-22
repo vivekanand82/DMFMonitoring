@@ -1,0 +1,1645 @@
+﻿
+@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@model DMFProjectFinal.Models.DTO.DTO_ProjectProposalPrepration
+
+@{
+    ViewBag.Title = "ViewInspectionProject";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+
+@*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />*@
+
+
+@*<style type="text/css">
+        .select2-selection__choice {
+            background-color: var(--bs-gray-200);
+            border: none !important;
+            font-size: 12px;
+            font-size: 0.85rem !important;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice .select2-selection__choice__remove {
+            width: 0.75rem;
+            height: 0.75rem;
+            padding: 0.25em;
+            margin-right: 0.25rem;
+            overflow: hidden;
+            text-indent: 100%;
+            white-space: nowrap;
+            /* background: transparent url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23676a6d'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e) 50%/0.75rem auto no-repeat; */
+            /* border: 0; */
+        }
+
+        .select2-results__option[aria-selected] {
+            background: white;
+            cursor: pointer;
+            /* color: #fff; */
+        }
+
+            .select2-results__option[aria-selected]:hover {
+                background: grey !important;
+                cursor: pointer;
+                color: #fff !important;
+            }
+    </style>*@
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    #frmCurrent {
+        background-color: #ffffff;
+        /*margin: 100px auto;*/
+        font-family: Raleway;
+        padding: 40px;
+        width: 100%;
+        min-width: 300px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    /* .valid {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }*/
+
+    /* Mark input boxes that gets an error on validation: */
+    /* input.invalid {
+        background-color: #ffdddd;
+    }
+    select.invalid {
+        background-color: #ffdddd;
+    }*/
+    /*  Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    #btnSubmit {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        /*padding: 10px 20px;*/
+        font-size: 15px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #083853;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #083853;
+        }
+</style>
+
+
+<style>
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+
+
+
+
+
+
+<div class="card-header">
+    <h4 class="card-title">View Project Proposal </h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+
+
+
+
+
+            <div class="col-md-6 text-right mb-1">
+
+            </div>
+
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        <form action="/MileStone/ViewMileStoneProject" method="post">
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-label">
+                                        <strong>Select Project<sup><code>*</code></sup></strong>
+                                        @Html.DropDownListFor(x => x.SectorTypeId, null, "Select Sector Type", new { @class = "form-control form-control-sm", @id = "SectorTypeId", @onchange = "BindSectorType()" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-label">
+                                        <strong>Sector Name<sup><code>*</code></sup></strong>
+
+                                        @Html.DropDownListFor(x => x.SectorID, null, "Select Sector Name", new { @class = "form-control form-control-sm", @id = "SectorID", })
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        @*<input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />*@
+
+                                        <button type="button" onclick="Search()" class="btn btn-primary" value="Search">Search</button>
+
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+
+                        <div class="table-responsive mt-20">
+                            @if (ViewBag.LstData != null)
+                            {
+                                <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                    <thead class="table-dark">
+                                        <tr class="text-dark">
+                                            <th>क्र०सं०</th>
+                                            <th>Project No</th>
+                                            <th>District</th>
+                                            <th>Project Name</th>
+                                            <th>Sector Type</th>
+                                            <th>Sector Name</th>
+                                            <th>Prosposal No</th>
+
+
+
+                                            <th> Add Inspection View </th>
+
+                                            <th> View Inspection View </th>
+                                            @*@if (AM.RoleID == 2)
+        {
+            <th>Action</th>
+        }
+        else
+        {
+            if (AM.CanUpdate || AM.CanDelete)
+            {
+                <th>Action</th>
+            }
+        }*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
+                                        {
+                                            j++;
+                                        <tr>
+                                            <td>@j</td>
+                                            <td>@item.ProjectNo</td>
+                                            <td>@item.DistrictName</td>
+                                            <td>@item.ProjectName</td>
+                                            <td>@item.SectorType</td>
+                                            <td>@item.SectorName</td>
+                                            <td>@item.ProsposalNo</td>
+
+
+                                            <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+
+                                            <td><a onclick="Viewuser(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+
+
+
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                    <span>No Record Found</span>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="myModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width: 95%;">
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"> Create Inspection  Qustion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+
+                <div id="divformone">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-label">
+                                <strong> District Name<sup><code>*</code></sup></strong>
+                                @Html.DropDownListFor(x => x.DistID, null, new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID", })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-label">
+                                <strong>Project Name<sup><code>*</code></sup></strong>
+                                @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                    { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+                                @Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationID", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+
+                        <table class="table table-bordered" id="datatable1">
+                            <thead>
+                                <tr>
+
+                                    <th>Qustion</th>
+                                    <th>Answer</th>
+                                    <th>Remark</th>
+                                    <th style="display:none;"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+                                <input type="hidden" id="MileStoneID" />
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Remark</strong>*@
+                                @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Percentage</strong>*@
+                                @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3">
+            <div class="form-label">
+                <strong>Realese Percentage Amount</strong>
+                @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+            </div>
+        </div>*@
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <strong>Photo Graph Upload<sup><code>*</code></sup></strong>
+                                  <input type="file" class="form-control" id="Photographuploadfile" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <strong>Attachment<sup><code>*</code></sup></strong>
+                                    @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+                                    @*@Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationID", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })*@
+
+                                    <input type="file" class="form-control" id="Attachmentfile" />
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <div class="col-md-1">
+                            <div class="form-label">
+                                <strong>&nbsp;</strong>
+                                <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Savedata()" />
+                            </div>
+                        </div>
+
+
+                        <input type="hidden" id="releaseamount" />
+
+
+                        <div class="col-md-1">
+                            <div class="form-label">
+                                <strong>&nbsp;</strong>
+                                @if (String.IsNullOrEmpty(Model.InstallmentName))
+                                {
+                                    <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
+                                else
+                                {
+                                    <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
+
+                                }
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div style="overflow:auto;">
+
+
+
+
+                    </div><!-- /.modal-content -->
+                    @*<div style="overflow:auto;">
+                        <div style="float:right;">
+                            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+                        </div>*@
+
+
+
+                </div>
+
+
+
+
+
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+
+
+<div id="myModal5" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width: 95%;">
+        <div class="modal-content" style="width:100%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel"> Update Inspection  Qustion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+
+                <div id="divformone">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-label">
+                                <strong> District Name<sup><code>*</code></sup></strong>
+                                @Html.DropDownListFor(x => x.DistID, null, new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID1", })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-label">
+                                <strong>Project Name<sup><code>*</code></sup></strong>
+                                @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                    { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+                                @Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationID1", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <span></span>
+                        <table class="table table-bordered" id="datatable2">
+                            <thead>
+                                <tr>
+
+                                    <th>Qustion</th>
+                                    <th>Answer</th>
+                                    <th>Remark</th>
+                                    <th style="display:none;"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+                             
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                    { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Remark</strong>*@
+                                @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Percentage</strong>*@
+                                @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Realese Percentage Amount</strong>
+                                    @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+                                </div>
+                            </div>*@
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <strong>Photo Graph Upload<sup><code>*</code></sup></strong>
+                                    <input type="file" class="form-control" id="Photographuploadfile1" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-label">
+                                    <strong>Attachment<sup><code>*</code></sup></strong>
+                                    @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+                                    @*@Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationID", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })*@
+
+                                    <input type="file" class="form-control" id="Attachmentfile1" />
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <div class="col-md-1">
+                            <div class="form-label">
+                                <strong>&nbsp;</strong>
+                                <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Updatedata()" />
+                            </div>
+                        </div>
+
+
+                        <input type="hidden" id="releaseamount" />
+
+
+                        <div class="col-md-1">
+                            <div class="form-label">
+                                <strong>&nbsp;</strong>
+                                @if (String.IsNullOrEmpty(Model.InstallmentName))
+                                {
+                                    <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" /> }
+                                else
+                                {
+                                    <a href="#" class="btn btn-danger">Back</a>//href = "/UserManagement/UserRegistration"
+
+                                }
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div style="overflow:auto;">
+
+
+
+
+                    </div><!-- /.modal-content -->
+                    @*<div style="overflow:auto;">
+                        <div style="float:right;">
+                            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+                        </div>*@
+
+
+
+                </div>
+
+
+
+
+
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.min.js"></script>
+    @*<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>*@
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+                    $(document).ready(function ($) {
+
+                        $('#tblData').DataTable({
+                            lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+                        });
+
+                        //$("#MettingDate").datepicker()
+
+                        $('#MettingDate').datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date() // disabling past dates
+                        });
+
+                        $('#Attendancedate').datepicker({
+                            dateFormat: 'yy-mm-dd',
+                            minDate: new Date() // disabling past dates
+                        });
+
+
+
+                        //$("#abc").select2();
+                        //$("#Status").select2();
+                        //$('#CommitteeID').select2({
+                        //    theme: "bootstrap-5",
+                        //    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                        //    placeholder: $(this).data('placeholder'),
+                        //    closeOnSelect: true,
+                        //});
+
+                        $("#CommitteeID").select2();
+
+                        $("#btn").click(function () {
+
+
+
+
+                            var InstallmentID = $("#InstallmentID")
+
+                            var Instext = $("#Instext")
+                            var InsPercentage = $("#InsPercentage")
+
+
+
+                            if (InstallmentID.val() == "") {
+
+                                toastr.warning('Please Select  Installment Type');
+
+                                return false;
+                            }
+
+                            if (Instext.val() == "") {
+
+                                toastr.warning('Please Enter Value');
+
+                                return false;
+                            }
+
+                            if (InsPercentage.val() == "") {
+
+                                toastr.warning('Please Enter Percentage');
+
+                                return false;
+                            }
+
+                            var tbody = $("#datatable1>tbody")[0];
+                            var row = tbody.insertRow(-1);
+                            var cell = $(row.insertCell(-1));
+                            //cell.html($("#intime option:selected").text())
+                            //$(cell).attr('val', $("#intime").val())
+                            //cell = $(row.insertCell(-1));
+                            //cell.html($("#outtime option:selected").text())
+                            //$(cell).attr('val', $("#outtime").val())
+                            //cell = $(row.insertCell(-1));
+
+                            cell.html($("#InstallmentID option:selected").text())
+                            $(cell).attr('val', $("#InstallmentID").val())
+                            cell = $(row.insertCell(-1));
+
+                            cell.html(Instext.val());
+                            cell = $(row.insertCell(-1));
+                            cell.html(InsPercentage.val());
+                            cell = $(row.insertCell(-1));
+
+                            //cell.html(taskname.val());
+                            //cell = $(row.insertCell(-1));
+
+
+
+
+
+                            var button = $("<input/>");
+                            button.attr("type", "button");
+                            button.attr("onclick", "RemoveItem(this)");
+                            button.attr("class", "btn btn-danger");
+                            button.val("Remove");
+                            cell.append(button);
+
+
+                            //cell = $(row.insertCell(-1));
+
+                            //cell.html(intime.val());
+                            //cell.hide()
+                            //cell = $(row.insertCell(-1));
+
+                            //cell.html(outtime.val());
+                            //cell.hide()
+
+
+                            cell = $(row.insertCell(-1));
+
+                            cell.html(InstallmentID.val());
+                            cell.hide()
+
+                            Instext.val('');
+                            InsPercentage.val('');
+
+
+
+                            InstallmentID.val('')
+
+
+
+
+
+                        })
+
+
+
+
+                        //$("#checkbox").click(function () {
+                        //    if ($("#checkbox").is(':checked')) {
+                        //        $("#CommitteeID > option").prop("selected", "selected");
+                        //        $("#CommitteeID").trigger("change");
+                        //    } else {
+                        //        $("#CommitteeID > option").removeAttr("selected");
+                        //        $("#CommitteeID").trigger("change");
+                        //    }
+                        //});
+
+                        //$("#button").click(function () {
+                        //    alert($("#CommitteeID").val());
+                        //});
+
+
+                        $("#btnshowproject").click(function () {
+                            $("#Projectdetail").show();
+
+                            $("#basic").hide();
+
+                        })
+
+                        $("#btnbasic").click(function () {
+                            $("#Projectdetail").hide();
+
+                            $("#basic").show();
+
+
+                        })
+
+
+
+
+                    });
+
+
+                    function RemoveItem(button) {
+
+                        var row = $(button).closest("tr");
+                        var table = $("#datatable1")[0];
+
+                        table.deleteRow(row[0].rowIndex);
+
+                    }
+
+
+                    function Search() {
+                        var SectorTypeId = $("#SectorTypeId").val()
+
+                        var SectorID = $("#SectorID").val()
+
+window.location.href ="/Inspection/ViewInspectionProject?SectorTypeId="+SectorTypeId+"&SectorID="+SectorID+"";
+
+                    }
+
+
+
+                    function BindSectorType() {
+                        var SectorTypeId = $("#SectorTypeId").val();
+
+                        debugger
+                        $.ajax({
+                            type: "Post",
+                            url: "/ProjectWorkApproval/BindSectorType?SectorTypeId=" + SectorTypeId,
+                            contentType: "application/json;charset=utf-8;",
+                            dataType: "json",
+                            //data: JSON.stringify({ SectorTypeId: SectorTypeId }),
+                            success: function (data) {
+                                //alert(data.length);
+                                $("#SectorID").empty();
+                                $("#SectorID").append("<option value='0'>Select</option>");
+                                for (var i = 0; i < data.length; i++) {
+                                    $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
+                                }
+                                $("#SectorID").val($("#hdnsectorid").val());
+
+
+
+                            }
+                        })
+                    }
+
+
+
+                    function GetProgram(Id) {
+
+                        $.ajax({
+
+                            url: "/DistrictManagement/GetProjectDetailes",
+                            type: "Post",
+                            data: "{'ProjectId':'" + Id + "'}",
+
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                var ProposalDate = new Date(parseInt(data[0].ProposalDate.substr(6)));
+                                var TenderDate = new Date(parseInt(data[0].TenderDate.substr(6)));
+                                var WorkOrderDate = new Date(parseInt(data[0].WorkOrderDate.substr(6)));
+                                $("#District").text(data[0].DistrictName)
+                                $("#Tehsil").text(data[0].TehsilName)
+                                $("#Block").text(data[0].BlockName)
+
+                                $("#Village").text(data[0].VillageNameInHindi)
+                                $("#SectorType").text(data[0].SectorType)
+                                $("#SectorName").text(data[0].SectorName)
+                                $("#WorkName").text(data[0].ProjectName)
+                                $("#latitude").text(data[0].WorkLatitude)
+                                $("#longitude").text(data[0].WorkLongitude)
+                                $("#Purpose").text(data[0].ProjectDescription)
+                                $("#ProposalNo").text(data[0].ProsposalNo)
+                                $("#ProposalDate").text(ProposalDate.toLocaleDateString("es-CL"));
+
+                                $("#ProposalCopy").attr({ "href": data[0].ProposalCopy, "target": "_blank" });;
+                                $("#ProposedBy").text(data[0].ProposedBy);
+                                $("#EstCost").text(data[0].ProjectCost);
+
+                                $("#Gst").text(data[0].GSTAndOthers);
+                                $("#TenderNo").text(data[0].TenderNo);
+                                $("#TenderDate").text(TenderDate.toLocaleDateString("es-CL"));
+                                $("#WorkOrderNo").text(data[0].WorkOrderNo);
+                                $("#WorkOrderDate").text(WorkOrderDate.toLocaleDateString("es-CL"));
+                                $("#WorkOrderCopy").attr({ "href": data[0].WorkOrderCopy, "target": "_blank" });
+                                //$("#WorkOrderCopy").attr("href", data[0].WorkOrderCopy);
+                                ////$("#WorkOrderCopy").attr("target", "_blank");
+                                $("#AgencyName").text(data[0].AgencyName);
+                                $("#SanctionedProjectCost").text(data[0].SanctionedProjectCost);
+
+
+
+                            }
+
+
+                        })
+
+
+                        $("#myModal").modal('show')
+
+                    }
+
+                    function Viewmeeting(Id) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/BindProjectName",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#ProjectPreparationID').empty();
+                                $.each(data, function (key, value) {
+                                    $('#ProjectPreparationID').append($("<option></option>").val(value.ProjectPreparationIDother).html(value.ProjectNo));
+                                });
+
+                            }
+                        })
+
+                        bindqustion();
+
+                        //$("#ProjectPreparationID").val(Id)
+
+
+                        $("#myModal2").modal('show')
+
+        }
+
+        function Viewuser(Id) {
+
+            $.ajax({
+                type: "POST",
+                url: "/MileStone/BindProjectName",
+                data: "{'ProjectPreparationID':'" + Id + "'}",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#ProjectPreparationID1').empty();
+                    $.each(data, function (key, value) {
+                        $('#ProjectPreparationID1').append($("<option></option>").val(value.ProjectPreparationIDother).html(value.ProjectNo));
+                    });
+
+                }
+            })
+
+            $.ajax({
+                type: "POST",
+                url: "/Inspection/listbindanswer",
+                data: "{'ProjectPreparationID':'" + Id + "'}",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $("#datatable2 tbody").empty();
+                    var i = 1;
+                    $.each(data, function (key, value) {
+
+                        if (value.InspectionAnswer == "Yes") {
+
+                            $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='" + value.InspectionAnswer + "' checked='checked' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
+
+
+                        }
+
+
+                        else {
+
+                            $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No' checked='checked'  name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
+
+
+                        }
+                      
+                        i = i + 1;
+
+                    })
+
+
+                }
+
+
+            })
+
+
+
+
+
+
+            //$("#ProjectPreparationID").val(Id)
+
+
+            $("#myModal5").modal('show')
+
+        }
+
+
+
+
+
+
+                    function Viewmilestone(Id) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/ViewMilestone",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#Viewdatatable tbody').empty();
+
+                                $("#viewdistict").text(data[0].Districtname);
+                                $("#viewprojectname").text(data[0].ProjectNo);
+
+                                $.each(data, function (key, value) {
+
+
+                                    $('#Viewdatatable tbody').append("<tr><td>" + value.InstallmentName + "</td><td>" + value.Instext + "</td><td>" + value.InsPercentage + "</td></tr > ")
+
+                                });
+
+                            }
+                        })
+
+
+
+                        $("#myModal3").modal('show')
+
+                    }
+
+
+
+                    function Editmilestone(Id) {
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/BindProjectName",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#ProjectPreparationIDupdate').empty();
+                                $.each(data, function (key, value) {
+                                    $('#ProjectPreparationIDupdate').append($("<option></option>").val(value.ProjectPreparationIDother).html(value.ProjectNo));
+                                });
+
+                            }
+                        })
+
+
+
+
+                        var optionHtml = "";
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/BindInstallentData",
+
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+
+                            success: function (data) {
+                                debugger;
+                                var i = 1;
+                                $.each(data, function (key, value) {
+                                    //$('#demo' + i).empty();
+                                    //console.log(value.InstallmentID)
+
+
+                                    optionHtml = "<option value=" + value.InstallmentID + ">" + value.InstallmentName + "</option>";
+
+                                    $('#demo' + 1).append(optionHtml);
+                                    $('#demo' + 2).append(optionHtml);
+                                    $('#demo' + 3).append(optionHtml);;
+                                    $('#demo' + 4).append(optionHtml);
+
+
+
+                                    i = i + 1;
+                                });
+
+
+
+
+
+                            }
+                        })
+
+
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/MileStone/ViewMilestone",
+                            data: "{'ProjectPreparationID':'" + Id + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                $('#datatable1Update tbody').empty();
+
+                                var i = 1;
+
+                                $.each(data, function (key, value) {
+
+                                    $('#datatable1Update tbody').append("<tr><td><input type='checkbox' id='chkId' class='chkRow' name='chkId'></td><td>" + value.InstallmentName + "</td><td><input type='text' value='" + value.Instext + "' class='form-control form-control-sm'></td><td><input type='text' value=" + value.InsPercentage + " class='form-control form-control-sm'></td><td><input type='hidden' value=" + value.InstallmentID + " class='form-control form-control-sm'></td></tr > ")
+                                    i = i + 1;
+
+                                });
+
+                            }
+                        })
+
+
+                        //alert(optionHtml)
+
+
+                        $("#myModal4").modal('show')
+
+
+
+
+                    }
+
+
+
+
+        function bindqustion() {
+            $.ajax({
+                type: "POST",
+                url: "/Inspection/listbindQustion",
+                data: "{}",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $("#datatable1 tbody").empty();
+                    var i = 1;
+                    $.each(data, function (key, value) {
+
+                        $('#datatable1 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalid" + i +"'></td><td><input type='text'  class='form-control form-control-sm'></td><td><input type='hidden' value=" + value.InspectionCheckListQuestionID + "><td></tr > ")
+                        i = i + 1;
+
+                    })
+
+
+                }
+
+
+            })
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+        function Savedata() {
+
+            var d = 0;
+
+            if ($("#DistID").val() == "" || $("#DistID").val() == null) {
+
+                alert("Please Select Ditrict Name");
+                return false;
+
+
+            }
+
+
+            if ($("#ProjectPreparationID").val() == "" || $("#ProjectPreparationID").val() == null) {
+
+                alert("Please Select Project Name");
+                return false;
+
+
+            }
+
+            var programarray = [];
+            var i = 0
+            $("#datatable1 tbody tr ").each(function () {
+
+             
+                d = d + 1;
+
+                var answer = $(this).find("td:eq(1) input[name='answer" + d + "']:checked").val();
+
+                var qustion = $(this).children("td").eq(0).text();
+                //alert(qustion);
+                var remark = $(this).find("td:eq(2) input[type=text]").val();
+
+                var qustionid = $(this).find("td:eq(3) input[type=hidden]").val();
+                //alert(qustionid);
+
+                if (answer != null) {
+
+
+                    $("#answervalid" + d).remove()
+                    //$("#answervalid" + d).text("Please Enter Name");
+                    i++;
+                }
+
+                else {
+
+                    $("#answervalid" + d).css("border", "1px solid red");
+                    $("#answervalid" + d).text("Please Select Answer");
+                    i = 0;
+                    return false;
+                  
+
+
+                }
+
+                item = {}
+                item["InspectionQuestionID"] = qustionid
+                item["InspectionQuestion"] = qustion
+                item["InspectionAnswer"] = answer
+                item["Remark"] = remark;
+                programarray.push(item)
+
+
+
+            })
+
+            var dataobject = {
+                Districtid: $("#DistID").val(),
+                ProjectPreparationID: $("#ProjectPreparationID").val(),
+
+                lis: JSON.stringify(programarray)
+
+
+            }
+
+            if (i > 0) {
+                $.ajax({
+
+                    url: "/Inspection/InsertRecord",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: JSON.stringify(dataobject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+
+                        if (r.Message == "1") {
+                            uploadImage($("#ProjectPreparationID").val());
+                            uploadattchment($("#ProjectPreparationID").val())
+
+                            alert("Record saved successfully");
+                            window.location.href ='/Inspection/ViewInspectionProject'
+                            //CrearFields();
+                            //location.reload();
+                        }
+                        else {
+
+                            alert("Record Not saved successfully");
+                            window.location.href = '/Inpection/ViewInspectionProject'
+
+
+                        }
+
+
+
+
+                    }
+
+                })
+
+
+            }
+            else {
+
+
+                alert("Please Select Answer")
+                return false;
+            }
+
+           
+
+
+
+
+        }
+
+        function Updatedata() {
+
+            var d = 0;
+
+            if ($("#DistID").val() == "" || $("#DistID").val() == null) {
+
+                alert("Please Select Ditrict Name");
+                return false;
+
+
+            }
+
+
+            if ($("#ProjectPreparationID").val() == "" || $("#ProjectPreparationID").val() == null) {
+
+                alert("Please Select Project Name");
+                return false;
+
+
+            }
+
+            var programarray = [];
+            var i = 0
+            $("#datatable2 tbody tr ").each(function () {
+
+
+                d = d + 1;
+
+                var answer = $(this).find("td:eq(1) input[name='answer" + d + "']:checked").val();
+
+                var qustion = $(this).children("td").eq(0).text();
+                //alert(qustion);
+                var remark = $(this).find("td:eq(2) input[type=text]").val();
+
+                var qustionid = $(this).find("td:eq(3) input[type=hidden]").val();
+                //alert(qustionid);
+
+                if (answer != null) {
+
+
+                    $("#answervalidone" + d).remove()
+                    //$("#answervalid" + d).text("Please Enter Name");
+                    i++;
+                }
+
+                else {
+
+                    $("#answervalidone" + d).css("border", "1px solid red");
+                    $("#answervalidone" + d).text("Please Select Answer");
+                    i = 0;
+                    return false;
+
+
+
+                }
+
+                item = {}
+                item["InspectionQuestionID"] = qustionid
+                item["InspectionQuestion"] = qustion
+                item["InspectionAnswer"] = answer
+                item["Remark"] = remark;
+                programarray.push(item)
+
+
+
+            })
+
+            var dataobject = {
+                Districtid: $("#DistID1").val(),
+                ProjectPreparationID: $("#ProjectPreparationID1").val(),
+
+                lis: JSON.stringify(programarray)
+
+
+            }
+
+            if (i > 0) {
+                $.ajax({
+
+                    url: "/Inspection/UpdateRecord",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: JSON.stringify(dataobject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+
+                        if (r.Message == "1") {
+                            uploadImage($("#ProjectPreparationID").val());
+                            uploadattchment($("#ProjectPreparationID").val())
+
+                            alert("Record Updated successfully");
+                            window.location.href = '/Inspection/ViewInspectionProject'
+                            //CrearFields();
+                            //location.reload();
+                        }
+                        else {
+
+                            alert("Record Not saved successfully");
+                            window.location.href = '/Inpection/ViewInspectionProject'
+
+
+                        }
+
+
+
+
+                    }
+
+                })
+
+
+            }
+            else {
+
+
+                alert("Please Select Answer")
+                return false;
+            }
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        function uploadImage(ProjectId) {
+
+
+
+            debugger;
+            var data1 = $("#Photographuploadfile").val();
+
+
+            var fileUpload = $("#Photographuploadfile").get(0);
+
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+
+            fileData.append('ProjectId', ProjectId);
+
+            $.ajax({
+                url: '/Inspection/UploadPhotograph',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                },
+                error: function (err) {
+                }
+            });
+        }
+
+
+
+
+        function uploadattchment(ProjectId) {
+
+
+
+            debugger;
+            var data1 = $("#Attachmentfile").val();
+
+
+            var fileUpload = $("#Attachmentfile").get(0);
+
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+
+            }
+
+            fileData.append('ProjectId', ProjectId);
+
+            $.ajax({
+                url: '/Inspection/uploadAttachmentfile',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                },
+                error: function (err) {
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+                    function ExportToExcel(type, fn, dl) {
+                        var elt = document.getElementById('tblData');
+                        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+                        return dl ?
+                            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                            XLSX.writeFile(wb, fn || ('ProjectProposalPrepration.' + (type || 'xlsx')));
+                    }
+    </script>
+
+   
+}
+
+
+

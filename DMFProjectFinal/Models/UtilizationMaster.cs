@@ -33,5 +33,6 @@ namespace DMFProjectFinal.Models
         public Nullable<bool> IsActive { get; set; }
         public string Phyicalintsallmentflag { get; set; }
         public string UC_Against_ReleaseAmount { get; set; }
+        public Nullable<int> inspectionflag { get; set; }
     }
 }
