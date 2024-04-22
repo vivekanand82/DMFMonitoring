@@ -182,6 +182,12 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="ProjectPreparationID" Type="bigint" />
+          <Property Name="ProjectNo" Type="nvarchar" MaxLength="200" />
+          <Property Name="Districtid" Type="int" />
+          <Property Name="Attachmentfile" Type="nvarchar(max)" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="Photographuploadfile" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="InspectionCheckListQuestionMaster">
           <Key>
@@ -288,6 +294,7 @@
           <Property Name="IsPhProgressDone" Type="bit" />
           <Property Name="IsUtilizationUploaded" Type="bit" />
           <Property Name="IsInspectionDone" Type="bit" />
+          <Property Name="MileStoneStatus" Type="int" />
         </EntityType>
         <EntityType Name="MineralNameMaster">
           <Key>
@@ -331,6 +338,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="Phyicalintsallmentflag" Type="nvarchar" MaxLength="200" />
+          <Property Name="PhysicalProgressImages" Type="nvarchar(max)" />
+          <Property Name="ProgressStatus" Type="int" />
         </EntityType>
         <EntityType Name="ProjectMaster">
           <Key>
@@ -552,6 +561,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsActive" Type="bit" />
           <Property Name="Phyicalintsallmentflag" Type="nvarchar" MaxLength="200" />
           <Property Name="UC_Against_ReleaseAmount" Type="nvarchar" MaxLength="100" />
+          <Property Name="inspectionflag" Type="int" />
         </EntityType>
         <EntityType Name="VillageMaster">
           <Key>
@@ -1596,6 +1606,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsPhProgressDone" Type="Boolean" />
           <Property Name="IsUtilizationUploaded" Type="Boolean" />
           <Property Name="IsInspectionDone" Type="Boolean" />
+          <Property Name="MileStoneStatus" Type="Int32" />
         </EntityType>
         <EntityType Name="PhysicalProgressMaster">
           <Key>
@@ -1619,6 +1630,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="Phyicalintsallmentflag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PhysicalProgressImages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProgressStatus" Type="Int32" />
         </EntityType>
         <EntityType Name="UtilizationMaster">
           <Key>
@@ -1643,6 +1656,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="Phyicalintsallmentflag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UC_Against_ReleaseAmount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="inspectionflag" Type="Int32" />
         </EntityType>
         <EntityType Name="InspectionCheckListAnswerMaster">
           <Key>
@@ -1658,6 +1672,12 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="InspectionQuestion" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectPreparationID" Type="Int64" />
+          <Property Name="ProjectNo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Districtid" Type="Int32" />
+          <Property Name="Attachmentfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photographuploadfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="InspectionCheckListQuestionMaster">
           <Key>
@@ -2182,6 +2202,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="MileStoneMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.MileStoneMaster">
               <MappingFragment StoreEntitySet="MileStoneMaster">
+                <ScalarProperty Name="MileStoneStatus" ColumnName="MileStoneStatus" />
                 <ScalarProperty Name="IsInspectionDone" ColumnName="IsInspectionDone" />
                 <ScalarProperty Name="IsUtilizationUploaded" ColumnName="IsUtilizationUploaded" />
                 <ScalarProperty Name="IsPhProgressDone" ColumnName="IsPhProgressDone" />
@@ -2207,6 +2228,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="PhysicalProgressMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.PhysicalProgressMaster">
               <MappingFragment StoreEntitySet="PhysicalProgressMaster">
+                <ScalarProperty Name="ProgressStatus" ColumnName="ProgressStatus" />
+                <ScalarProperty Name="PhysicalProgressImages" ColumnName="PhysicalProgressImages" />
                 <ScalarProperty Name="Phyicalintsallmentflag" ColumnName="Phyicalintsallmentflag" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
@@ -2231,6 +2254,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="UtilizationMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.UtilizationMaster">
               <MappingFragment StoreEntitySet="UtilizationMaster">
+                <ScalarProperty Name="inspectionflag" ColumnName="inspectionflag" />
                 <ScalarProperty Name="UC_Against_ReleaseAmount" ColumnName="UC_Against_ReleaseAmount" />
                 <ScalarProperty Name="Phyicalintsallmentflag" ColumnName="Phyicalintsallmentflag" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -2256,6 +2280,12 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="InspectionCheckListAnswerMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.InspectionCheckListAnswerMaster">
               <MappingFragment StoreEntitySet="InspectionCheckListAnswerMaster">
+                <ScalarProperty Name="Photographuploadfile" ColumnName="Photographuploadfile" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Attachmentfile" ColumnName="Attachmentfile" />
+                <ScalarProperty Name="Districtid" ColumnName="Districtid" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
                 <ScalarProperty Name="InspectionQuestion" ColumnName="InspectionQuestion" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
