@@ -677,6 +677,7 @@ namespace DMFProjectFinal.Models.DTO
         public string CreatedBy { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public decimal? TotalReleaseAmount { get; set; }
         public string Physicalinstallmentflag { get; set; }
@@ -687,6 +688,7 @@ namespace DMFProjectFinal.Models.DTO
         public string UtilizationCopy { get; set; }
         public string InspectionCopy { get; set; }
         public Nullable<bool> IsFundReleased { get; set; }
+        public Nullable<int> MileStoneStatus { get; set; }
     }
 
 
@@ -726,7 +728,13 @@ namespace DMFProjectFinal.Models.DTO
         public decimal? SanctionedProjectCost { get; set; }
         public Nullable<decimal> ReleaseAmount { get; set; }
         public string Phyicalintsallmentflag { get; set; }
-        public bool IsPhProgressDone { get; set; }
+        public Nullable<bool> IsPhProgressDone { get; set; }
+        public Nullable<bool> IsUtilizationUploaded { get; set; }
+        public Nullable<bool> IsInspectionDone { get; set; }
+        public Nullable<bool> IsFundReleased { get; set; }
+        public Nullable<int> MileStoneStatus { get; set; }
+        public string PhysicalProgressImages { get; set; }
+        public Nullable<int> ProgressStatus { get; set; }
 
     }
     public partial class DTO_UtilizationMaster
@@ -753,6 +761,12 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<bool> IsActive { get; set; }
         public string SectorType { get; set; }
         public string SectorName { get; set; }
+        public decimal? SanctionedProjectCost { get; set; }
+        public Nullable<bool> IsPhProgressDone { get; set; }
+        public Nullable<bool> IsUtilizationUploaded { get; set; }
+        public Nullable<bool> IsInspectionDone { get; set; }
+        public Nullable<bool> IsFundReleased { get; set; }
+        public Nullable<int> MileStoneStatus { get; set; }
     }
 
 

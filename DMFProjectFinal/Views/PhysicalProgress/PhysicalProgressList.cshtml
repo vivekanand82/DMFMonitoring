@@ -28,6 +28,8 @@
                         <th>Ph. Date</th>
                         <th>Spent Amount</th>
                         <th>Ph Progress Copy</th>
+                        @*<th>Utilization Uploaded</th>
+                        <th>Inspection Done</th>*@
                         @*<th>Installment</th>*@
                         <th>Remark</th>
                         @*<th>Action</th>*@
@@ -52,11 +54,11 @@
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
             <div class="col-md-6 text-right mb-1">
-                    @if (AM.CanInsert)
-                    {
-                        <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
-                    }
-                </div>
+                @if (AM.CanInsert)
+                {
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
+                }
+            </div>
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
@@ -168,18 +170,14 @@
                                                         {
 
                                                             <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="PhysicalProgressdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-
-
-
-                                                            @*if (AM.CanUpdate || AM.CanDelete)
+                                                            if (item.IsFundReleased == true && item.IsPhProgressDone == null )
                                                             {
-
-
-                                                                <a href="/PhysicalProgress/CreatePhysicalProgress" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
-
-
-
-                                                            }*@
+                                                                <a href="/PhysicalProgress/CreatePhysicalProgress?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Update Pysical Progress</a> 
+                                                             }
+                                                            else
+                                                           {
+                                                                    <a href="#" class="btn btn-small btn-info">InProcess</a>
+                                                           }
                                                         }
                                                     </th>
                                                 </tr>
@@ -231,31 +229,45 @@
                 contentType: "Application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
-                    var html = "";
-                    for (var i = 0; i < data.length; i++) {
-                        var PhysicalProgressDate = new Date(parseInt(data[i].PhysicalProgressDate.substr(6)));
-                        html += "<tr>";
-                        html += "<td>" + data[i].PhysicalPInPer + "</td>";
-                        html += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
-                        html += "<td>" + data[i].AmountSpend + "</td>";
-                        html += "<td><a href=" + data[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-                        //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
-                        //    html += "<td>NO</td>";
+                    if ($.trim(data) != "") {
+                        $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            var PhysicalProgressDate = new Date(parseInt(data[i].PhysicalProgressDate.substr(6)));
+                            html += "<tr>";
+                            html += "<td>" + data[i].PhysicalPInPer + "</td>";
+                            html += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td>" + data[i].AmountSpend + "</td>";
+                            html += "<td><a href=" + data[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            //if (data[i].IsUtilizationUploaded == true) {
+                            //    html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
 
-                        //}
-                        //else {
-                        //    html += "<td>Done</td>";
-                        //}
-                        html += "<td>" + data[i].Remark + "</td>";
+                            //}
+                            //else {
+                            //    html += "<td>No</td>";
+                            //}
+                            //if (data[i].IsInspectionDone == true) {
+                            //    html += "<td>Yes&nbsp;<a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
 
-                        //html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephProgress(" + data[i].PhysicalprogressID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                        //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                        html += "</tr>";
+                            //}
+                            //else {
+                            //    html += "<td>No</td>";
+                            //}
+                            html += "<td>" + data[i].Remark + "</td>";
+
+                            //html += "<td><a href='/PhysicalProgress/EditPhysicalProgress?PhysicalprogressID=" + data[i].PhysicalprogressID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephProgress(" + data[i].PhysicalprogressID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            html += "</tr>";
+
+                        }
+                        $("#PhysicalProgressDetails").html(html);
+                        $("#exampleModal").show();
 
                     }
-                    $("#PhysicalProgressDetails").html(html);
-                    $("#exampleModal").show();
+                    else {
+                        $("#PhysicalProgressDetails").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                        $("#exampleModal").show();
+                    }
                 }
             })
         }

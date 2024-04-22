@@ -23,76 +23,88 @@ namespace DMFProjectFinal.Controllers
             {
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
                 var district = db.DistrictMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
-                ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x=>x.DistrictName== district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x => x.DistrictName == district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
-              var data = (from ppp in db.ProjectProposalPreprations
-                          join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
-                          join mm in db.MileStoneMasters on ppp.ProjectNo equals mm.ProjectNo
-                          join fr in db.FundReleases on ppp.ProjectNo equals fr.ProjectNo into frm
-                          from fr in frm.DefaultIfEmpty()
-                          join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
-                          join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
-                          where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
-                              && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
-                              && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
-                              && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
-                              && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
-                          select new DTO_FundRelease
-                          {
-                              ProjectPreparationID = ppp.ProjectPreparationID,
-                              DistrictID = ppp.DistID,
-                              ProjectNo = ppp.ProjectNo,
-                              DistrictName = dm.DistrictName,
-                              ProjectName = ppp.ProjectName,
-                              SectorName = snm.SectorName,
-                              SectorType = stm.SectorType,
-                              SanctionedProjectCost = ppp.SanctionedProjectCost,
-                              IsPhProgressDone = fr.IsPhProgressDone,
-                              IsUtilizationUploaded = fr.IsUtilizationUploaded,
-                              IsInspectionDone = fr.IsInspectionDone,
-                              IsFundReleased = fr.IsFundReleased 
-                              //IsFundReleased = (fr.IsPhProgressDone != null && fr.IsUtilizationUploaded != null) ? mm.IsFundReleased : null
-                          })
-            .GroupBy(x => x.ProjectPreparationID)
-            .Select(group => group.OrderByDescending(x => x.ProjectPreparationID).FirstOrDefault())
-            .ToList();
+                var groupedData = (from mm in db.MileStoneMasters
+                                   join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   into ppps
+                                   from ppp in ppps.DefaultIfEmpty()
+                                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
+                                   from stm in stms.DefaultIfEmpty()
+                                   join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
+                                   from snm in snms.DefaultIfEmpty()
+                                   where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
+                                   && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                   && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                   && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                   && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                                  // orderby mm.MileStoneStatus descending
+                                   select new DTO_FundRelease
+                                   {
+                                       ProjectPreparationID = ppp.ProjectPreparationID,
+                                       DistrictID = ppp.DistID,
+                                       ProjectNo = ppp.ProjectNo,
+                                       DistrictName = dm.DistrictName,
+                                       ProjectName = ppp.ProjectName,
+                                       SectorName = snm.SectorName,
+                                       SectorType = stm.SectorType,
+                                       SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                       IsPhProgressDone = mm.IsPhProgressDone,
+                                       IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                                       IsInspectionDone = mm.IsInspectionDone,
+                                       IsFundReleased = mm.IsFundReleased,
+                                       MileStoneStatus = mm.MileStoneStatus
+                                   })
+                  .GroupBy(x => x.ProjectPreparationID)
+                  .ToList();
 
-                ViewBag.LstData = data;
+                //var data = groupedData.OrderByDescending(x=>x.mil);
+                var data = groupedData.Select(group => group.ToList().OrderByDescending(x => x.MileStoneStatus));
+                var processedData = data.Select(group => group.FirstOrDefault()).ToList();
+                ViewBag.LstData = processedData;
             }
             else
             {
                 ViewBag.DistrictName = new SelectList(db.DistrictMasters, "DistrictName", "DistrictName", null);
-                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x=>x.Stageid==2), "ProjectName", "ProjectName", null);
-                var data = (from ppp in db.ProjectProposalPreprations
-                            join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
-                            join mm in db.MileStoneMasters on ppp.ProjectNo equals mm.ProjectNo
-                            join fr in db.FundReleases on ppp.ProjectNo equals fr.ProjectNo into frm
-                            from fr in frm.DefaultIfEmpty()
-                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
-                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
-                            where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
-                                && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
-                                && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
-                                && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
-                                && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
-                            select new DTO_FundRelease
-                            {
-                                ProjectPreparationID = ppp.ProjectPreparationID,
-                                DistrictID = ppp.DistID,
-                                ProjectNo = ppp.ProjectNo,
-                                DistrictName = dm.DistrictName,
-                                ProjectName = ppp.ProjectName,
-                                SectorName = snm.SectorName,
-                                SectorType = stm.SectorType,
-                                SanctionedProjectCost = ppp.SanctionedProjectCost,
-                                IsPhProgressDone = fr.IsPhProgressDone,
-                                IsUtilizationUploaded = fr.IsUtilizationUploaded,
-                                IsInspectionDone = fr.IsInspectionDone,
-                                IsFundReleased = (fr.IsPhProgressDone != null && fr.IsUtilizationUploaded != null) ? mm.IsFundReleased : null
-                            })
-            .GroupBy(x => x.ProjectPreparationID)
-            .Select(group => group.OrderByDescending(x => x.ProjectPreparationID).FirstOrDefault())
-            .ToList();
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
+                var groupedData = (from mm in db.MileStoneMasters
+                                   join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   into ppps
+                                   from ppp in ppps.DefaultIfEmpty()
+                                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
+                                   from stm in stms.DefaultIfEmpty()
+                                   join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
+                                   from snm in snms.DefaultIfEmpty()
+                                   where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
+                                   && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                   && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                   && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                   && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                                  // orderby mm.MileStoneStatus descending
+                                   select new DTO_FundRelease
+                                   {
+                                       ProjectPreparationID = ppp.ProjectPreparationID,
+                                       DistrictID = ppp.DistID,
+                                       ProjectNo = ppp.ProjectNo,
+                                       DistrictName = dm.DistrictName,
+                                       ProjectName = ppp.ProjectName,
+                                       SectorName = snm.SectorName,
+                                       SectorType = stm.SectorType,
+                                       SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                       IsPhProgressDone = mm.IsPhProgressDone,
+                                       IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                                       IsInspectionDone = mm.IsInspectionDone,
+                                       IsFundReleased = mm.IsFundReleased,
+                                       MileStoneStatus = mm.MileStoneStatus
+                                   })
+                   .GroupBy(x => x.ProjectPreparationID)
+                   .ToList();
+                var data = groupedData.Select(group => group.ToList().OrderByDescending(x => x.MileStoneStatus));
+                var processedData = data.Select(group => group.FirstOrDefault()).ToList();
+
+                ViewBag.LstData = processedData;
 
             }
             return View();
@@ -185,6 +197,7 @@ namespace DMFProjectFinal.Controllers
                 FundReleaseCopy = model.FundReleaseCopy,
                 CreatedDate = DateTime.Now,
                 IsActive=true,
+                IsFundReleased=true,
                 CreatedBy= UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString()
             });
             int res = db.SaveChanges();
@@ -199,6 +212,8 @@ namespace DMFProjectFinal.Controllers
                 {
                 //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
                     milestone.IsFundReleased = true;
+                    milestone.MileStoneStatus = model.InstallmentID;
+                    milestone.ModifiedDate = DateTime.Now;
                     db.Entry(milestone).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }

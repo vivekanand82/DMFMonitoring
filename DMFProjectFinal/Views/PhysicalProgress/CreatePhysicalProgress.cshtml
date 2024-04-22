@@ -23,27 +23,49 @@
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.PhysicalprogressID) ? "CreatePhysicalProgress" : "EditPhysicalProgress"), "PhysicalProgress", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
             <div class="row">
-                @Html.HiddenFor(x => x.PhysicalprogressID,new { @id= "PhysicalprogressID" })
+                <div class="col-md-4">
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @Html.HiddenFor(x => x.PhysicalprogressID, new { @id = "PhysicalprogressID" })
                 @Html.HiddenFor(x => x.DistrictID)
                 @*@Html.HiddenFor(x => x.MileStoneID,new { @id= "MileStoneID" })*@
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-label">
                         <strong>Select Project<sup><code>*</code></sup></strong>
                         @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-label">
                         <strong>Ph. Progress Date<sup><code>*</code></sup></strong>
                         @Html.TextBoxFor(x => x.PhysicalProgressDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-label">
                         <strong>Physical Progress(%)<sup><code>*</code></sup></strong>
                         @Html.TextBoxFor(x => x.PhysicalPInPer, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>
+                            Attached Copy<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.PhysicalProgressCopy))
+                            {
+                                <a href="@Model.PhysicalProgressCopy" target="_blank">View Doc</a>
+                                <input type="hidden" value="prev" id="PhysicalProgressCopy" name="PhysicalProgressCopy" />
+                            }
+                        </strong>
+
+                        @Html.TextBoxFor(x => x.PhysicalProgressCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "PhysicalProgressCopy" })
                     </div>
                 </div>
                 <div class="row" style="display:none" id="MileStoneTable">
@@ -70,27 +92,44 @@
                 </div>
             </div><div class="row">
 
-                <div class="col-md-4">
-                    <div class="form-label">
-                        <strong>
-                            Attached Copy<sup><code>*</code></sup>
-                            @if (!String.IsNullOrEmpty(Model.PhysicalProgressCopy))
-                            {
-                                <a href="@Model.PhysicalProgressCopy" target="_blank">View Doc</a>
-                                <input type="hidden" value="prev" id="PhysicalProgressCopy" name="PhysicalProgressCopy" />
-                            }
-                        </strong>
 
-                        @Html.TextBoxFor(x => x.PhysicalProgressCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "PhysicalProgressCopy" })
-                    </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-label">
                         <strong>Spend Amount<sup><code>*</code></sup></strong>
                         @Html.TextBoxFor(x => x.AmountSpend, new { @class = "form-control form-control-sm", @autocomplete = "off" })
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="form-label">
+                        @*<strong>Progress Images<sup><code>*</code></sup></strong>*@
+                        @*@Html.TextBoxFor(x => x.PhysicalProgressImages, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file", @multiple = "multiple" })*@
+                        <div class="form-label">
+                            <strong>
+                                Progress Image<sup><code>*</code></sup>
+                                @if (!String.IsNullOrEmpty(Model.PhysicalProgressImages))
+                                {
+                                    <a href="@Model.PhysicalProgressImages" target="_blank">View Doc</a>
+                                    <input type="hidden" value="prev" id="PhysicalProgressImages" name="PhysicalProgressImages" />
+                                }
+                            </strong>
+
+                            @Html.TextBoxFor(x => x.PhysicalProgressImages, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "PhysicalProgressImages" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Progress Status<sup><code>*</code></sup></strong>
+                        @*@Html.TextBoxFor(x => x.PhysicalProgressImages, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file", @multiple = "multiple" })*@
+                        @Html.DropDownListFor(x => x.ProgressStatus, new List<SelectListItem>
+                   {
+                       new SelectListItem{ Value="1",Text="InProcess"},
+                       new SelectListItem{ Value="2",Text="Completed"},
+                       new SelectListItem{ Value="3",Text="Stuck"},
+                   }, "-Select-", new { @class = "form-control form-control-sm" })
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="form-label">
                         <strong>Remark<sup><code>*</code></sup></strong>
                         @Html.TextBoxFor(x => x.Remark, new { @class = "form-control form-control-sm", @autocomplete = "off" })
@@ -128,79 +167,86 @@
 
 <script>
     function GetMilestone() {
-        var DistrictID = $("#DistrictID").val();
+                var DistrictID = $("#DistrictID").val();
         var ProjectNo = $("#ProjectNo").val();
-        if (ProjectNo != "") {
+        getProgressPercentage(ProjectNo);
+                if (ProjectNo != "") {
             $("#MileStoneTable").show();
 
-        }
-        else {
+                }
+                else {
             $("#MileStoneTable").hide();
 
-        }
+                }
         $.ajax({
-            url: "/PhysicalProgress/MileStoneByProject",
+                url: "/PhysicalProgress/MileStoneByProject",
             type: "POST",
             contentType: "application/json;charset=utf-8;",
             dataType: "json",
             data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
             success: function (data) {
-                var html = "";
-                // Output district name, project name, and project cost only once
-                //html += "<tr>";
-                //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].Districtname + "</td>";
-                //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
-                //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
-                //html += "</tr>";
-                // Output milestone details for each milestone
-                for (var i = 0; i < data.length; i++) {
-                    html += "<tr>";
-                    html += "<td>" + data[i].Districtname + "</td>";
-                    html += "<td>" + data[i].ProjectName + "</td>";
-                    html += "<td>" + data[i].SanctionedProjectCost + "</td>";
-                    html += "<td>" + data[i].Instext + "</td>";
-                    html += "<td>" + data[i].InsPercentage + "</td>";
-                    var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[i].InsPercentage) / 100)
-                    html += "<td>" + releaseamt + "</td>";
-                    html += "<td>" + data[i].InstallmentName + "</td>";
-                    if (data[i].IsFundReleased == true) {
+                if ($.trim(data) != "") {
+                        var html = "";
+                        // Output district name, project name, and project cost only once
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].Districtname + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
+                        html += "</tr>";
+                        // Output milestone details for each milestone
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            //html += "<td>" + data[i].Districtname + "</td>";
+                            //html += "<td>" + data[i].ProjectName + "</td>";
+                            //html += "<td>" + data[i].SanctionedProjectCost + "</td>";
+                            html += "<td>" + data[i].Instext + "</td>";
+                            html += "<td>" + data[i].InsPercentage + "</td>";
+                            var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[i].InsPercentage) / 100)
+                            html += "<td>" + releaseamt + "</td>";
+                            html += "<td>" + data[i].InstallmentName + "</td>";
+                            if (data[i].IsFundReleased == true) {
 
-                        html += "<td>YES</td>";
-                    }
-                    else {
-                        html += "<td>NO</td>";
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
 
-                    }
-                    if (data[i].IsPhProgressDone == true) {
+                            }
+                            if (data[i].IsPhProgressDone == true) {
 
-                        html += "<td>YES</td>";
-                    }
-                    else {
-                        html += "<td>NO</td>";
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
 
-                    }
-                    if (data[i].IsUtilizationUploaded == true) {
+                            }
+                            if (data[i].IsUtilizationUploaded == true) {
 
-                        html += "<td>YES</td>";
-                    }
-                    else {
-                        html += "<td>NO</td>";
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
 
-                    }
-                    if (data[i].IsInspectionDone == true) {
+                            }
+                            if (data[i].IsInspectionDone == true) {
 
-                        html += "<td>YES</td>";
-                    }
-                    else {
-                        html += "<td>NO</td>";
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
 
-                    }
-                    html += "</tr>";
-                }
+                            }
+                            html += "</tr>";
+                        }
                 $("#MIlestone").html(html);
-                console.log(data);
-            }
-        })
+                }
+
+                else {
+                    $("#MIlestone").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                    //$("#exampleModal").show();
+                }
+                    }
+                })
     }
 
 </script>
@@ -262,11 +308,33 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            var id = $("#PhysicalprogressID").val();
+            var id = $("#ProjectNo").val();
             if (id != "" ) {
-                GetMilestoneDetails()
+                GetMilestone();
             }
         });
+    </script>
+    <script>
+        function getProgressPercentage(ProjectNo) {
+            debugger
+            $.ajax({
+                url: "/PhysicalProgress/GetProgressPercentage",
+                type: "POST",
+                contentType: "application/json;charset=utf-8;",
+                dataType: "json",
+                data: JSON.stringify({ ProjectNo: ProjectNo }),
+                success: function (data) {
+                    if (data.PhysicalPInPer!=null) {
+                        $(".progress-bar").text(data.PhysicalPInPer + "%");
+                        $(".progress-bar").css("width", data.PhysicalPInPer + "%").removeClass("bg-danger").addClass("bg-success");
+                    }
+                    else {
+                        $(".progress-bar").text("0%");
+                        $(".progress-bar").css("width", "5%").addClass("bg-danger");
+                    }
+                }
+            })
+        }
     </script>
 }
 

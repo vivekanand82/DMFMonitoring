@@ -164,20 +164,28 @@
                                                     @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
                                                     @if (AM.CanInsert || AM.CanView)
                                                     {
-                                                        <th>
-                                                            @if (AM.CanView)
-                                                            {
-                                                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <th>
+                                                    @if (AM.CanView)
+                                                    {
+                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
+                                                        {
+                                                            <a href="/Utilization/CreateUtilization?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Upload UC</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-info">InProcess</a>
 
-                                                                @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
+                                                        }
+                                                        @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
 
-                                                            }
-                                                            @*@if (AM.CanInsert)
-                                                            {
-                                                                <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                    }
+                                                    @*@if (AM.CanInsert)
+                                                        {
+                                                            <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
-                                                            }*@
-                                                        </th>
+                                                        }*@
+                                                </th>
                                                     }
                                                 </tr>
                                             }
@@ -230,31 +238,38 @@
                 contentType: "Application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
-                    var html = "";
-                    for (var i = 0; i < data.length; i++) {
-                        var UtilizationDate = new Date(parseInt(data[i].UtilizationDate.substr(6)));
-                        html += "<tr>";
-                        html += "<td>" + data[i].UtilizationNo + "</td>";
-                        html += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
-                        html += "<td>" + data[i].UC_Against_ReleaseAmount + "</td>";
-                        html += "<td><a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-                        //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
-                        //    html += "<td>NO</td>";
+                    if ($.trim(data) != "") {
+                        $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            var UtilizationDate = new Date(parseInt(data[i].UtilizationDate.substr(6)));
+                            html += "<tr>";
+                            html += "<td>" + data[i].UtilizationNo + "</td>";
+                            html += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td>" + data[i].UC_Against_ReleaseAmount + "</td>";
+                            html += "<td><a href=" + data[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            //if (data[i].Phyicalintsallmentflag == "" || data[i].Phyicalintsallmentflag == undefined) {
+                            //    html += "<td>NO</td>";
 
-                        //}
-                        //else {
-                        //    html += "<td>Done</td>";
-                        //}
-                        html += "<td>" + data[i].Remarks + "</td>";
+                            //}
+                            //else {
+                            //    html += "<td>Done</td>";
+                            //}
+                            html += "<td>" + data[i].Remarks + "</td>";
 
-                        //html += "<td><a href='/Utilization/EditUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephUtilization(" + data[i].UtilizationID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                        //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
-                        html += "</tr>";
+                            //html += "<td><a href='/Utilization/EditUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephUtilization(" + data[i].UtilizationID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            html += "</tr>";
 
+                        }
+                        $("#UtilizationDetails").html(html);
+                        $("#exampleModal").show();
                     }
-                    $("#UtilizationDetails").html(html);
-                    $("#exampleModal").show();
+                    else
+                    {
+                        $("#UtilizationDetails").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                        $("#exampleModal").show();
+                    }
                 }
             })
         }

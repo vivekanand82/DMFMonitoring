@@ -33,5 +33,6 @@ namespace DMFProjectFinal.Models
         public Nullable<bool> IsPhProgressDone { get; set; }
         public Nullable<bool> IsUtilizationUploaded { get; set; }
         public Nullable<bool> IsInspectionDone { get; set; }
+        public Nullable<int> MileStoneStatus { get; set; }
     }
 }

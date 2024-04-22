@@ -31,69 +31,91 @@ namespace DMFProjectFinal.Controllers
                 ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x => x.DistrictName == district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
 
-                var data = (from uc in db.UtilizationMasters
-                            join
-                                pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
-                            join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
-                            join ppp in db.ProjectProposalPreprations on uc.ProjectPreparationID equals ppp.ProjectPreparationID
-                            join stm in db.SectorNameMasters on ppp.SectorID equals stm.SectorNameId
-                            join sym in db.SectorTypeMasters on ppp.SectorTypeId equals sym.SectorTypeID
-                            where uc.IsActive==true && uc.DistrictID==DistID
-                              && (sym.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
-                            && (stm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
-                            && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
-                            && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
-                            select new DTO_UtilizationMaster
-                            {
-                                ProjectPreparationID = uc.ProjectPreparationID,
-                                DistrictName = dm.DistrictName,
-                                ProjectName = ppp.ProjectName,
-                                DistrictID = uc.DistrictID,
-                                //UtilizationID = uc.UtilizationID.ToString(),
-                                //UtilizationCopy = uc.UtilizationCopy,
-                                //UtilizationDate = uc.UtilizationDate,
-                                //Remarks = uc.Remarks,
-                                //UtilizationNo = uc.UtilizationNo
-                                SectorName = stm.SectorName,
-                                SectorType = sym.SectorType
-                            }).Distinct().ToList();
-                ViewBag.LstData = data;
+                var groupedData = (from mm in db.MileStoneMasters
+                                   join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   into ppps
+                                   from ppp in ppps.DefaultIfEmpty()
+                                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
+                                   from stm in stms.DefaultIfEmpty()
+                                   join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
+                                   from snm in snms.DefaultIfEmpty()
+                                   where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2 && mm.IsFundReleased == true && mm.IsPhProgressDone==true
+                                   && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                   && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                   && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                   && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                                   // orderby mm.MileStoneStatus descending
+                                   select new DTO_UtilizationMaster
+                                   {
+                                       ProjectPreparationID = ppp.ProjectPreparationID,
+                                       DistrictID = ppp.DistID,
+                                       ProjectNo = ppp.ProjectNo,
+                                       DistrictName = dm.DistrictName,
+                                       ProjectName = ppp.ProjectName,
+                                       SectorName = snm.SectorName,
+                                       SectorType = stm.SectorType,
+                                       SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                       IsPhProgressDone = mm.IsPhProgressDone,
+                                       IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                                       IsInspectionDone = mm.IsInspectionDone,
+                                       IsFundReleased = mm.IsFundReleased,
+                                       MileStoneStatus = mm.MileStoneStatus
+                                   })
+                 .GroupBy(x => x.ProjectPreparationID)
+                 .ToList();
+
+                //var data = groupedData.OrderByDescending(x=>x.mil);
+                var data = groupedData.Select(group => group.ToList().OrderByDescending(x => x.MileStoneStatus));
+                var processedData = data.Select(group => group.FirstOrDefault()).ToList();
+                ViewBag.LstData = processedData;
             }
             else
             {
                 ViewBag.DistrictName = new SelectList(db.DistrictMasters, "DistrictName", "DistrictName", null);
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
-                var data = (from uc in db.UtilizationMasters
-                            join
-                                pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
-                            join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
-                            join ppp in db.ProjectProposalPreprations on uc.ProjectPreparationID equals ppp.ProjectPreparationID
-                            join stm in db.SectorNameMasters on ppp.SectorID equals stm.SectorNameId
-                            join sym in db.SectorTypeMasters on ppp.SectorTypeId equals sym.SectorTypeID
-                            where
-                               (sym.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
-                            && (stm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
-                            && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
-                            && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
-                            select new DTO_UtilizationMaster
-                            {
-                                ProjectPreparationID = uc.ProjectPreparationID,
-                                DistrictName = dm.DistrictName,
-                                ProjectName = ppp.ProjectName,
-                                DistrictID = uc.DistrictID,
-                                //UtilizationID = uc.UtilizationID.ToString(),
-                                //UtilizationCopy = uc.UtilizationCopy,
-                                //UtilizationDate = uc.UtilizationDate,
-                                //Remarks = uc.Remarks,
-                                //UtilizationNo = uc.UtilizationNo
-                                SectorName = stm.SectorName,
-                                SectorType = sym.SectorType
-                            }).Distinct().ToList();
-                ViewBag.LstData = data;
+                var groupedData = (from mm in db.MileStoneMasters
+                                   join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   into ppps
+                                   from ppp in ppps.DefaultIfEmpty()
+                                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
+                                   from stm in stms.DefaultIfEmpty()
+                                   join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
+                                   from snm in snms.DefaultIfEmpty()
+                                   where ppp.IsActive == true && ppp.ProjectNo != null && ppp.Stageid == 2 && mm.IsFundReleased == true && mm.IsPhProgressDone == true
+                                   && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                   && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                   && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                   && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                                   // orderby mm.MileStoneStatus descending
+                                   select new DTO_UtilizationMaster
+                                   {
+                                       ProjectPreparationID = ppp.ProjectPreparationID,
+                                       DistrictID = ppp.DistID,
+                                       ProjectNo = ppp.ProjectNo,
+                                       DistrictName = dm.DistrictName,
+                                       ProjectName = ppp.ProjectName,
+                                       SectorName = snm.SectorName,
+                                       SectorType = stm.SectorType,
+                                       SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                       IsPhProgressDone = mm.IsPhProgressDone,
+                                       IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                                       IsInspectionDone = mm.IsInspectionDone,
+                                       IsFundReleased = mm.IsFundReleased,
+                                       MileStoneStatus = mm.MileStoneStatus
+                                   })
+                   .GroupBy(x => x.ProjectPreparationID)
+                   .ToList();
+
+                //var data = groupedData.OrderByDescending(x=>x.mil);
+                var data = groupedData.Select(group => group.ToList().OrderByDescending(x => x.MileStoneStatus));
+                var processedData = data.Select(group => group.FirstOrDefault()).ToList();
+                ViewBag.LstData = processedData;
             }
             return View();
         }
-        public ActionResult CreateUtilization()
+        public ActionResult CreateUtilization(string ProjectNo)
         {
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -109,9 +131,10 @@ namespace DMFProjectFinal.Controllers
                                                 {
                                                     ProjectNo = mm.ProjectNo,
                                                     ProjectName = pm.ProjectName
-                                                }).Distinct(), "ProjectNo", "ProjectName", null);
+                                                }).Distinct(), "ProjectNo", "ProjectName", ProjectNo);
 
             model.DistrictID = DistID;
+            model.ProjectNo = ProjectNo;
             return View(model);
         }
         [HttpPost]
@@ -278,14 +301,14 @@ namespace DMFProjectFinal.Controllers
         {
             var data = (from uc in db.UtilizationMasters
                             //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                        join pm in db.ProjectMasters on uc.ProjectNo equals pm.ProjectNo
+                        join ppp in db.ProjectProposalPreprations on uc.ProjectNo equals ppp.ProjectNo
                         join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
                         where uc.ProjectPreparationID == ProjectPreparationID
                         select new DTO_UtilizationMaster
                         {
                             //InstallmentName = fr.InstallmentName,
                             UtilizationID = uc.UtilizationID.ToString(),
-                            ProjectName = pm.ProjectName,
+                            ProjectName = ppp.ProjectName,
                             DistrictName = dm.DistrictName,
                             UtilizationNo=uc.UtilizationNo,
                             UtilizationDate=uc.UtilizationDate,

@@ -24,5 +24,11 @@ namespace DMFProjectFinal.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public string InspectionQuestion { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+        public string ProjectNo { get; set; }
+        public Nullable<int> Districtid { get; set; }
+        public string Attachmentfile { get; set; }
+        public string Remark { get; set; }
+        public string Photographuploadfile { get; set; }
     }
 }

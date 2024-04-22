@@ -28,7 +28,7 @@
                 <div class="col-md-4">
                     <div class="form-label">
                         <strong>Select Project<sup><code>*</code></sup></strong>
-                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off" ,onchange= "GetMilestone()" })
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", onchange = "GetMilestone()" })
                     </div>
 
                 </div>
@@ -45,7 +45,7 @@
                         @Html.TextBoxFor(x => x.UC_Against_ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
                     </div>
                 </div>
-                
+
 
             </div>
             <div class="row" style="display:none" id="MileStoneTable">
@@ -123,7 +123,7 @@
                         }
                         else
                         {
-                            <a href="/FundRelease/ReleaseFund" class="btn btn-danger">Back</a>
+                            <a href="/Utilization/UtilizationList" class="btn btn-danger">Back</a>
                             //href = "/UserManagement/UserRegistration"
 
                         }
@@ -224,17 +224,17 @@
                 success: function (data) {
                     var html = "";
                     // Output district name, project name, and project cost only once
-                    //html += "<tr>";
-                    //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].Districtname + "</td>";
-                    //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
-                    //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
-                    //html += "</tr>";
+                    html += "<tr>";
+                    html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].Districtname + "</td>";
+                    html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
+                    html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
+                    html += "</tr>";
                     // Output milestone details for each milestone
                     for (var i = 0; i < data.length; i++) {
                         html += "<tr>";
-                        html += "<td>" + data[i].Districtname + "</td>";
-                        html += "<td>" + data[i].ProjectName + "</td>";
-                        html += "<td>" + data[i].SanctionedProjectCost + "</td>";
+                        //html += "<td>" + data[i].Districtname + "</td>";
+                        //html += "<td>" + data[i].ProjectName + "</td>";
+                        //html += "<td>" + data[i].SanctionedProjectCost + "</td>";
                         html += "<td>" + data[i].Instext + "</td>";
                         html += "<td>" + data[i].InsPercentage + "</td>";
                         var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[i].InsPercentage) / 100)
@@ -280,5 +280,13 @@
             })
         }
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            var id = $("#ProjectNo").val();
+            if (id != "") {
+                GetMilestone();
+            }
+        });
     </script>
 }
