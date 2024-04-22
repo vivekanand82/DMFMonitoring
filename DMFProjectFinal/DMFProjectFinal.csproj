@@ -204,6 +204,12 @@
     <Compile Include="Models\FundRelease.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InspectionCheckListAnswerMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InspectionCheckListQuestionMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InstallmentMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -431,7 +437,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="Views\Common\" />
-    <Folder Include="Views\Inspection\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\main-dash.css-backup" />
@@ -660,6 +665,7 @@
     <Content Include="Views\Utilization\CreateUtilization.cshtml" />
     <Content Include="Views\Utilization\UtilizationList.cshtml" />
     <Content Include="Views\MileStone\Viewprojectapprovel.cshtml" />
+    <Content Include="Views\Inspection\ChecklistInspection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
