@@ -436,6 +436,22 @@ namespace DMFProjectFinal.Models.DTO
 
 
 
+    public partial class DTO_InspectionCheckListAnswerMaster
+    {
+
+      public string InspectionQuestion { get; set; }
+        public string InspectionAnswer { get; set; }
+
+    }
+
+
+    public partial class DTO_InspectionCheckListQuestionMaster { 
+
+        public string InspectionQuestion { get; set; }
+        public string IsChecked { get; set; }
+
+    }
+
 
 
 

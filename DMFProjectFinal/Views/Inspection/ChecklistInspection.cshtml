@@ -1,0 +1,700 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "ChecklistInspection";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    #frmCurrent {
+        background-color: #ffffff;
+        /*margin: 100px auto;*/
+        font-family: Raleway;
+        padding: 40px;
+        width: 100%;
+        min-width: 300px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    /* .valid {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }*/
+
+    /* Mark input boxes that gets an error on validation: */
+    /* input.invalid {
+        background-color: #ffdddd;
+    }
+    select.invalid {
+        background-color: #ffdddd;
+    }*/
+    /*  Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    #btnSubmit {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: none;
+        /*padding: 10px 20px;*/
+        font-size: 15px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #083853;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #083853;
+        }
+</style>
+
+
+<style>
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+
+
+
+<div class="card-header">
+    <h4 class="card-title">Inspection Configuration Answer </h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+
+
+            <div id="divformone">
+                <div class="row">
+
+                    <div class="row">
+
+
+                        <div class="col-md-12 mb-30">
+                            <div class="card card-statistics h-100">
+                                <div class="card-body">
+
+                                    <div class="table-responsive mt-20">
+                                        <table id='tbl' class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sno</th>
+                                                    <th>Add Qustion</th>
+                                                    <th>Add Answer</th>
+                                                    <th>Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td><input type='text' class="form-control form-control-sm" id="pk1"></td>
+                                                    <td><a class="btn btn-small btn-info" onclick="Viewmeeting(1)"><i class="fa fa-plus" aria-hidden="true"></i></a><input type="checkbox" name="chkone" /></td>
+                                                    <td><input type='button' value='Remove' class='rmv'></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan='3'><input type='button' id='add_row' class="btn btn-small btn-info" value="Add Row"></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                      <button type="button" onclick="Saveuser()">Save</button>
+
+
+                                    </div>
+
+                                   
+                                 
+
+
+
+                                    <!--<table class="table center-aligned-table" id="tblData1" style="width:100%">
+                    <thead class="table-dark">
+                        <tr class="text-dark">
+                            <th>क्र०सं०</th>
+                            <th>District</th>
+                            <th>Project Name</th>
+                            <th>Sector Name</th>
+                            <th>Prosposal No</th>-->
+                                    @*<th>Prosposal date</th>*@
+                                    <!--
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>-->
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+                                <input type="hidden" id="MileStoneID" />
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                    { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Remark</strong>*@
+                                @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-label">
+                                @*<strong> Percentage</strong>*@
+                                @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3">
+                <div class="form-label">
+                    <strong>Realese Percentage Amount</strong>
+                    @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+                </div>
+            </div>*@
+
+
+
+
+
+                        <input type="hidden" id="releaseamount" />
+
+
+
+
+                    </div>
+                    <div style="overflow:auto;">
+
+
+
+
+                    </div><!-- /.modal-content -->
+                    <div style="overflow:auto;">
+                        @*<div style="float:right;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+            </div>*@
+
+
+
+                    </div>
+
+
+                    <div id="myModal2" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" style="max-width: 95%;">
+                            <div class="modal-content" style="width:100%;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myModalLabel"> Inspection Configuration Answer</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                                </div>
+                                <div class="modal-body">
+
+
+
+
+
+                                    <div id="divformone">
+                                       
+                                        <div class="row">
+
+                                            <input type="hidden" id="qustionname" />
+                                            <table id='tblanswer' class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sno</th>
+                                                        <th>Answer</th>
+
+                                                        <th>Remove</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td><input type='text' class="form-control form-control-sm"></td>
+
+                                                        <td><input type='button' value='Remove' class='rmvone'></td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan='3'><input type='button' id='addanswer' class="btn btn-small btn-info" value="Add Row"></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div style="float:right;">
+                                                <button type="button" id="yesno">Yes/No</button>
+
+                                                <button type="button" onclick="saveanswer()">Save Answer</button>
+                                            </div>
+
+                                        
+
+
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    @*<strong>District Name<sup><code>*</code></sup></strong>*@
+                                                    @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+
+
+                                                    <input type="hidden" id="MileStoneID" />
+
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    @*<strong>Project Name<sup><code>*</code></sup></strong>*@
+                                                    @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                                    @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
+                { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    @*<strong>Installment Type<sup><code>*</code></sup></strong>*@
+                                                    @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
+
+                                                    @*@Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })*@
+
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    @*<strong> Remark</strong>*@
+                                                    @*@Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })*@
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-label">
+                                                    @*<strong> Percentage</strong>*@
+                                                    @*@Html.TextBoxFor(x => x.InsPercentage, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "InsPercentage", @onchange = "percentagedata()" })*@
+                                                </div>
+                                            </div>
+
+                                            @*<div class="col-md-3">
+            <div class="form-label">
+                <strong>Realese Percentage Amount</strong>
+                @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+            </div>
+        </div>*@
+
+
+
+
+
+                                            <input type="hidden" id="releaseamount" />
+
+
+
+
+
+                                        </div>
+                                        <div style="overflow:auto;">
+
+
+
+
+                                        </div><!-- /.modal-content -->
+                                        @*<div style="overflow:auto;">
+                            <div style="float:right;">
+                                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+
+                            </div>*@
+
+
+
+                                    </div>
+
+
+
+
+
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+
+
+         @section Scripts {
+          <script>
+              $(document).ready(function () {
+                  var i = 1
+                  var k = 1
+
+                  $("#add_row").click(function () {
+                      i = i + 1;
+                      var row = "<tr> <td>" + i + "</td><td><input type='text' class='form-control' id='pk" + i + "'></td> <td><a class='btn btn-small btn - info' onclick='Viewmeeting(" + i + ")' ><i class='fa fa-plus' aria-hidden='true' ></i></a><input type='checkbox' name='chkone' /></td> <td><input type='button' value='Remove' class='rmv'></td> </tr>";
+                      $("#tbl tbody").append(row);
+                  });
+
+                  $("#addanswer").click(function () {
+                      k = k + 1;
+                      var row = "<tr> <td>" + k + "</td><td><input type='text' class='form-control'></td> <td><input type='button' value='Remove' class='rmvone'></td> </tr>";
+                      $("#tblanswer tbody").append(row);
+                  });
+
+
+                  $("#yesno").click(function () {
+
+                      var id = 2
+                      $("#tblanswer tbody").empty();
+                      for (var a = 1; a <= id; a++) {
+
+                          var row = "";
+                          if (a == 1) {
+
+                               row = "<tr> <td>" + a + "</td><td><input type='text' class='form-control' value='Yes'></td> <td><input type='button' value='Remove' class='rmvone'></td> </tr>";
+
+                          }
+                          else if (a == 2) {
+
+                              row = "<tr> <td>" + a + "</td><td><input type='text' class='form-control' value='No'></td> <td><input type='button' value='Remove' class='rmvone'></td> </tr>";
+
+                          }
+
+                        /*  var row = "<tr> <td>" + a + "</td><td><input type='text' class='form-control'></td> <td><input type='button' value='Remove' class='rmvone'></td> </tr>";*/
+                          $("#tblanswer tbody").append(row);
+
+
+                      }
+
+                  })
+
+
+
+                  $("body").on("click", ".rmv", function () {
+                      $(this).closest("tr").remove();
+                  });
+                  $("body").on("click", ".rmvone", function () {
+                      $(this).closest("tr").remove();
+                  });
+
+
+
+              })
+             
+              function Viewmeeting(iduser) {
+
+                  debugger;
+
+                  var test = $("#pk" + iduser).val();
+                  $("#qustionname").val(test);
+              
+                 
+                  $("#tblanswer tbody").empty()
+                  var id = $("#tblanswer tbody").length;
+                  //alert(iduser)
+                  //var id = $("#tbl tbody tr").length;
+                  //if (id > 1) {
+
+                     
+
+                  //}
+                  //else {
+
+                  //    $("#tblanswer tbody").empty()
+                  //}
+
+                  //if (id == 1) {
+
+
+
+
+                  //}
+                  //else {
+
+
+                  //    $("#tblanswer tbody").empty()
+                  //}
+
+                  //if (id>=1) {
+
+
+
+                  //}
+
+                  //else {
+                  //    $("#tblanswer tbody").empty()
+
+                  //}
+                /*  $("#tblanswer tbody").empty();*/
+
+                
+                  var row = "<tr> <td>" + id + "</td><td><input type='text' class='form-control'></td> <td><input type='button' value='Remove' class='rmvone'></td> </tr>";
+                  $("#tblanswer tbody").append(row);
+
+
+
+
+              $("#myModal2").modal('show')
+              }
+             
+              function Saveuser() {
+
+                  var program_array = [];
+                  $("#tbl tbody tr ").each(function () {
+                      var IsChecked = ""
+                      var InspectionQuestion = $(this).find("td:eq(1) input[type='text']").val()
+                      var value1 = $($(this).find('input[name="chkone"]:checked')).val()
+                      //alert(InspectionQuestion)
+                      if (value1 == 'on') {
+
+                        
+                          IsChecked=1
+
+                      }
+                      else {
+
+                          IsChecked =0
+
+                      }
+
+                      item = {}
+                      
+                   /*   var row = $(this);*/
+                      item["InspectionQuestion"] = InspectionQuestion
+
+                      item["IsChecked"] = IsChecked
+                      program_array.push(item);
+
+
+
+
+
+                      //var Instext = row.find("td").eq(1).html();
+
+                      //alert(kd);
+                     
+                  })
+
+                  var dataobject = {
+                    
+                      lis: JSON.stringify(program_array)
+
+                  }
+
+
+                  if (program_array.length > 0) {
+
+                      $.ajax({
+                          url: "/Inspection/Addqustion",
+                          type: "POST",
+                          contentType: false,
+                          processData: false,
+                          data: JSON.stringify(dataobject),
+                          contentType: "application/json; charset=utf-8",
+                          dataType: "json",
+                          success: function (r) {
+
+
+                              if (r.Message == "1") {
+
+                                  alert("Record Saved");
+                                  window.location.href ='/Inspection/ChecklistInspection'
+
+
+                              }
+
+
+                          }
+                      })
+
+
+                  }
+
+
+
+
+
+
+              }
+              function saveanswer() {
+                  var program_array = [];
+                  $("#tblanswer tbody tr").each(function () {
+
+                      var Inspectionanswer = $(this).find("td:eq(1) input[type='text']").val()
+                      var qustionname = $("#qustionname").val();
+                      item = {}
+
+                      item["InspectionAnswer"] = Inspectionanswer
+                      program_array.push(item);
+
+                  })
+
+                  var dataobject = {
+                      InspectionQuestion : $("#qustionname").val(),
+                      lis: JSON.stringify(program_array)
+
+                  }
+
+
+                  if (program_array.length > 0) {
+
+                      $.ajax({
+                          url: "/Inspection/Addanswer",
+                          type: "POST",
+                          contentType: false,
+                          processData: false,
+                          data: JSON.stringify(dataobject),
+                          contentType: "application/json; charset=utf-8",
+                          dataType: "json",
+                          success: function (r) {
+
+
+                              if (r.Message == "1") {
+                                  alert("Answer Record Saved")
+
+
+                                  $("#myModal2").modal('hide')
+                              }
+                          }
+                      })
+
+                  }
+              }
+
+
+
+
+             </script>
+
+
+             }
+
+         
