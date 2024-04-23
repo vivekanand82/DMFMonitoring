@@ -567,8 +567,24 @@
                     </div>
                     <div class="row">
 
-                        <span></span>
+                        <span>1st</span>
                         <table class="table table-bordered" id="datatable2">
+                            <thead>
+                                <tr>
+
+                                    <th>Qustion</th>
+                                    <th>Answer</th>
+                                    <th>Remark</th>
+                                    <th style="display:none;"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                        <span>2nd</span>
+                        <table class="table table-bordered" id="datatable3">
                             <thead>
                                 <tr>
 
@@ -593,7 +609,7 @@
 
 
 
-                             
+
 
 
                             </div>
@@ -606,7 +622,7 @@
                                 @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
 
                                 @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
-                                    { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+                { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
 
 
                             </div>
@@ -640,14 +656,14 @@
                         </div>
 
                         @*<div class="col-md-3">
-                                <div class="form-label">
-                                    <strong>Realese Percentage Amount</strong>
-                                    @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
-                                </div>
-                            </div>*@
+            <div class="form-label">
+                <strong>Realese Percentage Amount</strong>
+                @Html.TextBoxFor(x => x.Releaseperamount, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Releaseperamount" })
+            </div>
+        </div>*@
 
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-md-4">
                                 <div class="form-label">
                                     <strong>Photo Graph Upload<sup><code>*</code></sup></strong>
@@ -657,13 +673,13 @@
 
                             <div class="col-md-4">
                                 <div class="form-label">
-                                    <strong>Attachment<sup><code>*</code></sup></strong>
+                                    <strong>Attachment<sup><code>*</code></sup></strong>-->
                                     @*@Html.DropDownListFor(x => x.ProjectPreparationID, null, "Select Project", new
-                                        { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
+                    { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })*@
 
                                     @*@Html.DropDownListFor(model => model.ProjectPreparationID, new SelectListItem[] { new SelectListItem { Text = "select", Value = "0" } }, new { @id = "ProjectPreparationID", @class = "form-control form-control-sm multiple-deps-ddl", @readonly = "readonly" })*@
 
-                                    <input type="file" class="form-control" id="Attachmentfile1" />
+                                    <!--<input type="file" class="form-control" id="Attachmentfile1" />
 
                                 </div>
 
@@ -671,7 +687,7 @@
 
                             </div>
 
-                        </div>
+                        </div>-->
 
 
 
@@ -681,18 +697,18 @@
 
 
 
-                        <div class="col-md-1">
+                        @*<div class="col-md-1">
                             <div class="form-label">
                                 <strong>&nbsp;</strong>
                                 <input type="button" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.InstallmentName)?"Save":"Update")" class="btn btn-primary" onclick="Updatedata()" />
                             </div>
-                        </div>
+                        </div>*@
 
 
                         <input type="hidden" id="releaseamount" />
 
 
-                        <div class="col-md-1">
+                        @*<div class="col-md-1">
                             <div class="form-label">
                                 <strong>&nbsp;</strong>
                                 @if (String.IsNullOrEmpty(Model.InstallmentName))
@@ -704,7 +720,7 @@
 
                                 }
                             </div>
-                        </div>
+                        </div>*@
 
 
                     </div>
@@ -1073,24 +1089,43 @@ window.location.href ="/Inspection/ViewInspectionProject?SectorTypeId="+SectorTy
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-
+                    debugger;
+                    console.log('---------data----------',data)
                     $("#datatable2 tbody").empty();
                     var i = 1;
                     $.each(data, function (key, value) {
 
-                        if (value.InspectionAnswer == "Yes") {
+                        if (value.InstallentId==1) {
+                            if (value.InspectionAnswer == "Yes") {
 
-                            $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='" + value.InspectionAnswer + "' checked='checked' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
+                                $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='" + value.InspectionAnswer + "' checked='checked' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
 
 
+                            }
+
+
+                            else {
+
+                                $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No' checked='checked'  name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
+
+
+                            }
                         }
-
-
                         else {
+                            if (value.InspectionAnswer == "Yes") {
 
-                            $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No' checked='checked'  name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
+                                $('#datatable3 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='" + value.InspectionAnswer + "' checked='checked' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
 
 
+                            }
+
+
+                            else {
+
+                                $('#datatable3 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No' checked='checked'  name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
+
+
+                            }
                         }
                       
                         i = i + 1;
@@ -1383,7 +1418,7 @@ window.location.href ="/Inspection/ViewInspectionProject?SectorTypeId="+SectorTy
                         else {
 
                             alert("Record Not saved successfully");
-                            window.location.href = '/Inpection/ViewInspectionProject'
+                            window.location.href = '/Inspection/ViewInspectionProject'
 
 
                         }

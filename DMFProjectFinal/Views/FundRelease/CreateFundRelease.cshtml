@@ -26,99 +26,76 @@
     <div class="card-body">
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundReleaseID) ? "CreateFundRelease" : "EditReleasedFund"), "FundRelease", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
-        <div class="row">
-            @Html.HiddenFor(x => x.FundReleaseID)
-            @Html.HiddenFor(x => x.DistrictID)
+            <div class="row">
+                @Html.HiddenFor(x => x.FundReleaseID)
+                @Html.HiddenFor(x => x.DistrictID)
 
-            <div class="col-md-4">
-                <div class="form-label">
-                    <strong>Select Project<sup><code>*</code></sup></strong>
-                    @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Select Project<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                    </div>
+
                 </div>
 
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Select Installment<sup><code>*</code></sup></strong>
+                        @if (String.IsNullOrEmpty(Model.FundReleaseID))
+                        {
+
+                            @Html.DropDownListFor(x => x.InstallmentID,Enumerable.Empty<SelectListItem>(), "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                        }
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Release Amount<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    </div>
+                </div>
+
+                @*<div id="details" style="display:none;background-color:lightgray;font-size:12px">
+                    <span id="ProjectName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="SectorName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="SectorType"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="SenctionedProjectCost"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="milestonePercentage"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="ProposedBy"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="ProposalNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="ReleaseAmount"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span id="InstallmentName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </div><br />*@
+
             </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Release Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.RelaeseDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                    </div>
+                </div>
 
-            <div class="col-md-4">
-                <div class="form-label">
-                    <strong>Select Installment<sup><code>*</code></sup></strong>
-                    @if (String.IsNullOrEmpty(Model.FundReleaseID))
-                    {
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>
+                            Attached Copy<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.FundReleaseCopy))
+                            {
+                                <a href="@Model.FundReleaseCopy" target="_blank">View Doc</a>
+                                <input type="hidden" value="prev" id="FundReleaseCopy" name="FundReleaseCopy" />
+                            }
+                        </strong>
 
-                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                    }
-                    else
-                    {
-                        @Html.DropDownListFor(x => x.InstallmentID, ViewBag.InstallmentID as SelectList, Model.InstallmentName, new { @class = "form-control form-control-sm", @autocomplete = "off" })
-
-                    }
+                        @Html.TextBoxFor(x => x.FundReleaseCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "FundReleaseCopy" })
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-label">
-                    <strong>Release Amount<sup><code>*</code></sup></strong>
-                    @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
-                </div>
-            </div>
-            <div class="row" style="display:none" id="MileStoneTable">
-                <div class="col-md-12">
-                    <table class="table table-bordered table-striped">
-                        <tr>
-                            <th>District Name</th>
-                            <th>Project Name</th>
-                            <th>Approved Amt</th>
-                            <th>MileStone Values</th>
-                            <th>Milestone (%)</th>
-                            <th>Milestone AMT</th>
-                            <th>Installment</th>
-                            <th>Fund Released</th>
-                            <th>Physical Progress</th>
-                            <th>Utilization Uploaded</th>
-                            <th>Inspection Done</th>
-
-                        </tr>
-                        <tbody id="MIlestone">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-
-
-            @*<div id="details" style="display:none;background-color:lightgray;font-size:12px">
-            <span id="ProjectName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="SectorName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="SectorType"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="SenctionedProjectCost"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="milestonePercentage"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="ProposedBy"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="ProposalNo"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="ReleaseAmount"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="InstallmentName"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-        </div><br />*@
-
-        </div><div class="row">
-    <div class="col-md-4">
-        <div class="form-label">
-            <strong>Release Date<sup><code>*</code></sup></strong>
-            @Html.TextBoxFor(x => x.RelaeseDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="form-label">
-            <strong>
-                Attached Copy<sup><code>*</code></sup>
-                @if (!String.IsNullOrEmpty(Model.FundReleaseCopy))
-                {
-                    <a href="@Model.FundReleaseCopy" target="_blank">View Doc</a>
-                    <input type="hidden" value="prev" id="FundReleaseCopy" name="FundReleaseCopy" />
-                }
-            </strong>
-
-            @Html.TextBoxFor(x => x.FundReleaseCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "FundReleaseCopy" })
-        </div>
-    </div>
-</div>
 
             <div class="row">
                 <div class="col-md-1">
@@ -141,6 +118,29 @@
 
                         }
                     </div>
+                </div>
+            </div>
+            <div class="row" style="display:none" id="MileStoneTable">
+                <div class="col-md-12">
+                <h6 style="text-align:center">Project Milestone</h6>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Project Name</th>
+                            <th>Approved Amt</th>
+                            <th>MileStone Values</th>
+                            <th>Milestone (%)</th>
+                            <th>Milestone AMT</th>
+                            <th>Installment</th>
+                            <th>Fund Released</th>
+                            <th>Physical Progress</th>
+                            <th>Utilization Uploaded</th>
+                            <th>Inspection Done</th>
+
+                        </tr>
+                        <tbody id="MIlestone">
+                        </tbody>
+                    </table>
                 </div>
             </div>
             @*if (!String.IsNullOrEmpty(Model.FundReleaseID))

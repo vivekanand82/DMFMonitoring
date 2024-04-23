@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace DMFProjectFinal.Controllers
 {
@@ -15,7 +16,7 @@ namespace DMFProjectFinal.Controllers
     public class DistrictManagementController : Controller
     {
         // GET: DistrictManagement
-     
+
         private dfm_dbEntities db = new dfm_dbEntities();
         public ActionResult Index()
         {
@@ -104,15 +105,15 @@ namespace DMFProjectFinal.Controllers
                                TenderNo = ppp.TenderNo,
                                WorkOrderDate = ppp.WorkOrderDate,
                                WorkOrderNo = ppp.WorkOrderNo,
-                               Status=ppp.RunningStatus,
-                               ProjectNo=ppp.ProjectNo
-                               
-                               
+                               Status = ppp.RunningStatus,
+                               ProjectNo = ppp.ProjectNo
+
+
 
                            }).ToList();
             ViewBag.LstData = LstData;
 
-            ViewBag.CommitteeID = new SelectList(db.CommitteeMasters.Where(x => x.IsActive == true && x.CommitteeTypeID==1 && x.DistID == (DistID == null ? x.DistID : DistID)), "CommitteeID", "CommitteeName", null);
+            ViewBag.CommitteeID = new SelectList(db.CommitteeMasters.Where(x => x.IsActive == true && x.CommitteeTypeID == 1 && x.DistID == (DistID == null ? x.DistID : DistID)), "CommitteeID", "CommitteeName", null);
 
 
 
@@ -120,8 +121,8 @@ namespace DMFProjectFinal.Controllers
         }
 
         [HttpPost]
-       
-        public ActionResult ViewProjectProposalPrepration(DTO_ProjectProposalPrepration model, HttpPostedFileBase MinutesofMeetingfile, HttpPostedFileBase Memberattendancefile,  HttpPostedFileBase Approvelletterfile, List<string> CommitteeID, string Status )
+
+        public ActionResult ViewProjectProposalPrepration(DTO_ProjectProposalPrepration model, HttpPostedFileBase MinutesofMeetingfile, HttpPostedFileBase Memberattendancefile, HttpPostedFileBase Approvelletterfile, List<string> CommitteeID, string Status)
         {
             JsonResponse JR = new JsonResponse();
             //if (!ModelState.IsValid)
@@ -137,7 +138,7 @@ namespace DMFProjectFinal.Controllers
             var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
 
             Info.Stageid = 1;
-            Info.RunningStatus =Status;
+            Info.RunningStatus = Status;
             Info.ModifyDate = DateTime.Now;
             Info.CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID;
 
@@ -155,7 +156,7 @@ namespace DMFProjectFinal.Controllers
 
             //{
 
-                
+
             //    Minutesfile = Path.GetFileName(MinutesofMeetingfile.FileName);
             //    file1 = Minutesfile + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             //    var path = Path.Combine(Server.MapPath("~/Documents"), file1);
@@ -235,9 +236,9 @@ namespace DMFProjectFinal.Controllers
 
             string memberlist = "";
 
-            foreach(string s in CommitteeID)
-            { 
-                if(s!=null)
+            foreach (string s in CommitteeID)
+            {
+                if (s != null)
                 {
                     memberlist += s + ",";
 
@@ -254,16 +255,16 @@ namespace DMFProjectFinal.Controllers
             abc.MinutesofMeetingfile = model.MinutesofMeetingfile;
             abc.Memberattendancefile = model.Memberattendancefile;
             abc.Approvelletterfile = model.Approvelletterfile;
-           
+
             abc.Attendancedate = model.Attendancedate;
             abc.Stageid = 1;
             abc.Memberlist = memberlist;
-            abc.Status =Status;
+            abc.Status = Status;
             abc.CreatedBy = 1;
             abc.Createddate = DateTime.Now;
             abc.DistID = Info.DistID;
             abc.Remark = model.Remark;
-           
+
             db.ProjectMettings.Add(abc);
 
             int res = db.SaveChanges();
@@ -295,31 +296,42 @@ namespace DMFProjectFinal.Controllers
         }
 
 
-        public JsonResult insertmeetingdata(DTO_ProjectProposalPrepration model, List<string> CommitteeID)
+        public JsonResult insertmeetingdata(DTO_ProjectProposalPrepration model,
+  string lis)
         {
+
             JsonResponse JR = new JsonResponse();
             ProjectMetting abc = new ProjectMetting();
-            long _id = long.Parse(model.ProjectPreparationID);
-            var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
+            JavaScriptSerializer js = new JavaScriptSerializer();
 
+
+            List<DTO_ProjectProposalPrepration> list = js.Deserialize<List<DTO_ProjectProposalPrepration>>(lis);
             string memberlist = "";
-
-            foreach (string s in CommitteeID)
+            foreach (var item in list)
             {
-                if (s !="")
-                {
-                    memberlist += s + ",";
+                //if (s !="")
+                //{
+                //    memberlist += s + ",";
 
 
-                }
-
+                //}
+                memberlist += item.Memberlist + ",";
 
             }
 
 
 
+            long _id = long.Parse(model.ProjectPreparationID);
+            var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
+
+
+
+
+
+
+
             Info.Stageid = 1;
-            Info.RunningStatus =model.Status;
+            Info.RunningStatus = model.Status;
             Info.ModifyDate = DateTime.Now;
             Info.CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID;
 
@@ -344,7 +356,7 @@ namespace DMFProjectFinal.Controllers
 
             db.ProjectMettings.Add(abc);
 
-            int res =db.SaveChanges();
+            int res = db.SaveChanges();
             if (res > 0)
             {
                 //Response.Write("<script>alert('Data saved successfully');window.location.href='/ProjectWorkApproval/ProjectProposalPrepration'</script>");
@@ -373,7 +385,7 @@ namespace DMFProjectFinal.Controllers
             {
                 ProjectMetting objP = new ProjectMetting();
 
-                objP = db.ProjectMettings.Where(x => x.ProjectPreparationID== ProjectPreparationID).FirstOrDefault();
+                objP = db.ProjectMettings.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                 var info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
                 HttpPostedFileBase mainPic = Request.Files[0];
                 string fileExt = Path.GetExtension(mainPic.FileName);
@@ -387,7 +399,7 @@ namespace DMFProjectFinal.Controllers
                 mainPic.SaveAs(path);
 
 
-                objP.MinutesofMeetingfile = "/Documents/" + fName; 
+                objP.MinutesofMeetingfile = "/Documents/" + fName;
                 db.SaveChanges();
 
 
@@ -454,7 +466,7 @@ namespace DMFProjectFinal.Controllers
                 mainPic.SaveAs(path);
 
 
-                objP.Memberattendancefile ="/Documents/" + fName; 
+                objP.Memberattendancefile = "/Documents/" + fName;
                 db.SaveChanges();
 
 
@@ -524,7 +536,7 @@ namespace DMFProjectFinal.Controllers
                 mainPic.SaveAs(path);
 
 
-                objP.Approvelletterfile = "/Documents/" + fName; 
+                objP.Approvelletterfile = "/Documents/" + fName;
                 db.SaveChanges();
 
 
@@ -593,8 +605,8 @@ namespace DMFProjectFinal.Controllers
                            join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
-                            //join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
-                           where 
+                           //join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
+                           where
 
                             ppp.ProjectPreparationID == ProjectId
 
@@ -617,21 +629,21 @@ namespace DMFProjectFinal.Controllers
                                TenderNo = ppp.TenderNo,
                                WorkOrderDate = ppp.WorkOrderDate,
                                WorkOrderNo = ppp.WorkOrderNo,
-                               TehsilName=tm.TehsilName,
-                               VillageNameInHindi=vm.VillageNameInHindi,
-                               BlockName=bm.BlockName,
-                               WorkOrderCopy=ppp.WorkOrderCopy,
-                              
-                               SectorType =stm.SectorType,
-                               ProjectDescription=ppp.ProjectDescription,
-                               WorkLatitude=ppp.WorkLatitude,
-                               WorkLongitude=ppp.WorkLongitude,
+                               TehsilName = tm.TehsilName,
+                               VillageNameInHindi = vm.VillageNameInHindi,
+                               BlockName = bm.BlockName,
+                               WorkOrderCopy = ppp.WorkOrderCopy,
+
+                               SectorType = stm.SectorType,
+                               ProjectDescription = ppp.ProjectDescription,
+                               WorkLatitude = ppp.WorkLatitude,
+                               WorkLongitude = ppp.WorkLongitude,
 
 
 
 
                            }).ToList();
-            
+
             //demo
 
 

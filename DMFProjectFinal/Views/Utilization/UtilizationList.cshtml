@@ -52,12 +52,12 @@
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
-            <div class="col-md-6 text-right mb-1">
-                    @if (AM.CanInsert)
-                    {
-                        <a class="btn btn-primary btn-round" href="@Url.Action("CreateUtilization", "Utilization")" id="">Create<i class="fa fa-plus-circle"></i></a>
-                    }
-                </div>
+            @*<div class="col-md-6 text-right mb-1">
+                @if (AM.CanInsert)
+                {
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateUtilization", "Utilization")" id="">Create<i class="fa fa-plus-circle"></i></a>
+                }
+            </div>*@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
@@ -136,58 +136,168 @@
                                                 {
                                                     <th>Action</th>
                                                 }
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (DTO_UtilizationMaster item in ViewBag.LstData)
                                             {
                                                 j++;
-                                                <tr>
-                                                    <td>@j</td>
-                                                    <td>@item.DistrictName</td>
-                                                    <td>@item.SectorName</td>
-                                                    <td>@item.SectorType</td>
-                                                    <td>@item.ProjectName</td>
-                                                    @*@if (String.IsNullOrEmpty(item.UtilizationCopy))
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.SectorName</td>
+                                                <td>@item.SectorType</td>
+                                                <td>@item.ProjectName</td>
+                                                @*@if (String.IsNullOrEmpty(item.UtilizationCopy))
+        {
+            <td></td>
+        }
+        else
+        {
+            <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+        }*@
+                                                @*<td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>*@
+
+
+
+                                                @*<td>@item.SanctionedProjectCost</td>*@
+                                                @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
+                                                @if (AM.CanInsert || AM.CanView)
+                                                {
+                                                    <th>
+                                                        @if (AM.CanView)
                                                         {
-                                                            <td></td>
+                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                            if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
+                                                            {
+                                                                <a href="/Utilization/CreateUtilization?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Upload UC</a>
+                                                            }
+                                                            @*else
+                    {
+                        <a href="#" class="btn btn-small btn-info">InProcess</a>
+
+                    }*@
+                                                            @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
+
                                                         }
-                                                        else
-                                                        {
-                                                            <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                        }*@
-                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>*@
+                                                        @*@if (AM.CanInsert)
+                {
+                    <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
-
-
-                                                    @*<td>@item.SanctionedProjectCost</td>*@
-                                                    @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
-                                                    @if (AM.CanInsert || AM.CanView)
-                                                    {
+                }*@
+                                                    </th>
+                                                }
                                                 <th>
-                                                    @if (AM.CanView)
+                                                    @if (item.MileStoneStatus == 1)
                                                     {
-                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                        if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
+                                                        if (item.IsInspectionDone == true)
                                                         {
-                                                            <a href="/Utilization/CreateUtilization?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Upload UC</a>
+                                                            @*<a href="#" class="btn btn-small btn-info"></a>*@
+                                                            <span class="text-success">1st Installment  (Finished)</span>
+
                                                         }
                                                         else
                                                         {
-                                                            <a href="#" class="btn btn-small btn-info">InProcess</a>
+                                                            <span class="text-primary">1st Installment  (InProcess)</span>
 
                                                         }
-                                                        @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
-
+                                                        @*<span style="background-color:lightcyan;padding:3px;border-radius:10px;font-size:12px" class="text-success">1st Installment</span>*@
                                                     }
-                                                    @*@if (AM.CanInsert)
+                                                    else if (item.MileStoneStatus == 2)
+                                                    {
+                                                        @*<span class="text-danger">InProcess</span>
+                href="#" class="btn btn-small btn-info">2nd Installment</a>*@
+                                                        if (item.IsInspectionDone == true)
                                                         {
-                                                            <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                            <span class="text-success">2nd Installment  (Finished)</span>
 
-                                                        }*@
-                                                </th>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">2nd Installment  (InProcess)</span>
+
+                                                        }
                                                     }
-                                                </tr>
+                                                    else if (item.MileStoneStatus == 3)
+                                                    {
+                                                        @*<span class="text-danger">InProcess</span>
+                <a href="#" class="btn btn-small btn-info">3rd Installment</a>*@
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">3rd Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">3rd Installment  (InProcess)</span>
+
+                                                        }
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 4)
+                                                    {
+                                                        @*<span class="text-danger">InProcess</span>
+                <a href="#" class="btn btn-small btn-info">4th Installment</a>*@
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">4th Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">4th Installment  (InProcess)</span>
+
+                                                        }
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 5)
+                                                    {
+                                                        @*<span class="text-danger">InProcess</span>
+                <a href="#" class="btn btn-small btn-info">5th Installment</a>*@
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">5th Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">5th Installment  (InProcess)</span>
+
+                                                        }
+
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 6)
+                                                    {
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">6th Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">6th Installment  (InProcess)</span>
+
+                                                        }
+
+                                                        @*<span class="text-danger">InProcess</span>
+
+                <a href="#" class="btn btn-small btn-info">6th Installment</a>*@
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 0)
+                                                    {
+                                                        <span class="text-success">1st Installment  (Not Released)</span>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" class="btn btn-small btn-info"></a>
+
+                                                    }
+                                                </th>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -265,8 +375,7 @@
                         $("#UtilizationDetails").html(html);
                         $("#exampleModal").show();
                     }
-                    else
-                    {
+                    else {
                         $("#UtilizationDetails").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
                         $("#exampleModal").show();
                     }

@@ -339,6 +339,9 @@ namespace DMFProjectFinal.Controllers
 
                         }
             ).Distinct().ToList();
+
+            list = list.OrderByDescending(x => x.InstallentId).ToList();
+
             return Json(list, JsonRequestBehavior.AllowGet);
 
 
@@ -380,11 +383,11 @@ namespace DMFProjectFinal.Controllers
 
                 }
 
-                MileStoneMaster m = db.MileStoneMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
-                m.IsInspectionDone = true;
-                m.ModifiedDate = DateTime.Now;
+                //MileStoneMaster m = db.MileStoneMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                //m.IsInspectionDone = true;
+                //m.ModifiedDate = DateTime.Now;
 
-                var updateFlag = db.FundReleases.Where(x => x.DistrictID == model.Districtid && x.ProjectNo == model.ProjectNo && x.IsInspectionDone == null).FirstOrDefault();
+                var updateFlag = db.FundReleases.Where(x => x.DistrictID == Districtid && x.ProjectNo == model.ProjectNo && x.IsInspectionDone == null).FirstOrDefault();
                 UtilizationMaster ab = db.UtilizationMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID).OrderByDescending(x => x.UtilizationID).FirstOrDefault();
                 string phyicalflag = ab.Phyicalintsallmentflag;
                 ab.inspectionflag = Convert.ToInt32(phyicalflag);
@@ -393,9 +396,8 @@ namespace DMFProjectFinal.Controllers
 
                 if (res > 0)
                 {
-
-                    var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.Districtid && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
-                    var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.Districtid && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
+                    var milestone = db.MileStoneMasters.Where(x => x.DistrictID ==Districtid && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
+                    var fundupdt = db.FundReleases.Where(x => x.DistrictID == Districtid && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
                     if (milestone != null)
                     {
                         //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
@@ -410,7 +412,19 @@ namespace DMFProjectFinal.Controllers
                         db.Entry(fundupdt).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
                     }
-
+                    //#region Ramdhyan----code for final status update
+                    //var milestonecount = db.MileStoneMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID).Count();
+                    //if (milestone.InstallmentID == milestonecount)
+                    //{
+                    //    var updtfinalstatus = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault();
+                    //    updtfinalstatus.FinalStatus = "Completed";
+                    //    updtfinalstatus.Stageid = 3;
+                    //    updtfinalstatus.RunningStatus = "Closed";
+                    //    updtfinalstatus.ModifyDate = DateTime.Now;
+                    //    db.Entry(updtfinalstatus).State = System.Data.Entity.EntityState.Modified;
+                    //    db.SaveChanges();
+                    //}
+                    //#endregion
                     JR.IsSuccess = true;
                     JR.Message = "1";
                     //JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";

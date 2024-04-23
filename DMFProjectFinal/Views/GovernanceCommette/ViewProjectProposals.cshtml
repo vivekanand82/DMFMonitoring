@@ -43,8 +43,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
             <div class="modal-body">
-                <h5>Managemnet Commetee Approval  Details :-</h5>
                 <div class="col-xxl-12">
+                <h6>Management Commetee Meeting  Details :-</h6>
                     <table class="table table-bordered">
                         <tr>
                             <th>Metting No</th>
@@ -62,7 +62,7 @@
                         <tbody id="meetinginfo"></tbody>
                     </table>
                 </div>
-                <h5>Fill Meeting info And Approve/Reject</h5>
+                <h6>Fill Meeting Info and Proceed:-</h6>
                 <div class="col-xxl-12 " style="border:1px solid lightgray;">
                     @using (Html.BeginForm("SaveMeetingInfo", "GovernanceCommette", new { }, FormMethod.Post, new { @role = "form", @id = "ForwardForm", enctype = "multipart/form-data" }))
                     {
@@ -668,11 +668,11 @@
                     var MettingDateformat = new Date(parseInt(data.MettingDate.substr(6)));
                     var Attendancedateformat = new Date(parseInt(data.Attendancedate.substr(6)));
 
-                    var html = "<tr><td>" + data.MeetingNo + "</td><td>" + MettingDateformat.toLocaleDateString("es-CL") + "</td><td>" + data.MinutesofMeeting + "</td><td><a id='MinutesofMeetingfile'>View Doc</a></td><td><a id='Memberattendancefile'>View Doc</a></td><td><a id='Approvelletterfile'>View Doc</a></td><td>" + data.Memberlist + "</td><td>" + data.Status + "</td><td>" + Attendancedateformat.toLocaleDateString("es-CL") + "</td><td>" + data.Remark + "</td></tr>";
+                    var html = "<tr><td>" + data.MeetingNo + "</td><td>" + MettingDateformat.toLocaleDateString("es-CL") + "</td><td>" + data.MinutesofMeeting + "</td><td><a id='MinutesofMeetingfile1'>View Doc</a></td><td><a id='Memberattendancefile1'>View Doc</a></td><td><a id='Approvelletterfile1'>View Doc</a></td><td>" + data.Memberlist + "</td><td>" + data.Status + "</td><td>" + Attendancedateformat.toLocaleDateString("es-CL") + "</td><td>" + data.Remark + "</td></tr>";
                     $("#meetinginfo").html(html);
-                    $("#MinutesofMeetingfile").attr({ "href": data.MinutesofMeetingfile, "target": "_blank" });
-                    $("#Memberattendancefile").attr({ "href": data.Memberattendancefile, "target": "_blank" });
-                    $("#Approvelletterfile").attr({ "href": data.Memberattendancefile, "target": "_blank" });
+                    $("#MinutesofMeetingfile1").attr({ "href": data.MinutesofMeetingfile, "target": "_blank" });
+                    $("#Memberattendancefile1").attr({ "href": data.Memberattendancefile, "target": "_blank" });
+                    $("#Approvelletterfile1").attr({ "href": data.Approvelletterfile, "target": "_blank" });
                 }
             })
 

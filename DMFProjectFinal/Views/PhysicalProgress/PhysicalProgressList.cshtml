@@ -29,7 +29,7 @@
                         <th>Spent Amount</th>
                         <th>Ph Progress Copy</th>
                         @*<th>Utilization Uploaded</th>
-                        <th>Inspection Done</th>*@
+                            <th>Inspection Done</th>*@
                         @*<th>Installment</th>*@
                         <th>Remark</th>
                         @*<th>Action</th>*@
@@ -53,12 +53,12 @@
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
-            <div class="col-md-6 text-right mb-1">
-                @if (AM.CanInsert)
-                {
-                    <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
-                }
-            </div>
+            @*<div class="col-md-6 text-right mb-1">
+                    @if (AM.CanInsert)
+                    {
+                        <a class="btn btn-primary btn-round" href="@Url.Action("CreatePhysicalProgress", "PhysicalProgress")" id="">Create<i class="fa fa-plus-circle"></i></a>
+                    }
+                </div>*@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
@@ -138,6 +138,7 @@
                                                 {
                                                     <th>Action</th>
                                                 }
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -170,14 +171,123 @@
                                                         {
 
                                                             <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="PhysicalProgressdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            if (item.IsFundReleased == true && item.IsPhProgressDone == null )
+                                                            if (item.IsFundReleased == true && item.IsPhProgressDone == null)
                                                             {
-                                                                <a href="/PhysicalProgress/CreatePhysicalProgress?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Update Pysical Progress</a> 
-                                                             }
-                                                            else
-                                                           {
+                                                                <a href="/PhysicalProgress/CreatePhysicalProgress?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Update Pysical Progress</a>
+                                                            }
+                                                            @*else
+                                                                {
                                                                     <a href="#" class="btn btn-small btn-info">InProcess</a>
-                                                           }
+                                                                }*@
+                                                        }
+                                                    </th>
+                                                    <th>
+                                                        @if (item.MileStoneStatus == 1)
+                                                        {
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                @*<a href="#" class="btn btn-small btn-info"></a>*@
+                                                                <span class="text-success">1st Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">1st Installment  (InProcess)</span>
+
+                                                            }
+                                                            @*<span style="background-color:lightcyan;padding:3px;border-radius:10px;font-size:12px" class="text-success">1st Installment</span>*@
+                                                        }
+                                                        else if (item.MileStoneStatus == 2)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+                                                                href="#" class="btn btn-small btn-info">2nd Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">2nd Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">2nd Installment  (InProcess)</span>
+
+                                                            }
+                                                        }
+                                                        else if (item.MileStoneStatus == 3)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+                                                                <a href="#" class="btn btn-small btn-info">3rd Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">3rd Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">3rd Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 4)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+                                                                <a href="#" class="btn btn-small btn-info">4th Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">4th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">4th Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 5)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+                                                                <a href="#" class="btn btn-small btn-info">5th Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">5th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">5th Installment  (InProcess)</span>
+
+                                                            }
+
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 6)
+                                                        {
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">6th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">6th Installment  (InProcess)</span>
+
+                                                            }
+
+                                                            @*<span class="text-danger">InProcess</span>
+
+                                                                <a href="#" class="btn btn-small btn-info">6th Installment</a>*@
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 0)
+                                                        {
+                                                            <span class="text-success">1st Installment  (Not Released)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-info"></a>
+
                                                         }
                                                     </th>
                                                 </tr>

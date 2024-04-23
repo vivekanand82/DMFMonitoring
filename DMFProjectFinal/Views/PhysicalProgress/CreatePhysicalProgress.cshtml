@@ -51,7 +51,7 @@
                 <div class="col-md-3">
                     <div class="form-label">
                         <strong>Physical Progress(%)<sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.PhysicalPInPer, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        @Html.TextBoxFor(x => x.PhysicalPInPer, new { @class = "form-control form-control-sm", @autocomplete = "off",@type="number" })
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -68,29 +68,9 @@
                         @Html.TextBoxFor(x => x.PhysicalProgressCopy, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "PhysicalProgressCopy" })
                     </div>
                 </div>
-                <div class="row" style="display:none" id="MileStoneTable">
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-striped">
-                            <tr>
-                                <th>District Name</th>
-                                <th>Project Name</th>
-                                <th>Approved Amt</th>
-                                <th>MileStone Values</th>
-                                <th>Milestone (%)</th>
-                                <th>Milestone AMT</th>
-                                <th>Installment</th>
-                                <th>Fund Released</th>
-                                <th>Physical Progress</th>
-                                <th>Utilization Uploaded</th>
-                                <th>Inspection Done</th>
-
-                            </tr>
-                            <tbody id="MIlestone">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div><div class="row">
+                
+            </div>
+        <div class="row">
 
 
                 <div class="col-md-3">
@@ -164,7 +144,29 @@
         }
     </div>
 </div>
+<div class="row" style="display:none" id="MileStoneTable">
+    <div class="col-md-12">
+        <h6 style="text-align:center">Project Milestone</h6>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>District Name</th>
+                <th>Project Name</th>
+                <th>Approved Amt</th>
+                <th>MileStone Values</th>
+                <th>Milestone (%)</th>
+                <th>Milestone AMT</th>
+                <th>Installment</th>
+                <th>Fund Released</th>
+                <th>Physical Progress</th>
+                <th>Utilization Uploaded</th>
+                <th>Inspection Done</th>
 
+            </tr>
+            <tbody id="MIlestone">
+            </tbody>
+        </table>
+    </div>
+</div>
 <script>
     function GetMilestone() {
                 var DistrictID = $("#DistrictID").val();

@@ -943,6 +943,7 @@
             $('#CommitteeID :selected').each(function () {
 
 
+
                 if ($(this).val() == "0") {
 
 
@@ -954,7 +955,7 @@
 
                     item = {}
 
-                    item["commitid"] = commitid
+                    item["Memberlist"] = commitid
 
 
 
@@ -968,7 +969,7 @@
                 MeetingNo: $("#MeetingNo").val(),
                 MettingDate: $("#MettingDate").val(),
                 MinutesofMeeting: $("#MinutesofMeeting").val(),
-                CommitteeID: program_array,
+                lis: JSON.stringify(program_array),
                 Status: $("#Status").val(),
                 Attendancedate: $("#Attendancedate").val(),
                 Remark: $("#Remark").val(),

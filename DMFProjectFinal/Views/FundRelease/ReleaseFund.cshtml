@@ -52,11 +52,11 @@
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
-            <div class="col-md-6 text-right mb-1">
+            @*<div class="col-md-6 text-right mb-1">
                 @if (AM.CanInsert)
                 {
-    <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>}
-            </div>
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>}
+            </div>*@
 
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
@@ -86,10 +86,10 @@
                                         <strong>District Name</strong>
                                         @if (AM.RoleID == 2)
                                         {
-                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, new { @class = "form-control", @id = "DistrictName", disabled = "disabled" }) }
-                        else
-                        {
-            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, "Choose", new { @class = "form-control", @id = "DistrictName", @onchange = "BindProjects()" })}
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, new { @class = "form-control", @id = "DistrictName", disabled = "disabled" }) }
+                                        else
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, "Choose", new { @class = "form-control", @id = "DistrictName", @onchange = "BindProjects()" })}
                                     </div>
 
                                 </div>
@@ -112,107 +112,222 @@
                         </form>
                         @if (AM.CanView)
                         {
-            <div class="table-responsive mt-20">
-                @if (ViewBag.LstData != null)
-                {
-<table class="table center-aligned-table" id="tblFundData" style="width:100%">
-    <thead class="table-dark">
-        <tr class="text-dark">
-            <th>क्र०सं०</th>
-            <th>District</th>
-            <th>Sector Type</th>
-            <th>Sector Name</th>
-            <th>Project Name</th>
-            @*<th>Release Date</th>
-                <th>FundRelease Copy</th>*@
-            <th>Sanctioned Amount</th>
-            @*<th>Release Amount</th>
-                <th>balance Amount</th>*@
-            @*<th>Installment name</th>*@
-            @*<th>View Details</th>*@
-            @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
-            {
-<th>Action</th>
-}
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (DTO_FundRelease item in ViewBag.LstData)
-        {
-            //decimal? balanceAmt = 0.0M;
-            //if (j == 1)
-            //{
-            //    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount + item.ReleaseAmount);
-
-            //}
-            //else if(j ==2)
-            //{
-            //    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount+ ViewBag.LstData[j - 2].ReleaseAmount + item.ReleaseAmount);
-
-            //}
-            //else if (j==3)
-            //{
-            //    balanceAmt = 0.0M;
-            //}
-            //else
-            //{
-            //    balanceAmt = item.SanctionedProjectCost - item.ReleaseAmount;
-            //}
-            j++;
-<tr>
-    <td>@j</td>
-    <td>@item.DistrictName</td>
-    <td>@item.SectorType</td>
-    <td>@item.SectorName</td>
-    <td>@item.ProjectName</td>
-    @*<td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>*@
-
-    @*@if (String.IsNullOrEmpty(item.FundReleaseCopy))
-        {
-            <td></td>
-        }
-        else
-        {
-            <td><a href="@item.FundReleaseCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-        }*@
-    <td>@item.SanctionedProjectCost</td>
-
-    @*<td style="color:green;font-weight:bold">@item.ReleaseAmount</td>*@
-
-    @*<td>@balanceAmt</td>*@
-    @*<td>@item.InstallmentName</td>*@
-    <th>
-        @if (AM.CanInsert || AM.CanView)
-        {
-
-                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a> var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
-                if (item.IsFundReleased == null && item.IsPhProgressDone == null && item.IsUtilizationUploaded == null && item.IsInspectionDone == null)
-                {
-                <a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-primary">Release First Installment</a>
-                        }
-                else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true)
-                {
-                <a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Release Next Installment</a> 
-                        } @*else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true)
-                    {
-                    <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a> }*@ 
-                        else
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblFundData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>District</th>
+                                                <th>Sector Type</th>
+                                                <th>Sector Name</th>
+                                                <th>Project Name</th>
+                                                @*<th>Release Date</th>
+                                                    <th>FundRelease Copy</th>*@
+                                                <th>Sanctioned Amount</th>
+                                                @*<th>Release Amount</th>
+                                                    <th>balance Amount</th>*@
+                                                @*<th>Installment name</th>*@
+                                                @*<th>View Details</th>*@
+                                                @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
+                                                {
+                                                    <th>Action</th>
+                                                }
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_FundRelease item in ViewBag.LstData)
                                             {
-                <a href="#" class="btn btn-small btn-info">InProcess</a>
-                }
+                                                var projectfinalstatus = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).Count();
+                                                //decimal? balanceAmt = 0.0M;
+                                                //if (j == 1)
+                                                //{
+                                                //    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount + item.ReleaseAmount);
 
-     }
-                    </th>
-</tr>
-}
-    </tbody>
-</table> }
-else
-{
-<div class="form-group col-md-12  mb-3" style="text-align:center;">
-    <span>No Record Found</span>
-</div>}
-            </div>}
+                                                //}
+                                                //else if(j ==2)
+                                                //{
+                                                //    balanceAmt = item.SanctionedProjectCost - (ViewBag.LstData[j - 1].ReleaseAmount+ ViewBag.LstData[j - 2].ReleaseAmount + item.ReleaseAmount);
+
+                                                //}
+                                                //else if (j==3)
+                                                //{
+                                                //    balanceAmt = 0.0M;
+                                                //}
+                                                //else
+                                                //{
+                                                //    balanceAmt = item.SanctionedProjectCost - item.ReleaseAmount;
+                                                //}
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.SectorType</td>
+                                                    <td>@item.SectorName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.RelaeseDate))</td>*@
+
+                                                    @*@if (String.IsNullOrEmpty(item.FundReleaseCopy))
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><a href="@item.FundReleaseCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                        }*@
+                                                    <td>@item.SanctionedProjectCost</td>
+
+                                                    @*<td style="color:green;font-weight:bold">@item.ReleaseAmount</td>*@
+
+                                                    @*<td>@balanceAmt</td>*@
+                                                    @*<td>@item.InstallmentName</td>*@
+                                                <th>
+                                                    @if (AM.CanInsert || AM.CanView)
+                                                    {
+
+                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a> var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
+                                                        if (item.IsFundReleased == null && item.IsPhProgressDone == null && item.IsUtilizationUploaded == null && item.IsInspectionDone == null)
+                                                        {
+                                                            <a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-primary">Release First Installment</a>
+                                                        }
+                                                        @*else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                            }*@
+                                                        else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true)
+                                                        {
+                                                            <a href="/Fundrelease/CreateFundRelease?ProjectNo=@item.ProjectNo" class="btn btn-small btn-secondary">Release Next Installment</a>
+                                                        }
+                                                        @*else
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-info">InProcess</a>
+                                                        }*@
+
+                                                    }
+                                                    </th>
+                                                    <th>
+
+                                                        @if (item.MileStoneStatus == 1)
+                                                        {
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                @*<a href="#" class="btn btn-small btn-info"></a>*@
+                                                                <span class="text-success">1st Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">1st Installment  (InProcess)</span>
+
+                                                            }
+                                                            @*<span style="background-color:lightcyan;padding:3px;border-radius:10px;font-size:12px" class="text-success">1st Installment</span>*@
+                                                        }
+                                                            @*else if (item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
+                                                            {
+                                                                <a href="#" class="btn btn-small btn-danger">Closed</a>
+
+                                                            }*@
+                                                        else if (item.MileStoneStatus == 2)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+                                                            href="#" class="btn btn-small btn-info">2nd Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">2nd Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">2nd Installment  (InProcess)</span>
+
+                                                            }
+                                                        }
+                                                        else if (item.MileStoneStatus == 3)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+            <a href="#" class="btn btn-small btn-info">3rd Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">3rd Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">3rd Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 4)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+            <a href="#" class="btn btn-small btn-info">4th Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">4th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">4th Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 5)
+                                                        {
+                                                            @*<span class="text-danger">InProcess</span>
+            <a href="#" class="btn btn-small btn-info">5th Installment</a>*@
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">5th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">5th Installment  (InProcess)</span>
+
+                                                            }
+
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 6)
+                                                        {
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">6th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">6th Installment  (InProcess)</span>
+
+                                                            }
+
+                                                            @*<span class="text-danger">InProcess</span>
+
+            <a href="#" class="btn btn-small btn-info">6th Installment</a>*@
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 0)
+                                                        {
+                                                            <span class="text-danger">1st Installment  (Not Released)</span>
+
+                                                        }
+
+                                                    </th>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table> }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>}
+                            </div>}
                     </div>
                 </div>
             </div>

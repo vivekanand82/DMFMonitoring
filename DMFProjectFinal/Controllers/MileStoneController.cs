@@ -129,6 +129,7 @@ namespace DMFProjectFinal.Controllers
                 ax.Instext = model.Instext;
                 ax.FundReleaseID = 1;
                 ax.IsActive = true;
+                ax.MileStoneStatus = 0;
                 db.MileStoneMasters.Add(ax);
                 res = db.SaveChanges();
             }
@@ -190,6 +191,7 @@ namespace DMFProjectFinal.Controllers
                     ax.Instext = item.Instext;
                     ax.FundReleaseID = 1;
                     ax.IsActive = true;
+                    ax.MileStoneStatus = 0;
                     db.MileStoneMasters.Add(ax);
 
 
