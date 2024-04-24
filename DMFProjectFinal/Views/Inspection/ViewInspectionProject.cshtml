@@ -290,7 +290,11 @@
                                             <td>@item.ProsposalNo</td>
 
 
-                                            <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-plus" aria-hidden="true"></i></a></td>
+                                            <td>
+                                                <a href="/Inspection/CreateInspection?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Create Inspection</a>
+
+                                            </td>
+                                            <td>@*<a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-plus" aria-hidden="true"></i></a>*@</td>
 
                                             <td><a onclick="Viewuser(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 

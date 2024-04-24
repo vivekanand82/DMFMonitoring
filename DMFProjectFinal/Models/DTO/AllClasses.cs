@@ -788,8 +788,33 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<bool> IsFundReleased { get; set; }
         public Nullable<int> MileStoneStatus { get; set; }
     }
+    public partial class DTO_InspectionMaster
+    {
+        public string InspectionID { get; set; }
+        public string ProjectNo { get; set; }
+        public Nullable<long> ProjectPreparationID { get; set; }
+        public Nullable<int> DistrictID { get; set; }
+        public Nullable<int> FundReleaseID { get; set; }
+        public Nullable<int> MileStoneID { get; set; }
+        public string InspectionCopy { get; set; }
+        public string InspectionImage1 { get; set; }
+        public string InspectionImage2 { get; set; }
+        public string InspectionImage3 { get; set; }
+        public string InspectionImage4 { get; set; }
+        public Nullable<System.DateTime> InspectionDate { get; set; }
+        public Nullable<int> UtilizationID { get; set; }
+        public Nullable<int> InstallmentID { get; set; }
+        public string Remark { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public string InspectionAnswer { get; set; }
+        public Nullable<int> InspectionQuestionID { get; set; }
+        public string InspectionQuestion { get; set; }
+        public List<DTO_InspectionMaster> lis { get; set; }
+    }
 
 
-
-
-}
+    }

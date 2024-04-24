@@ -210,6 +210,9 @@
     <Compile Include="Models\InspectionCheckListQuestionMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InspectionMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InstallmentMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -682,6 +685,7 @@
     <Content Include="Views\MileStone\Viewprojectapprovel.cshtml" />
     <Content Include="Views\Inspection\ChecklistInspection.cshtml" />
     <Content Include="Views\Inspection\ViewInspectionProject.cshtml" />
+    <Content Include="Views\Inspection\CreateInspection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

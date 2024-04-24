@@ -177,14 +177,16 @@
           <Property Name="InspectionQuestionID" Type="int" />
           <Property Name="InspectionQuestion" Type="nvarchar" MaxLength="300" />
           <Property Name="SectorTypeId" Type="int" />
+          <Property Name="FundReleaseID" Type="int" />
+          <Property Name="InstallmentID" Type="int" />
+          <Property Name="ProjectPreparationID" Type="bigint" />
+          <Property Name="ProjectNo" Type="nvarchar" MaxLength="200" />
+          <Property Name="Districtid" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="ProjectPreparationID" Type="bigint" />
-          <Property Name="ProjectNo" Type="nvarchar" MaxLength="200" />
-          <Property Name="Districtid" Type="int" />
           <Property Name="Attachmentfile" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="Photographuploadfile" Type="nvarchar(max)" />
@@ -199,6 +201,31 @@
           <Property Name="IsChecked" Type="bit" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="InspectionMaster">
+          <Key>
+            <PropertyRef Name="InspectionID" />
+          </Key>
+          <Property Name="InspectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProjectPreparationID" Type="bigint" />
+          <Property Name="DistrictID" Type="int" />
+          <Property Name="FundReleaseID" Type="int" />
+          <Property Name="MileStoneID" Type="int" />
+          <Property Name="InspectionCopy" Type="nvarchar(max)" />
+          <Property Name="InspectionImage1" Type="nvarchar(max)" />
+          <Property Name="InspectionImage2" Type="nvarchar(max)" />
+          <Property Name="InspectionImage3" Type="nvarchar(max)" />
+          <Property Name="InspectionImage4" Type="nvarchar(max)" />
+          <Property Name="InspectionDate" Type="datetime" />
+          <Property Name="UtilizationID" Type="int" />
+          <Property Name="InstallmentID" Type="int" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
@@ -755,6 +782,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="FundRelease" EntityType="Self.FundRelease" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InspectionCheckListAnswerMaster" EntityType="Self.InspectionCheckListAnswerMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InspectionCheckListQuestionMaster" EntityType="Self.InspectionCheckListQuestionMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InspectionMaster" EntityType="Self.InspectionMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InstallmentMaster" EntityType="Self.InstallmentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LesseeMaster" EntityType="Self.LesseeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LesseeOpeningDMFAmt" EntityType="Self.LesseeOpeningDMFAmt" Schema="dbo" store:Type="Tables" />
@@ -1435,6 +1463,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="UtilizationMasters" EntityType="dfm_dbModel.UtilizationMaster" />
           <EntitySet Name="InspectionCheckListAnswerMasters" EntityType="dfm_dbModel.InspectionCheckListAnswerMaster" />
           <EntitySet Name="InspectionCheckListQuestionMasters" EntityType="dfm_dbModel.InspectionCheckListQuestionMaster" />
+          <EntitySet Name="InspectionMasters" EntityType="dfm_dbModel.InspectionMaster" />
         </EntityContainer>
         <EntityType Name="MenuMaster">
           <Key>
@@ -1678,6 +1707,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="Attachmentfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Photographuploadfile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FundReleaseID" Type="Int32" />
+          <Property Name="InstallmentID" Type="Int32" />
         </EntityType>
         <EntityType Name="InspectionCheckListQuestionMaster">
           <Key>
@@ -1689,6 +1720,31 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsChecked" Type="Boolean" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="InspectionMaster">
+          <Key>
+            <PropertyRef Name="InspectionID" />
+          </Key>
+          <Property Name="InspectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectPreparationID" Type="Int64" />
+          <Property Name="DistrictID" Type="Int32" />
+          <Property Name="FundReleaseID" Type="Int32" />
+          <Property Name="MileStoneID" Type="Int32" />
+          <Property Name="InspectionCopy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InspectionImage1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InspectionImage2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InspectionImage3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InspectionImage4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InspectionDate" Type="DateTime" Precision="3" />
+          <Property Name="UtilizationID" Type="Int32" />
+          <Property Name="InstallmentID" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
@@ -2280,6 +2336,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="InspectionCheckListAnswerMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.InspectionCheckListAnswerMaster">
               <MappingFragment StoreEntitySet="InspectionCheckListAnswerMaster">
+                <ScalarProperty Name="InstallmentID" ColumnName="InstallmentID" />
+                <ScalarProperty Name="FundReleaseID" ColumnName="FundReleaseID" />
                 <ScalarProperty Name="Photographuploadfile" ColumnName="Photographuploadfile" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="Attachmentfile" ColumnName="Attachmentfile" />
@@ -2311,6 +2369,32 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
                 <ScalarProperty Name="SectorTypeId" ColumnName="SectorTypeId" />
                 <ScalarProperty Name="InspectionQuestion" ColumnName="InspectionQuestion" />
                 <ScalarProperty Name="InspectionCheckListQuestionID" ColumnName="InspectionCheckListQuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InspectionMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.InspectionMaster">
+              <MappingFragment StoreEntitySet="InspectionMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="InstallmentID" ColumnName="InstallmentID" />
+                <ScalarProperty Name="UtilizationID" ColumnName="UtilizationID" />
+                <ScalarProperty Name="InspectionDate" ColumnName="InspectionDate" />
+                <ScalarProperty Name="InspectionImage4" ColumnName="InspectionImage4" />
+                <ScalarProperty Name="InspectionImage3" ColumnName="InspectionImage3" />
+                <ScalarProperty Name="InspectionImage2" ColumnName="InspectionImage2" />
+                <ScalarProperty Name="InspectionImage1" ColumnName="InspectionImage1" />
+                <ScalarProperty Name="InspectionCopy" ColumnName="InspectionCopy" />
+                <ScalarProperty Name="MileStoneID" ColumnName="MileStoneID" />
+                <ScalarProperty Name="FundReleaseID" ColumnName="FundReleaseID" />
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="InspectionID" ColumnName="InspectionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

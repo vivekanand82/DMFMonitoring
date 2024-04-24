@@ -31,6 +31,7 @@
                 </div>
             </div>
             <div class="row">
+                @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
                 @Html.HiddenFor(x => x.PhysicalprogressID, new { @id = "PhysicalprogressID" })
                 @Html.HiddenFor(x => x.DistrictID)
                 @*@Html.HiddenFor(x => x.MileStoneID,new { @id= "MileStoneID" })*@
@@ -170,8 +171,8 @@
 <script>
     function GetMilestone() {
                 var DistrictID = $("#DistrictID").val();
-        var ProjectNo = $("#ProjectNo").val();
-        getProgressPercentage(ProjectNo);
+        var ProjectPreparationID = $("#ProjectPreparationID").val();
+        getProgressPercentage(ProjectPreparationID);
                 if (ProjectNo != "") {
             $("#MileStoneTable").show();
 
@@ -185,7 +186,7 @@
             type: "POST",
             contentType: "application/json;charset=utf-8;",
             dataType: "json",
-            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
             success: function (data) {
                 if ($.trim(data) != "") {
                         var html = "";
@@ -317,14 +318,14 @@
         });
     </script>
     <script>
-        function getProgressPercentage(ProjectNo) {
+        function getProgressPercentage(ProjectPreparationID) {
             debugger
             $.ajax({
                 url: "/PhysicalProgress/GetProgressPercentage",
                 type: "POST",
                 contentType: "application/json;charset=utf-8;",
                 dataType: "json",
-                data: JSON.stringify({ ProjectNo: ProjectNo }),
+                data: JSON.stringify({ ProjectPreparationID: ProjectPreparationID }),
                 success: function (data) {
                     if (data.PhysicalPInPer!=null) {
                         $(".progress-bar").text(data.PhysicalPInPer + "%");

@@ -27,7 +27,7 @@ namespace DMFProjectFinal.Controllers
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
                 var groupedData = (from mm in db.MileStoneMasters
                                    join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                                    into ppps
                                    from ppp in ppps.DefaultIfEmpty()
                                    join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
@@ -70,7 +70,7 @@ namespace DMFProjectFinal.Controllers
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
                 var groupedData = (from mm in db.MileStoneMasters
                                    join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                                    into ppps
                                    from ppp in ppps.DefaultIfEmpty()
                                    join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
@@ -109,7 +109,7 @@ namespace DMFProjectFinal.Controllers
             }
             return View();
         }
-        public ActionResult CreateFundRelease(string ProjectNo)
+        public ActionResult CreateFundRelease(int ProjectPreparationID)
         {
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -120,11 +120,13 @@ namespace DMFProjectFinal.Controllers
             ViewBag.DistrictID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
             //ViewBag.ProjectID = new SelectList(db.ProjectProposalPreprations.Where(x => x.IsActive == true && x.ProjectNo !=null  && x.Stageid==2 && x.DistID == (DistID == null ? x.DistID : DistID)), "ProjectNo", "ProjectName", null);
             ViewBag.InstallmentID = new SelectList(db.InstallmentMasters.Where(x => x.IsActive == true), "InstallmentID", "InstallmentName", null);
+            var ProjectNo = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault().ProjectNo;
             model.DistrictID = DistID;
             model.ProjectNo = ProjectNo;
+            model.ProjectPreparationID = ProjectPreparationID;
             ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
-                                       join ml in db.MileStoneMasters on ppp.ProjectNo equals ml.ProjectNo
-                                       select new
+                                       join ml in db.MileStoneMasters on ppp.ProjectPreparationID equals ml.ProjectPreparationID
+                                                select new
                                        {
                                            ProjectNo = ppp.ProjectNo,
                                            ProjectName = ppp.ProjectName
@@ -143,7 +145,7 @@ namespace DMFProjectFinal.Controllers
             var installment = model.InstallmentID - 1;
             if (installment != 0)
             {
-                var validate = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == installment).FirstOrDefault();
+                var validate = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == installment).FirstOrDefault();
                 if (validate.IsInspectionDone == null || validate.IsPhProgressDone == null || validate.IsUtilizationUploaded == null)
                 {
                     if (installment == 1)
@@ -184,12 +186,12 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
-            var ProjectPrepID = db.ProjectProposalPreprations.Where(x => x.ProjectNo == model.ProjectNo && x.DistID==model.DistrictID).FirstOrDefault();
+            //var ProjectPrepID = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.DistID==model.DistrictID).FirstOrDefault();
 
             db.FundReleases.Add(new FundRelease
             {
                 DistrictID = model.DistrictID,
-                ProjectPreparationID= ProjectPrepID.ProjectPreparationID,
+                ProjectPreparationID= model.ProjectPreparationID,
                 ProjectNo = model.ProjectNo,
                 RelaeseDate = model.RelaeseDate,
                 ReleaseAmount = model.ReleaseAmount,
@@ -207,7 +209,7 @@ namespace DMFProjectFinal.Controllers
                 JR.Message = "Data Saved Successfully";
                 JR.RedURL = "/FundRelease/ReleaseFund";
                 //code added for update the milestone flag 18-04-2024
-                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == model.InstallmentID).FirstOrDefault();
+                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == model.InstallmentID).FirstOrDefault();
                 if (milestone != null)
                 {
                 //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
@@ -372,7 +374,7 @@ namespace DMFProjectFinal.Controllers
             return Json(msg, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult GetProjectDetails(int DistrictID, string ProjectNo)
+        public JsonResult GetProjectDetails(int DistrictID, int ProjectPreparationID)
         {
             //int? DistID = null;
             //if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -383,16 +385,16 @@ namespace DMFProjectFinal.Controllers
                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                     join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                 join dm in db.DistrictMasters on ppp.DistID equals dm.DistrictId
-                join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
+                //join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
                 //join fr in db.FundReleases on ppp.ProjectPreparationID equals fr.ProjectPreparationID
                 //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                where ppp.IsActive == true && ppp.DistID == DistrictID && ppp.ProjectNo == ProjectNo
+                where ppp.IsActive == true && ppp.DistID == DistrictID && ppp.ProjectPreparationID == ProjectPreparationID
                         select new DTO_ProjectProposalPrepration
                         {
                             DistID = ppp.DistID,
                             ProjectNo = ppp.ProjectNo,
                             DistrictName = dm.DistrictName,
-                            ProjectName = pm.ProjectName,
+                            ProjectName = ppp.ProjectName,
                             SectorName = snm.SectorName,
                             SectorType = stm.SectorType,
                             SanctionedProjectCost = ppp.SanctionedProjectCost,
@@ -422,13 +424,13 @@ namespace DMFProjectFinal.Controllers
         //}
 
         [HttpPost]
-        public JsonResult MileStoneByProject(int DistrictID, string ProjectNo)
+        public JsonResult MileStoneByProject(int DistrictID, int ProjectPreparationID)
         {
             var data = (from mm in db.MileStoneMasters
                         join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
                         join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID
+                        where mm.ProjectPreparationID == ProjectPreparationID && mm.DistrictID == DistrictID
                         select new DTO_MileStoneMaster
                         {
                             Districtname=dm.DistrictName,
@@ -445,11 +447,11 @@ namespace DMFProjectFinal.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult BindInstallment(int DistrictID, string ProjectNo)
+        public JsonResult BindInstallment(int DistrictID, int ProjectPreparationID)
         {
             var data = (from mm in db.MileStoneMasters
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
-                        where mm.DistrictID == DistrictID && mm.ProjectNo == ProjectNo
+                        where mm.DistrictID == DistrictID && mm.ProjectPreparationID == ProjectPreparationID
                         where mm.IsFundReleased != true && mm.IsPhProgressDone != true && mm.IsUtilizationUploaded != true
                         select new DTO_MileStoneMaster
                         {
@@ -463,7 +465,7 @@ namespace DMFProjectFinal.Controllers
         {
             var data = (from fr in db.FundReleases
                         join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                        join ppp in db.ProjectProposalPreprations on fr.ProjectNo equals ppp.ProjectNo
+                        join ppp in db.ProjectProposalPreprations on fr.ProjectPreparationID equals ppp.ProjectPreparationID
                         join ph in db.PhysicalProgressMasters on fr.FundReleaseID equals ph.FundReleaseID into php from ph in php.DefaultIfEmpty()
                         join uc in db.UtilizationMasters on ph.PhysicalprogressID equals uc.PhysicalProgressID into ucc from uc in ucc.DefaultIfEmpty()
                         //join inpec in db.inr on ppp.ProjectPreparationID equals inpec.ProjectPreparationID

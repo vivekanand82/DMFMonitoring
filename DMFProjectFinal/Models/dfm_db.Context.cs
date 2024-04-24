@@ -63,5 +63,6 @@ namespace DMFProjectFinal.Models
         public virtual DbSet<UtilizationMaster> UtilizationMasters { get; set; }
         public virtual DbSet<InspectionCheckListAnswerMaster> InspectionCheckListAnswerMasters { get; set; }
         public virtual DbSet<InspectionCheckListQuestionMaster> InspectionCheckListQuestionMasters { get; set; }
+        public virtual DbSet<InspectionMaster> InspectionMasters { get; set; }
     }
 }

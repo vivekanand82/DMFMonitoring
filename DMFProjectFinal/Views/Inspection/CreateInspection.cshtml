@@ -1,0 +1,500 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_InspectionMaster
+@{
+    ViewBag.Title = "CreateInspection";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@*<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.InspectionID))
+    {
+        <h4 class="card-title">Create Inspection</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Inspection</h4>
+    }
+</div>*@
+
+
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm("CreateInspection", "PhysicalProgress", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
+                @Html.HiddenFor(x => x.InspectionID, new { @id = "InspectionID" })
+                @Html.HiddenFor(x => x.DistrictID, new { @id = "DistrictID" })
+                @*@Html.HiddenFor(x => x.MileStoneID,new { @id= "MileStoneID" })*@
+
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Select Project<sup><code>*</code></sup></strong>
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Inspection Date<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.InspectionDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                    </div>
+                </div>
+                <table class="table table-bordered" id="datatable1">
+                    <thead>
+                        <tr>
+
+                            <th>Qustion</th>
+                            <th>Answer</th>
+                            @*<th>Remark</th>*@
+                            @*<th style="display:none;"></th>*@
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Inspection Image 1<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.InspectionImage1, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Inspection Image 2<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.InspectionImage2, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Inspection Image 3<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.InspectionImage3, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Inspection Image 4<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.InspectionImage4, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Inspection Copy<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.InspectionCopy, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "file" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Remark<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.Remark, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "text" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.InspectionID))
+                        {
+
+                            <input type="button" value="Save" class="btn btn-primary" onclick="SaveInspection()" id="btnsave" />
+                        }
+                        @*else
+                            {
+                                <input type="button" value="Update" class="btn btn-primary" onclick="UpdateUtilization()" id="btnupdate" />
+
+                            }*@
+                        @*<input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.UtilizationID)?"Save":"Update")" class="btn btn-primary" />*@
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @*@if (String.IsNullOrEmpty(Model.InspectionID))
+                            {
+                                <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                            }
+                            else
+                            {
+                                <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
+                                //href = "/UserManagement/UserRegistration"
+
+                            }*@
+                        <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+<div class="row" style="display:none" id="MileStoneTable">
+    <div class="col-md-12">
+        <h6 style="text-align:center">Project Milestone</h6>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>District Name</th>
+                <th>Project Name</th>
+                <th>Approved Amt</th>
+                <th>MileStone Values</th>
+                <th>Milestone (%)</th>
+                <th>Milestone AMT</th>
+                <th>Installment</th>
+                <th>Fund Released</th>
+                <th>Physical Progress</th>
+                <th>Utilization Uploaded</th>
+                <th>Inspection Done</th>
+
+            </tr>
+            <tbody id="MIlestone">
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function bindqustion() {
+        $.ajax({
+            type: "POST",
+            url: "/Inspection/listbindQustion",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $("#datatable1 tbody").empty();
+                var i = 1;
+                $.each(data, function (key, value) {
+
+                    $('#datatable1 tbody').append("<tr><td class='InspectionQuestion'>" + value.InspectionQuestion + "</td><td><input type='text'  class='form-control form-control-sm InspectionAnswer'></td><td style='display:none'><input type='hidden' class='InspectionQuestionID' value=" + value.InspectionCheckListQuestionID + "></td></tr > ")
+                    i = i + 1;
+
+                })
+
+
+            }
+
+
+        })
+
+
+
+    }
+</script>
+<script>
+    function SaveInspection() {
+        var PatientViewModel = {};
+        PatientViewModel.DistrictID = $("#DistrictID").val();
+        PatientViewModel.ProjectPreparationID = $("#ProjectPreparationID").val();
+        PatientViewModel.ProjectNo = $("#ProjectNo").val();
+        PatientViewModel.InspectionDate = $("#InspectionDate").val();
+        PatientViewModel.InspectionCopy = $("#InspectionCopy").val();
+        PatientViewModel.Remark = $("#Remark").val();
+
+        var PatientDetailViewModels = [];
+        $("#datatable1 tbody tr").each(function (ii, ee) {
+            var PatientDetailViewModel = {}
+            PatientDetailViewModel.InspectionQuestion = $($(ee).find('.InspectionQuestion')[0]).text();
+            PatientDetailViewModel.InspectionAnswer = $($(ee).find('.InspectionAnswer')[0]).val();
+            PatientDetailViewModel.InspectionQuestionID = $($(ee).find('.InspectionQuestionID')[0]).val();
+            PatientDetailViewModels.push(PatientDetailViewModel);
+        });
+
+        PatientViewModel.lis = PatientDetailViewModels;
+
+        var formData = new FormData();
+        formData.append('InspectionImage1', $("#InspectionImage1")[0].files[0]);
+        formData.append('InspectionImage2', $("#InspectionImage2")[0].files[0]);
+        formData.append('InspectionImage3', $("#InspectionImage3")[0].files[0]);
+        formData.append('InspectionImage4', $("#InspectionImage4")[0].files[0]);
+        //formData.append('lis', JSON.stringify(PatientViewModel));
+        formData.append('lis', PatientViewModel);
+        console.log(PatientDetailViewModels);
+        console.log(formData);
+        $.ajax({
+            url: "/Inspection/CreateInspection",
+            type: "POST",
+            data: formData,
+            processData: false,  // important
+            contentType: false,  // important
+            success: function (data) {
+                if (data == "1") {
+                    toastr.success("utilization uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                } else if (data == "0") {
+                    toastr.error("Something went wrong please try later  !!", "Error");
+                } else {
+                    toastr.error(data, "Error");
+                }
+            },
+            error: function (data) {
+                toastr.error("Something went wrong please try later  !!", "Error");
+            }
+        });
+    }
+</script>
+@*<script>
+    function SaveInspection() {
+        var formData = new FormData();
+        formData.append('DistrictID', $("#DistrictID").val());
+        formData.append('ProjectPreparationID', $("#ProjectPreparationID").val());
+        formData.append('ProjectNo', $("#ProjectNo").val());
+        formData.append('InspectionDate', $("#InspectionDate").val());
+        formData.append('InspectionCopy', $("#InspectionCopy")[0].files[0]);
+        formData.append('Remark', $("#Remark").val());
+
+        // Add InspectionImages to formData
+        formData.append('InspectionImage1', $("#InspectionImage1")[0].files[0]);
+        formData.append('InspectionImage2', $("#InspectionImage2")[0].files[0]);
+        formData.append('InspectionImage3', $("#InspectionImage3")[0].files[0]);
+        formData.append('InspectionImage4', $("#InspectionImage4")[0].files[0]);
+        //var PatientDetailViewModels = [];
+        //// Add InspectionQuestions and Answers to formData
+        //$("#datatable1 tbody tr").each(function (ee, element) {
+        //    //formData.append('InspectionQuestions[' + index + '].Question', $(element).find('.InspectionQuestion').text());
+        //    //formData.append('InspectionQuestions[' + index + '].Answer', $(element).find('.InspectionAnswer').val());
+        //    //formData.append('InspectionQuestions[' + index + '].QuestionID', $(element).find('.InspectionQuestionID').val());
+
+        //    var PatientDetailViewModel = {}
+        //    PatientDetailViewModel.InspectionQuestion = $($(element).find('.InspectionQuestion')[0]).text();
+        //    PatientDetailViewModel.InspectionAnswer = $($(element).find('.InspectionAnswer')[0]).val();
+        //    PatientDetailViewModel.InspectionQuestionID = $($(element).find('.InspectionQuestionID')[0]).val();
+        //    PatientDetailViewModels.push(PatientDetailViewModel);
+
+        //});
+        //formData.append('lis', PatientDetailViewModels)
+
+        console.log(formData);
+        // Send AJAX request
+        $.ajax({
+            url: "/Inspection/CreateInspection",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                // Handle success
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+            }
+        });
+    }
+</script>*@
+@*<script>
+    function SaveInspection() {
+        debugger
+        var PatientViewModel = {};
+        PatientViewModel.DistrictID = $("#DistrictID").val();
+        PatientViewModel.ProjectPreparationID = $("#ProjectPreparationID").val();
+        PatientViewModel.ProjectNo = $("#ProjectNo").val();
+        PatientViewModel.InspectionDate = $("#InspectionDate").val();
+        var formData = new FormData();
+        formData.append('InspectionImage1', $("#InspectionImage1")[0].files[0]);
+        formData.append('InspectionImage2', $("#InspectionImage2")[0].files[0]);
+        formData.append('InspectionImage3', $("#InspectionImage3")[0].files[0]);
+        formData.append('InspectionImage4', $("#InspectionImage4")[0].files[0]);
+        //PatientViewModel.InspectionImage1 = $("#InspectionImage1")[0].files[0];
+        //PatientViewModel.InspectionImage2 = $("#InspectionImage2")[0].files[0];
+        //PatientViewModel.InspectionImage3 = $("#InspectionImage3")[0].files[0];
+        //PatientViewModel.InspectionImage4 = $("#InspectionImage4")[0].files[0];
+        PatientViewModel.InspectionCopy = $("#InspectionCopy").val();
+        PatientViewModel.Remark = $("#Remark").val();
+        var PatientDetailViewModels = [];
+        $("#datatable1 tbody tr").each(function (ii, ee) {
+            debugger
+            var PatientDetailViewModel = {}
+            PatientDetailViewModel.InspectionQuestion = $($(ee).find('.InspectionQuestion')[0]).text();
+            PatientDetailViewModel.InspectionAnswer = $($(ee).find('.InspectionAnswer')[0]).val();
+            PatientDetailViewModel.InspectionQuestionID = $($(ee).find('.InspectionQuestionID')[0]).val();
+            PatientViewModel.lis = PatientDetailViewModels;
+           
+            PatientDetailViewModels.push(PatientDetailViewModel);
+        });
+      
+        console.log('-----PatientViewModel-----', PatientViewModel);
+        $.ajax({
+            url: "/Inspection/CreateInspection",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(PatientViewModel, formData),
+            success: function (data) {
+                if (data == "1") {
+                    toastr.success("utilization uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                    //alert("utilization uploaded succesfully !!");
+                }
+                else if (data == "0") {
+                    toastr.error("Something went wrong please try later  !!", "Error");
+
+                    //alert("Something went wrong please try later  !!");
+
+                }
+                else {
+                    toastr.error(data, "Error");
+
+                }
+            },
+            error: function (data) {
+                alert("Something went wrong please try later  !!");
+
+            }
+        })
+    }
+</script>*@
+@*<script>
+
+
+    function SaveInspection() {
+        var frmdata = new FormData($('#frmCurrent')[0]);
+        var programarray = [];
+        var qustion = $(this).children("td").eq(0).text();
+        var answer = $(this).find("td:eq(1) input[type=text]").val();
+
+        var qustionid = $(this).find("td:eq(2) input[type=hidden]").val();
+        item = {}
+        item["InspectionQuestionID"] = qustionid
+        item["InspectionQuestion"] = qustion
+        item["InspectionAnswer"] = answer
+      /*  item["Remark"] = remark;*/
+        programarray.push(item)
+        var dataobject = {
+           
+            lis: JSON.stringify(programarray)
+
+
+        }
+        console.log(programarray);
+        frmdata.append("lis", dataobject);
+        $.ajax({
+            url: "/Inspection/CreateInspection",
+            type: "POST",
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            data: JSON.stringify(frmdata),
+            success: function (data) {
+                if (data == "1") {
+                    toastr.success("utilization uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                    //alert("utilization uploaded succesfully !!");
+                }
+                else if (data == "0") {
+                    toastr.error("Something went wrong please try later  !!", "Error");
+
+                    //alert("Something went wrong please try later  !!");
+
+                }
+                else {
+                    toastr.error(data, "Error");
+
+                }
+            },
+            error: function (data) {
+                alert("Something went wrong please try later  !!");
+
+            }
+        })
+    }
+</script>*@
+@*<script>
+        function GetMilestone() {
+            var DistrictID = $("#DistrictID").val();
+            var ProjectPreparationID = $("#ProjectPreparationID").val();
+            if (ProjectNo != "") {
+                $("#MileStoneTable").show();
+
+            }
+            else {
+                $("#MileStoneTable").hide();
+
+            }
+            $.ajax({
+                url: "/PhysicalProgress/MileStoneByProject",
+                type: "POST",
+                contentType: "application/json;charset=utf-8;",
+                dataType: "json",
+                data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
+                success: function (data) {
+                    if ($.trim(data) != "") {
+                        var html = "";
+                        // Output district name, project name, and project cost only once
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].Districtname + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
+                        html += "</tr>";
+                        // Output milestone details for each milestone
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            //html += "<td>" + data[i].Districtname + "</td>";
+                            //html += "<td>" + data[i].ProjectName + "</td>";
+                            //html += "<td>" + data[i].SanctionedProjectCost + "</td>";
+                            html += "<td>" + data[i].Instext + "</td>";
+                            html += "<td>" + data[i].InsPercentage + "</td>";
+                            var releaseamt = (parseFloat(data[0].SanctionedProjectCost) * parseFloat(data[i].InsPercentage) / 100)
+                            html += "<td>" + releaseamt + "</td>";
+                            html += "<td>" + data[i].InstallmentName + "</td>";
+                            if (data[i].IsFundReleased == true) {
+
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
+
+                            }
+                            if (data[i].IsPhProgressDone == true) {
+
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
+
+                            }
+                            if (data[i].IsUtilizationUploaded == true) {
+
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
+
+                            }
+                            if (data[i].IsInspectionDone == true) {
+
+                                html += "<td>YES</td>";
+                            }
+                            else {
+                                html += "<td>NO</td>";
+
+                            }
+                            html += "</tr>";
+                        }
+                        $("#MIlestone").html(html);
+                    }
+
+                    else {
+                        $("#MIlestone").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                        //$("#exampleModal").show();
+                    }
+                }
+            })
+        }
+
+    </script>*@
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var id = $("#ProjectNo").val();
+            if (id != "") {
+                //GetMilestone();
+                bindqustion();
+            }
+        });
+    </script>
+
+}
+

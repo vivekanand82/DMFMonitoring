@@ -647,13 +647,14 @@ namespace DMFProjectFinal.Controllers
                     }
                    // var Tehsil = db.TehsilMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
                     ViewBag.DistID = new SelectList(db.DistrictMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "DistrictId", "DistrictName", null);
-                    ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "TehsilId", "TehsilName", null);
+                    ViewBag.TehsilId = new SelectList(db.TehsilMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID) && x.TehsilId == (Info.TehsilId == null ? x.TehsilId : Info.TehsilId)), "TehsilId", "TehsilName", Info.TehsilId);
                     ViewBag.BlockId = new SelectList(db.BlockMasters.Where(x => x.IsActive == true && x.DistrictId == (DistID == null ? x.DistrictId : DistID)), "BlockId", "BlockName", null);
                     ViewBag.VillageId = new SelectList(db.VillageMasters.Where(x => x.IsActive == true && x.TehsilId == (Info.TehsilId == null ? x.TehsilId : Info.TehsilId)), "VillageId", "VillageNameInEnglish", null);
                     ViewBag.AgencyID = new SelectList(db.AgenciesInfoes.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.AgencyID, Text = x.Name + " / " + x.OwnerName }), "ID", "Text", Info.AgencyID);
                     ViewBag.ProjectID = new SelectList(db.ProjectMasters.Where(x => x.IsActive == true && x.DistID == (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.ProjectID, Text = x.ProjectName + " (" + x.ProjectCode + ")" }), "ID", "Text", Info.ProjectID);
                     ViewBag.SectorTypeId = new SelectList(db.SectorTypeMasters.Where(x => x.IsActive == true ), "SectorTypeId", "SectorType", Info.SectorTypeId).ToList();
-                    ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true && x.SectorTypeId==Info.SectorTypeId), "SectorNameId", "SectorName", Info.SectorID);
+                    var SectorNameId = Info.SectorID;
+                    ViewBag.SectorID = new SelectList(db.SectorNameMasters.Where(x => x.IsActive == true && x.SectorNameId== SectorNameId), "SectorNameId", "SectorName", SectorNameId);
                    // ViewBag.ProjectStatusID = new SelectList(db.ProjectStatusMasters.Where(x => x.IsActive == true), "ProjectStatusID", "ProjectStatus", Info.ProjectStatusID);
 
                     return View("~/Views/ProjectWorkApproval/CreateProjectProposalPrepration.cshtml", new DTO_ProjectProposalPrepration

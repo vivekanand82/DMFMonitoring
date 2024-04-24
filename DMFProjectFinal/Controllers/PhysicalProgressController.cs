@@ -30,7 +30,7 @@ namespace DMFProjectFinal.Controllers
 
                 var groupedData = (from mm in db.MileStoneMasters
                                    join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                                    into ppps
                                    from ppp in ppps.DefaultIfEmpty()
                                    join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
@@ -73,7 +73,7 @@ namespace DMFProjectFinal.Controllers
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
                 var groupedData = (from mm in db.MileStoneMasters
                                    join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                                    into ppps
                                    from ppp in ppps.DefaultIfEmpty()
                                    join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
@@ -113,7 +113,7 @@ namespace DMFProjectFinal.Controllers
                 return View();
         }
 
-        public ActionResult CreatePhysicalProgress(string ProjectNo)
+        public ActionResult CreatePhysicalProgress(int ProjectPreparationID)
         {
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -122,10 +122,14 @@ namespace DMFProjectFinal.Controllers
             }
             DTO_PhysicalProgressMaster model = new DTO_PhysicalProgressMaster();
             //ViewBag.ProjectID = new SelectList(db.MileStoneMasters.Where(x => x.IsActive == true && x.ProjectNo != null  && x.DistrictID == (DistID == null ? x.DistrictID : DistID)), "ProjectNo", "ProjectName", null);
+            var ProjectNo = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault().ProjectNo;
+            model.DistrictID = DistID;
+            model.ProjectNo = ProjectNo;
+            model.ProjectPreparationID = ProjectPreparationID;
             ViewBag.ProjectID = new SelectList((from ppp in db.ProjectProposalPreprations
                                                    join mm in db.MileStoneMasters on ppp.ProjectPreparationID equals mm.ProjectPreparationID
                                                 //join pm in db.ProjectMasters on ppp.ProjectNo equals pm.ProjectNo
-                                               where ppp.IsActive == true && ppp.DistID == DistID && mm.ProjectNo ==ppp.ProjectNo  && ppp.Stageid==2 && mm.IsPhProgressDone==null && mm.IsFundReleased==true
+                                               where ppp.IsActive == true && ppp.DistID == DistID && mm.ProjectPreparationID == ppp.ProjectPreparationID && ppp.Stageid==2 && mm.IsPhProgressDone==null && mm.IsFundReleased==true
                                                select new 
                                                {
                                                     ProjectNo = ppp.ProjectNo,
@@ -134,8 +138,8 @@ namespace DMFProjectFinal.Controllers
                                              ).Distinct(), "ProjectNo", "ProjectName", ProjectNo);
 
             
-            model.DistrictID = DistID;
-            model.ProjectNo = ProjectNo;
+            //model.DistrictID = DistID;
+            //model.ProjectNo = ProjectNo;
             return View(model);
         }
 
@@ -173,7 +177,7 @@ namespace DMFProjectFinal.Controllers
                 }
             }
             //var milestone = db.MileStoneMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID).FirstOrDefault();
-            var updateFlag= db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.IsPhProgressDone == null).FirstOrDefault();
+            var updateFlag= db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.IsPhProgressDone == null).FirstOrDefault();
 
             db.PhysicalProgressMasters.Add(new PhysicalProgressMaster
             {
@@ -201,8 +205,8 @@ namespace DMFProjectFinal.Controllers
                 JR.IsSuccess = true;
                 JR.Message = "Data Saved Successfully";
                 JR.RedURL = "/PhysicalProgress/PhysicalProgressList";
-                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
-                var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
+                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
+                var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == updateFlag.InstallmentID).FirstOrDefault();
                 if (milestone != null)
                 {
                     //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
@@ -365,13 +369,13 @@ namespace DMFProjectFinal.Controllers
         //}
 
         [HttpPost]
-        public JsonResult MileStoneByProject(int DistrictID, string ProjectNo)
+        public JsonResult MileStoneByProject(int DistrictID, int ProjectPreparationID)
         {
             var data = (from mm in db.MileStoneMasters
                         join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
                         join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID /*&& mm.IsFundReleased==true && mm.IsPhProgressDone !=true*/
+                        where mm.ProjectPreparationID == ProjectPreparationID && mm.DistrictID == DistrictID /*&& mm.IsFundReleased==true && mm.IsPhProgressDone !=true*/
                         select new DTO_MileStoneMaster
                         {
                             Districtname = dm.DistrictName,
@@ -473,7 +477,7 @@ namespace DMFProjectFinal.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult GetProgressPercentage(string ProjectNo)
+        public JsonResult GetProgressPercentage(int ProjectPreparationID)
         {
             DTO_PhysicalProgressMaster obj = new DTO_PhysicalProgressMaster();
            using(SqlConnection con=new SqlConnection(coonectionstrings))
@@ -481,7 +485,7 @@ namespace DMFProjectFinal.Controllers
             {
                 con.Open();
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ProjectNo", ProjectNo);
+                cmd.Parameters.AddWithValue("@ProjectPreparationID", ProjectPreparationID);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

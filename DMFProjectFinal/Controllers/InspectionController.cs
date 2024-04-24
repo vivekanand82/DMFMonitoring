@@ -619,7 +619,7 @@ namespace DMFProjectFinal.Controllers
 
             if (Request.Files.Count > 0)
             {
-                List<InspectionCheckListAnswerMaster> objP = objP = db.InspectionCheckListAnswerMasters.Where(x => x.ProjectPreparationID == ProjectId).ToList();
+                List<InspectionCheckListAnswerMaster> objP = db.InspectionCheckListAnswerMasters.Where(x => x.ProjectPreparationID == ProjectId).ToList();
 
 
                 foreach(var user in objP)
@@ -689,11 +689,36 @@ namespace DMFProjectFinal.Controllers
 
         }
 
+        public ActionResult CreateInspection(int ProjectPreparationID)
+        {
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            }
+            DTO_InspectionMaster model = new DTO_InspectionMaster();
+            var ProjectNo = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault().ProjectNo;
+            model.DistrictID = DistID;
+            model.ProjectNo = ProjectNo;
+            model.ProjectPreparationID = ProjectPreparationID;
+            ViewBag.ProjectID = new SelectList((from mm in db.MileStoneMasters
+                                                join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID into pps_left
+                                                from pm in pps_left.DefaultIfEmpty()
+                                                where pm.IsActive == true && mm.DistrictID == DistID && mm.ProjectPreparationID == pm.ProjectPreparationID && mm.IsPhProgressDone == true && mm.IsInspectionDone != true
+                                                select new
+                                                {
+                                                    ProjectNo = mm.ProjectNo,
+                                                    ProjectName = pm.ProjectName
+                                                }).Distinct(), "ProjectNo", "ProjectName", ProjectNo);
 
+            return View(model);
+        }
 
-
-
-
+        [HttpPost]
+        public ActionResult CreateInspection(DTO_InspectionMaster model)
+        {
+            return View();
+        }
 
     }
 }

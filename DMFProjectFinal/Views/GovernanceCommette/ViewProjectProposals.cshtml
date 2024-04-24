@@ -668,7 +668,7 @@
                     var MettingDateformat = new Date(parseInt(data.MettingDate.substr(6)));
                     var Attendancedateformat = new Date(parseInt(data.Attendancedate.substr(6)));
 
-                    var html = "<tr><td>" + data.MeetingNo + "</td><td>" + MettingDateformat.toLocaleDateString("es-CL") + "</td><td>" + data.MinutesofMeeting + "</td><td><a id='MinutesofMeetingfile1'>View Doc</a></td><td><a id='Memberattendancefile1'>View Doc</a></td><td><a id='Approvelletterfile1'>View Doc</a></td><td>" + data.Memberlist + "</td><td>" + data.Status + "</td><td>" + Attendancedateformat.toLocaleDateString("es-CL") + "</td><td>" + data.Remark + "</td></tr>";
+                    var html = "<tr><td>" + data.MeetingNo + "</td><td>" + MettingDateformat.toLocaleDateString("es-CL") + "</td><td>" + data.MinutesofMeeting + "</td><td><a id='MinutesofMeetingfile1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td><td><a id='Memberattendancefile1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td><td><a id='Approvelletterfile1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td><td>" + data.Memberlist + "</td><td>" + data.Status + "</td><td>" + Attendancedateformat.toLocaleDateString("es-CL") + "</td><td>" + data.Remark + "</td></tr>";
                     $("#meetinginfo").html(html);
                     $("#MinutesofMeetingfile1").attr({ "href": data.MinutesofMeetingfile, "target": "_blank" });
                     $("#Memberattendancefile1").attr({ "href": data.Memberattendancefile, "target": "_blank" });

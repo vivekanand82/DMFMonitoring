@@ -109,7 +109,8 @@
 </div>
 <div id="divform">
     <div class="card-body">
-        @using (Html.BeginForm((String.IsNullOrEmpty(Model.ProjectPreparationID) ? "CreateProjectProposalPrepration" : "EditProjectProposalPrepration"), "ProjectWorkApproval", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        @*@using (Html.BeginForm((String.IsNullOrEmpty(Model.ProjectPreparationID) ? "CreateProjectProposalPrepration" : "EditProjectProposalPrepration"), "ProjectWorkApproval", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))*@
+        @using (Html.BeginForm("CreateProjectProposalPrepration", "ProjectWorkApproval", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
             <div class="row tab">
                 @Html.HiddenFor(x => x.ProjectPreparationID)
@@ -506,6 +507,8 @@
                     var ProposalDate = new Date(parseInt(r.ProposalDate.substr(6)));
                     var TenderDate = new Date(parseInt(r.TenderDate.substr(6)));
                     var WorkOrderDate = new Date(parseInt(r.WorkOrderDate.substr(6)));
+                    var ProjectStartDate = new Date(parseInt(r.ProjectStartDate.substr(6)));
+                    var ProjectCompletionDate = new Date(parseInt(r.ProjectCompletionDate.substr(6)));
 
                     $("#ProposalDate").val(ProposalDate.toLocaleDateString("es-CL"));
                     if (r.ProposalCopy != "") {
@@ -527,6 +530,8 @@
 
 
                     }
+                    $("#ProjectStartDate").val(ProjectStartDate.toLocaleDateString("es-CL"))
+                    $("#ProjectCompletionDate").val(ProjectCompletionDate.toLocaleDateString("es-CL"))
 
                     $("#ProjectPreparationID").val(id)
 
@@ -579,12 +584,18 @@
                 type: "GET",
                 success: function (data) {
                     $("#SectorID").empty();
-                    $("#SectorID").append("<option value='0' selected='selected'>Select</option>");
+                    $("#SectorID").append("<option value='0' selected='selected'>Select Sector</option>");
                     for (var i = 0; i < data.length; i++) {
                         $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
                     }
+                    if ($("#hdnsectorid").val() == "") {
+                        $("#SectorID").val("0");
+                        //alert($("#hdnsectorid").val());
+                    }
+                    else {
 
                     $("#SectorID").val($("#hdnsectorid").val());
+                    }
 
                 }
             })
@@ -610,14 +621,22 @@
                 success: function (data) {
                     //alert(data.length);
                     $('#TehsilId').empty();
-                    $('#TehsilId').append("<option  Value='0' selected='selected'>-Select-</option>");
+                    $('#TehsilId').append("<option  Value='0' selected='selected'>-Select tehsil-</option>");
                     $.each(data, function (key, value) {
 
                         $('#TehsilId').append($("<option></option>").val(value.TehsilId).html(value.TehsilName));
 
                     });
-                    $('select option[value="0"]').attr("selected", true);
-                   /* $('#TehsilId').val($("#hdntesil").val());*/
+                    /* $('select option[value="0"]').attr("selected", true);*/
+                    if ($("#hdntesil").val() == "") {
+                        $("#TehsilId").val("0");
+                        //alert($("#hdntesil").val());
+                    }
+                    else {
+
+                        $("#TehsilId").val($("#hdntesil").val());
+                    }
+                    //$('#TehsilId').val($("#hdntesil").val());
                 }
             })
 

@@ -22,6 +22,7 @@
         @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
             <div class="row">
+                @Html.HiddenFor(x => x.ProjectPreparationID,new { @id= "ProjectPreparationID" })
                 @Html.HiddenFor(x => x.UtilizationID)
                 @Html.HiddenFor(x => x.DistrictID)
 
@@ -207,7 +208,7 @@
     <script>
         function GetMilestone() {
             var DistrictID = $("#DistrictID").val();
-            var ProjectNo = $("#ProjectNo").val();
+            var ProjectPreparationID = $("#ProjectPreparationID").val();
             if (ProjectNo != "") {
                 $("#MileStoneTable").show();
 
@@ -221,7 +222,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8;",
                 dataType: "json",
-                data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+                data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
                 success: function (data) {
                     var html = "";
                     // Output district name, project name, and project cost only once
@@ -284,7 +285,7 @@
     </script>
     <script>
         $(document).ready(function () {
-            var id = $("#ProjectNo").val();
+            var id = $("#ProjectPreparationID").val();
             if (id != "") {
                 GetMilestone();
             }

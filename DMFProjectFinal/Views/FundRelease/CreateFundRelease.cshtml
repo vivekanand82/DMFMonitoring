@@ -29,6 +29,7 @@
             <div class="row">
                 @Html.HiddenFor(x => x.FundReleaseID)
                 @Html.HiddenFor(x => x.DistrictID)
+                @Html.HiddenFor(x => x.ProjectPreparationID,new { @id= "ProjectPreparationID" })
 
                 <div class="col-md-4">
                     <div class="form-label">
@@ -239,13 +240,13 @@
 <script>
     function GetProjectDetails() {
         var DistrictID = $("#DistrictID").val();
-        var ProjectNo = $("#ProjectNo").val();
+        var ProjectPreparationID = $("#ProjectPreparationID").val();
         $.ajax({
             url: "/FundRelease/GetProjectDetails",
             type: "POST",
             contentType: "Application/json;charset=utf-8;",
             dataType: "json",
-            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
             success: function (data) {
                 //alert("done");
                 $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
@@ -265,13 +266,13 @@
     function BindInstallment() {
         //GetProjectDetails()
         var DistrictID = $("#DistrictID").val();
-        var ProjectNo = $("#ProjectNo").val();
+        var ProjectPreparationID = $("#ProjectPreparationID").val();
         $.ajax({
             url: "/FundRelease/BindInstallment",
             type: "POST",
             contentType: "application/json;charset=utf-8;",
             dataType: "json",
-            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
             success: function (data) {
                 $("#InstallmentID").empty();
                 $("#InstallmentID").append("<option value='0'>Select Installment</option>");
@@ -289,7 +290,7 @@
         $("#RelaeseDate").val('');
         $("#TmpFundReleaseCopy").val('');
         var DistrictID = $("#DistrictID").val();
-        var ProjectNo = $("#ProjectNo").val();
+        var ProjectPreparationID = $("#ProjectPreparationID").val();
         if (ProjectNo != "") {
             $("#MileStoneTable").show();
         }
@@ -301,7 +302,7 @@
             type: "POST",
             contentType: "application/json;charset=utf-8;",
             dataType: "json",
-            data: JSON.stringify({ DistrictID: DistrictID, ProjectNo: ProjectNo }),
+            data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
             success: function (data) {
                 if ($.trim(data) != "") {
                 var html = "";

@@ -30,5 +30,7 @@ namespace DMFProjectFinal.Models
         public string Attachmentfile { get; set; }
         public string Remark { get; set; }
         public string Photographuploadfile { get; set; }
+        public Nullable<int> FundReleaseID { get; set; }
+        public Nullable<int> InstallmentID { get; set; }
     }
 }

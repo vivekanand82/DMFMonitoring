@@ -33,7 +33,7 @@ namespace DMFProjectFinal.Controllers
 
                 var groupedData = (from mm in db.MileStoneMasters
                                    join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                                    into ppps
                                    from ppp in ppps.DefaultIfEmpty()
                                    join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
@@ -76,7 +76,7 @@ namespace DMFProjectFinal.Controllers
                 ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
                 var groupedData = (from mm in db.MileStoneMasters
                                    join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                                   join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                                    into ppps
                                    from ppp in ppps.DefaultIfEmpty()
                                    join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
@@ -115,7 +115,7 @@ namespace DMFProjectFinal.Controllers
             }
             return View();
         }
-        public ActionResult CreateUtilization(string ProjectNo)
+        public ActionResult CreateUtilization(int ProjectPreparationID)
         {
             int? DistID = null;
             if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
@@ -123,18 +123,22 @@ namespace DMFProjectFinal.Controllers
                 DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
             }
             DTO_UtilizationMaster model = new DTO_UtilizationMaster();
+            var ProjectNo = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault().ProjectNo;
+            model.DistrictID = DistID;
+            model.ProjectNo = ProjectNo;
+            model.ProjectPreparationID = ProjectPreparationID;
             ViewBag.ProjectID = new SelectList((from mm in db.MileStoneMasters
-                                                join ppp in db.ProjectProposalPreprations on mm.ProjectNo equals ppp.ProjectNo into pps_left
+                                                join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID into pps_left
                                                 from pm in pps_left.DefaultIfEmpty()
-                                                where pm.IsActive == true && mm.DistrictID == DistID && mm.ProjectNo == pm.ProjectNo && mm.IsPhProgressDone==true && mm.IsUtilizationUploaded!=true
+                                                where pm.IsActive == true && mm.DistrictID == DistID && mm.ProjectPreparationID == pm.ProjectPreparationID && mm.IsPhProgressDone==true && mm.IsUtilizationUploaded!=true
                                                 select new
                                                 {
                                                     ProjectNo = mm.ProjectNo,
                                                     ProjectName = pm.ProjectName
                                                 }).Distinct(), "ProjectNo", "ProjectName", ProjectNo);
 
-            model.DistrictID = DistID;
-            model.ProjectNo = ProjectNo;
+            //model.DistrictID = DistID;
+            //model.ProjectNo = ProjectNo;
             return View(model);
         }
         [HttpPost]
@@ -147,8 +151,8 @@ namespace DMFProjectFinal.Controllers
                 JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
-            var physicalflag = db.PhysicalProgressMasters.Where(x => x.ProjectNo == model.ProjectNo && x.DistrictID == model.DistrictID && x.Phyicalintsallmentflag != null).OrderByDescending(x=>x.Phyicalintsallmentflag).FirstOrDefault();
-            if (db.UtilizationMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.PhysicalProgressID== physicalflag.PhysicalprogressID).Any())
+            var physicalflag = db.PhysicalProgressMasters.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.DistrictID == model.DistrictID && x.Phyicalintsallmentflag != null).OrderByDescending(x=>x.Phyicalintsallmentflag).FirstOrDefault();
+            if (db.UtilizationMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.PhysicalProgressID== physicalflag.PhysicalprogressID).Any())
             {
                 msg ="Utilization Certificate  for "+ model.ProjectNo + " Aready Uploaded for this Progress !";
                 return Json(msg, JsonRequestBehavior.AllowGet);
@@ -184,8 +188,8 @@ namespace DMFProjectFinal.Controllers
             {
                 msg = "1";
                 var installment = Convert.ToInt32(physicalflag.Phyicalintsallmentflag);
-                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == installment).FirstOrDefault();
-                var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectNo == model.ProjectNo && x.InstallmentID == installment).FirstOrDefault();
+                var milestone = db.MileStoneMasters.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == installment).FirstOrDefault();
+                var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == installment).FirstOrDefault();
                 if (milestone != null)
                 {
                     //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
@@ -319,13 +323,13 @@ namespace DMFProjectFinal.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult MileStoneByProject(int DistrictID, string ProjectNo)
+        public JsonResult MileStoneByProject(int DistrictID, int ProjectPreparationID)
         {
             var data = (from mm in db.MileStoneMasters
                         join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
                         join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
-                        where mm.ProjectNo == ProjectNo && mm.DistrictID == DistrictID && mm.IsFundReleased == true && mm.IsPhProgressDone == true
+                        where mm.ProjectPreparationID == ProjectPreparationID && mm.DistrictID == DistrictID /*&& mm.IsFundReleased == true && mm.IsPhProgressDone == true*/
                         select new DTO_MileStoneMaster
                         {
                             Districtname = dm.DistrictName,
