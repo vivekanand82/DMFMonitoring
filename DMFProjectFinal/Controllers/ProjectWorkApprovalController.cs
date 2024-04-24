@@ -1126,6 +1126,63 @@ namespace DMFProjectFinal.Controllers
         }
 
 
+        #region Ramdhyan
+        public JsonResult MeetingInfoCommette(string ProjectPreparationId)
+        {
+
+            string MemberDemo = string.Empty;
+            var id = Convert.ToInt32(ProjectPreparationId);
+            ProjectMetting obj = new ProjectMetting();
+            var data = db.ProjectMettings.Where(x => x.ProjectPreparationID == id && x.Stageid==1).FirstOrDefault();
+            if (data != null)
+            {
+                string[] Members = data.Memberlist.TrimEnd().Split(',');
+                foreach (var item in Members)
+                {
+                    if (item != "")
+                    {
+                        int CommitteeID = int.Parse(item);
+                        CommitteeMaster membernames = db.CommitteeMasters.Where(x => x.CommitteeID == CommitteeID).FirstOrDefault();
+                        MemberDemo += membernames.CommitteeName + ",";
+                    }
+                }
+
+                //ViewBag.memberlists = MemberDemo;
+                data.Memberlist = MemberDemo;
+
+
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult MeetingInfoGoverning(string ProjectPreparationId)
+        {
+
+            string MemberDemo = string.Empty;
+            var id = Convert.ToInt32(ProjectPreparationId);
+            ProjectMetting obj = new ProjectMetting();
+            var data = db.ProjectMettings.Where(x => x.ProjectPreparationID == id && x.Stageid == 2).FirstOrDefault();
+            if (data != null)
+            {
+                string[] Members = data.Memberlist.TrimEnd().Split(',');
+                foreach (var item in Members)
+                {
+                    if (item != "")
+                    {
+                        int CommitteeID = int.Parse(item);
+                        CommitteeMaster membernames = db.CommitteeMasters.Where(x => x.CommitteeID == CommitteeID).FirstOrDefault();
+                        MemberDemo += membernames.CommitteeName + ",";
+                    }
+                }
+
+                //ViewBag.memberlists = MemberDemo;
+                data.Memberlist = MemberDemo;
+
+
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
 
 
 

@@ -567,7 +567,7 @@
                     </div>
                     <div class="row">
 
-                        <span>1st</span>
+                        <span></span>
                         <table class="table table-bordered" id="datatable2">
                             <thead>
                                 <tr>
@@ -583,22 +583,7 @@
                             </tbody>
 
                         </table>
-                        <span>2nd</span>
-                        <table class="table table-bordered" id="datatable3">
-                            <thead>
-                                <tr>
-
-                                    <th>Qustion</th>
-                                    <th>Answer</th>
-                                    <th>Remark</th>
-                                    <th style="display:none;"></th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-
-                        </table>
+                       
 
 
 
@@ -1094,40 +1079,12 @@ window.location.href ="/Inspection/ViewInspectionProject?SectorTypeId="+SectorTy
                     $("#datatable2 tbody").empty();
                     var i = 1;
                     $.each(data, function (key, value) {
-
-                        if (value.InstallentId==1) {
                             if (value.InspectionAnswer == "Yes") {
-
                                 $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='" + value.InspectionAnswer + "' checked='checked' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
-
-
                             }
-
-
                             else {
-
                                 $('#datatable2 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No' checked='checked'  name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
-
-
                             }
-                        }
-                        else {
-                            if (value.InspectionAnswer == "Yes") {
-
-                                $('#datatable3 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='" + value.InspectionAnswer + "' checked='checked' name='answer" + i + "'>Yes<input type='radio' value='No'   name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
-
-
-                            }
-
-
-                            else {
-
-                                $('#datatable3 tbody').append("<tr><td>" + value.InspectionQuestion + "</td ><td><input type='radio' value='Yes' name='answer" + i + "'>Yes<input type='radio' value='No' checked='checked'  name='answer" + i + "'>No<span id='answervalidone" + i + "'></td><td><input type='text'  class='form-control form-control-sm' value='" + value.Remark + "'></td><td><input type='hidden' value=" + value.InspectionQuestionID + "><td></tr > ")
-
-
-                            }
-                        }
-                      
                         i = i + 1;
 
                     })

@@ -579,7 +579,7 @@
                 type: "GET",
                 success: function (data) {
                     $("#SectorID").empty();
-                    $("#SectorID").append("<option value='0'>Select</option>");
+                    $("#SectorID").append("<option value='0' selected='selected'>Select</option>");
                     for (var i = 0; i < data.length; i++) {
                         $("#SectorID").append($("<option></option>").val(data[i].SectorNameId).html(data[i].SectorName))
                     }
@@ -598,6 +598,7 @@
         }
 
         function binddata() {
+            debugger
             var Districtid = $('#DistID').val();
             //alert("ok");
             $.ajax({
@@ -609,12 +610,14 @@
                 success: function (data) {
                     //alert(data.length);
                     $('#TehsilId').empty();
+                    $('#TehsilId').append("<option  Value='0' selected='selected'>-Select-</option>");
                     $.each(data, function (key, value) {
 
                         $('#TehsilId').append($("<option></option>").val(value.TehsilId).html(value.TehsilName));
 
                     });
-                    $('#TehsilId').val($("#hdntesil").val());
+                    $('select option[value="0"]').attr("selected", true);
+                   /* $('#TehsilId').val($("#hdntesil").val());*/
                 }
             })
 

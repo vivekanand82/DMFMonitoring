@@ -234,7 +234,7 @@ namespace DMFProjectFinal.Controllers
         }
             public JsonResult MeetingInfo(string ProjectPreparationId)
             {
-            //CommitteeMaster membernames =new  CommitteeMaster();
+           
             string MemberDemo = string.Empty;
             var id = Convert.ToInt32(ProjectPreparationId);
                 ProjectMetting obj = new ProjectMetting();
