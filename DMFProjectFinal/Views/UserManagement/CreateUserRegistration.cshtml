@@ -108,6 +108,7 @@
     <script>
         $(document).ready(function () {
             $("#EmailId").keyup(function () {
+                debugger
                 $("#UserName").val($(this).val());
             });
 
@@ -201,10 +202,10 @@
         $("#EmailID").keyup(function () {
             debugger
             var RoleID = $("#RoleID").val() ;
-            var username = $("#UserNames").val();
+            var username = $("#UserName").val($("#EmailID").val());
             if (RoleID == 3 || RoleID == 6 && username == 0) {
                 alert("Please Select UserName First.");
-                $("#UserNames").focus();
+                $("#UserName").focus();
                 return;
             }
         })

@@ -689,6 +689,39 @@ namespace DMFProjectFinal.Controllers
 
         }
 
+        #region Ramdhyan
+
+        //public ActionResult CreateInspection(int ProjectPreparationID)
+        //{
+        //    int? DistID = null;
+        //    if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+        //    {
+        //        DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+        //    }
+        //    DTO_InspectionMaster model = new DTO_InspectionMaster();
+        //    var ProjectNo = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationID).FirstOrDefault().ProjectNo;
+        //    model.DistrictID = DistID;
+        //    model.ProjectNo = ProjectNo;
+        //    model.ProjectPreparationID = ProjectPreparationID;
+        //    ViewBag.ProjectID = new SelectList((from mm in db.MileStoneMasters
+        //                                        join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID into pps_left
+        //                                        from pm in pps_left.DefaultIfEmpty()
+        //                                        where pm.IsActive == true && mm.DistrictID == DistID && mm.ProjectPreparationID == pm.ProjectPreparationID && mm.IsPhProgressDone == true && mm.IsInspectionDone != true
+        //                                        select new
+        //                                        {
+        //                                            ProjectNo = mm.ProjectNo,
+        //                                            ProjectName = pm.ProjectName
+        //                                        }).Distinct(), "ProjectNo", "ProjectName", ProjectNo);
+
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public ActionResult CreateInspection(DTO_InspectionMaster model)
+        //{
+        //    return View();
+        //}
+
         public ActionResult CreateInspection(int ProjectPreparationID)
         {
             int? DistID = null;
@@ -717,8 +750,333 @@ namespace DMFProjectFinal.Controllers
         [HttpPost]
         public ActionResult CreateInspection(DTO_InspectionMaster model)
         {
+            string msg = string.Empty;
+            JsonResponse JR = new JsonResponse();
+            if (!ModelState.IsValid)
+            {
+                JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+                return Json(JR, JsonRequestBehavior.AllowGet);
+            }
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var installment = db.PhysicalProgressMasters.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.DistrictID == model.DistrictID).OrderByDescending(x=>x.Phyicalintsallmentflag).FirstOrDefault();
+                    var installmentID = Convert.ToInt32(installment.Phyicalintsallmentflag);
+                    var milestone = db.MileStoneMasters.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == installmentID).FirstOrDefault();
+                    foreach (var item in model.lis)
+                    {
+                        InspectionCheckListAnswerMaster obj = new InspectionCheckListAnswerMaster();
+                        obj.InspectionAnswer = item.InspectionAnswer;
+                        obj.InspectionQuestionID = item.InspectionQuestionID;
+                        obj.InspectionQuestion = item.InspectionQuestion;
+                        obj.ProjectNo = model.ProjectNo;
+                        obj.ProjectPreparationID = model.ProjectPreparationID;
+                        obj.Districtid = model.DistrictID;
+                        obj.FundReleaseID = installment.FundReleaseID;
+                        obj.InstallmentID = installmentID;
+                        obj.CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString();
+                        obj.CreatedDate = DateTime.Now;
+                        obj.IsActive = true;
+                        db.InspectionCheckListAnswerMasters.Add(obj);
+                        db.SaveChanges();
+                    }
+                    if (!String.IsNullOrEmpty(model.InspectionCopy))
+                    {
+                        if (model.InspectionCopy.Contains("Expp::"))
+                        {
+                            msg = model.InspectionCopy;
+                            return Json(msg, JsonRequestBehavior.AllowGet);
+                        }
+                        //HttpPostedFileBase file = Request.Files["InspectionCopy"];
+                        //model.InspectionCopy = file.FileName;
+                        //file.SaveAs(Server.MapPath("~/Documents/")+file.FileName);
+                    }
+                    if (!String.IsNullOrEmpty(model.InspectionImage1))
+                    {
+                        model.InspectionImage1 = BusinessLogics.UploadFileDMF(model.InspectionImage1);
+                        if (model.InspectionImage1.Contains("Expp::"))
+                        {
+                            msg = model.InspectionImage1;
+                            return Json(msg, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(model.InspectionImage2))
+                    {
+                        model.InspectionImage2 = BusinessLogics.UploadFileDMF(model.InspectionImage2);
+                        if (model.InspectionImage2.Contains("Expp::"))
+                        {
+                            msg = model.InspectionImage2;
+                            return Json(msg, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(model.InspectionImage3))
+                    {
+                        model.InspectionImage3 = BusinessLogics.UploadFileDMF(model.InspectionImage3);
+                        if (model.InspectionImage3.Contains("Expp::"))
+                        {
+                            msg = model.InspectionImage3;
+                            return Json(msg, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(model.InspectionImage4))
+                    {
+                        model.InspectionImage4 = BusinessLogics.UploadFileDMF(model.InspectionImage4);
+                        if (model.InspectionImage4.Contains("Expp::"))
+                        {
+                            msg = model.InspectionImage4;
+                            return Json(msg, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    var utilization = db.UtilizationMasters.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.DistrictID == model.DistrictID && x.FundReleaseID == installment.FundReleaseID).FirstOrDefault();
+                    db.InspectionMasters.Add(new InspectionMaster
+                    {
+                        ProjectNo = model.ProjectNo,
+                        ProjectPreparationID = model.ProjectPreparationID
+                    ,
+                        DistrictID = model.DistrictID,
+                        FundReleaseID = installment.FundReleaseID,
+                        MileStoneID = milestone.MileStoneID,
+                        InspectionCopy = model.InspectionCopy,
+                        InspectionImage1 = model.InspectionImage1,
+                        InspectionImage2 = model.InspectionImage2,
+                        InspectionImage3 = model.InspectionImage3,
+                        InspectionImage4 = model.InspectionImage4,
+                        InspectionDate = model.InspectionDate,
+                        UtilizationID = utilization.UtilizationID,
+                        InstallmentID = installmentID,
+                        Remark = model.Remark,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
+                        IsActive = true,
+
+
+                    });
+                    var res = db.SaveChanges();
+                    if (res > 0)
+                    {
+                        msg = "1";
+                        var fundupdt = db.FundReleases.Where(x => x.DistrictID == model.DistrictID && x.ProjectPreparationID == model.ProjectPreparationID && x.InstallmentID == installmentID).FirstOrDefault();
+                        if (milestone != null)
+                        {
+                            //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
+                            milestone.IsInspectionDone = true;
+                            db.Entry(milestone).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        if (fundupdt != null)
+                        {
+                            //DTO_MileStoneMaster mile = new DTO_MileStoneMaster();
+                            fundupdt.IsInspectionDone = true;
+                            db.Entry(fundupdt).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        #region Ramdhyan----code for final status update
+                        var milestonecount = db.MileStoneMasters.Where(x => x.ProjectPreparationID == model.ProjectPreparationID).Count();
+                        if (milestone.InstallmentID == milestonecount)
+                        {
+                            var updtfinalstatus = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == model.ProjectPreparationID).FirstOrDefault();
+                            updtfinalstatus.FinalStatus = "Closed";
+                            updtfinalstatus.Stageid = 3;
+                            updtfinalstatus.RunningStatus = "Completed";
+                            updtfinalstatus.ModifyDate = DateTime.Now;
+                            db.Entry(updtfinalstatus).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        #endregion
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        msg = "0";
+                        transaction.Rollback();
+                    }
+                    return Json(msg, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult InspectcionList(string SectorType, string SectorName, string DistrictName, string ProjectName)
+        {
+            ViewBag.SectorType = new SelectList(db.SectorTypeMasters, "SectorType", "SectorType", null);
+            ViewBag.SectorName = new SelectList(db.SectorNameMasters, "SectorName", "SectorName", null);
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                var district = db.DistrictMasters.Where(x => x.DistrictId == DistID).FirstOrDefault();
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters.Where(x => x.DistrictName == district.DistrictName), "DistrictName", "DistrictName", district.DistrictName);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.DistID == DistID && x.Stageid == 2), "ProjectName", "ProjectName", null);
+
+                var groupedData = (from mm in db.MileStoneMasters
+                                   join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
+                                   into ppps
+                                   from ppp in ppps.DefaultIfEmpty()
+                                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
+                                   from stm in stms.DefaultIfEmpty()
+                                   join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
+                                   from snm in snms.DefaultIfEmpty()
+                                   where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2 && mm.IsFundReleased == true && mm.IsPhProgressDone == true && mm.IsUtilizationUploaded==true
+                                   && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                   && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                   && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                   && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                                   // orderby mm.MileStoneStatus descending
+                                   select new DTO_InspectionMaster
+                                   {
+                                       ProjectPreparationID = ppp.ProjectPreparationID,
+                                       DistrictID = ppp.DistID,
+                                       ProjectNo = ppp.ProjectNo,
+                                       DistrictName = dm.DistrictName,
+                                       ProjectName = ppp.ProjectName,
+                                       SectorName = snm.SectorName,
+                                       SectorType = stm.SectorType,
+                                       SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                       IsPhProgressDone = mm.IsPhProgressDone,
+                                       IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                                       IsInspectionDone = mm.IsInspectionDone,
+                                       IsFundReleased = mm.IsFundReleased,
+                                       MileStoneStatus = mm.MileStoneStatus
+                                   })
+                 .GroupBy(x => x.ProjectPreparationID)
+                 .ToList();
+
+                //var data = groupedData.OrderByDescending(x=>x.mil);
+                var data = groupedData.Select(group => group.ToList().OrderByDescending(x => x.MileStoneStatus));
+                var processedData = data.Select(group => group.FirstOrDefault()).ToList();
+                ViewBag.LstData = processedData;
+            }
+            else
+            {
+                ViewBag.DistrictName = new SelectList(db.DistrictMasters, "DistrictName", "DistrictName", null);
+                ViewBag.ProjectName = new SelectList(db.ProjectProposalPreprations.Where(x => x.Stageid == 2), "ProjectName", "ProjectName", null);
+                var groupedData = (from mm in db.MileStoneMasters
+                                   join dm in db.DistrictMasters on mm.DistrictID equals dm.DistrictId
+                                   join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
+                                   into ppps
+                                   from ppp in ppps.DefaultIfEmpty()
+                                   join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID into stms
+                                   from stm in stms.DefaultIfEmpty()
+                                   join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
+                                   from snm in snms.DefaultIfEmpty()
+                                   where ppp.IsActive == true && ppp.ProjectNo != null && ppp.Stageid == 2 && mm.IsFundReleased == true && mm.IsPhProgressDone == true && mm.IsUtilizationUploaded == true
+                                   && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
+                                   && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
+                                   && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
+                                   && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
+                                   // orderby mm.MileStoneStatus descending
+                                   select new DTO_UtilizationMaster
+                                   {
+                                       ProjectPreparationID = ppp.ProjectPreparationID,
+                                       DistrictID = ppp.DistID,
+                                       ProjectNo = ppp.ProjectNo,
+                                       DistrictName = dm.DistrictName,
+                                       ProjectName = ppp.ProjectName,
+                                       SectorName = snm.SectorName,
+                                       SectorType = stm.SectorType,
+                                       SanctionedProjectCost = ppp.SanctionedProjectCost,
+                                       IsPhProgressDone = mm.IsPhProgressDone,
+                                       IsUtilizationUploaded = mm.IsUtilizationUploaded,
+                                       IsInspectionDone = mm.IsInspectionDone,
+                                       IsFundReleased = mm.IsFundReleased,
+                                       MileStoneStatus = mm.MileStoneStatus
+                                   })
+                   .GroupBy(x => x.ProjectPreparationID)
+                   .ToList();
+
+                //var data = groupedData.OrderByDescending(x=>x.mil);
+                var data = groupedData.Select(group => group.ToList().OrderByDescending(x => x.MileStoneStatus));
+                var processedData = data.Select(group => group.FirstOrDefault()).ToList();
+                ViewBag.LstData = processedData;
+            }
             return View();
         }
+        public JsonResult GetInspectiondetails(int ProjectPreparationID)
+        {
+            var data = (from ipm in db.InspectionMasters
+                        join ins in db.InstallmentMasters on ipm.InstallmentID equals ins.InstallmentID into insa
+                        from ins in insa.DefaultIfEmpty()
+                        join ppp in db.ProjectProposalPreprations on ipm.ProjectPreparationID equals ppp.ProjectPreparationID into pps from ppp in pps.DefaultIfEmpty()
+                        join dm in db.DistrictMasters on ipm.DistrictID equals dm.DistrictId into dms
+                        from dm in dms.DefaultIfEmpty()
+                        //join ica in db.InspectionCheckListAnswerMasters on ipm.ProjectPreparationID equals ica.ProjectPreparationID
+                        where ipm.ProjectPreparationID == ProjectPreparationID
+                        select new DTO_InspectionMaster
+                        {
+                            //DistrictName = dm.DistrictName,
+                            ProjectPreparationID = ipm.ProjectPreparationID,
+                            ProjectName = ppp.ProjectName,
+                            InstallmentID = ipm.InstallmentID,
+                            InstallmentName = ins.InstallmentName,
+                            //InspectionQuestion = ica.InspectionQuestion,
+                            //InspectionAnswer = ica.InspectionAnswer,
+                            InspectionCopy = ipm.InspectionCopy,
+                            InspectionImage1 = ipm.InspectionImage1,
+                            InspectionImage2 = ipm.InspectionImage2,
+                            InspectionImage3 = ipm.InspectionImage3,
+                            InspectionImage4 = ipm.InspectionImage4,
+                            InspectionDate = ipm.InspectionDate,
+                            Remark = ipm.Remark
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult GetQuestionAnswerDetails(int ProjectPreparationID,int InstallmentID)
+        {
+            var data = (from icam in db.InspectionCheckListAnswerMasters
+                        join ppp in db.ProjectProposalPreprations on icam.ProjectPreparationID equals ppp.ProjectPreparationID into pps
+                        from ppp in pps.DefaultIfEmpty()
+                        join ins in db.InstallmentMasters on icam.InstallmentID equals ins.InstallmentID
+                        where icam.ProjectPreparationID == ProjectPreparationID && icam.InstallmentID==InstallmentID
+                        select new DTO_InspectionMaster
+                        {
+                            ProjectName = ppp.ProjectName,
+                            InspectionAnswer = icam.InspectionAnswer,
+                            InspectionQuestion = icam.InspectionQuestion,
+                            InstallmentName=ins.InstallmentName
+                        }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BindSector(string SectorType)
+        {
+            var sectortypeID = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();
+
+            var data = (from st in db.SectorNameMasters
+                        where st.SectorTypeId == sectortypeID.SectorTypeID
+                        select new DTO_SectorNameMaster
+                        {
+                            SectorName = st.SectorName
+                        }).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult BindProject(string SectorType, string SectorName, string DistrictName)
+        {
+            var sectorID = db.SectorNameMasters.Where(x => x.SectorName == SectorName).FirstOrDefault() ?? new SectorNameMaster();
+            var SectorTypeId = db.SectorTypeMasters.Where(x => x.SectorType == SectorType).FirstOrDefault() ?? new SectorTypeMaster();
+            var District = db.DistrictMasters.Where(x => x.DistrictName == DistrictName).FirstOrDefault() ?? new DistrictMaster();
+
+            var data = (from ppp in db.ProjectProposalPreprations
+                        where ppp.Stageid == 2
+                        && ppp.SectorTypeId == (SectorTypeId.SectorTypeID == 0 ? ppp.SectorTypeId : SectorTypeId.SectorTypeID)
+                        && ppp.SectorID == (sectorID.SectorNameId == 0 ? ppp.SectorID : sectorID.SectorNameId)
+                        && ppp.DistID == (District.DistrictId == 0 ? ppp.DistID : District.DistrictId)
+                        select new DTO_ProjectProposalPrepration
+                        {
+                            ProjectName = ppp.ProjectName
+
+                        }).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
     }
 }

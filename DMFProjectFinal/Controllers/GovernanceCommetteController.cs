@@ -35,7 +35,7 @@ namespace DMFProjectFinal.Controllers
                                join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                                join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                                join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
-                               where ppp.IsActive == true
+                               where ppp.IsActive == true && ppp.Stageid!=3
                                && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
                                && ppp.AgencyID == (AgencyID == null ? ppp.AgencyID : AgencyID)
                                && ppp.SectorID == (SectorID == null ? ppp.SectorID : SectorID)
@@ -82,7 +82,7 @@ namespace DMFProjectFinal.Controllers
                                join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId
                                join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                                join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
-                               where ppp.IsActive == true
+                               where ppp.IsActive == true && ppp.Stageid!=3
                               && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
                             && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
                             && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
@@ -360,6 +360,8 @@ namespace DMFProjectFinal.Controllers
 
             var data = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == ProjectPreparationId).FirstOrDefault();
             data.SanctionedProjectCost = SanctionedProjectCost;
+            data.Stageid = 2;
+            data.RunningStatus = "Approved";
             db.Entry(data).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return Json(null, JsonRequestBehavior.AllowGet);

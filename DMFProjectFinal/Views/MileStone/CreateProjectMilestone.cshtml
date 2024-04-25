@@ -61,7 +61,7 @@
                          { @class = "form-control form-control-sm multiple-deps-ddl", @id = "ProjectPreparationID", @onchange = "return changedata()" })
                             </td>
 
-                            <td>   @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })</td>
+                            <td>   @Html.DropDownListFor(x => x.InstallmentID, null, "Select Intsallment Type", new { @class = "installment form-control form-control-sm multiple-deps-ddl", @id = "InstallmentID", @onchange = "binddata()" })</td>
 
                             <td>  @Html.TextBoxFor(x => x.Instext, "", new { @class = "form-control form-control-sm", @autocomplete = "off", @id = "Instext" })</td>
 
@@ -215,7 +215,7 @@
                //})
 
            $("#btn").click(function () {
-
+               debugger
               
                var DistID = $("#DistID")
 
@@ -225,7 +225,10 @@
 
                var Instext = $("#Instext")
                var InsPercentage = $("#InsPercentage")
-
+               var installment = $(this).prev(".installment").text();
+               if (installment == InstallmentID) {
+                   alert(installment);
+               }
                if (DistID.val() == "") {
 
                    toastr.warning('Please Select District Name');

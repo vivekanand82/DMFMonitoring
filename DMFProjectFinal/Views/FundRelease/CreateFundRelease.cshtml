@@ -34,7 +34,15 @@
                 <div class="col-md-4">
                     <div class="form-label">
                         <strong>Select Project<sup><code>*</code></sup></strong>
-                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                        @if (!String.IsNullOrEmpty(Model.ProjectNo))
+                        {
+                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" ,@disabled="disabled"})
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+
+                        }
                     </div>
 
                 </div>
@@ -275,7 +283,7 @@
             data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
             success: function (data) {
                 $("#InstallmentID").empty();
-                $("#InstallmentID").append("<option value='0'>Select Installment</option>");
+                //$("#InstallmentID").append("<option value='0'>Select Installment</option>");
                     $("#InstallmentID").append("<option value=" + data.InstallmentID + ">" + data.InstallmentName + "</option>");
                 //for (var i = 0; i < data.length; i++) {
                 //}

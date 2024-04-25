@@ -1,0 +1,518 @@
+﻿
+
+@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "Inspection List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+}
+<!--Modal For Inspection details-->
+<div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Inspection Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td id="ProjectName"></td>
+                    </tr>
+                </table>
+                @*<div style="font-size:15px;margin:10px"><span id="ProjectName" class="text-dark"></span></div>*@
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Installment Name</th>
+                        <th>InspectionDate</th>
+                        <th>Inspection Copy</th>
+                        <th>Inspection Images</th>
+                        @*<th>Inspection Question</th>
+                        <th>Inspection Answer</th>*@
+                        @*<th>Installment</th>*@
+                        <th>Remarks</th>
+                        <th>View Inspection Questions</th>
+                        @*<th>Action</th>*@
+                    </tr>
+                    <tbody id="UtilizationDetails"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Second Modal fro show the questin and answer details -->
+<div class="modal zoomIn" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Inspection Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td id="ProjectName1"></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr>
+                       
+                        <th>InstallmentName</th>
+                        <th>Inspection Question</th>
+                            <th>Inspection Answer</th>
+                     
+                     
+                      
+                    </tr>
+                    <tbody id="InspectionQuestionsDetails"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-header">
+    <h4 class="card-title">Project Inspection</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            @*<div class="col-md-6 text-right mb-1">
+                    @if (AM.CanInsert)
+                    {
+                        <a class="btn btn-primary btn-round" href="@Url.Action("CreateUtilization", "Utilization")" id="">Create<i class="fa fa-plus-circle"></i></a>
+                    }
+                </div>*@
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        <form action="/Inspection/InspectcionList" method="get">
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>SectorType</strong>
+                                        @Html.DropDownList("SectorType", ViewBag.SectorType as SelectList, "Choose", new { @class = "form-control", @onchange = "BindSectroName()" })
+                                        @*<input type="text" name="SectorType" class="form-control" autocomplete="off"/>*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>Sector Name</strong>
+                                        @Html.DropDownList("SectorName", ViewBag.SectorName as SelectList, "Choose", new { @class = "form-control", @id = "SectorName", @onchange = "BindProjects()" })
+                                        @*<input type="hidden" value="@ViewBag.LstData[0].DistrictID" name="DistrictID" />*@
+                                        @*<input type="text" name="SectorName" class="form-control" autocomplete="off"/>*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>District Name</strong>
+                                        @if (AM.RoleID == 2)
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, new { @class = "form-control", @id = "DistrictName", disabled = "disabled" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("DistrictName", ViewBag.DistrictName as SelectList, "Choose", new { @class = "form-control", @id = "DistrictName", @onchange = "BindProjects()" })
+
+                                        }
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>Project Name</strong>
+                                        @*<input type="text" name="ProjectName" class="form-control" autocomplete="off" />*@
+                                        @Html.DropDownList("ProjectName", ViewBag.ProjectName as SelectList, "Choose", new { @class = "form-control", @id = "Project" })
+                                    </div>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-label">
+                                        <strong>&nbsp;</strong>
+                                        <input type="submit" id="btnSubmit" value="Search" class="btn btn-primary" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>District</th>
+                                                <th>Sector Name</th>
+                                                <th>Sector Type</th>
+                                                <th>Project Name</th>
+                                                @*<th> UtilizationNo</th>
+                                                    <th>Utilization Copy</th>
+                                                    <th> Utilization Date</th>
+                                                    <th>Remarks </th>*@
+
+                                                @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
+                                                {
+                                                    <th>Action</th>
+                                                }
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_InspectionMaster item in ViewBag.LstData)
+                                            {
+                                                var projectfinalstatus = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).Count();
+
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.SectorName</td>
+                                                    <td>@item.SectorType</td>
+                                                    <td>@item.ProjectName</td>
+                                                    @*@if (String.IsNullOrEmpty(item.UtilizationCopy))
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                                        }*@
+                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>*@
+
+
+
+                                                    @*<td>@item.SanctionedProjectCost</td>*@
+                                                    @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
+                                                    @if (AM.CanInsert || AM.CanView)
+                                                    {
+                                                <th>
+                                                    @if (AM.CanView)
+                                                    {
+                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Inspectiondetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        if (item.IsUtilizationUploaded == true && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone != true)
+                                                        {
+                                                            <a href="/Inspection/CreateInspection?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Update Inspection</a>
+                                                        }
+                                                        else if (item.IsUtilizationUploaded == true && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone == true && projectfinalstatus==item.MileStoneStatus)
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                        }
+                                                        else if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone == true)
+                                                        {
+                                                        }
+
+                                                    }
+                                              
+                                                </th>
+                                                    }
+                                                    <th>
+
+                                                        @if (item.MileStoneStatus == 1)
+                                                        {
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">1st Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">1st Installment  (InProcess)</span>
+
+                                                            }
+                                                        }
+                                                        else if (item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
+                                                        {
+                                                            <a href="#" class="btn btn-small btn-danger">Closed</a>
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 2)
+                                                        {
+
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">2nd Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">2nd Installment  (InProcess)</span>
+
+                                                            }
+                                                        }
+                                                        else if (item.MileStoneStatus == 3)
+                                                        {
+
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">3rd Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">3rd Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 4)
+                                                        {
+
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">4th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">4th Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 5)
+                                                        {
+
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">5th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">5th Installment  (InProcess)</span>
+
+                                                            }
+
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 6)
+                                                        {
+                                                            if (item.IsInspectionDone == true)
+                                                            {
+                                                                <span class="text-success">6th Installment  (Finished)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">6th Installment  (InProcess)</span>
+
+                                                            }
+
+                                                        }
+                                                        else if (item.MileStoneStatus == 0)
+                                                        {
+                                                            <span class="text-danger">1st Installment  (Not Released)</span>
+
+                                                        }
+
+                                                    </th>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#tblData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('Utilization.' + (type || 'xlsx')));
+        }
+    </script>
+    <script>
+        function Inspectiondetails(ProjectPreparationID) {
+            $("#exampleModal").hide();
+            //var ProjectPreparationID = $(this).attr('value');
+            $.ajax({
+                url: "/Inspection/GetInspectiondetails?ProjectPreparationID=" + ProjectPreparationID,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if ($.trim(data) != "") {
+                        $("#ProjectName").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                        var html = "";
+                        //var InspectionDate = new Date(parseInt(data[0].InspectionDate.substr(6)));
+                        //html += "<tr>";
+                        //html += "<td rowspan='" + (data.length * 2) + "'>" + data[0].InstallmentName + "</td>";
+                        //html += "<td rowspan='" + (data.length * 2) + "'>" + InspectionDate.toLocaleDateString("es-CL") + "</td>";
+                        //html += "<td rowspan='" + (data.length * 2) + "'><a href=" + data[i].InspectionCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                        ////html += "<td rowspan='" + (data.length * 2) + "'>" + data[0].InspectionImage1 + "</td>";
+                        //html += "<td rowspan='" + (data.length * 2) + "'>" + data[0].Remark + "</td>";
+                        //html += "</tr>";
+                        for (var i = 0; i < data.length; i++) {
+                            var InspectionDate = new Date(parseInt(data[i].InspectionDate.substr(6)));
+                            html += "<tr>";
+                            html += "<td>" + data[i].InstallmentName + "</td>";
+                            html += "<td>" + InspectionDate.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td><a href=" + data[i].InspectionCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            html += "<td><a href=" + data[i].InspectionImage1 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[i].InspectionImage2 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[i].InspectionImage3 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[i].InspectionImage4 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            html += "<td>" + data[i].Remark + "</td>";
+                            //html += "<td>" + data[i].InspectionQuestion + "</td>";
+                            //html += "<td>" + data[i].InspectionAnswer + "</td>";
+                            html += "<td><a  data-bs-toggle='modal' data-bs-target='#exampleModal2' class='btn btn-small btn-info' onclick='GetQuestionAnswerDetails(" + data[i].ProjectPreparationID + "," + data[i].InstallmentID+")'><i class='fa fa-eye' aria-hidden='true'></i></a></td>";
+
+                            //html += "<td><a href='/Utilization/EditUtilization?UtilizationID=" + data[i].UtilizationID + "' class='btn btn-small btn-success'><i class='fa fa-pencil' aria-hidden='true'></i></a> &nbsp;<a onclick='DeletephUtilization(" + data[i].UtilizationID + ")' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            //html += "<td><a href='/Fundrelease/DeleteReleasedFund?FundReleaseID=" + data[i].FundReleaseID +"' class='btn btn-small btn-danger delete-recored'><i class='fa fa-trash' aria-hidden='true'></i></a></td>";
+                            html += "</tr>";
+
+                        }
+                        $("#UtilizationDetails").html(html);
+                        $("#exampleModal").show();
+                    }
+                    else {
+                        $("#UtilizationDetails").html("<tr><td colspan='7' style='text-align:center'>No data found.</td></tr>");
+                        $("#exampleModal").show();
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function BindSectroName() {
+            var SectorType = $("#SectorType").val();
+            $.ajax({
+                url: "/Inspection/BindSector?SectorType=" + SectorType,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "GET",
+                success: function (data) {
+                    $("#SectorName").empty();
+                    $("#SectorName").append("<option value=''>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#SectorName").append("<option value='" + data[i].SectorName + "'>" + data[i].SectorName + "</option>");
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function BindProjects() {
+            debugger
+            var SectorType = $("#SectorType").val();
+            var SectorName = $("#SectorName").val();
+            var DistrictName = $("#DistrictName").val();
+            $.ajax({
+                url: "/Inspection/BindProject?SectorType="+ SectorType+"&&SectorName="+SectorName+"&&DistrictName="+DistrictName,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "POST",
+                success: function (data) {
+                    $("#Project").empty();
+                    $("#Project").append("<option value=''>Choose</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#Project").append("<option value='" + data[i].ProjectName + "'>" + data[i].ProjectName + "</option>");
+                        console.log(data[i].ProjectNo)
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function DeletephUtilization(UtilizationID) {
+            var conf = confirm("Are you sure you want to delete this Record ??");
+            if (conf) {
+                $.ajax({
+                    url: "/Utilization/DeleteUtilization?UtilizationID=" + UtilizationID,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    type: "POST",
+                    success: function (data) {
+                        if (data == "1") {
+                            toastr.success("data Deleted Successfully !!", "Success");
+                            window.location.reload();
+                        }
+                        else if (data == "0") {
+                            toastr.success("Something went wrong plz try later !!", "Error");
+                        }
+                    }
+                })
+            }
+
+        }
+    </script>
+    <script>
+        function GetQuestionAnswerDetails(ProjectPreparationID, InstallmentID) {
+            debugger
+            $("#exampleModal2").hide();
+            $.ajax({
+                url: "/Inspection/GetQuestionAnswerDetails?ProjectPreparationID=" + ProjectPreparationID + "&&InstallmentID=" + InstallmentID,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                type: "POST",
+                success: function (data) {
+                    if ($.trim(data) != "") {
+                        $("#ProjectName1").html("Project Name : <b>" + data[0].ProjectName + "</b>");
+                        var html = "";
+                         html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 2) + "'>" + data[0].InstallmentName + "</td>";
+                        html += "</tr>";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].InspectionQuestion + "</td>";
+                            html += "<td>" + data[i].InspectionAnswer + "</td>";
+                            html += "</tr>";
+
+                        }
+                        $("#InspectionQuestionsDetails").html(html);
+                        $("#exampleModal2").show();
+                    }
+                    else {
+                        $("#InspectionQuestionsDetails").html("<tr><td colspan='1' style='text-align:center'>No data found.</td></tr>");
+                        $("#exampleModal2").show();
+                    }
+                }
+            })
+        }
+    </script>
+}

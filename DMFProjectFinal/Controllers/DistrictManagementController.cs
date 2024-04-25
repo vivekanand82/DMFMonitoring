@@ -81,7 +81,7 @@ namespace DMFProjectFinal.Controllers
                            join stm in db.SectorTypeMasters on ppp.SectorTypeId equals stm.SectorTypeID
                            join ag in db.AgenciesInfoes on ppp.AgencyID equals ag.AgencyID
                            // join pm in db.ProjectMasters on ppp.ProjectID equals pm.ProjectID
-                           where ppp.IsActive == true
+                           where ppp.IsActive == true && ppp.Stageid!=3
                            && ppp.DistID == (DistID == null ? ppp.DistID : DistID)
                            && ppp.AgencyID == (AgencyID == null ? ppp.AgencyID : AgencyID)
                            //&& ppp.ProjectID == (ProjectID == null ? ppp.ProjectID : ProjectID)
@@ -296,8 +296,7 @@ namespace DMFProjectFinal.Controllers
         }
 
 
-        public JsonResult insertmeetingdata(DTO_ProjectProposalPrepration model,
-  string lis)
+        public JsonResult insertmeetingdata(DTO_ProjectProposalPrepration model,string lis)
         {
 
             JsonResponse JR = new JsonResponse();

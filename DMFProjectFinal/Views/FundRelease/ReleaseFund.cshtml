@@ -43,7 +43,7 @@
     </div>
 </div>
 <div class="card-header">
-    <h4 class="card-title">Fund Released Project List</h4>
+    <h4 class="card-title">project Release Fund </h4>
 </div>
 <div id="divform">
     <div class="card-body">
@@ -208,107 +208,107 @@
 
                                                     }
                                                     </th>
-                                                    <th>
-
-                                                        @if (item.MileStoneStatus == 1)
+                                                <th>
+                                                   
+                                                    @if (item.MileStoneStatus == 1)
+                                                    {
+                                                        if (item.IsInspectionDone == true)
                                                         {
-                                                            if (item.IsInspectionDone == true)
-                                                            {
-                                                                <span class="text-success">1st Installment  (Finished)</span>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-primary">1st Installment  (InProcess)</span>
-
-                                                            }
-                                                        }
-                                                        else if (item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
-                                                        {
-                                                            <a href="#" class="btn btn-small btn-danger">Closed</a>
+                                                            <span class="text-success">1st Installment  (Finished)</span>
 
                                                         }
-                                                        else if (item.MileStoneStatus == 2)
+                                                        else
                                                         {
-                                                         
-                                                            if (item.IsInspectionDone == true)
-                                                            {
-                                                                <span class="text-success">2nd Installment  (Finished)</span>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-primary">2nd Installment  (InProcess)</span>
-
-                                                            }
-                                                        }
-                                                        else if (item.MileStoneStatus == 3)
-                                                        {
-                                                          
-                                                            if (item.IsInspectionDone == true)
-                                                            {
-                                                                <span class="text-success">3rd Installment  (Finished)</span>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-primary">3rd Installment  (InProcess)</span>
-
-                                                            }
+                                                            <span class="text-primary">1st Installment  (InProcess)</span>
 
                                                         }
-                                                        else if (item.MileStoneStatus == 4)
+                                                    }
+                                                    else if (item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
+                                                    {
+                                                        <a href="#" class="btn btn-small btn-danger">Closed</a>
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 2)
+                                                    {
+
+                                                        if (item.IsInspectionDone == true)
                                                         {
-                                                           
-                                                            if (item.IsInspectionDone == true)
-                                                            {
-                                                                <span class="text-success">4th Installment  (Finished)</span>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-primary">4th Installment  (InProcess)</span>
-
-                                                            }
+                                                            <span class="text-success">2nd Installment  (Finished)</span>
 
                                                         }
-                                                        else if (item.MileStoneStatus == 5)
+                                                        else
                                                         {
-                                                          
-                                                            if (item.IsInspectionDone == true)
-                                                            {
-                                                                <span class="text-success">5th Installment  (Finished)</span>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-primary">5th Installment  (InProcess)</span>
-
-                                                            }
-
+                                                            <span class="text-primary">2nd Installment  (InProcess)</span>
 
                                                         }
-                                                        else if (item.MileStoneStatus == 6)
+                                                    }
+                                                    else if (item.MileStoneStatus == 3)
+                                                    {
+
+                                                        if (item.IsInspectionDone == true)
                                                         {
-                                                            if (item.IsInspectionDone == true)
-                                                            {
-                                                                <span class="text-success">6th Installment  (Finished)</span>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-primary">6th Installment  (InProcess)</span>
-
-                                                            }
+                                                            <span class="text-success">3rd Installment  (Finished)</span>
 
                                                         }
-                                                        else if (item.MileStoneStatus == 0)
+                                                        else
                                                         {
-                                                            <span class="text-danger">1st Installment  (Not Released)</span>
+                                                            <span class="text-primary">3rd Installment  (InProcess)</span>
 
                                                         }
 
-                                                    </th>
+                                                    }
+                                                    else if (item.MileStoneStatus == 4)
+                                                    {
+
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">4th Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">4th Installment  (InProcess)</span>
+
+                                                        }
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 5)
+                                                    {
+
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">5th Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">5th Installment  (InProcess)</span>
+
+                                                        }
+
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 6)
+                                                    {
+                                                        if (item.IsInspectionDone == true)
+                                                        {
+                                                            <span class="text-success">6th Installment  (Finished)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">6th Installment  (InProcess)</span>
+
+                                                        }
+
+                                                    }
+                                                    else if (item.MileStoneStatus == 0)
+                                                    {
+                                                        <span class="text-danger">1st Installment  (Not Released)</span>
+
+                                                    }
+
+                                                </th>
                                                 </tr>
                                             }
                                         </tbody>

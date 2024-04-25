@@ -285,11 +285,11 @@ namespace DMFProjectFinal.Models.DTO
         [Required]
         public Nullable<System.DateTime> ProposalDate { get; set; }
 
-        //[Display(Name = "Proposal Copy")]
-        //[Required]
+        [Display(Name = "Proposal Copy")]
+        [Required]
         public string ProposalCopy { get; set; }
-        //[Display(Name = "WorkOrder Copy")]
-        //[Required]
+        [Display(Name = "WorkOrder Copy")]
+        [Required]
         public string WorkOrderCopy { get; set; }
 
         [Display(Name = "Proposed By")]
@@ -346,23 +346,34 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<long> ModifyBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
-
+        [Display(Name = "Sector Type ")]
+        [Required]
         public Nullable<int> SectorTypeId { get; set; }
 
         [Display(Name = "District")]
         [Required]
         public Nullable<int> DistID { get; set; }
+        [Display(Name = "Tehsil")]
+        [Required]
         public Nullable<int> TehsilId { get; set; }
+        [Display(Name = "Block")]
+        [Required]
         public Nullable<int> BlockId { get; set; }
+        [Display(Name = "Village")]
+        [Required]
         public Nullable<long> VillageId { get; set; }
         public string AgencyName { get; set; }
         public string DistrictName { get; set; }
+        [Display(Name = "ProjectName")]
+        [Required]
         public string ProjectName { get; set; }
         public string ProjectStatus { get; set; }
         public string SectorName { get; set; }
         public string SectorType { get; set; }
         public decimal? WorkLatitude { get; set; }
         public decimal? WorkLongitude { get; set; }
+        [Display(Name = "Purpose Of work")]
+        [Required]
         public string ProjectDescription { get; set; }
         public string RunningStatus { get; set; }
         public string FinalStatus { get; set; }
@@ -753,7 +764,9 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<bool> IsInspectionDone { get; set; }
         public Nullable<bool> IsFundReleased { get; set; }
         public Nullable<int> MileStoneStatus { get; set; }
+        [Required]
         public string PhysicalProgressImages { get; set; }
+        [Required]
         public Nullable<int> ProgressStatus { get; set; }
 
     }
@@ -762,11 +775,16 @@ namespace DMFProjectFinal.Models.DTO
         public string UtilizationID { get; set; }
         public string ProjectName { get; set; }
         public string DistrictName { get; set; }
+        [Required]
         public string ProjectNo { get; set; }
+        [Required]
         public Nullable<System.DateTime> UtilizationDate { get; set; }
         public string UtilizationNo { get; set; }
+        [Required]
         public string UtilizationCopy { get; set; }
+        [Required]
         public string UC_Against_ReleaseAmount { get; set; }
+        [Required]
         public string Remarks { get; set; }
         public Nullable<int> DistrictID { get; set; }
         public Nullable<int> ProjectID { get; set; }
@@ -804,16 +822,31 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<System.DateTime> InspectionDate { get; set; }
         public Nullable<int> UtilizationID { get; set; }
         public Nullable<int> InstallmentID { get; set; }
+        public string InstallmentName { get; set; }
         public string Remark { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        
         public string InspectionAnswer { get; set; }
+        
         public Nullable<int> InspectionQuestionID { get; set; }
+        
         public string InspectionQuestion { get; set; }
         public List<DTO_InspectionMaster> lis { get; set; }
+        public string SectorType { get; set; }
+        public string SectorName { get; set; }
+        public decimal? SanctionedProjectCost { get; set; }
+        public Nullable<bool> IsPhProgressDone { get; set; }
+        public Nullable<bool> IsUtilizationUploaded { get; set; }
+        public Nullable<bool> IsInspectionDone { get; set; }
+        public Nullable<bool> IsFundReleased { get; set; }
+        public Nullable<int> MileStoneStatus { get; set; }
+        public string DistrictName { get; set; }
+        public string ProjectName { get; set; }
+
     }
 
 

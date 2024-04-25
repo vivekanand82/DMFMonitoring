@@ -37,7 +37,7 @@
             <div class="col-xxl-12">
                 <div class="" style="padding:0px">
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <!--<ul class="nav nav-tabs nav-justified" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#base-justified-home" role="tab" aria-selected="false">
                                 Basic
@@ -52,18 +52,19 @@
                             <a class="nav-link" data-bs-toggle="tab" href="#base-justified-messages" role="tab" aria-selected="false">
                                 Tender
                             </a>
-                        </li>
+                        </li>-->
                         @*<li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#base-justified-settings" role="tab" aria-selected="true">
                                     Settings
                                 </a>
                             </li>*@
-                    </ul>
+                    <!--</ul>-->
                     <!-- Tab panes -->
-                    <div class="tab-content  text-muted">
+                    
                         <div class="tab-pane active" id="base-justified-home" role="tabpanel">
-                            <h6>Distric Details</h6>
-                            <div class="row">
+                            <h6 style="text-align:center;margin-top:20px">Basic Details</h6>
+                            <hr />
+                            <div class="row" style="margin:10px;border:1px solid lightgray">
                                 <div class="col-md-3">
                                     <div class="form-label">
                                         <strong>District<sup><code>*</code></sup> : <b><span id="District"> </span></b></strong>
@@ -118,8 +119,9 @@
                             </div>
                         </div>
                         <div class="tab-pane " id="base-justified-product" role="tabpanel">
-                            <h6>Proposal and Project Cost</h6>
-                            <div class="row">
+                            <h6 style="text-align:center;margin-top:20px;">Proposal and Project Cost</h6>
+                            <hr />
+                            <div class="row" style="margin:10px;border:1px solid lightgray">
                                 <div class="col-md-3">
                                     <div class="form-label">
                                         <strong>Prosposal No<sup><code>*</code></sup>: <b><span id="ProposalNo"> </span></b></strong>
@@ -155,8 +157,9 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="base-justified-messages" role="tabpanel">
-                            <h6>Tender</h6>
-                            <div class="row">
+                            <h6 style="text-align:center;margin-top:20px;">Tender</h6>
+                            <hr />
+                            <div class="row" style="margin:10px;border:1px solid lightgray">
                                 <div class="col-md-3">
                                     <div class="form-label">
                                         <strong>Tender No<sup><code>*</code></sup>: <b><span id="TenderNo"> </span></b></strong>
@@ -199,9 +202,9 @@
 
 
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin:10px">
                                 <div class="col-xxl-12">
-                                    <h6>Management Commetee Meeting  Details :-</h6>
+                                    <h6 style="text-align:center">Management Commetee Meeting  Details :-</h6>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>Metting No</th>
@@ -220,9 +223,9 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row"  style="margin:10px">
                                 <div class="col-xxl-12">
-                                    <h6>Governing Council Meeting  Details :-</h6>
+                                    <h6  style="text-align:center">Governing Council Meeting  Details :-</h6>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>Metting No</th>
@@ -254,7 +257,6 @@
                                     farm-to-table VHS.
                                 </p>
                             </div>*@
-                    </div>
                 </div><!-- end card-body -->
             </div><!-- end card -->
         </div>
@@ -314,58 +316,62 @@
                                             @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                             {
                                                 j++;
-                                                <tr>
-                                                    <td>@j</td>
-                                                    <td>@item.ProjectNo</td>
-                                                    <td>@item.DistrictName</td>
-                                                    <td>@item.ProjectName</td>
-                                                    <td>@item.SectorName</td>
-                                                    <td>@item.ProsposalNo</td>
-                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
-                                                    @*@if (String.IsNullOrEmpty(item.ProposalCopy))
-                                                        {
-                                                            <td></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                        }*@
-                                                    @*<td>@item.ProposedBy</td>*@
-                                                    <td>@item.TenderNo</td>
-                                                    <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                    <td>@item.WorkOrderNo</td>
-                                                    <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
-                                                    @if (item.Stageid == null)
-                                                    {
-                                                        <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
-                                                    }
-                                                    else if (item.Stageid == 1)
-                                                    {
+                                            <tr>
+                                                <td>@j</td>
+                                                <td>@item.ProjectNo</td>
+                                                <td>@item.DistrictName</td>
+                                                <td>@item.ProjectName</td>
+                                                <td>@item.SectorName</td>
+                                                <td>@item.ProsposalNo</td>
+                                                @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
+                                                @*<td>@item.ProposedBy</td>*@
+                                                <td>@item.TenderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                <td>@item.WorkOrderNo</td>
+                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                @if (item.Stageid == null)
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
+                                                }
+                                                else if (item.Stageid == 1)
+                                                {
 
-                                                        <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
-                                                    }
-                                                    else if (item.Stageid == 2)
-                                                    {
+                                                    <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
+                                                }
+                                                else if (item.Stageid == 2)
+                                                {
 
-                                                        <td><a class="badge bg-success-subtle text-success">Approved By Governing Council</a></td>
-                                                    }
-                                                    else
-                                                    {
+                                                    <td><a class="badge bg-success-subtle text-success">Approved By Governing Council</a></td>
+                                                }
+                                                else if (item.Stageid == 3)
+                                                {
 
-                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                    }
-                                                    @if (item.Stageid == null || item.Stageid == 1)
-                                                    {
-                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                    }
+                                                    <td><a class="badge bg-success-subtle text-danger">Completed</a></td>
+                                                }
+                                                @if (item.Stageid == null)
+                                                {
+                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                }
 
-                                                    else if (item.Stageid == 2)
-                                                    {
+                                                else if (item.Stageid == 1)
+                                                {
 
-                                                        <td><a class="badge bg-success-subtle text-success">Approved</a></td>
-                                                    }
-                                                    <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                    @if (AM.CanUpdate || AM.CanDelete)
+                                                    <td><a class="badge bg-success-subtle text-info">InProcess</a></td>
+                                                }
+                                                else if (item.Stageid == 2)
+                                                {
+
+                                                    <td><a class="badge bg-success-subtle text-primary">Approved</a></td>
+                                                }
+                                                else if (item.Stageid == 3)
+                                                {
+
+                                                    <td><a class="badge bg-success-subtle text-danger">Closed</a></td>
+                                                }
+                                                <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                @if (item.Stageid != 3)
+                                                {
+                                                    if (AM.CanUpdate || AM.CanDelete)
                                                     {
                                                         <th>
                                                             @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
@@ -379,8 +385,9 @@
                                                             }
                                                         </th>
                                                     }
+                                                }
 
-                                                </tr>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
