@@ -231,35 +231,40 @@
                }
                if (DistID.val() == "") {
 
-                   toastr.warning('Please Select District Name');
+                   swal("Warning",'Please Select District Name',"warning");
                  
                    return false;
                }
 
                if (ProjectPreparationID.val() == "") {
 
+                   swal("Warning", 'Please Select Project Name', "warning");
 
-                   alert("Please Select  Project Name")
+                   //alert("Please Select  Project Name")
                    return false;
                }
 
                if (InstallmentID.val() == "") {
 
-                   toastr.warning('Please Select  Installment Type');
+                   swal("Warning", 'Please Select Installment Type', "warning");
+
+                   //toastr.warning('Please Select  Installment Type');
                 
                    return false;
                }
 
                if (Instext.val() == "") {
+                   swal("Warning", 'Please Enter MileStone Value', "warning");
 
-                   toastr.warning('Please Enter Value');
+                   //toastr.warning('Please Enter Value');
               
                    return false;
                }
 
                if (InsPercentage.val() == "") {
+                   swal("Warning", 'Please Enter Percentage', "warning");
 
-                   toastr.warning('Please Enter Percentage');
+                   //toastr.warning('Please Enter Percentage');
                    
                    return false;
                }
@@ -550,7 +555,7 @@
         var d = $("#datatable1 tbody > tr").length;
         if (d == 0) {
 
-            alert("Please select Row!")
+            swal("Warning","Please select Row!","warning")
             return false;
 
         }
@@ -603,28 +608,37 @@
 
                     if (r.Message == "1") {
 
-                        
-                        toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                        swal({
+                            title: 'Good Job !',
+                            text: 'Record Save Successfully !!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/MileStone/ViewMileStoneProject" ;
+                        });
+                        //toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                         //CrearFields();
                         //location.reload();
                     }
 
                     else if (r.Message == "0") {
-
-                        alert('Record Already Exists!');
+                        swal("Warning","Something went wrong please try later!","warning")
+                        //alert('Record Already Exists!');
                         return false;
 
                         //CrearFields();
                         //location.reload();
                     }
-                    else {
+                    //else {
 
-                        toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
-                        //$("#showSpinner").hide();
-                    }
+                    //    toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                    //    //$("#showSpinner").hide();
+                    //}
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                    swal("Error", "Something went wrong please try later!", "error")
+
+                    //toastr.error("Error","Something went wrong please try later!", "error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                     // $("#showSpinner").hide();
                 }
             })

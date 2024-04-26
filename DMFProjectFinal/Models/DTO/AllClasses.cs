@@ -688,7 +688,7 @@ namespace DMFProjectFinal.Models.DTO
         public string SectorName { get; set; }
         public string SectorType { get; set; }
         public decimal? SanctionedProjectCost { get; set; }
-        [Required]
+        
         public string ProjectNo { get; set; }
        
         public string ProjectName { get; set; }
@@ -726,10 +726,10 @@ namespace DMFProjectFinal.Models.DTO
     public partial class DTO_PhysicalProgressMaster
     {
         public string PhysicalprogressID { get; set; }
-        [Required]
+       
         public Nullable<int> DistrictID { get; set; }
         public Nullable<int> ProjectID { get; set; }
-        [Required]
+     
         public string ProjectNo { get; set; }
         public string DistrictName { get; set; }
         public string ProjectName { get; set; }
@@ -775,7 +775,7 @@ namespace DMFProjectFinal.Models.DTO
         public string UtilizationID { get; set; }
         public string ProjectName { get; set; }
         public string DistrictName { get; set; }
-        [Required]
+        
         public string ProjectNo { get; set; }
         [Required]
         public Nullable<System.DateTime> UtilizationDate { get; set; }

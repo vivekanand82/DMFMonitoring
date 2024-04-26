@@ -153,13 +153,13 @@
                                                 <td>@item.SectorType</td>
                                                 <td>@item.ProjectName</td>
                                                 @*@if (String.IsNullOrEmpty(item.UtilizationCopy))
-                                                    {
-                                                        <td></td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                    }*@
+        {
+            <td></td>
+        }
+        else
+        {
+            <td><a href="@item.UtilizationCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+        }*@
                                                 @*<td>@(BusinessLogics.GetJSDateStr(item.UtilizationDate))</td>*@
 
 
@@ -168,129 +168,125 @@
                                                 @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
                                                 @if (AM.CanInsert || AM.CanView)
                                                 {
-                                            <th>
-                                                @if (AM.CanView)
-                                                {
-                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
-                                                    {
-                                                        <a href="/Utilization/CreateUtilization?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Upload UC</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <!--<a href="#" class="btn btn-small btn-success">-->@*<i class="fa fa-check" aria-hidden="true"></i>*@<!--</a>-->
-                                                    }
-                                                    @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
+                                                    <th>
+                                                        @if (AM.CanView)
+                                                        {
+                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                            if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
+                                                            {
+                                                                <a href="/Utilization/CreateUtilization?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Upload UC</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <!--<a href="#" class="btn btn-small btn-success">-->@*<i class="fa fa-check" aria-hidden="true"></i>*@<!--</a>-->
+                                                            }
+                                                            @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
 
+                                                        }
+                                                        @*@if (AM.CanInsert)
+                                                        {
+                                                            <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                                                        }*@
+                                                    </th>
                                                 }
-                                                @*@if (AM.CanInsert)
-                                                {
-                                                    <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                <th>
 
-                                                }*@
-                                            </th>
-                                                }
-                                            <th>
-
-                                                @if (item.MileStoneStatus == 1)
-                                                {
-                                                    if (item.IsInspectionDone == true)
+                                                    @if (item.MileStoneStatus == 1)
                                                     {
-                                                        <span class="text-success">1st Installment  (Finished)</span>
+                                                        if (item.IsUtilizationUploaded == true)
+                                                        {
+                                                            <span class="text-success">1st Installment(Done)</span>
 
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="text-primary">1st Installment  (InProcess)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-danger">1st Installment(Pending)</span>
 
-                                                    }
-                                                }
-                                                else if (item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
-                                                {
-                                                    <a href="#" class="btn btn-small btn-danger">Closed</a>
-
-                                                }
-                                                else if (item.MileStoneStatus == 2)
-                                                {
-
-                                                    if (item.IsInspectionDone == true)
-                                                    {
-                                                        <span class="text-success">2nd Installment  (Finished)</span>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="text-primary">2nd Installment  (InProcess)</span>
-
-                                                    }
-                                                }
-                                                else if (item.MileStoneStatus == 3)
-                                                {
-
-                                                    if (item.IsInspectionDone == true)
-                                                    {
-                                                        <span class="text-success">3rd Installment  (Finished)</span>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="text-primary">3rd Installment  (InProcess)</span>
-
+                                                        }
                                                     }
 
-                                                }
-                                                else if (item.MileStoneStatus == 4)
-                                                {
-
-                                                    if (item.IsInspectionDone == true)
+                                                    else if (item.MileStoneStatus == 2)
                                                     {
-                                                        <span class="text-success">4th Installment  (Finished)</span>
+
+                                                        if (item.IsUtilizationUploaded == true)
+                                                        {
+                                                            <span class="text-success">2nd Installment(Done)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-danger">2nd Installment(Pending)</span>
+
+                                                        }
+                                                    }
+                                                    else if (item.MileStoneStatus == 3)
+                                                    {
+
+                                                        if (item.IsUtilizationUploaded == true)
+                                                        {
+                                                            <span class="text-success">3rd Installment(Done)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">3rd Installment(Pending)</span>
+
+                                                        }
 
                                                     }
-                                                    else
+                                                    else if (item.MileStoneStatus == 4)
                                                     {
-                                                        <span class="text-primary">4th Installment  (InProcess)</span>
+
+                                                        if (item.IsUtilizationUploaded == true)
+                                                        {
+                                                            <span class="text-success">4th Installment(Done)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">4th Installment  (Pending)</span>
+
+                                                        }
 
                                                     }
-
-                                                }
-                                                else if (item.MileStoneStatus == 5)
-                                                {
-
-                                                    if (item.IsInspectionDone == true)
+                                                    else if (item.MileStoneStatus == 5)
                                                     {
-                                                        <span class="text-success">5th Installment  (Finished)</span>
+
+                                                        if (item.IsUtilizationUploaded == true)
+                                                        {
+                                                            <span class="text-success">5th Installment(Done)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">5th Installment(Pending)</span>
+
+                                                        }
+
 
                                                     }
-                                                    else
+                                                    else if (item.MileStoneStatus == 6)
                                                     {
-                                                        <span class="text-primary">5th Installment  (InProcess)</span>
+                                                        if (item.IsUtilizationUploaded == true)
+                                                        {
+                                                            <span class="text-success">6th Installment(Done)</span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-primary">6th Installment(Pending)</span>
+
+                                                        }
 
                                                     }
-
-
-                                                }
-                                                else if (item.MileStoneStatus == 6)
-                                                {
-                                                    if (item.IsInspectionDone == true)
+                                                    else if (item.MileStoneStatus == 0)
                                                     {
-                                                        <span class="text-success">6th Installment  (Finished)</span>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="text-primary">6th Installment  (InProcess)</span>
+                                                        <span class="text-danger">1st Installment(Not Updated)</span>
 
                                                     }
 
-                                                }
-                                                else if (item.MileStoneStatus == 0)
-                                                {
-                                                    <span class="text-danger">1st Installment  (Not Released)</span>
-
-                                                }
-
-                                            </th>
+                                                </th>
                                             </tr>
                                             }
                                         </tbody>
@@ -427,11 +423,13 @@
                     type: "POST",
                     success: function (data) {
                         if (data == "1") {
-                            toastr.success("data Deleted Successfully !!", "Success");
+                            //toastr.success("data Deleted Successfully !!", "Success");
+                            swal("Good Job","data Deleted Successfully !!", "success");
                             window.location.reload();
                         }
                         else if (data == "0") {
-                            toastr.success("Something went wrong plz try later !!", "Error");
+                            //toastr.success("Something went wrong plz try later !!", "Error");
+                            swal("Oops! ","Something went wrong plz try later !!", "error");
                         }
                     }
                 })

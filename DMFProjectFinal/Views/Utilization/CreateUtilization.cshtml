@@ -21,15 +21,36 @@
     <div class="card-body">
         @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <tr>
+                        <th colspan="8" style="text-align:center">MileStone Details</th>
+                    </tr>
+                    <tr>
+                        <th>MileStone Installment</th>
+                        <td id="ins"></td>
+                        <th>MileStone Value</th>
+                        <td id="MilestoneText"></td>
+                        <th>Mile Stone (%)</th>
+                        <td id="Mpercent"></td>
+                        <th>Milestone Amount</th>
+                        <td id="MileStoneAmount"></td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
             <div class="row">
-                @Html.HiddenFor(x => x.ProjectPreparationID,new { @id= "ProjectPreparationID" })
+                @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
                 @Html.HiddenFor(x => x.UtilizationID)
                 @Html.HiddenFor(x => x.DistrictID)
 
                 <div class="col-md-4">
                     <div class="form-label">
                         <strong>Select Project<sup><code>*</code></sup></strong>
-                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", onchange = "GetMilestone()" })
+                        @Html.HiddenFor(x => x.ProjectNo, new { @id="ProjectNo"})
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", onchange = "GetMilestone()", @disabled = "disabled" })
                     </div>
 
                 </div>
@@ -49,7 +70,7 @@
 
 
             </div>
-            
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-label">
@@ -151,22 +172,34 @@
                 data: frmdata,
                 success: function (data) {
                     if (data == "1") {
-                        toastr.success("utilization uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                        swal({
+                            title: 'Good Job !',
+                            text: 'Record Save Successfully !!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/Utilization/UtilizationList";
+                        });
+                        //toastr.success("utilization uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
                         //alert("utilization uploaded succesfully !!");
                     }
                     else if (data == "0") {
-                        toastr.error("Something went wrong please try later  !!", "Error");
+
+                        //toastr.error("Something went wrong please try later  !!", "Error");
+                        swal("Error","Something went wrong please try later  !!", "error");
 
                         //alert("Something went wrong please try later  !!");
 
                     }
                     else {
-                        toastr.error(data, "Error");
+                        swal("Error", "Something went wrong please try later  !!", "error");
+
 
                     }
                 },
                 error: function (data) {
-                    alert("Something went wrong please try later  !!");
+                    swal("Error", "Something went wrong please try later  !!", "error");
+
 
                 }
             })
@@ -184,22 +217,33 @@
                 data: frmdata,
                 success: function (data) {
                     if (data == "1") {
-                        toastr.success("utilization Updated succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
+                        swal({
+                            title: 'Good Job !',
+                            text: 'Record Updated Successfully !!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/Utilization/UtilizationList";
+                        });
+                        //toastr.success("utilization Updated succesfully", "Success", { onHidden: function () { window.location.href = "/Utilization/UtilizationList" } });
                         //alert("utilization uploaded succesfully !!");
                     }
                     else if (data == "0") {
-                        toastr.error("Something went wrong please try later  !!", "Error");
+                        swal("Error", "Something went wrong please try later  !!", "error");
+                        //toastr.error("Something went wrong please try later  !!", "Error");
 
                         //alert("Something went wrong please try later  !!");
 
                     }
                     else {
-                        toastr.error(data, "Error");
+                        swal("Error", "Something went wrong please try later  !!", "error");
+                        //toastr.error(data, "Error");
 
                     }
                 },
                 error: function (data) {
-                    alert("Something went wrong please try later  !!");
+                    swal("Error", "Something went wrong please try later  !!", "error");
+                    //alert("Something went wrong please try later  !!");
 
                 }
             })
@@ -209,6 +253,7 @@
         function GetMilestone() {
             var DistrictID = $("#DistrictID").val();
             var ProjectPreparationID = $("#ProjectPreparationID").val();
+            GetmilestoneDetailsforInstallment(ProjectPreparationID)
             if (ProjectNo != "") {
                 $("#MileStoneTable").show();
 
@@ -277,18 +322,41 @@
                         html += "</tr>";
                     }
                     $("#MIlestone").html(html);
-                    console.log(data);
+                    //console.log(data);
                 }
             })
         }
 
     </script>
     <script>
+    //for above data on the utilization  form
+        function GetmilestoneDetailsforInstallment(ProjectPreparationID) {
+            debugger
+            $.ajax({
+                url: "/Utilization/GetMilestoneByInstallment",
+                type: "POST",
+                contentType: "application/json;charset=utf-8;",
+                dataType: "json",
+                data: JSON.stringify({ ProjectPreparationID: ProjectPreparationID }),
+                success: function (data) {
+                    if (data.InstallmentName != null) {
+                        $("#ins").html(data.InstallmentName);
+                        $("#MilestoneText").html(data.Instext);
+                        $("#Mpercent").text(data.InsPercentage);
+                        $("#MileStoneAmount").html(parseFloat(data.SanctionedProjectCost) * parseFloat(data.InsPercentage) / 100);
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
         $(document).ready(function () {
             var id = $("#ProjectPreparationID").val();
             if (id != "") {
                 GetMilestone();
+               
             }
+
         });
     </script>
 }

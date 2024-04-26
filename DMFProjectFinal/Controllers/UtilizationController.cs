@@ -305,7 +305,7 @@ namespace DMFProjectFinal.Controllers
         {
             var data = (from uc in db.UtilizationMasters
                             //join ins in db.InstallmentMasters on fr.InstallmentID equals ins.InstallmentID
-                        join ppp in db.ProjectProposalPreprations on uc.ProjectNo equals ppp.ProjectNo
+                        join ppp in db.ProjectProposalPreprations on uc.ProjectPreparationID equals ppp.ProjectPreparationID
                         join dm in db.DistrictMasters on uc.DistrictID equals dm.DistrictId
                         where uc.ProjectPreparationID == ProjectPreparationID
                         select new DTO_UtilizationMaster
@@ -377,6 +377,24 @@ namespace DMFProjectFinal.Controllers
 
                         }).ToList();
 
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult GetMilestoneByInstallment(int ProjectPreparationID)
+        {
+            //var data1 = db.MileStoneMasters.Where(x => x.ProjectPreparationID == ProjectPreparationID && x.IsFundReleased == true && x.IsPhProgressDone == null).FirstOrDefault();
+            var data = (from mm in db.MileStoneMasters
+                        join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID into pps
+                        from ppp in pps.DefaultIfEmpty()
+                        join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+                        where mm.ProjectPreparationID == ProjectPreparationID && mm.IsFundReleased == true && mm.IsPhProgressDone == true && mm.IsUtilizationUploaded==null
+                        select new DTO_MileStoneMaster
+                        {
+                            InstallmentName = ins.InstallmentName,
+                            SanctionedProjectCost = ppp.SanctionedProjectCost,
+                            Instext = mm.Instext,
+                            InsPercentage = mm.InsPercentage
+                        }).FirstOrDefault();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
     }

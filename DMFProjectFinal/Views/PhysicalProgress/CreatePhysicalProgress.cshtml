@@ -22,14 +22,34 @@
     <div class="card-body">
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.PhysicalprogressID) ? "CreatePhysicalProgress" : "EditPhysicalProgress"), "PhysicalProgress", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
-            <div class="row">
-                <div class="col-md-4">
-
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p>Physical progress (%)</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                 </div>
             </div>
+          
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="8" style="text-align:center">MileStone Details</th>
+                        </tr>
+                        <tr>
+                            <th>MileStone Installment</th>
+                            <td id="ins"></td>
+                            <th>MileStone Value</th>
+                            <td id="MilestoneText"></td>
+                            <th>Mile Stone (%)</th>
+                            <td id="Mpercent"></td>
+                            <th>Milestone Amount</th>
+                            <td id="MileStoneAmount"></td>
+                        </tr>
+
+                    </table>
+                </div>
+          
+        </div>
             <div class="row">
                 @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
                 @Html.HiddenFor(x => x.PhysicalprogressID, new { @id = "PhysicalprogressID" })
@@ -39,7 +59,8 @@
                 <div class="col-md-3">
                     <div class="form-label">
                         <strong>Select Project<sup><code>*</code></sup></strong>
-                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                        @Html.HiddenFor(x=>x.ProjectNo,new { @id="ProjectNo"})
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()",@disabled="disabled" })
                     </div>
                 </div>
 
@@ -78,6 +99,7 @@
                     <div class="form-label">
                         <strong>Spend Amount<sup><code>*</code></sup></strong>
                         @Html.TextBoxFor(x => x.AmountSpend, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        <span id="errortext" style="color:red"></span>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -152,7 +174,7 @@
             <tr>
                 <th>District Name</th>
                 <th>Project Name</th>
-                <th>Approved Amt</th>
+                <th>Sanctioned Amt</th>
                 <th>MileStone Values</th>
                 <th>Milestone (%)</th>
                 <th>Milestone AMT</th>
@@ -173,6 +195,7 @@
                 var DistrictID = $("#DistrictID").val();
         var ProjectPreparationID = $("#ProjectPreparationID").val();
         getProgressPercentage(ProjectPreparationID);
+        GetmilestoneDetailsforInstallment(ProjectPreparationID);
                 if (ProjectNo != "") {
             $("#MileStoneTable").show();
 
@@ -308,6 +331,25 @@
     }
 
 </script>*@
+<script>//for above data on the phsical progress form
+    function GetmilestoneDetailsforInstallment(ProjectPreparationID) {
+        $.ajax({
+            url: "/PhysicalProgress/GetMilestoneByInstallment",
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ ProjectPreparationID: ProjectPreparationID }),
+            success: function (data) {
+                if (data.InstallmentName != null) {
+                    $("#ins").html(data.InstallmentName);
+                    $("#MilestoneText").html(data.Instext);
+                    $("#Mpercent").text(data.InsPercentage);
+                    $("#MileStoneAmount").html(parseFloat(data.SanctionedProjectCost) * parseFloat(data.InsPercentage) / 100);
+                }
+            }
+        })
+    }
+</script>
 @section scripts{
     <script>
         $(document).ready(function () {
@@ -315,6 +357,25 @@
             if (id != "" ) {
                 GetMilestone();
             }
+            $("#AmountSpend").keyup(function () {
+                debugger
+                //var project = $("#ProjectNo").val();
+                //var installmnt = $("#InstallmentID").val();
+                var AmountSpend = $(this).val();
+                var MileStoneAmount = parseFloat($("#MileStoneAmount").text());
+                //var RelaeseDate = $("#RelaeseDate").val();
+                //var FundReleaseCopy = $("#FundReleaseCopy").val();
+                if (AmountSpend > MileStoneAmount) {
+                    $("#errortext").text("Are you sure you have spent more than milestone amount !!");
+                    //alert("Release Amount Should be equal to Milestone amount !!");
+                    $("#AmountSpend").focus();
+                    return;
+                }
+                else {
+                    $("#errortext").text("");
+                }
+
+            })
         });
     </script>
     <script>

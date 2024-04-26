@@ -23,10 +23,10 @@
                 @*<div style="font-size:15px;margin:10px"><span id="ProjectName" class="text-dark"></span></div>*@
                 <table class="table table-bordered">
                     <tr>
-                        <th>InstallmentName</th>
-                        <th>RelaeseDate</th>
-                        <th>ReleaseAmount</th>
-                        <th>FundReleaseCopy</th>
+                        <th>Installment Name</th>
+                        <th>Relaese Date</th>
+                        <th>Release Amount</th>
+                        <th>FundRelease Copy</th>
                         <th>Pysical Progress</th>
                         <th>Utilization </th>
                         <th>Inspection </th>
@@ -53,10 +53,10 @@
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
             @*<div class="col-md-6 text-right mb-1">
-                @if (AM.CanInsert)
-                {
-                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>}
-            </div>*@
+                    @if (AM.CanInsert)
+                    {
+                        <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>}
+                </div>*@
 
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
@@ -183,132 +183,128 @@
 
                                                     @*<td>@balanceAmt</td>*@
                                                     @*<td>@item.InstallmentName</td>*@
-                                                <th>
-                                                    @if (AM.CanInsert || AM.CanView)
-                                                    {
+                                                    <th>
+                                                        @if (AM.CanInsert || AM.CanView)
+                                                        {
 
-                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a> 
-                                                        var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
-                                                        if (item.IsFundReleased == null && item.IsPhProgressDone == null && item.IsUtilizationUploaded == null && item.IsInspectionDone == null)
-                                                        {
-                                                            <a href="/Fundrelease/CreateFundRelease?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-primary">Release First Installment</a>
-                                                        }
-                                                        else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
-                                                        {
-                                                            <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                        }
-                                                        else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true && item.MileStoneStatus!= projectfinalstatus)
-                                                        {
-                                                            <a href="/Fundrelease/CreateFundRelease?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Release Next Installment</a>
-                                                        }
-                                                        @*else
-                                                        {
-                                                            <a href="#" class="btn btn-small btn-info">InProcess</a>
-                                                        }*@
+                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                            var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
+                                                            if (item.IsFundReleased == null && item.IsPhProgressDone == null && item.IsUtilizationUploaded == null && item.IsInspectionDone == null)
+                                                            {
+                                                                <a href="/Fundrelease/CreateFundRelease?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-primary">Release First Installment</a>
+                                                            }
+                                                            else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
+                                                            {
+                                                                <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                            }
+                                                            else if (item.IsFundReleased == true && item.IsPhProgressDone == true && item.IsUtilizationUploaded == true && item.IsInspectionDone == true && item.MileStoneStatus != projectfinalstatus)
+                                                            {
+                                                                <a href="/Fundrelease/CreateFundRelease?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Release Next Installment</a>
+                                                            }
+                                                            @*else
+                                                                {
+                                                                    <a href="#" class="btn btn-small btn-info">InProcess</a>
+                                                                }*@
 
-                                                    }
+                                                        }
                                                     </th>
-                                                <th>
-                                                   
-                                                    @if (item.MileStoneStatus == 1)
-                                                    {
-                                                        if (item.IsInspectionDone == true)
+                                                    <th>
+
+                                                        @if (item.MileStoneStatus == 1)
                                                         {
-                                                            <span class="text-success">1st Installment  (Finished)</span>
+                                                            if (item.IsFundReleased == true)
+                                                            {
+                                                                <span class="text-success">1st Installment(Done)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-danger">1st Installment(Pending)</span>
+
+                                                            }
+                                                        }
+                                                       
+                                                        else if (item.MileStoneStatus == 2)
+                                                        {
+
+                                                            if (item.IsFundReleased == true)
+                                                            {
+                                                                <span class="text-success">2nd Installment(Done)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-danger">2nd Installment(Pending)</span>
+
+                                                            }
+                                                        }
+                                                        else if (item.MileStoneStatus == 3)
+                                                        {
+
+                                                            if (item.IsFundReleased == true)
+                                                            {
+                                                                <span class="text-success">3rd Installment(Done)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">3rd Installment(Pending)</span>
+
+                                                            }
 
                                                         }
-                                                        else
+                                                        else if (item.MileStoneStatus == 4)
                                                         {
-                                                            <span class="text-primary">1st Installment  (InProcess)</span>
+
+                                                            if (item.IsFundReleased == true)
+                                                            {
+                                                                <span class="text-success">4th Installment(Done)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">4th Installment  (Pending)</span>
+
+                                                            }
 
                                                         }
-                                                    }
-                                                    else if (item.IsInspectionDone == true && item.MileStoneStatus == projectfinalstatus)
-                                                    {
-                                                        <a href="#" class="btn btn-small btn-danger">Closed</a>
-
-                                                    }
-                                                    else if (item.MileStoneStatus == 2)
-                                                    {
-
-                                                        if (item.IsInspectionDone == true)
+                                                        else if (item.MileStoneStatus == 5)
                                                         {
-                                                            <span class="text-success">2nd Installment  (Finished)</span>
+
+                                                            if (item.IsFundReleased == true)
+                                                            {
+                                                                <span class="text-success">5th Installment(Done)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">5th Installment(Pending)</span>
+
+                                                            }
+
 
                                                         }
-                                                        else
+                                                        else if (item.MileStoneStatus == 6)
                                                         {
-                                                            <span class="text-primary">2nd Installment  (InProcess)</span>
+                                                            if (item.IsFundReleased == true)
+                                                            {
+                                                                <span class="text-success">6th Installment(Done)</span>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-primary">6th Installment(Pending)</span>
+
+                                                            }
 
                                                         }
-                                                    }
-                                                    else if (item.MileStoneStatus == 3)
-                                                    {
-
-                                                        if (item.IsInspectionDone == true)
+                                                        else if (item.MileStoneStatus == 0)
                                                         {
-                                                            <span class="text-success">3rd Installment  (Finished)</span>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="text-primary">3rd Installment  (InProcess)</span>
-
-                                                        }
-
-                                                    }
-                                                    else if (item.MileStoneStatus == 4)
-                                                    {
-
-                                                        if (item.IsInspectionDone == true)
-                                                        {
-                                                            <span class="text-success">4th Installment  (Finished)</span>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="text-primary">4th Installment  (InProcess)</span>
+                                                            <span class="text-danger">1st Installment(Not Released)</span>
 
                                                         }
 
-                                                    }
-                                                    else if (item.MileStoneStatus == 5)
-                                                    {
-
-                                                        if (item.IsInspectionDone == true)
-                                                        {
-                                                            <span class="text-success">5th Installment  (Finished)</span>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="text-primary">5th Installment  (InProcess)</span>
-
-                                                        }
-
-
-                                                    }
-                                                    else if (item.MileStoneStatus == 6)
-                                                    {
-                                                        if (item.IsInspectionDone == true)
-                                                        {
-                                                            <span class="text-success">6th Installment  (Finished)</span>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="text-primary">6th Installment  (InProcess)</span>
-
-                                                        }
-
-                                                    }
-                                                    else if (item.MileStoneStatus == 0)
-                                                    {
-                                                        <span class="text-danger">1st Installment  (Not Released)</span>
-
-                                                    }
-
-                                                </th>
+                                                    </th>
                                                 </tr>
                                             }
                                         </tbody>
@@ -456,11 +452,15 @@
                     type: "POST",
                     success: function (data) {
                         if (data == "1") {
-                            toastr.success("data Deleted Successfully !!", "Success");
+                            //toastr.success("data Deleted Successfully !!", "Success");
+                            swal("Success", "data Deleted Successfully !!", "success");
+
                             window.location.reload();
                         }
                         else if (data == "0") {
-                            toastr.success("Something went wrong plz try later !!", "Error");
+                            swal("Error", "Something went wrong plz try later !!", "error");
+
+                            //toastr.success("Something went wrong plz try later !!", "Error");
                         }
                     }
                 })

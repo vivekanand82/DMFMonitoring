@@ -113,7 +113,7 @@
         @using (Html.BeginForm("CreateProjectProposalPrepration", "ProjectWorkApproval", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
             <div class="row tab">
-                @Html.HiddenFor(x => x.ProjectPreparationID)
+                @*@Html.HiddenFor(x => x.ProjectPreparationID)*@
                 <div class="row">
                     <input type="hidden" id="ProjectPreparationID" />
 
@@ -397,6 +397,13 @@
     </div>
 </div>
 
+<script>
+
+    $("#nextBtn").click(function () {
+        debugger
+        swal("check", "done", "info");
+    })
+</script>
 @section Scripts {
     <script type="text/javascript">
 
@@ -551,7 +558,6 @@
 
         function BindSectorType() {
             var SectorTypeId = $("#SectorTypeId").val();
-            //alert(SectorTypeId)
             debugger;
             //$.ajax({
 
@@ -738,11 +744,6 @@
 
 
     </script>
-
-
-
-
-
 }
 
 <script>
@@ -766,7 +767,7 @@
 
             if ($("#ProjectNo").val() == "" || $("#ProjectNo").val() == null) {
 
-                alert("Please Enter  ProjectNo ");
+                swal("Warning","Please Enter  ProjectNo ","warning");
                 return false;
 
 
@@ -816,6 +817,11 @@
             if ($("#SectorID").val() == "0" || $("#SectorID").val() == null) {
 
                 alert("Please Select  Sector Name ");
+                //Swal.fire({
+                //    title: "Good job!",
+                //    text: "You clicked the button!",
+                //    icon: "success"
+                //});
                 return false;
 
 
@@ -851,6 +857,12 @@
             if ($("#ProjectDescription").val() == "" || $("#ProjectDescription").val() == null) {
 
                 alert("Please  Enter Project Description ");
+                //Swal("warning","uhfeg","warning")
+                //Swal.fire({
+                //    title: "Good job!",
+                //    text: "You clicked the button!",
+                //    icon: "warning"
+                //});
                 return false;
 
 
@@ -900,7 +912,7 @@
 
             if ($("#TenderNo").val() == "" || $("#TenderNo").val() == null) {
 
-                alert("Please  Enter Tender No ");
+                swal("Warning","Please  Enter Tender No ","warning");
                 return false;
 
 
@@ -908,37 +920,56 @@
 
 
             if ($("#TenderDate").val() == "" || $("#TenderDate").val() == null) {
-
-                alert("Please  Enter Tender Date ");
+                swal("Warning", "Please  Enter Tender Date ", "warning");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
             if ($("#WorkOrderNo").val() == "" || $("#WorkOrderNo").val() == null) {
+                swal("Warning", "Please  Enter  WorkOrder No ", "warning");
 
-                alert("Please  Enter Tender Date ");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
             if ($("#WorkOrderDate").val() == "" || $("#WorkOrderDate").val() == null) {
+                swal("Warning", "Please  Enter  WorkOrder Date ", "warning");
 
-                alert("Please  Enter Tender Date ");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
             if ($("#AgencyID").val() == "" || $("#AgencyID").val() == null) {
+                swal("Warning", "Please  select  Agency ", "warning");
 
-                alert("Please  Enter Tender Date ");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
+            if ($("#ProjectStartDate").val() == "" || $("#ProjectStartDate").val() == null) {
+                swal("Warning", "Please  enter  Project StartDate ", "warning");
 
+                //alert("Please  Enter Tender Date ");
+                return false;
+
+
+            }
+            
+            if ($("#ProjectCompletionDate").val() == "" || $("#ProjectCompletionDate").val() == null) {
+                swal("Warning", "Please  enter  Project Completion Date ", "warning");
+
+                //alert("Please  Enter Tender Date ");
+                return false;
+
+
+            }
             var dataobject = {
                 ProjectNo: $("#ProjectNo").val(),
                 DistID: $("#DistID").val(),
@@ -980,22 +1011,41 @@
                     uploadImage($("#ProjectNo").val());
                     if (r.Message == "1") {
                         uploadImage($("#ProjectNo").val());
-                        uploadworkorder($("#ProjectNo").val())
-
-                        toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
+                        uploadworkorder($("#ProjectNo").val());
+                        swal({
+                            title: 'Good Job !',
+                            text: 'Record Save Successfully !!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration";
+                        });
+                        //toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
 
                         //CrearFields();
                         //location.reload();
                     }
                     else {
-                        toastr.success("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
+                        swal({
+                            title: 'Oops !',
+                            text: 'Some Error Occured !!',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        //toastr.success("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
 
 
                         //$("#showSpinner").hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Server is not responding!");
+                    swal({
+                        title: 'Oops !',
+                        text: 'Some Error Occured !!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    //alert("Server is not responding!");
                     // $("#showSpinner").hide();
                 }
             })
@@ -1055,8 +1105,9 @@
             }
 
             if ($("#SectorID").val() == "0" || $("#SectorID").val() == null) {
-
+                
                 alert("Please Select  Sector Name ");
+              
                 return false;
 
 
@@ -1141,7 +1192,7 @@
 
             if ($("#TenderNo").val() == "" || $("#TenderNo").val() == null) {
 
-                alert("Please  Enter Tender No ");
+                swal("Warning", "Please  Enter Tender No ", "warning");
                 return false;
 
 
@@ -1149,37 +1200,56 @@
 
 
             if ($("#TenderDate").val() == "" || $("#TenderDate").val() == null) {
-
-                alert("Please  Enter Tender Date ");
+                swal("Warning", "Please  Enter Tender Date ", "warning");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
             if ($("#WorkOrderNo").val() == "" || $("#WorkOrderNo").val() == null) {
+                swal("Warning", "Please  Enter  WorkOrder No ", "warning");
 
-                alert("Please  Enter Tender Date ");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
             if ($("#WorkOrderDate").val() == "" || $("#WorkOrderDate").val() == null) {
+                swal("Warning", "Please  Enter  WorkOrder Date ", "warning");
 
-                alert("Please  Enter Tender Date ");
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
             if ($("#AgencyID").val() == "" || $("#AgencyID").val() == null) {
+                swal("Warning", "Please  select  Agency ", "warning");
 
-                alert("Please  Enter Tender Date ");
+                //alert("Please  Enter Tender Date ");
+                return false;
+
+
+            }
+            if ($("#ProjectStartDate").val() == "" || $("#ProjectStartDate").val() == null) {
+                swal("Warning", "Please  enter  Project StartDate ", "warning");
+
+                //alert("Please  Enter Tender Date ");
                 return false;
 
 
             }
 
+            if ($("#ProjectCompletionDate").val() == "" || $("#ProjectCompletionDate").val() == null) {
+                swal("Warning", "Please  enter  Project Completion Date ", "warning");
+
+                //alert("Please  Enter Tender Date ");
+                return false;
+
+
+            }
             var dataobject = {
                 ProjectNo: $("#ProjectNo").val(),
                 DistID: $("#DistID").val(),
@@ -1223,17 +1293,37 @@
                     if (r.Message == "1") {
                         uploadImage($("#ProjectNo").val());
                         uploadworkorder($("#ProjectNo").val())
-                        toastr.success("Record Updated successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
+                        swal({
+                            title: 'Good Job !',
+                            text: 'Record Updated Successfully !!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration";
+                        });
+                        //toastr.success("Record Updated successfully", "Success", { onHidden: function () { window.location.href = "/ProjectWorkApproval/ProjectProposalPrepration" } });
                         //CrearFields();
                         //location.reload();
                     }
                     else {
-                        toastr.error("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
+                        swal({
+                            title: 'Oops !',
+                            text: 'Some Error Occured !!',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        //toastr.error("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
                         //$("#showSpinner").hide();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    toastr.error("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
+                    swal({
+                        title: 'Oops !',
+                        text: 'Some Error Occured !!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    //toastr.error("Some Error Occured", "Error", { onHidden: function () { window.location.href = "/ProjectWorkApproval/CreateProjectProposalPrepration" } });
                     // $("#showSpinner").hide();
                 }
             })
@@ -1341,8 +1431,94 @@
 
     function nextPrev(n) {
 
-        if (n == 1 && !validateForm())
+        if (n == 1) {
+
+            var DistID = $("#DistID").val();
+            if (DistID == "" || DistID == null) {
+                swal("Oops!", "Please Select District", "warning");
             return false;
+            }
+            var TehsilId = $("#TehsilId").val();
+            if (TehsilId == "" || TehsilId == null || TehsilId==0) {
+                swal("Oops!", "Please Select Tehsil", "warning");
+                return false;
+            }
+            var BlockId = $("#BlockId").val();
+            if (BlockId == "" || BlockId == null) {
+                swal("Oops!", "Please Select Block", "warning");
+                return false;
+            }
+            var VillageId = $("#VillageId").val();
+            if (VillageId == "" || VillageId == null) {
+                swal("Oops!", "Please Select Village", "warning");
+                return false;
+            }
+            var SectorTypeId = $("#SectorTypeId").val();
+            if (SectorTypeId == "" || SectorTypeId == null) {
+                swal("Oops!", "Please Select Sector Type", "warning");
+                return false;
+            }
+
+            var SectorID = $("#SectorID").val();
+            if (SectorID == "" || SectorID == null || SectorID == 0) {
+                swal("Oops!", "Please Select Sector name", "warning");
+                return false;
+            }
+            var ProjectName = $("#ProjectName").val();
+            if (ProjectName == "" || ProjectName == null) {
+                swal("Oops!", "Please enter Project Name", "warning");
+                return false;
+            }
+            var WorkLatitude = $("#WorkLatitude").val();
+            if (WorkLatitude == "" || WorkLatitude == null) {
+                swal("Oops!", "Please enter Work Latitude", "warning");
+                return false;
+            }
+            var WorkLongitude = $("#WorkLongitude").val();
+            if (WorkLongitude == "" || WorkLongitude == null) {
+                swal("Oops!", "Please enter Work Longitude", "warning");
+                return false;
+            }
+            var ProjectDescription = $("#ProjectDescription").val();
+            if (ProjectDescription == "" || ProjectDescription == null) {
+                swal("Oops!", "Please enter Project Description", "warning");
+                return false;
+            }
+            var ProsposalNo = $("#ProsposalNo").val();
+            if (ProsposalNo == "" || ProsposalNo == null) {
+                swal("Oops!", "Please enter ProsposalNo", "warning");
+                return false;
+            }
+            var ProposalDate = $("#ProposalDate").val();
+            if (ProposalDate == "" || ProposalDate == null) {
+                swal("Oops!", "Please enter Proposal Date", "warning");
+                return false;
+            }
+            //var ProposalCopy = $("#ProposalCopy").val();
+            //if (ProposalCopy == "" || ProposalCopy == null) {
+            //    swal("Oops!", "Please Select Proposal Date", "warning");
+            //    return false;
+            //}
+
+            var ProposedBy = $("#ProposedBy").val();
+            if (ProposedBy == "" || ProposedBy == null) {
+                swal("Oops!", "Please enter ProposedBy", "warning");
+                return false;
+            }
+
+            var ProjectCost = $("#ProjectCost").val();
+            if (ProjectCost == "" || ProjectCost == null) {
+                swal("Oops!", "Please enter Project Cost ", "warning");
+                return false;
+            }
+
+            var GSTAndOthers = $("#GSTAndOthers").val();
+            if (GSTAndOthers == "" || GSTAndOthers == null) {
+                swal("Oops!", "Please Enter Gst and other charges", "warning");
+                return false;
+            }
+
+        }
 
         var x = document.getElementsByClassName("tab");
         x[currentTab].style.display = "none";
@@ -1355,46 +1531,53 @@
         showTab(currentTab);
     }
 
-    function validateForm() {
-        var x, y, i, valid = true;
-        x = document.getElementsByClassName("tab");
-        // Get the current tab
-        var currentTabElement = x[currentTab];
+    //function validateForm() {
+    //    var x, y, i, valid = true;
+    //    x = document.getElementsByClassName("tab");
+    //    // Get the current tab
+    //    var currentTabElement = x[currentTab];
 
-        // Get the elements within the current tab
-        y = currentTabElement.getElementsByTagName("select");
-        var emptyFields = [];
-        // Check select elements
-        if (y.length > 0) {
-            for (i = 0; i < y.length; i++) {
-                if (y[i].value == "") {
-                    y[i].className += " invalid";
-                    emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
-                    valid = false;
-                }
-            }
-        } else {
-            // If no select elements found, check input elements
-            /*y = currentTabElement.getElementsByTagName("input");*/
-            // If no select elements found, check input elements except file inputs
-            y = currentTabElement.querySelectorAll("input:not([type='file'])");
-            for (i = 0; i < y.length; i++) {
-                if (y[i].value == "") {
-                    y[i].className += " invalid";
-                    emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
-                    valid = false;
-                }
-            }
-        }
+    //    // Get the elements within the current tab
+    //    y = currentTabElement.getElementsByTagName("select");
+    //    var emptyFields = [];
+    //    // Check select elements
+    //    if (y.length > 0) {
+    //        for (i = 0; i < y.length; i++) {
+    //            if (y[i].value == "") {
+    //                y[i].className += " invalid";
+    //                emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
+    //                valid = false;
+    //            }
+    //        }
+    //    } else
+    //    {
+    //        // If no select elements found, check input elements
+    //        /*y = currentTabElement.getElementsByTagName("input");*/
+    //        // If no select elements found, check input elements except file inputs
+    //        y = currentTabElement.querySelectorAll("input:not([type='file'])");
+    //        for (i = 0; i < y.length; i++) {
+    //            if (y[i].value == "") {
+    //                y[i].className += " invalid";
+    //                emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
+    //                valid = false;
+    //            }
+    //        }
+    //    }
 
-        if (!valid) {
+    //    if (!valid) {
 
-            toastr.error("Please fill in the following fields:\n" + emptyFields.join("\n"));
-        } else {
-            document.getElementsByClassName("step")[currentTab].className += " finish";
-        }
-        return valid;
-    }
+    //        //toastr.error("Please fill in the following fields:\n" + emptyFields.join("\n"));
+    //        swal({
+    //            title: "Oops!",
+    //            text: "Please fill all required fields!",
+    //            icon: "error",
+    //            confirmButtonColor: "#3085d6",
+    //        });
+    //    } else {
+    //        document.getElementsByClassName("step")[currentTab].className += " finish";
+    //    }
+    //    return valid;
+    //}
     function fixStepIndicator(n) {
         var i, x = document.getElementsByClassName("step");
         for (i = 0; i < x.length; i++) {

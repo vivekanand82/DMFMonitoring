@@ -451,12 +451,16 @@ namespace DMFProjectFinal.Controllers
         {
             var data = (from mm in db.MileStoneMasters
                         join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+                        join ppp in db.ProjectProposalPreprations on mm.ProjectPreparationID equals ppp.ProjectPreparationID
                         where mm.DistrictID == DistrictID && mm.ProjectPreparationID == ProjectPreparationID
                         where mm.IsFundReleased != true && mm.IsPhProgressDone != true && mm.IsUtilizationUploaded != true
                         select new DTO_MileStoneMaster
                         {
                             InstallmentID = mm.InstallmentID,
-                            InstallmentName = ins.InstallmentName
+                            InstallmentName = ins.InstallmentName,
+                            SanctionedProjectCost=ppp.SanctionedProjectCost,
+                            InsPercentage=mm.InsPercentage,
+                            Instext=mm.Instext
                         }).FirstOrDefault();
             return Json(data,JsonRequestBehavior.AllowGet);
         }
@@ -561,5 +565,19 @@ namespace DMFProjectFinal.Controllers
 
 
         }
+        //[HttpPost]
+        //public JsonResult BindMilestoneByInstallment(int ProjectPreparationID,int InstallmentID)
+        //{
+        //    var data = (from mm in db.MileStoneMasters
+        //                join ins in db.InstallmentMasters on mm.InstallmentID equals ins.InstallmentID
+        //                where mm.ProjectPreparationID == ProjectPreparationID && mm.InstallmentID == InstallmentID
+        //                select new DTO_MileStoneMaster
+        //                {
+        //                    MileStoneID=mm.MileStoneID,
+        //                    Instext=mm.Instext,
+        //                    InstallmentID=mm.InstallmentID
+        //                }).FirstOrDefault();
+        //    return Json(data,JsonRequestBehavior.AllowGet);
+        //}
     }
 }

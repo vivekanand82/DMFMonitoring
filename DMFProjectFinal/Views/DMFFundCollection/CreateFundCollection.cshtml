@@ -212,7 +212,7 @@
         function DmfAmt() {
             debugger
             if ($("#RoyaltyAmt").val() == null || $("#RoyaltyAmt").val() == "") {
-                toastr.error('Please Fill RoyaltyAmt Amount');
+                swal("Error","Please Fill RoyaltyAmt Amount","error");
                 $("#RemainingDMFAmt").val("");
                 $("#DepositedDMFAmt").val("");
                 $("#DMFAmt").val("");
@@ -226,7 +226,9 @@
         }
         function RemAmt() {
             if ($("#DMFAmt").val() == null || $("#DMFAmt").val() == "" ) {
-                toastr.error('Please Fill DMF Amount');
+                //toastr.error('Please Fill DMF Amount');
+                swal("Error", "Please Fill DMF Amount", "error");
+
                 $("#RemainingDMFAmt").val("");
                 $("#DepositedDMFAmt").val("");
             }          

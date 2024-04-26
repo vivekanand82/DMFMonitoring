@@ -1159,22 +1159,25 @@
 
 
                             if (InstallmentID.val() == "") {
+                                swal("Warning", "Please Select  Installment Type !!", "warning")
 
-                                toastr.warning('Please Select  Installment Type');
+                                //toastr.warning('Please Select  Installment Type');
 
                                 return false;
                             }
 
                             if (Instext.val() == "") {
+                                swal("Warning", "Please Select  Value !!", "warning")
 
-                                toastr.warning('Please Enter Value');
+                                //toastr.warning('Please Enter Value');
 
                                 return false;
                             }
 
                             if (InsPercentage.val() == "") {
+                                swal("Warning", "Please Enter Percentage !!", "warning")
 
-                                toastr.warning('Please Enter Percentage');
+                                //toastr.warning('Please Enter Percentage');
 
                                 return false;
                             }
@@ -1543,9 +1546,10 @@ window.location.href ="/MileStone/Viewprojectapprovel?SectorTypeId="+SectorTypeI
 
 
                         if ($("#DistID").val() == "") {
+                            swal("Info", "Please Select District Name !!", "info")
 
                             ///toastr.success
-                            toastr.info('Please Select District Name')
+                            //toastr.info('Please Select District Name')
                             return false;
 
                         }
@@ -1553,7 +1557,9 @@ window.location.href ="/MileStone/Viewprojectapprovel?SectorTypeId="+SectorTypeI
                         if ($("#ProjectPreparationID").val() == "") {
 
                             ///toastr.success
-                            toastr.info('Please Select Project Name')
+                            //toastr.info('Please Select Project Name')
+                            swal("Info", "Please Select Project Name !!", "info")
+
                             return false;
 
                         }
@@ -1565,8 +1571,9 @@ window.location.href ="/MileStone/Viewprojectapprovel?SectorTypeId="+SectorTypeI
                         if (d == 0) {
 
 
+                            swal("Info", "Please Select Row !!", "info")
 
-                            toastr.info('Please select Row!')
+                            //toastr.info('Please select Row!')
                             return false;
 
                         }
@@ -1618,28 +1625,39 @@ window.location.href ="/MileStone/Viewprojectapprovel?SectorTypeId="+SectorTypeI
 
                                     if (r.Message == "1") {
 
-
-                                        toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/Viewprojectapprovel" } });
+                                        swal({
+                                            title: 'Good Job !',
+                                            text: 'Record Save Successfully !!',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        }).then(function () {
+                                            window.location.href = "/MileStone/Viewprojectapprovel";
+                                        });
+                                        //toastr.success("Record saved successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/Viewprojectapprovel" } });
                                         //CrearFields();
                                         //location.reload();
                                     }
 
                                     else if (r.Message == "0") {
+                                        swal("Error", "Something went wrong plz try later !!", "error");
 
-                                        alert('Record Already Exists!');
+                                        //alert('Record Already Exists!');
                                         return false;
 
                                         //CrearFields();
                                         //location.reload();
                                     }
                                     else {
+                                        swal("Error", "Something went wrong plz try later !!", "error");
 
-                                        toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                                        //toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                                         //$("#showSpinner").hide();
                                     }
                                 },
                                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                                    swal("Error", "Something went wrong plz try later !!", "error");
+
+                                    //toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                                     // $("#showSpinner").hide();
                                 }
                             })
@@ -1707,36 +1725,49 @@ window.location.href ="/MileStone/Viewprojectapprovel?SectorTypeId="+SectorTypeI
 
 
                                     if (r.Message == "1") {
+                                        swal({
+                                            title: 'Good Job !',
+                                            text: 'Record Save Successfully !!',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        }).then(function () {
+                                            window.location.href = "/MileStone/Viewprojectapprovel";
+                                        });
 
-
-                                        toastr.success("Record Updated successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/Viewprojectapprovel" } });
+                                        //toastr.success("Record Updated successfully", "Success", { onHidden: function () { window.location.href = "/MileStone/Viewprojectapprovel" } });
                                         //CrearFields();
                                         //location.reload();
                                     }
 
                                     else if (r.Message == "0") {
+                                        swal("Error", "Something went wrong plz try later !!", "error");
 
-                                        alert('Record Already Exists!');
+                                        //alert('Record Already Exists!');
                                         return false;
 
                                         //CrearFields();
                                         //location.reload();
                                     }
                                     else {
+                                        swal("Error", "Something went wrong plz try later !!", "error");
 
-                                        toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
+                                        //toastr.error("Record saved successfully", "Error", { onHidden: function () { window.location.href = "/MileStone/ViewMileStoneProject" } });
                                         //$("#showSpinner").hide();
                                     }
                                 },
                                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                                    swal("Error", textStatus, "error");
+
+                                  /*  alert("Status: " + textStatus); alert("Error: " + errorThrown);*/
                                 }
                             })
 
                         }
 
                         else {
-                            alert('Please Select Row');
+                            swal("Error", "Please Select Row !!", "error");
+
+                            //alert('Please Select Row');
                             return false;
 
 

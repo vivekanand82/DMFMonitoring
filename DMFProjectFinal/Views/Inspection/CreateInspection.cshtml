@@ -2,82 +2,58 @@
 @using DMFProjectFinal.Models
 @model DMFProjectFinal.Models.DTO.DTO_InspectionMaster
 @{ ViewBag.Title = "CreateInspection";
-                Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
 
 <div class="card-header">
-        @if (String.IsNullOrEmpty(Model.InspectionID))
-        {
-            <h4 class="card-title">Create Inspection</h4>
-        }
-        else
-        {
-            <h4 class="card-title">Update Inspection</h4>
-        }
-    </div>
+    @if (String.IsNullOrEmpty(Model.InspectionID))
+    {
+<h4 class="card-title">Create Inspection</h4> }
+            else
+            {
+<h4 class="card-title">Update Inspection</h4>}
+</div>
 
 
 <div id="divform">
     <div class="card-body">
         @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
-
 <div class="row">
-    @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
-    @Html.HiddenFor(x => x.InspectionID, new { @id = "InspectionID" })
-    @Html.HiddenFor(x => x.DistrictID, new { @id = "DistrictID" })
-
-    <div class="col-md-3">
-        <div class="form-label">
-            <strong>Select Project<sup><code>*</code></sup></strong>
-            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-label">
-            <strong>Inspection Date<sup><code>*</code></sup></strong>
-            @Html.TextBoxFor(x => x.InspectionDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
-        </div>
-    </div>
-    <table class="table table-bordered" id="datatable1">
-        <thead>
+    <div class="col-md-6">
+        <table class="table table-bordered">
             <tr>
-
-                <th>Qustion</th>
-                <th>Answer</th>
-
-              
-                <th style="display:none;"></th>
-               
+                <th colspan="8" style="text-align:center">MileStone Details</th>
             </tr>
-        </thead>
-        <tbody>
-        </tbody>
+            <tr>
+                <th>MileStone Installment</th>
+                <td id="ins"></td>
+                <th>MileStone Value</th>
+                <td id="MilestoneText"></td>
+                <th>Mile Stone (%)</th>
+                <td id="Mpercent"></td>
+                <th>Milestone Amount</th>
+                <td id="MileStoneAmount"></td>
+            </tr>
 
-    </table>
+        </table>
+    </div>
 </div>
                 <div class="row">
+                    @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
+                    @Html.HiddenFor(x => x.InspectionID, new { @id = "InspectionID" })
+                    @Html.HiddenFor(x => x.DistrictID, new { @id = "DistrictID" })
+
                     <div class="col-md-3">
                         <div class="form-label">
-                            <strong>Inspection Image 1<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.InspectionImage1, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid= "InspectionImage1" })
+                            <strong>Select Project<sup><code>*</code></sup></strong>
+                            @Html.HiddenFor(x => x.ProjectNo, new { @id="ProjectNo"})
+                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
-                            <strong>Inspection Image 2<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.InspectionImage2, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage2" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong>Inspection Image 3<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.InspectionImage3, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage3" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-label">
-                            <strong>Inspection Image 4<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.InspectionImage4, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage4" })
+                            <strong>Inspection Date<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.InspectionDate, new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -88,39 +64,83 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-label">
-                            <strong>Remark<sup><code>*</code></sup></strong>
-                            @Html.TextBoxFor(x => x.Remark, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "text" })
+                            <strong>Inspection Image 1<sup><code>*</code></sup></strong>
+                            @Html.TextBoxFor(x => x.InspectionImage1, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage1" })
                         </div>
                     </div>
+                    <table class="table table-bordered" id="datatable1">
+                        <thead>
+                            <tr>
+
+                                <th>Qustion</th>
+                                <th>Answer</th>
+
+
+                                <th style="display:none;"></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
                 </div>
                                 <div class="row">
-                                    <div class="col-md-1">
-                                        <div class="form-label">
-                                            <strong>&nbsp;</strong>
-                                            @if (String.IsNullOrEmpty(Model.InspectionID))
-                                            {
 
-                            <input type="button" value="Save" class="btn btn-primary" onclick="SaveInspection()" id="btnsave" /> } 
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Inspection Image 2<sup><code>*</code></sup></strong>
+                                            @Html.TextBoxFor(x => x.InspectionImage2, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage2" })
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-3">
                                         <div class="form-label">
-                                            <strong>&nbsp;</strong>
-                                            @*@if (String.IsNullOrEmpty(Model.InspectionID))
-                                                {
-                                                    <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
-                                                }
-                                                else
-                                                {
-                                                    <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
-                                                    //href = "/UserManagement/UserRegistration"
-
-                                                }*@
-                                            <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
-
+                                            <strong>Inspection Image 3<sup><code>*</code></sup></strong>
+                                            @Html.TextBoxFor(x => x.InspectionImage3, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage3" })
                                         </div>
                                     </div>
-                                </div>}
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Inspection Image 4<sup><code>*</code></sup></strong>
+                                            @Html.TextBoxFor(x => x.InspectionImage4, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "InspectionImage4" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-label">
+                                            <strong>Remark<sup><code>*</code></sup></strong>
+                                            @Html.TextBoxFor(x => x.Remark, new { @class = "form-control form-control-sm", @autocomplete = "off", @type = "text" })
+                                        </div>
+                                    </div>
+                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <div class="form-label">
+                                                            <strong>&nbsp;</strong>
+                                                            @if (String.IsNullOrEmpty(Model.InspectionID))
+                                                            {
+
+                                            <input type="button" value="Save" class="btn btn-primary" onclick="SaveInspection()" id="btnsave" />}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <div class="form-label">
+                                                            <strong>&nbsp;</strong>
+                                                            @*@if (String.IsNullOrEmpty(Model.InspectionID))
+                                                                {
+                                                                    <input type="reset" id="btnReset" class="btn btn-danger" value="Reset" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
+                                                                    //href = "/UserManagement/UserRegistration"
+
+                                                                }*@
+                                                            <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>}
     </div>
 </div>
 <div class="row" style="display:none" id="MileStoneTable">
@@ -207,15 +227,23 @@
             contentType: false,
             success: function (data) {
                 if (data == "1") {
-                    toastr.success("Inspection uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Inspection/InspectcionList" } });
+                    swal({
+                        title: 'Good Job !',
+                        text: 'Record Done Successfully !!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function () {
+                        window.location.href = "/Inspection/InspectcionList";
+                    });
+                    //toastr.success("Inspection uploaded succesfully", "Success", { onHidden: function () { window.location.href = "/Inspection/InspectcionList" } });
                 } else if (data == "0") {
-                    toastr.error("Something went wrong please try later  !!", "Error");
+                    swal("Error","Something went wrong please try later  !!", "error");
                 } else {
-                    toastr.error(data, "Error");
+                    swal(data, "Something went wrong please try later  !!", "Error");
                 }
             },
             error: function (data) {
-                toastr.error("Something went wrong please try later  !!", "Error");
+                swal("Error","Something went wrong please try later  !!", "error");
             }
         });
     }
@@ -305,14 +333,35 @@
         }
 
     </script>*@
-
+<script>
+    //for above data on the Inspection  form
+    function GetmilestoneDetailsforInstallment(ProjectPreparationID) {
+        debugger
+        $.ajax({
+            url: "/Inspection/GetMilestoneByInstallment",
+            type: "POST",
+            contentType: "application/json;charset=utf-8;",
+            dataType: "json",
+            data: JSON.stringify({ ProjectPreparationID: ProjectPreparationID }),
+            success: function (data) {
+                if (data.InstallmentName != null) {
+                    $("#ins").html(data.InstallmentName);
+                    $("#MilestoneText").html(data.Instext);
+                    $("#Mpercent").text(data.InsPercentage);
+                    $("#MileStoneAmount").html(parseFloat(data.SanctionedProjectCost) * parseFloat(data.InsPercentage) / 100);
+                }
+            }
+        })
+    }
+</script>
 @section scripts{
     <script>
         $(document).ready(function () {
-            var id = $("#ProjectNo").val();
+            var id = $("#ProjectPreparationID").val();
             if (id != "") {
                 //GetMilestone();
                 bindqustion();
+                GetmilestoneDetailsforInstallment(id);
             }
         });
     </script>

@@ -204,7 +204,9 @@
             var RoleID = $("#RoleID").val() ;
             var username = $("#UserName").val($("#EmailID").val());
             if (RoleID == 3 || RoleID == 6 && username == 0) {
-                alert("Please Select UserName First.");
+                swal("Info", "Please Select UserName First.", "info");
+
+                //alert("Please Select UserName First.");
                 $("#UserName").focus();
                 return;
             }

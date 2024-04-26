@@ -27,16 +27,35 @@
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundReleaseID) ? "CreateFundRelease" : "EditReleasedFund"), "FundRelease", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
             <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th colspan="6" style="text-align:center">MileStone Details</th>
+                        </tr>
+                        <tr>
+                            <th>MileStone Value</th>
+                            <td id="MilestoneText"></td>
+                            <th>Mile Stone (%)</th>
+                            <td id="Mpercent"></td>
+                            <th>Milestone Amount</th>
+                            <td id="MileStoneAmount"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="row">
                 @Html.HiddenFor(x => x.FundReleaseID)
                 @Html.HiddenFor(x => x.DistrictID)
-                @Html.HiddenFor(x => x.ProjectPreparationID,new { @id= "ProjectPreparationID" })
+                @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
 
                 <div class="col-md-4">
                     <div class="form-label">
                         <strong>Select Project<sup><code>*</code></sup></strong>
                         @if (!String.IsNullOrEmpty(Model.ProjectNo))
                         {
-                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" ,@disabled="disabled"})
+                            @Html.HiddenFor(x => x.ProjectNo, new {@id="ProjectNo"})
+                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()", @disabled = "disabled" })
                         }
                         else
                         {
@@ -48,12 +67,13 @@
                 </div>
 
                 <div class="col-md-4">
+
                     <div class="form-label">
                         <strong>Select Installment<sup><code>*</code></sup></strong>
                         @if (String.IsNullOrEmpty(Model.FundReleaseID))
                         {
 
-                            @Html.DropDownListFor(x => x.InstallmentID,Enumerable.Empty<SelectListItem>(), "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                            @Html.DropDownListFor(x => x.InstallmentID, Enumerable.Empty<SelectListItem>(), "-Select Installment-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
                         }
                         else
                         {
@@ -65,7 +85,8 @@
                 <div class="col-md-4">
                     <div class="form-label">
                         <strong>Release Amount<sup><code>*</code></sup></strong>
-                        @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        @Html.TextBoxFor(x => x.ReleaseAmount, new { @class = "form-control form-control-sm", @autocomplete = "off",@id= "ReleaseAmount" })
+                        <span id="errortext" style="color:red"></span>
                     </div>
                 </div>
 
@@ -131,7 +152,7 @@
             </div>
             <div class="row" style="display:none" id="MileStoneTable">
                 <div class="col-md-12">
-                <h6 style="text-align:center">Project Milestone</h6>
+                    <h6 style="text-align:center">Project Milestone</h6>
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>District Name</th>
@@ -272,6 +293,7 @@
 </script>
 <script>
     function BindInstallment() {
+        debugger
         //GetProjectDetails()
         var DistrictID = $("#DistrictID").val();
         var ProjectPreparationID = $("#ProjectPreparationID").val();
@@ -282,6 +304,11 @@
             dataType: "json",
             data: JSON.stringify({ DistrictID: DistrictID, ProjectPreparationID: ProjectPreparationID }),
             success: function (data) {
+                $("#MilestoneText").html(data.Instext);
+                $("#Mpercent").text(data.InsPercentage);
+                $("#ReleaseAmount").val(parseFloat(data.SanctionedProjectCost) * parseFloat(data.InsPercentage) / 100);
+                $("#MileStoneAmount").html(parseFloat(data.SanctionedProjectCost) * parseFloat(data.InsPercentage) / 100);
+
                 $("#InstallmentID").empty();
                 //$("#InstallmentID").append("<option value='0'>Select Installment</option>");
                     $("#InstallmentID").append("<option value=" + data.InstallmentID + ">" + data.InstallmentName + "</option>");
@@ -447,6 +474,25 @@
                 GetProjectDetails()
                 GetMilestone();
             }
+            $("#ReleaseAmount").keyup(function () {
+                debugger
+                //var project = $("#ProjectNo").val();
+                //var installmnt = $("#InstallmentID").val();
+                var ReleaseAmount = $(this).val();
+                var MileStoneAmount = $("#MileStoneAmount").text();
+                //var RelaeseDate = $("#RelaeseDate").val();
+                //var FundReleaseCopy = $("#FundReleaseCopy").val();
+                if (ReleaseAmount != MileStoneAmount) {
+                    $("#errortext").text("Release Amount Should be equal to Milestone amount !!");
+                    //alert("Release Amount Should be equal to Milestone amount !!");
+                    $("#ReleaseAmount").focus();
+                    return;
+                }
+                else {
+                    $("#errortext").text("");
+                }
+
+            })
         });
     </script>
 }
