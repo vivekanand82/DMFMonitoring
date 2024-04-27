@@ -163,6 +163,38 @@
 
         function SaveUtilization() {
             var frmdata = new FormData($('#frmCurrent')[0]);
+            var ProjectNo = $("#ProjectNo").val();
+            var UtilizationDate = $("#UtilizationDate").val();
+            var UC_Against_ReleaseAmount = $("#UC_Against_ReleaseAmount").val();
+            var UtilizationNo = $("#UtilizationNo").val();
+            var UtilizationCopy = $("#UtilizationCopy").val();
+            var Remarks = $("#Remarks").val();
+            if (ProjectNo == "") {
+                swal("Warning", "Please Select Project Name", "warning");
+
+                return;
+            }
+            if (UtilizationDate == "") {
+                swal("Warning", "Please Fill Utilization Date", "warning");
+                return;
+            }
+            if (UC_Against_ReleaseAmount == "") {
+                swal("Warning", "Please Fill UC Against ReleaseAmount", "warning");
+                return;
+            }
+            if (UtilizationNo == "") {
+                swal("Warning", "Please Fill Utilization No", "warning");
+                return;
+            }
+            if (UtilizationCopy == "") {
+                swal("Warning", "Please Select Utilization Copy", "warning");
+                return;
+            }
+            if (Remarks == "") {
+                swal("Warning", "Please Enter Remarks", "warning");
+                return;
+
+            }
             $.ajax({
                 url: "/Utilization/CreateUtilization",
                 type: "POST",
@@ -208,6 +240,38 @@
     <script>
         function UpdateUtilization() {
             var frmdata = new FormData($('#frmCurrent')[0]);
+            var ProjectNo = $("#ProjectNo").val();
+            var UtilizationDate = $("#UtilizationDate").val();
+            var UC_Against_ReleaseAmount = $("#UC_Against_ReleaseAmount").val();
+            var UtilizationNo = $("#UtilizationNo").val();
+            var UtilizationCopy = $("#UtilizationCopy").val();
+            var Remarks = $("#Remarks").val();
+            if (ProjectNo == "") {
+                swal("Warning", "Please Select Project Name", "warning");
+
+                return;
+            }
+            if (UtilizationDate == "") {
+                swal("Warning", "Please Fill Utilization Date", "warning");
+                return;
+            }
+            if (UC_Against_ReleaseAmount == "") {
+                swal("Warning", "Please Fill UC Against ReleaseAmount", "warning");
+                return;
+            }
+            if (UtilizationNo == "") {
+                swal("Warning", "Please Fill Utilization No", "warning");
+                return;
+            }
+            //if (UtilizationCopy == "") {
+            //    swal("Warning", "Please Select Utilization Copy", "warning");
+            //    return;
+            //}
+            if (Remarks == "") {
+                swal("Warning", "Please Enter Remarks", "warning");
+                return;
+
+            }
             $.ajax({
                 url: "/Utilization/UpdateUtilization",
                 type: "POST",

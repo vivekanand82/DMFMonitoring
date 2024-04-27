@@ -55,22 +55,29 @@ $("#frmCurrent,.frm-current").submit(function (e) {
                     });
             } else if (e.Message) {
                 swal({
-                    title: "Error",
+                    title: "Warning",
                     text: e.Message,
-                    icon: "error",
+                    icon: "warning",
                     confirmButtonColor: "#3085d6"
                 });
             } else if (e.Data) {
                 var errors = "";
                 $(e.Data).each(function (i, error) {
-                    errors += (i + 1) + ". " + $(error)[0].ErrorMessage + "<br/>";
+                    errors += (i + 1) + ". " + $(error)[0].ErrorMessage + "\n";
                 });
                 swal({
-                    title: "Error",
-                    text: e.Message,
-                    icon: "error",
+                    title: "Warning",
+                    html: true,
+                    text: errors,
+                    icon: "warning",
                     confirmButtonColor: "#3085d6"
                 });
+                //swal({
+                //    title: "Error",
+                //    html: errors,
+                //    icon: "error",
+                //    confirmButtonColor: "#3085d6"
+                //});
             }
             //else if (e.Message=='') {
             //    swal({

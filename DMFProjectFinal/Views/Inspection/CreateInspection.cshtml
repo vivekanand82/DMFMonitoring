@@ -197,6 +197,45 @@
 </script>
 <script>
     function SaveInspection() {
+        
+        var InspectionDate = $("#InspectionDate").val();
+        var TmpInspectionCopy = $("#TmpInspectionCopy").val();
+        var TmpInspectionImage1 = $("#TmpInspectionImage1").val();
+        var TmpInspectionImage2 = $("#TmpInspectionImage2").val();
+        var TmpInspectionImage3 = $("#TmpInspectionImage3").val();
+        var TmpInspectionImage4 = $("#TmpInspectionImage4").val();
+        var Remarks = $("#Remark").val();
+        if (InspectionDate == "") {
+            swal("Warning", "Please Select Inspection Date ", "warning");
+
+            return;
+        }
+       
+        if (TmpInspectionCopy == "") {
+            swal("Warning", "Please Select TmpInspection Copy", "warning");
+            return;
+        } 
+        if (TmpInspectionImage1 == "") {
+            swal("Warning", "Please Select TmpInspectionImage1", "warning");
+            return;
+        }
+        if (TmpInspectionImage2 == "") {
+            swal("Warning", "Please Select TmpInspectionImage2", "warning");
+            return;
+        }
+        if (TmpInspectionImage3 == "") {
+            swal("Warning", "Please Select TmpInspectionImage3", "warning");
+            return;
+        }
+        if (TmpInspectionImage4 == "") {
+            swal("Warning", "Please Select TmpInspectionImage4", "warning");
+            return;
+        }
+        if (Remarks == "") {
+            swal("Warning", "Please Enter Remarks", "warning");
+            return;
+
+        }
         var formData = new FormData();
         formData.append("DistrictID", $("#DistrictID").val())
         formData.append("ProjectPreparationID", $("#ProjectPreparationID").val())
