@@ -14,12 +14,14 @@ namespace DMFProjectFinal.Models
             CanUpdate = true;
             CanDelete = true;
             RoleID = 0;
+            LoginID = 0;
         }
         public bool CanView { get; set; }
         public bool CanInsert { get; set; }
         public bool CanUpdate { get; set; }
         public bool CanDelete { get; set; }
         public int RoleID { get; set; }
+        public int LoginID { get; set; }
     }
     public class JsonResponse
     {

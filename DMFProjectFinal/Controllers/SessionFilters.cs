@@ -60,6 +60,8 @@ namespace DMFProjectFinal.Controllers
                     bool IsSub = false;
                     AccessManager AM = new AccessManager();
                     AM.RoleID = Info.RoleID.Value;
+                    var loginid = Convert.ToInt32(Info.LoginID);
+                    AM.LoginID = loginid;
                     var MenuData = db.MenuMasters.Where(x => x.ActionName.ToLower() == actionName.ToLower() && x.ControllerName.ToLower() == controllerName && x.IsActive == true).FirstOrDefault();
                     if (MenuData == null)
                     {

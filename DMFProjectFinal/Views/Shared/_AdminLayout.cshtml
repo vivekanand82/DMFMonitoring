@@ -4,8 +4,8 @@
     //var LoginUser = "Admin";
     dfm_dbEntities db = new dfm_dbEntities();
     var AM = ViewBag.GetAccess as AccessManager;
-    var LoginUser = db.UserLogins.Where(x => x.RoleID == AM.RoleID).FirstOrDefault().Name; //06.04.2024
-    var RoleName = db.UserRoles.Where(x => x.RoleID == AM.RoleID).FirstOrDefault().RoleName;//Added by ramdhyan 06.04.2024
+    var LoginUser = db.UserLogins.Where(x => x.RoleID == AM.RoleID && x.LoginID==AM.LoginID).FirstOrDefault().Name; //06.04.2024
+    var RoleName = db.UserRoles.Where(x => x.RoleID == AM.RoleID ).FirstOrDefault().RoleName;//Added by ramdhyan 06.04.2024
     var Roles = db.RoleMenuMappings.Where(x => x.UserRoleID == AM.RoleID).ToList();
     var menuParent = db.MenuMasters.Where(x => x.IsActive == true && x.IsParent == true).ToList();
 }
