@@ -1425,13 +1425,25 @@ namespace DMFProjectFinal.Controllers
         #region MineralName ---changes by Ramdhan 02.04.2024
         public ActionResult MineralNameMaster()
         {
-            ViewBag.LstData = db.MineralNameMasters.Where(x => x.IsActive == true).ToList();
+            var data = (from mm in db.MineralNameMasters
+                        join mtm in db.MineralTypeMasters on mm.MineralTypeId equals mtm.MineralTypeId
+                        select new DTO_MineralNameMaster
+                        {
+                            MineralId=mm.MineralId.ToString(),
+                            MineralName = mm.MineralName,
+                            MineralTypeId = mm.MineralTypeId,
+                            MineralCode = mm.MineralCode,
+                            MineralType = mtm.MineralType
+                        }).ToList();
+            //ViewBag.LstData = db.MineralNameMasters.Where(x => x.IsActive == true).ToList();
+            ViewBag.LstData = data;
             return View();
         }
         [HttpGet]
         public ActionResult CreateMineralNameMaster()
         {
             DTO_MineralNameMaster model = new DTO_MineralNameMaster();
+            ViewBag.mimerals = new SelectList(db.MineralTypeMasters.ToList(), "MineralTypeId", "MineralType");
             return View(model);
         }
         [HttpPost]
@@ -1453,7 +1465,7 @@ namespace DMFProjectFinal.Controllers
                 IsActive = true,
                 MineralName = model.MineralName,
                 MineralCode = model.MineralCode,
-                MineralType=model.MineralType
+                MineralTypeId=model.MineralTypeId
             });
 
             int res = db.SaveChanges();
@@ -1482,7 +1494,9 @@ namespace DMFProjectFinal.Controllers
                 var Info = db.MineralNameMasters.Where(x => x.MineralId == _id).FirstOrDefault();
                 if (Info != null)
                 {
-                    return View("~/Views/Master/CreateMineralNameMaster.cshtml", new DTO_MineralNameMaster { MineralId = CryptoEngine.Encrypt(Info.MineralId.ToString()), MineralName = Info.MineralName, MineralType=Info.MineralType, MineralCode = Info.MineralCode });
+                    ViewBag.mimerals = new SelectList(db.MineralTypeMasters.ToList(), "MineralTypeId", "MineralType",Info.MineralTypeId);
+
+                    return View("~/Views/Master/CreateMineralNameMaster.cshtml", new DTO_MineralNameMaster { MineralId = CryptoEngine.Encrypt(Info.MineralId.ToString()), MineralName = Info.MineralName, MineralTypeId=Info.MineralTypeId, MineralCode = Info.MineralCode });
                 }
                 else
                 {
@@ -1523,7 +1537,7 @@ namespace DMFProjectFinal.Controllers
                     });
 
                     Info.MineralName = model.MineralName;
-                    Info.MineralType = model.MineralType;
+                    Info.MineralTypeId = model.MineralTypeId;
                     Info.MineralCode = model.MineralCode;
                 }
             }
@@ -1567,6 +1581,157 @@ namespace DMFProjectFinal.Controllers
                 JR.IsSuccess = true;
                 JR.Message = "Data Deleted Successfully";
                 JR.RedURL = "/Master/MineralNameMaster";
+            }
+            else
+            {
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+            return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //created by ramdhyan
+
+        public ActionResult MineralTypeMaster()
+        {
+            ViewBag.LstData = db.MineralTypeMasters.Where(x => x.IsActive == true).ToList();
+            return View();
+        }
+        [HttpGet]
+        public ActionResult CreateMineralTypeMaster()
+        {
+            DTO_MineralTypeMaster model = new DTO_MineralTypeMaster();
+            return View(model);
+        }
+        [HttpPost]
+        public JsonResult CreateMineralTypeMaster(DTO_MineralTypeMaster model)
+        {
+            JsonResponse JR = new JsonResponse();
+            if (!ModelState.IsValid)
+            {
+                JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+                return Json(JR, JsonRequestBehavior.AllowGet);
+            }
+            if (db.MineralTypeMasters.Where(x => x.MineralType == model.MineralType ).Any())
+            {
+                JR.Message = "MineralType " + model.MineralType + " Aready exists !";
+                return Json(JR, JsonRequestBehavior.AllowGet);
+            }
+            db.MineralTypeMasters.Add(new Models.MineralTypeMaster
+            {
+                IsActive = true,
+                MineralType = model.MineralType
+            });
+
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+                JR.IsSuccess = true;
+                JR.Message = "Data Saved Successfully";
+                JR.RedURL = "/Master/MineralTypeMaster";
+            }
+            else
+            {
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+            return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult EditMineralTypeMaster(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            try
+            {
+                int _id = int.Parse(CryptoEngine.Decrypt(id));
+                var Info = db.MineralTypeMasters.Where(x => x.MineralTypeId == _id).FirstOrDefault();
+                if (Info != null)
+                {
+                    return View("~/Views/Master/CreateMineralTypeMaster.cshtml", new DTO_MineralTypeMaster { MineralTypeId = CryptoEngine.Encrypt(Info.MineralTypeId.ToString()), MineralType  = Info.MineralType});
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        [HttpPost]
+        public JsonResult EditMineralTypeMaster(DTO_MineralTypeMaster model)
+        {
+            JsonResponse JR = new JsonResponse();
+            if (!ModelState.IsValid)
+            {
+                JR.Data = ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList();
+                return Json(JR, JsonRequestBehavior.AllowGet);
+            }
+            if (!String.IsNullOrEmpty(model.MineralTypeId))
+            {
+                int _id = int.Parse(CryptoEngine.Decrypt(model.MineralTypeId));
+                if (db.MineralTypeMasters.Where(x => (x.MineralType == model.MineralType ) && x.MineralTypeId != _id).Any())
+                {
+                    JR.Message = "MineralType " + model.MineralType + " Aready exists !";
+                    return Json(JR, JsonRequestBehavior.AllowGet);
+                }
+                var Info = db.MineralTypeMasters.Where(x => x.MineralTypeId == _id).FirstOrDefault();
+                if (Info != null)
+                {
+                    db.DataLogs.Add(new DataLog
+                    {
+                        CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+                        CreatedOn = DateTime.Now,
+                        LogInfo = BusinessLogics.ConvertModelToJSONString(Info),
+                        URLInfo = "EditMineralTypeMaster /POST"
+                    });
+
+                    Info.MineralType = model.MineralType;
+                }
+            }
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+                JR.IsSuccess = true;
+                JR.Message = "Data Updated Successfully";
+                JR.RedURL = "/Master/MineralTypeMaster";
+            }
+            else
+            {
+                JR.Message = "Some Error Occured, Contact to Admin";
+            }
+            return Json(JR, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult DeleteMineralTypeMaster(string id)
+        {
+            JsonResponse JR = new JsonResponse();
+            if (!String.IsNullOrEmpty(id))
+            {
+                int _id = int.Parse(CryptoEngine.Decrypt(id));
+                var Info = db.MineralTypeMasters.Where(x => x.MineralTypeId == _id).FirstOrDefault();
+                if (Info != null)
+                {
+                    db.DataLogs.Add(new DataLog
+                    {
+                        CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID,
+                        CreatedOn = DateTime.Now,
+                        LogInfo = BusinessLogics.ConvertModelToJSONString(Info),
+                        URLInfo = "DeleteMineralTypeMaster /POST"
+                    });
+
+                    db.MineralTypeMasters.Remove(Info);
+                }
+            }
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+                JR.IsSuccess = true;
+                JR.Message = "Data Deleted Successfully";
+                JR.RedURL = "/Master/MineralTypeMaster";
             }
             else
             {

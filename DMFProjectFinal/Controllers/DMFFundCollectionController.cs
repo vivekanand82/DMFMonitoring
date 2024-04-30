@@ -30,16 +30,26 @@ namespace DMFProjectFinal.Controllers
         //}
         public ActionResult LesseeOpeningDMFAmt()
         {
-            var data = (from lda in db.LesseeOpeningDMFAmts
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            }
+                var data = (from lda in db.LesseeOpeningDMFAmts
                         join dm in db.DistrictMasters on lda.DistrictId equals dm.DistrictId
-                        where lda.IsActive == true
-                        select new DTO_LesseeOpeningDMFAmt
+                        join m in db.MineralNameMasters  on lda.MineralId equals m.MineralId
+                        join mm in db.MineralTypeMasters on m.MineralTypeId equals mm.MineralTypeId
+                        where lda.IsActive == true && dm.DistrictId == (DistID == null ? dm.DistrictId : DistID)
+                            select new DTO_LesseeOpeningDMFAmt
                         {
                             OpeningDMFAmtId = lda.OpeningDMFAmtId.ToString(),
                             DMFOpeningAmt = lda.DMFOpeningAmt,
                             EffectiveDate = lda.EffectiveDate,
-                            DistrictName = dm.DistrictName
-                        }).ToList();
+                            DistrictName = dm.DistrictName,
+                            MineralId=m.MineralId,
+                            MineralName=m.MineralName,
+                                MineralType=mm.MineralType
+                            }).ToList();
             ViewBag.LstData = data;
             return View();
         }
@@ -74,9 +84,10 @@ namespace DMFProjectFinal.Controllers
             //    JR.Message = "Lessee " + model.LesseeId + " Aready exists !";
             //    return Json(JR, JsonRequestBehavior.AllowGet);
             //}
-            if (db.LesseeOpeningDMFAmts.Where(x => x.DistrictId == model.DistrictId).Any())
+            var district = db.DistrictMasters.Where(x => x.DistrictId == model.DistrictId).FirstOrDefault().DistrictName;
+            if (db.LesseeOpeningDMFAmts.Where(x => x.DistrictId == model.DistrictId && x.MineralId==model.MineralId).Any())
             {
-                JR.Message = "District " + model.DistrictId + " Aready exists !";
+                JR.Message = " Opening Amount Aready exists for  District " + district + " !!";
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
             db.LesseeOpeningDMFAmts.Add(new LesseeOpeningDMFAmt
@@ -492,7 +503,9 @@ namespace DMFProjectFinal.Controllers
                 YearId = model.YearId,
                 RemainingDMFAmt=model.RemainingDMFAmt,
                 DepositedDMFAmt=model.DepositedDMFAmt,
-                CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString()
+                CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
+                DistrictId=model.DistrictId
+                
             });
 
             int res = db.SaveChanges();
@@ -631,6 +644,50 @@ namespace DMFProjectFinal.Controllers
             //            }).ToList();
            var data = db.DMFFundCollections.Where(x => x.LesseeId == LesseeId).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetDistrictByLesse(int LesseeId)
+        {
+            var data = db.LesseeMasters.Where(x => x.LesseeID == LesseeId).FirstOrDefault();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult TotalFundCollection()
+        {
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            }
+            //var openingamt = db.LesseeOpeningDMFAmts.ToList();
+            //var fundcollection = db.DMFFundCollections.ToList();
+            //var res = (from o in openingamt
+            //           join f in fundcollection on o.DistrictId equals f.DistrictId
+            //           where o.DistrictId == (DistID == null ? o.DistrictId : DistID)
+            //           group new { o, f } by o.DistrictId into grouped
+            //           select new DTO_LesseeOpeningDMFAmt
+            //           {
+            //               DistrictId = grouped.Key,
+            //               DMFOpeningAmt = grouped.Sum(x => x.o.DMFOpeningAmt),
+            //               DepositedDMFAmt = grouped.Sum(x => x.f.DepositedDMFAmt)
+            //           }
+            //         ).ToList();
+            var result = (from op in db.LesseeOpeningDMFAmts
+                              //join lm in db.LesseeMasters on op.DistrictId equals lm.DistID into lmGroup
+                              //from lm in lmGroup.DefaultIfEmpty()
+                          join fd in db.DMFFundCollections on op.DistrictId equals fd.DistrictId into fdGroup
+                          from fd in fdGroup.DefaultIfEmpty()
+                          join dm in db.DistrictMasters on op.DistrictId equals dm.DistrictId into dms
+                          from dm in dms.DefaultIfEmpty()
+                          where op.DistrictId == (DistID == null ? op.DistrictId : DistID)
+                          group new { op, fd, dm } by dm.DistrictName into grouped
+                          select new DTO_LesseeOpeningDMFAmt
+                          {
+                              DistrictName = grouped.Key,
+                              DMFOpeningAmt = grouped.Sum(x => x.op.DMFOpeningAmt),
+                              DepositedDMFAmt = grouped.Sum(x => x.fd.DepositedDMFAmt)
+                          }).ToList();
+            ViewBag.LstData = result;
+            //ViewBag.LstData = res;
+            return View();
         }
         #endregion
     }

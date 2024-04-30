@@ -143,6 +143,7 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="250" />
+          <Property Name="DistrictId" Type="int" />
         </EntityType>
         <EntityType Name="FundRelease">
           <Key>
@@ -331,7 +332,15 @@
           <Property Name="MineralName" Type="nvarchar" MaxLength="250" />
           <Property Name="MineralCode" Type="nvarchar" MaxLength="150" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="MineralTypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="MineralTypeMaster">
+          <Key>
+            <PropertyRef Name="MineralTypeId" />
+          </Key>
+          <Property Name="MineralTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MineralType" Type="varchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -789,6 +798,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="MenuMaster" EntityType="Self.MenuMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MileStoneMaster" EntityType="Self.MileStoneMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MineralNameMaster" EntityType="Self.MineralNameMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MineralTypeMaster" EntityType="Self.MineralTypeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhysicalProgressMaster" EntityType="Self.PhysicalProgressMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMetting" EntityType="Self.ProjectMetting" Schema="dbo" store:Type="Tables" />
@@ -991,6 +1001,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DistrictId" Type="Int32" />
         </EntityType>
         <EntityType Name="LesseeMaster">
           <Key>
@@ -1026,7 +1037,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="MineralName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="MineralCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="MineralType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MineralTypeId" Type="Int32" />
         </EntityType>
         <EntityType Name="ProjectMaster">
           <Key>
@@ -1464,6 +1475,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="InspectionCheckListAnswerMasters" EntityType="dfm_dbModel.InspectionCheckListAnswerMaster" />
           <EntitySet Name="InspectionCheckListQuestionMasters" EntityType="dfm_dbModel.InspectionCheckListQuestionMaster" />
           <EntitySet Name="InspectionMasters" EntityType="dfm_dbModel.InspectionMaster" />
+          <EntitySet Name="MineralTypeMasters" EntityType="dfm_dbModel.MineralTypeMaster" />
         </EntityContainer>
         <EntityType Name="MenuMaster">
           <Key>
@@ -1749,6 +1761,14 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
         </EntityType>
+        <EntityType Name="MineralTypeMaster">
+          <Key>
+            <PropertyRef Name="MineralTypeId" />
+          </Key>
+          <Property Name="MineralTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MineralType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1854,6 +1874,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="DMFFundCollections">
             <EntityTypeMapping TypeName="dfm_dbModel.DMFFundCollection">
               <MappingFragment StoreEntitySet="DMFFundCollection">
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="FundCollectionId" ColumnName="FundCollectionId" />
                 <ScalarProperty Name="LesseeId" ColumnName="LesseeId" />
                 <ScalarProperty Name="YearId" ColumnName="YearId" />
@@ -1901,7 +1922,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="MineralNameMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.MineralNameMaster">
               <MappingFragment StoreEntitySet="MineralNameMaster">
-                <ScalarProperty Name="MineralType" ColumnName="MineralType" />
+                <ScalarProperty Name="MineralTypeId" ColumnName="MineralTypeId" />
                 <ScalarProperty Name="MineralId" ColumnName="MineralId" />
                 <ScalarProperty Name="MineralName" ColumnName="MineralName" />
                 <ScalarProperty Name="MineralCode" ColumnName="MineralCode" />
@@ -2395,6 +2416,15 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
                 <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
                 <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
                 <ScalarProperty Name="InspectionID" ColumnName="InspectionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MineralTypeMasters">
+            <EntityTypeMapping TypeName="dfm_dbModel.MineralTypeMaster">
+              <MappingFragment StoreEntitySet="MineralTypeMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="MineralType" ColumnName="MineralType" />
+                <ScalarProperty Name="MineralTypeId" ColumnName="MineralTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

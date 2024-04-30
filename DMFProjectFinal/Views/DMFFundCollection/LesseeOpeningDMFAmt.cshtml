@@ -27,7 +27,7 @@
     }
 </style>
 <div class="card-header">
-    <h4 class="card-title">Lessee Opening DMF Amount</h4>
+    <h4 class="card-title">District DMF Opening  Amount</h4>
 </div>
 <div id="divform">
     <div class="card-body">
@@ -56,6 +56,8 @@
                                                 @*<th>Lessee Name</th>*@ 
                                                 <th>District Name</th>
                                                 <th>DMF Opening Amount</th>
+                                                <th>Mineral Name</th>
+                                                <th>Mineral Type</th>
                                                 <th>Effective Date</th>
                                                 @if (AM.CanUpdate || AM.CanDelete)
                                                 {
@@ -72,6 +74,8 @@
                                                     @*<td>@item.LeseeName</td>*@
                                                     <td>@item.DistrictName</td>
                                                     <td>@item.DMFOpeningAmt</td>
+                                                    <td>@item.MineralName</td>
+                                                    <td>@item.MineralType</td>
                                                     <td>@BusinessLogics.GetJSDateStr(item.EffectiveDate)</td>
                                                     @if (AM.CanUpdate || AM.CanDelete)
                                                     {

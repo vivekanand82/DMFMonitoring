@@ -64,5 +64,6 @@ namespace DMFProjectFinal.Models
         public virtual DbSet<InspectionCheckListAnswerMaster> InspectionCheckListAnswerMasters { get; set; }
         public virtual DbSet<InspectionCheckListQuestionMaster> InspectionCheckListQuestionMasters { get; set; }
         public virtual DbSet<InspectionMaster> InspectionMasters { get; set; }
+        public virtual DbSet<MineralTypeMaster> MineralTypeMasters { get; set; }
     }
 }

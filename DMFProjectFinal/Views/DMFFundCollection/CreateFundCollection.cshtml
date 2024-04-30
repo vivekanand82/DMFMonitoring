@@ -24,6 +24,7 @@
     <div class="card-body">
         @using (Html.BeginForm((String.IsNullOrEmpty(Model.FundCollectionId) ? "CreateFundCollection" : "EditFundCollection"), "DMFFundCollection", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
         {
+            @Html.HiddenFor(x=>x.DistrictId,new { @id= "hdnDistrictID" })
             <div class="row">
                 @Html.HiddenFor(x => x.FundCollectionId)
                 <div class="col-md-3">
@@ -162,6 +163,7 @@
             debugger
             remainingDmf = 0;
             var LesseeId = $("#LesseeId").val();
+            GetDistrictByLesse(LesseeId);
             if (LesseeId != "") {
                 $.ajax({
                     url: "/DMFFundCollection/GetRoyaltyByLessee?LesseeId=" + LesseeId,
@@ -270,4 +272,17 @@
             })
         })
     </script>*@
+    <script>
+        function GetDistrictByLesse(LesseeId) {
+            $.ajax({
+                url: "/DMFFundCollection/GetDistrictByLesse?LesseeId=" + LesseeId,
+                type: "GET",
+                contentType: "Application/json;charset=utf-8;",
+                dataType: "json",
+                success: function (data) {
+                    $("#hdnDistrictID").val(data.DistID);
+                }
+            })
+        }
+    </script>
 }

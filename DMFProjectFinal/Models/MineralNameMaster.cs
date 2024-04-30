@@ -18,6 +18,6 @@ namespace DMFProjectFinal.Models
         public string MineralName { get; set; }
         public string MineralCode { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public string MineralType { get; set; }
+        public Nullable<int> MineralTypeId { get; set; }
     }
 }

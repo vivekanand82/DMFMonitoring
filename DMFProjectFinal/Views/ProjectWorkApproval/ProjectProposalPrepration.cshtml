@@ -380,7 +380,7 @@
                                                     <td><a class="badge bg-success-subtle text-danger">Closed</a></td>
                                                 }
                                                 <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                @if (item.Stageid != 3)
+                                                @if (item.Stageid == null)
                                                 {
                                                     if (AM.CanUpdate || AM.CanDelete)
                                                     {

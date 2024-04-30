@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace DMFProjectFinal.Controllers
 {
     [SessionFilter]
-    public class FundReleaseController : Controller
+    public class FundReleaseController : Controller 
     {
         // GET: FundRelease
         private dfm_dbEntities db = new dfm_dbEntities();
@@ -34,7 +34,7 @@ namespace DMFProjectFinal.Controllers
                                    from stm in stms.DefaultIfEmpty()
                                    join snm in db.SectorNameMasters on ppp.SectorID equals snm.SectorNameId into snms
                                    from snm in snms.DefaultIfEmpty()
-                                   where ppp.IsActive == true && ppp.DistID == DistID && ppp.ProjectNo != null && ppp.Stageid == 2
+                                   where ppp.IsActive == true && ppp.DistID == (DistID == null ? ppp.DistID : DistID) && ppp.ProjectNo != null && ppp.Stageid == 2
                                    && (stm.SectorType == SectorType || String.IsNullOrEmpty(SectorType))
                                    && (snm.SectorName == SectorName || String.IsNullOrEmpty(SectorName))
                                    && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))

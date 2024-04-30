@@ -28,5 +28,6 @@ namespace DMFProjectFinal.Models
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public Nullable<int> DistrictId { get; set; }
     }
 }

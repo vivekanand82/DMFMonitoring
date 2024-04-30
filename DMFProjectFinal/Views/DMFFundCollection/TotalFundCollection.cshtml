@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "TotalFundCollection";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using DMFProjectFinal.Models
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "LesseeOpeningDMFAmt";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+}
+
+<style>
+    .table td, .table th {
+        font-size: 14px;
+        border-top-width: 0;
+        border-bottom: 1px solid;
+        border-color: #ebedf2 !important;
+        padding: 0 4px !important;
+        height: 40px;
+        vertical-align: middle !important;
+    }
+
+    label {
+        display: contents !important;
+    }
+
+    .form-group label {
+        white-space: break-spaces !important;
+    }
+</style>
+<div class="card-header">
+    <h4 class="card-title">Total DMF fund collection</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            @*<div class="col-md-6 text-right mb-1">
+                @if (AM.CanInsert)
+                {
+                    <a class="btn btn-primary btn-round" href="@Url.Action("CreateLesseeOpeningDMFAmt", "DMFFundCollection")" id="addSectorName">Create<i class="fa fa-plus-circle"></i></a>
+                }
+            </div>*@
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.LstData != null)
+                                {
+                                    <table class="table center-aligned-table" id="TotalColection" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                @*<th>Lessee Name</th>*@
+                                                <th>District Name</th>
+                                                <th>Total DMF Colection</th>
+                                                @*<th>Effective Date</th>*@
+                                                @*@if (AM.CanUpdate || AM.CanDelete)
+                                                {
+                                                    <th>Action</th>
+                                                }*@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.LstData)
+                                            {
+                                                var TotalCollection = (item.DMFOpeningAmt + item.DepositedDMFAmt);
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    @*<td>@item.LeseeName</td>*@
+                                                    <td>@item.DistrictName</td>
+                                                    
+                                                    <td>@TotalCollection</td>
+                                                    @*<td>@BusinessLogics.GetJSDateStr(item.EffectiveDate)</td>*@
+                                                    @*@if (AM.CanUpdate || AM.CanDelete)
+                                                    {
+                                                        <th>
+                                                            @if (AM.CanUpdate)
+                                                            {
+                                                                <a href="/DMFFundCollection/EditLesseeOpeningDMFAmt?id=@CryptoEngine.Encrypt(item.OpeningDMFAmtId.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                            }
+                                                            @if (AM.CanDelete)
+                                                            {
+                                                                <a href="/DMFFundCollection/DeleteLesseeOpeningDMFAmt" ref-id="@CryptoEngine.Encrypt(item.OpeningDMFAmtId.ToString())" class="btn btn-small btn-danger delete-recored">
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </a>
+                                                            }
+                                                        </th>
+                                                    }*@
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#TotalColection').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('FundCollectionDetails.' + (type || 'xlsx')));
+        }
+    </script>
+}
+

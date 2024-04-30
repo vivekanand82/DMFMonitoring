@@ -1,0 +1,44 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_MineralTypeMaster
+@{
+    ViewBag.Title = "CreateMineralNameMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.MineralTypeId))
+    {
+        <h4 class="card-title">Create Mineral Type</h4>
+    }
+    else
+    {
+        <h4 class="card-title">Update Mineral Type</h4>
+    }
+
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm((String.IsNullOrEmpty(Model.MineralTypeId) ? "CreateMineralTypeMaster" : "EditMineralTypeMaster"), "Master", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(x => x.MineralTypeId)
+                <div class="col-md-3">
+                    <div class="form-label">
+                        <strong>Mineral Type <sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.MineralType, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    </div>
+                </div>
+               
+
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        <input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.MineralTypeId)?"Save":"Update")" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

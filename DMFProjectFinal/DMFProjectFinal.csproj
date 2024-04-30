@@ -231,6 +231,9 @@
     <Compile Include="Models\MineralNameMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MineralTypeMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MonthMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -687,6 +690,9 @@
     <Content Include="Views\Inspection\ViewInspectionProject.cshtml" />
     <Content Include="Views\Inspection\CreateInspection.cshtml" />
     <Content Include="Views\Inspection\InspectcionList.cshtml" />
+    <Content Include="Views\DMFFundCollection\TotalFundCollection.cshtml" />
+    <Content Include="Views\Master\MineralTypeMaster.cshtml" />
+    <Content Include="Views\Master\CreateMineralTypeMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -509,11 +509,18 @@ namespace DMFProjectFinal.Models.DTO
         [Required]
         public string MineralName { get; set; }
         [Display(Name = "Mineral Type")]
-        [Required]
         public string MineralType { get; set; }
+        [Required]
+        public int? MineralTypeId { get; set; }
         public string MineralCode { get; set; }
     }
 
+    public partial class DTO_MineralTypeMaster
+    {
+        public string MineralTypeId { get; set; }
+        public string MineralType { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+    }
     public partial class DTO_UserRegistration
     {
         public string LoginID { get; set; }
@@ -559,7 +566,9 @@ namespace DMFProjectFinal.Models.DTO
         [Required]
         public long LesseeId { get; set; }
         public int MineralId { get; set; } 
-        public int DistrictId { get; set; }
+        public string MineralType { get; set; } 
+        public string MineralName { get; set; } 
+        public int? DistrictId { get; set; }
         public string DistrictName { get; set; }
         public string LeseeName { get; set; }
         [Display(Name = "DMF Opening Amount")]
@@ -568,6 +577,7 @@ namespace DMFProjectFinal.Models.DTO
         [Display(Name = "Effective Date")]
         [Required]
         public Nullable<System.DateTime> EffectiveDate { get; set; }
+        public Nullable<decimal> DepositedDMFAmt { get; set; }
     }
     public partial class DTO_RoyaltyCollection
     {
@@ -634,6 +644,7 @@ namespace DMFProjectFinal.Models.DTO
         [Required]
         public string ChallanNo { get; set; }
         public string LeseeName { get; set; }
+        public int DistrictId { get; set; }
     }
 
     public partial class DTO_DemoStateId
