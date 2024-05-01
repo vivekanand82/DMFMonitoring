@@ -1,0 +1,71 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{  
+    ViewBag.Title = "DMFFundCollectionReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities(); 
+    }   
+<div class="card-header">
+    <h4 class="card-title">DMF FundCollection Report</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+                       
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.Data != null)
+                                {
+                                    <table class="table center-aligned-table" id="tblFundData" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>District</th>
+                                                <th>Total Collection</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_FundCollectionReport item in ViewBag.Data)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td><a href="#" style="color:blue" onclick="GetCollectionMineralTypeWise(@item.DistrictId)">@item.DistrictName</a></td>
+                                                    <td>@item.TotalFundCollection</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table> 
+                                    }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+                                    
+                                }
+                            </div>
+                         }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+    {
+    <script>
+        function GetCollectionMineralTypeWise(DistrictId) {
+            debugger
+            alert(DistrictId);
+        }
+    </script>
+    }

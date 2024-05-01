@@ -645,6 +645,7 @@ namespace DMFProjectFinal.Models.DTO
         public string ChallanNo { get; set; }
         public string LeseeName { get; set; }
         public int DistrictId { get; set; }
+        public int MineralId { get; set; }
     }
 
     public partial class DTO_DemoStateId
@@ -859,6 +860,28 @@ namespace DMFProjectFinal.Models.DTO
         public string ProjectName { get; set; }
 
     }
+    public partial class DTO_FundCollectionReport
+    {
+        public string FundCollectionId { get; set; }
+        public Nullable<long> LesseeId { get; set; }
+        public Nullable<long> LesseeName { get; set; }
+        public Nullable<int> YearId { get; set; }
+        public string YearName { get; set; }
+        public Nullable<int> MonthId { get; set; }
+        public string MonthName { get; set; }
+        public Nullable<decimal> RoyaltyAmt { get; set; }
+        public Nullable<decimal> DMFAmt { get; set; }
+        public Nullable<decimal> DepositedDMFAmt { get; set; }
+        public Nullable<decimal> RemainingDMFAmt { get; set; }
+        public Nullable<System.DateTime> ChallanDate { get; set; }
+        public string ChallanDoc { get; set; }
+        public string ChallanNo { get; set; }
+        public string LeseeName { get; set; }
+        public int? DistrictId { get; set; }
+        public string DistrictName { get; set; }
+        public int MineralId { get; set; }
+        public decimal TotalFundCollection { get; set; }
 
+    }
 
     }

@@ -139,6 +139,7 @@
     <Compile Include="Controllers\MileStoneController.cs" />
     <Compile Include="Controllers\PhysicalProgressController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SessionFilters.cs" />
     <Compile Include="Controllers\BusinessLogics.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Controllers\UserManagementController.cs" />
     <Compile Include="Controllers\UserManager.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
+    <Compile Include="DAL\DMFFundCollectionDB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +175,7 @@
     <Compile Include="Models\DataLog.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBHelper.cs" />
     <Compile Include="Models\DemoState.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -693,6 +696,8 @@
     <Content Include="Views\DMFFundCollection\TotalFundCollection.cshtml" />
     <Content Include="Views\Master\MineralTypeMaster.cshtml" />
     <Content Include="Views\Master\CreateMineralTypeMaster.cshtml" />
+    <Content Include="Views\Report\DMFFundCollectionReport.cshtml" />
+    <Content Include="Views\Report\SanctionFundReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

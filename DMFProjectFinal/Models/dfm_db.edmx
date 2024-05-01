@@ -144,6 +144,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="250" />
           <Property Name="DistrictId" Type="int" />
+          <Property Name="MineralId" Type="int" />
         </EntityType>
         <EntityType Name="FundRelease">
           <Key>
@@ -1002,6 +1003,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="DistrictId" Type="Int32" />
+          <Property Name="MineralId" Type="Int32" />
         </EntityType>
         <EntityType Name="LesseeMaster">
           <Key>
@@ -1874,6 +1876,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="DMFFundCollections">
             <EntityTypeMapping TypeName="dfm_dbModel.DMFFundCollection">
               <MappingFragment StoreEntitySet="DMFFundCollection">
+                <ScalarProperty Name="MineralId" ColumnName="MineralId" />
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="FundCollectionId" ColumnName="FundCollectionId" />
                 <ScalarProperty Name="LesseeId" ColumnName="LesseeId" />

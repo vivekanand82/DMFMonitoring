@@ -29,5 +29,6 @@ namespace DMFProjectFinal.Models
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<int> DistrictId { get; set; }
+        public Nullable<int> MineralId { get; set; }
     }
 }

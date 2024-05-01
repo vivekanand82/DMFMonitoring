@@ -159,9 +159,10 @@ namespace DMFProjectFinal.Controllers
                 //    JR.Message = "Lessee " + model.LesseeId + " Already exists !";
                 //    return Json(JR, JsonRequestBehavior.AllowGet);
                 //}
-                if (db.LesseeOpeningDMFAmts.Where(x => x.DistrictId == model.DistrictId && x.OpeningDMFAmtId != _id).Any())
+                if (db.LesseeOpeningDMFAmts.Where(x => x.DistrictId == model.DistrictId && x.MineralId==model.MineralId  && x.OpeningDMFAmtId != _id).Any())
                 {
-                    JR.Message = "District " + model.DistrictId + " Already exists !";
+                    //JR.Message = "District " + model.DistrictId + " Already exists !";
+                    JR.Message = "Opening Amount Already Exists for this Mineral !!";
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
                 var Info = db.LesseeOpeningDMFAmts.Where(x => x.OpeningDMFAmtId == _id).FirstOrDefault();
@@ -489,9 +490,12 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
+            var mineral = db.LesseeMasters.Where(x => x.LesseeID == model.LesseeId).FirstOrDefault();
+
             db.DMFFundCollections.Add(new DMFFundCollection
             {
                 LesseeId = model.LesseeId,
+                MineralId=mineral.MinralID,
                 CreatedDate = DateTime.Now,
                 IsActive = true,
                 ChallanDate = model.ChallanDate,
