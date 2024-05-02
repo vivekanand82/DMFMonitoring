@@ -333,7 +333,7 @@
           <Property Name="MineralName" Type="nvarchar" MaxLength="250" />
           <Property Name="MineralCode" Type="nvarchar" MaxLength="150" />
           <Property Name="IsActive" Type="bit" />
-          <Property Name="MineralTypeId" Type="int" />
+          <Property Name="MineralType" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="MineralTypeMaster">
           <Key>
@@ -1039,7 +1039,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="MineralName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="MineralCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
-          <Property Name="MineralTypeId" Type="Int32" />
+          <Property Name="MineralType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ProjectMaster">
           <Key>
@@ -1925,7 +1925,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="MineralNameMasters">
             <EntityTypeMapping TypeName="dfm_dbModel.MineralNameMaster">
               <MappingFragment StoreEntitySet="MineralNameMaster">
-                <ScalarProperty Name="MineralTypeId" ColumnName="MineralTypeId" />
+                <ScalarProperty Name="MineralType" ColumnName="MineralType" />
                 <ScalarProperty Name="MineralId" ColumnName="MineralId" />
                 <ScalarProperty Name="MineralName" ColumnName="MineralName" />
                 <ScalarProperty Name="MineralCode" ColumnName="MineralCode" />

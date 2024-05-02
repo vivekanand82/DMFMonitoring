@@ -38,7 +38,6 @@ namespace DMFProjectFinal.Controllers
                 var data = (from lda in db.LesseeOpeningDMFAmts
                         join dm in db.DistrictMasters on lda.DistrictId equals dm.DistrictId
                         join m in db.MineralNameMasters  on lda.MineralId equals m.MineralId
-                        join mm in db.MineralTypeMasters on m.MineralTypeId equals mm.MineralTypeId
                         where lda.IsActive == true && dm.DistrictId == (DistID == null ? dm.DistrictId : DistID)
                             select new DTO_LesseeOpeningDMFAmt
                         {
@@ -48,7 +47,7 @@ namespace DMFProjectFinal.Controllers
                             DistrictName = dm.DistrictName,
                             MineralId=m.MineralId,
                             MineralName=m.MineralName,
-                                MineralType=mm.MineralType
+                                MineralType=m.MineralType
                             }).ToList();
             ViewBag.LstData = data;
             return View();

@@ -1425,25 +1425,25 @@ namespace DMFProjectFinal.Controllers
         #region MineralName ---changes by Ramdhan 02.04.2024
         public ActionResult MineralNameMaster()
         {
-            var data = (from mm in db.MineralNameMasters
-                        join mtm in db.MineralTypeMasters on mm.MineralTypeId equals mtm.MineralTypeId
-                        select new DTO_MineralNameMaster
-                        {
-                            MineralId=mm.MineralId.ToString(),
-                            MineralName = mm.MineralName,
-                            MineralTypeId = mm.MineralTypeId,
-                            MineralCode = mm.MineralCode,
-                            MineralType = mtm.MineralType
-                        }).ToList();
-            //ViewBag.LstData = db.MineralNameMasters.Where(x => x.IsActive == true).ToList();
-            ViewBag.LstData = data;
+            //var data = (from mm in db.MineralNameMasters
+            //            join mtm in db.MineralTypeMasters on mm.MineralTypeId equals mtm.MineralTypeId
+            //            select new DTO_MineralNameMaster
+            //            {
+            //                MineralId=mm.MineralId.ToString(),
+            //                MineralName = mm.MineralName,
+            //                MineralTypeId = mm.MineralTypeId,
+            //                MineralCode = mm.MineralCode,
+            //                MineralType = mtm.MineralType
+            //            }).ToList();
+            ViewBag.LstData = db.MineralNameMasters.Where(x => x.IsActive == true).ToList();
+            //ViewBag.LstData = data;
             return View();
         }
         [HttpGet]
         public ActionResult CreateMineralNameMaster()
         {
             DTO_MineralNameMaster model = new DTO_MineralNameMaster();
-            ViewBag.mimerals = new SelectList(db.MineralTypeMasters.ToList(), "MineralTypeId", "MineralType");
+            //ViewBag.mimerals = new SelectList(db.MineralTypeMasters.ToList(), "MineralTypeId", "MineralType");
             return View(model);
         }
         [HttpPost]
@@ -1465,7 +1465,7 @@ namespace DMFProjectFinal.Controllers
                 IsActive = true,
                 MineralName = model.MineralName,
                 MineralCode = model.MineralCode,
-                MineralTypeId=model.MineralTypeId
+                MineralType=model.MineralType
             });
 
             int res = db.SaveChanges();
@@ -1494,9 +1494,9 @@ namespace DMFProjectFinal.Controllers
                 var Info = db.MineralNameMasters.Where(x => x.MineralId == _id).FirstOrDefault();
                 if (Info != null)
                 {
-                    ViewBag.mimerals = new SelectList(db.MineralTypeMasters.ToList(), "MineralTypeId", "MineralType",Info.MineralTypeId);
+                    //ViewBag.mimerals = new SelectList(db.MineralTypeMasters.ToList(), "MineralTypeId", "MineralType",Info.MineralType);
 
-                    return View("~/Views/Master/CreateMineralNameMaster.cshtml", new DTO_MineralNameMaster { MineralId = CryptoEngine.Encrypt(Info.MineralId.ToString()), MineralName = Info.MineralName, MineralTypeId=Info.MineralTypeId, MineralCode = Info.MineralCode });
+                    return View("~/Views/Master/CreateMineralNameMaster.cshtml", new DTO_MineralNameMaster { MineralId = CryptoEngine.Encrypt(Info.MineralId.ToString()), MineralName = Info.MineralName, MineralType=Info.MineralType, MineralCode = Info.MineralCode });
                 }
                 else
                 {
@@ -1537,7 +1537,7 @@ namespace DMFProjectFinal.Controllers
                     });
 
                     Info.MineralName = model.MineralName;
-                    Info.MineralTypeId = model.MineralTypeId;
+                    Info.MineralType = model.MineralType;
                     Info.MineralCode = model.MineralCode;
                 }
             }

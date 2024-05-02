@@ -1,13 +1,182 @@
 ﻿@using DMFProjectFinal.Models
 @using DMFProjectFinal.Models.DTO
 @using DMFProjectFinal.Controllers
-@{  
+@{
     ViewBag.Title = "DMFFundCollectionReport";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var AM = ViewBag.GetAccess as AccessManager;
     int j = 0;
-    dfm_dbEntities db = new dfm_dbEntities(); 
-    }   
+    dfm_dbEntities db = new dfm_dbEntities();
+}
+<style>
+    .modal-dialog {
+        max-width: 95%;
+    }
+</style>
+<div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Mineral Type Wise Collection Report</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>District Name</th>
+                        <th>Mineral Type</th>
+                        <th>Total Collection</th>
+
+                    </tr>
+                    <tbody id="CollectionModalMineralType"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal 2 for  CollectionModalMineralName-->
+<div class="modal zoomIn" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Mineral Name Wise Collection Report</h1>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>District Name</th>
+                        <th>Mineral Type</th>
+                        <th>Mineral Name</th>
+                        <th>Collection Amount</th>
+
+                    </tr>
+                    <tbody id="CollectionModalMineralName"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal 3 for  CollectionModalLesseeName-->
+<div class="modal zoomIn" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Lessee Wise Collection Report</h1>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>District Name</th>
+                        <th>Lessee Name</th>
+                        <th>Mineral Type</th>
+                        <th>Mineral Name</th>
+                        <th>Collection Amount</th>
+
+                    </tr>
+                    <tbody id="CollectionModalLesseeName"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal 4 for  Lessee Fund Collection List-->
+<div class="modal zoomIn" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Collection Details Report by Lessee </h1>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-bordered">
+                    <tr><h6 style="text-align:center">Lessee details</h6></tr>
+                    <tr>
+                        <th>Lessee Name</th>
+                        <td id="LesseeNameD"></td>
+                        <th>District Name</th>
+                        <td id="DistrictNameD"></td>
+                        <th>Areacode</th>
+                        <td id="AreacodeD"></td>
+                    </tr>
+
+                    <tr class="col-sm-4">
+                        <th>GataNo</th>
+                        <td id="GataNoD"></td>
+                        <th>TotalAreainHect</th>
+                        <td id="TotalAreainHectD"></td>
+                        <th>MobNo</th>
+                        <td id="MobNoD"></td>
+                    </tr>
+
+                    <tr class="col-sm-4">
+                        <th>EmailID</th>
+                        <td id="EmailIDD"></td>
+                        <th>BidRate</th>
+                        <td id="BidRateD"></td>
+                        <th>LeaseFromDate</th>
+                        <td id="LeaseFromDateD"></td>
+                    </tr>
+
+                    @*<tr class="col-sm-4">
+                            <th>LeaseToDate</th>
+                            <td id="LeaseToDateD"></td>
+                        </tr>*@
+                </table>
+                <table class="table table-bordered">
+                    <tr><h6 style="text-align:center">DMF Deposited Details</h6></tr>
+
+                    <tr>
+                        @*<th>District Name</th>
+                            <th>Lessee Name</th>*@
+                        <th>Mineral Type</th>
+                        <th>Mineral Name</th>
+                        <th>Royalty Amt</th>
+                        <th>DMF Amt</th>
+                        <th>Remaining DMFAmt</th>
+                        <th>Deposited DMF Amt</th>
+                        <th>Year</th>
+                        <th>Month</th>
+                        <th>ChallanDate</th>
+                        <th>ChallanNo</th>
+                        <th>challanDOc</th>
+                    </tr>
+                    <tbody id="CollectionDetailsLessee"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card-header">
     <h4 class="card-title">DMF FundCollection Report</h4>
 </div>
@@ -17,13 +186,13 @@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
-                       
+
                         @if (AM.CanView)
                         {
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.Data != null)
                                 {
-                                    <table class="table center-aligned-table" id="tblFundData" style="width:100%">
+                                    <table class="table center-aligned-table" id="Tbl_CollectionReport" style="width:100%">
                                         <thead class="table-dark">
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
@@ -43,17 +212,17 @@
                                             }
                                         </tbody>
 
-                                    </table> 
-                                    }
+                                    </table>
+                                }
                                 else
                                 {
                                     <div class="form-group col-md-12  mb-3" style="text-align:center;">
                                         <span>No Record Found</span>
                                     </div>
-                                    
+
                                 }
                             </div>
-                         }
+                        }
                     </div>
                 </div>
             </div>
@@ -62,10 +231,141 @@
 </div>
 @section scripts
     {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Tbl_CollectionReport').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
     <script>
         function GetCollectionMineralTypeWise(DistrictId) {
             debugger
-            alert(DistrictId);
+            $.ajax({
+                url: "/Report/FundCollectionMineralTypeWise?DistrictId=" + DistrictId,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].DistrictName + "</td>";
+                            html += "<td><a style='color:blue;cursor:pointer' onclick='GetCollectionMineralNameWise(" + data[i].DistrictId + ",\"" + data[i].MineralType.toString() + "\")'>" + data[i].MineralType + "</a></td>";
+                            html += "<td>" + data[i].TotalFundCollection + "</td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal").modal('show');
+                        $("#CollectionModalMineralType").html(html);
+                    }
+                }
+            })
         }
     </script>
-    }
+    <script>
+        function GetCollectionMineralNameWise(DistrictId, MineralType) {
+            debugger
+            $.ajax({
+                url: "/Report/FundCollectionMineralNameWise?DistrictId=" + DistrictId + "&&MineralType=" + MineralType,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].DistrictName + "</td>";
+                            html += "<td>" + data[i].MineralType + "</td>";
+                            html += "<td><a style='color:blue;cursor:pointer' onclick='GetCollectionLesseeWise(" + data[i].DistrictId + "," + data[i].MineralId + ",\"" + data[i].MineralType.toString() + "\")'>" + data[i].MineralName + "</a></td>";
+                            html += "<td>" + data[i].TotalFundCollection + "</td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal1").modal('show');
+                        $("#CollectionModalMineralName").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function GetCollectionLesseeWise(DistrictId, MineralId, MineralType) {
+            debugger
+            $.ajax({
+                url: "/Report/FundCollectionLesseeWise?DistrictId=" + DistrictId + "&&MineralId=" + MineralId + "&&MineralType=" + MineralType,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].DistrictName + "</td>";
+                            html += "<td><a style='color:blue;cursor:pointer' onclick='CollectionDetailsByLessee(" + data[i].DistrictId + "," + data[i].MineralId + "," + data[i].LesseeId + ")'>" + data[i].LeseeName + "</a></td>";
+                            html += "<td>" + data[i].MineralType + "</td>";
+                            html += "<td>" + data[i].MineralName + "</td>";
+                            html += "<td>" + data[i].TotalFundCollection + "</td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal2").modal('show');
+                        $("#CollectionModalLesseeName").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function CollectionDetailsByLessee(DistrictId, MineralId, LesseeId) {
+            debugger
+            $.ajax({
+                url: "/Report/FundCollectionReportByLessee?DistrictId=" + DistrictId + "&&MineralId=" + MineralId + "&&LesseeId=" + LesseeId,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var LeaseFromDate = new Date(parseInt(data[0].LeaseFromDate.substr(6)));
+
+                        $("#LesseeNameD").html(data[0].LeseeName);
+                        $("#DistrictNameD").html(data[0].DistrictName);
+                        $("#AreacodeD").html(data[0].Areacode);
+                        $("#GataNoD").html(data[0].GataNo);
+                        $("#TotalAreainHectD").html(data[0].TotalAreainHect);
+                        $("#MobNoD").html(data[0].MobNo);
+                        $("#EmailIDD").html(data[0].EmailID);
+                        $("#BidRateD").html(data[0].BidRate);
+                        $("#LeaseFromDateD").html(LeaseFromDate.toLocaleDateString("es-CL"));
+                        $("#LeaseToDateD").html(data[0].LeaseToDate);
+                        var html = ``;
+                        for (var i = 0; i < data.length; i++) {
+                            var ChallanDate = new Date(parseInt(data[i].ChallanDate.substr(6)));
+                            html += "<tr>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td><a style='color:blue;cursor:pointer'>" + data[i].LeseeName + "</a></td>";
+                            html += "<td>" + data[i].MineralType + "</td>";
+                            html += "<td>" + data[i].MineralName + "</td>";
+                            html += "<td>" + data[i].RoyaltyAmt + "</td>";
+                            html += "<td>" + data[i].DMFAmt + "</td>";
+                            html += "<td>" + data[i].RemainingDMFAmt + "</td>";
+                            html += "<td>" + data[i].DepositedDMFAmt + "</td>";
+                            html += "<td>" + data[i].YearName + "</td>";
+                            html += "<td>" + data[i].MonthName + "</td>";
+                            html += "<td>" + ChallanDate.toLocaleDateString("es-CL") + "</td>";
+                            html += "<td>" + data[i].ChallanNo + "</td>";
+                            html += "<td><a href=" + data[i].challanDOc + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal3").modal('show');
+                        $("#CollectionDetailsLessee").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+}

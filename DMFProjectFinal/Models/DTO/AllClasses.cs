@@ -873,13 +873,25 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<decimal> DMFAmt { get; set; }
         public Nullable<decimal> DepositedDMFAmt { get; set; }
         public Nullable<decimal> RemainingDMFAmt { get; set; }
+        public Nullable<System.DateTime> LeaseFromDate { get; set; }
+        public Nullable<System.DateTime> LeaseToDate { get; set; }
         public Nullable<System.DateTime> ChallanDate { get; set; }
         public string ChallanDoc { get; set; }
         public string ChallanNo { get; set; }
         public string LeseeName { get; set; }
         public int? DistrictId { get; set; }
         public string DistrictName { get; set; }
+        public string MineralType { get; set; }
+        public string MineralName { get; set; }
+        public string challanDOc { get; set; }
+        public string Areacode { get; set; }
+        public string GataNo { get; set; }
+        public string LeaseID { get; set; }
+        public string MobNo { get; set; }
+        public string EmailID { get; set; }
         public int MineralId { get; set; }
+        public decimal TotalAreainHect { get; set; }
+        public decimal BidRate { get; set; }
         public decimal TotalFundCollection { get; set; }
 
     }

@@ -33,7 +33,13 @@
             <div class="col-md-3">
                 <div class="form-label">
                     <strong>Mineral Type <sup><code>*</code></sup></strong>
-                    @Html.DropDownListFor(x => x.MineralTypeId, ViewBag.mimerals as SelectList, "Select", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    @Html.DropDownListFor(x => x.MineralType, new List<SelectListItem>
+               {
+                   new SelectListItem{Text="Major",Value="Major"},
+                    new SelectListItem{Text="Minor",Value="Minor"}
+               }, "Select", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    @*@Html.DropDownListFor(x => x.MineralTypeId, ViewBag.mimerals as SelectList, "Select", new { @class = "form-control form-control-sm", @autocomplete = "off" })*@
 
                     @*@Html.TextBoxFor(x => x.MineralType, "", new { @class = "form-control form-control-sm", @autocomplete = "off" })*@
                 </div>

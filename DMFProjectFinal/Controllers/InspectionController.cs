@@ -971,7 +971,7 @@ namespace DMFProjectFinal.Controllers
                                    && (dm.DistrictName == DistrictName || String.IsNullOrEmpty(DistrictName))
                                    && (ppp.ProjectName == ProjectName || String.IsNullOrEmpty(ProjectName))
                                    // orderby mm.MileStoneStatus descending
-                                   select new DTO_UtilizationMaster
+                                   select new DTO_InspectionMaster
                                    {
                                        ProjectPreparationID = ppp.ProjectPreparationID,
                                        DistrictID = ppp.DistID,
