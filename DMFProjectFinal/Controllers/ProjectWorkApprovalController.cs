@@ -266,7 +266,11 @@ namespace DMFProjectFinal.Controllers
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// this code is working for Create projectworkProsposal(insertProjectworkproposal)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public JsonResult insertProjectworkproposal(DTO_ProjectProposalPrepration model)
         {
             JsonResponse JR = new JsonResponse();
@@ -347,7 +351,11 @@ namespace DMFProjectFinal.Controllers
             return Json(JR, JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// this code is working for update the project work prospaosal 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public JsonResult Updateworkprposla(DTO_ProjectProposalPrepration model)
         {
             JsonResponse JR = new JsonResponse();
@@ -800,6 +808,8 @@ namespace DMFProjectFinal.Controllers
                 {
                     db.ProjectProposalPreprations.Remove(Info);
                 }
+                var projectInfo = db.ProjectMasters.Where(x => x.ProjectNo == Info.ProjectNo).FirstOrDefault();
+                db.ProjectMasters.Remove(projectInfo);
             }
             int res = db.SaveChanges();
             if (res > 0)

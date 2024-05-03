@@ -895,5 +895,85 @@ namespace DMFProjectFinal.Models.DTO
         public decimal TotalFundCollection { get; set; }
 
     }
-
+    public partial class DTO_DistrictWiseProjectReport
+    {
+        public string ProjectPreparationID { get; set; }
+        public string Total_Project { get; set; }
+        public string VillageNameInHindi { get; set; }
+        public string TehsilName { get; set; }
+        public string BlockName { get; set; }
+        public string VillageNameInEnglish { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public string ProsposalNo { get; set; }
+        public Nullable<System.DateTime> ProposalDate { get; set; }
+        public string ProposalCopy { get; set; }
+        public string WorkOrderCopy { get; set; }
+        public string ProposedBy { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public string TenderNo { get; set; }
+        public Nullable<System.DateTime> TenderDate { get; set; }
+        public string WorkOrderNo { get; set; }
+        public Nullable<System.DateTime> WorkOrderDate { get; set; }
+        public Nullable<long> AgencyID { get; set; }
+        public Nullable<decimal> ProjectCost { get; set; }
+        public Nullable<decimal> GSTAndOthers { get; set; }
+        public Nullable<decimal> SanctionedProjectCost { get; set; }
+        public Nullable<System.DateTime> ProjectStartDate { get; set; }
+        public Nullable<System.DateTime> ProjectCompletionDate { get; set; }
+        public Nullable<int> ProjectStatusID { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<long> CreatedBy { get; set; }
+        public Nullable<long> ModifyBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
+        public Nullable<int> DistID { get; set; }
+        public Nullable<int> TehsilId { get; set; }
+        public Nullable<int> BlockId { get; set; }
+        public Nullable<long> VillageId { get; set; }
+        public string AgencyName { get; set; }
+        public string DistrictName { get; set; }
+        public string ProjectName { get; set; }
+        public string ProjectStatus { get; set; }
+        public string SectorName { get; set; }
+        public string SectorType { get; set; }
+        public decimal? WorkLatitude { get; set; }
+        public decimal? WorkLongitude { get; set; }
+        public string ProjectDescription { get; set; }
+        public string RunningStatus { get; set; }
+        public string FinalStatus { get; set; }
+        public Nullable<int> Stageid { get; set; }
+        public Nullable<int> CommitteeID { get; set; }
+        public string InstallmentName { get; set; }
+        public Nullable<decimal> ReleaseAmount { get; set; }
+        public string InsPercentage { get; set; }
+        public Nullable<System.DateTime> MettingDate { get; set; }
+        public Nullable<System.DateTime> Attendancedate { get; set; }
+        public string MeetingNo { get; set; }
+        public string MinutesofMeeting { get; set; }
+        public string MinutesofMeetingfile { get; set; }
+        public string Memberattendancefile { get; set; }
+        public string Approvelletterfile { get; set; }
+        public string Memberlist { get; set; }
+        public string Status { get; set; }
+        public string Remark { get; set; }
+        public string ProjectNo { get; set; }
+        public Nullable<int> InstallmentID { get; set; }
+        public string Instext { get; set; }
+        public List<DTO_ProjectMeeting> mettings { get; set; }
+        public List<DTO_MileStoneMaster> milestones { get; set; }
+    }
+public partial class DTO_ProjectMeeting
+{
+        public Nullable<System.DateTime> MettingDate { get; set; }
+        public Nullable<System.DateTime> Attendancedate { get; set; }
+        public string MeetingNo { get; set; }
+        public string MinutesofMeeting { get; set; }
+        public string MinutesofMeetingfile { get; set; }
+        public string Memberattendancefile { get; set; }
+        public string Approvelletterfile { get; set; }
+        public string Memberlist { get; set; }
+        public string Status { get; set; }
+        public string Remark { get; set; }
+    }
     }

@@ -1,0 +1,599 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "DistrictWiseProjectReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+}
+<style>
+    .modal-dialog {
+        max-width: 95%;
+    }
+</style>
+<!--modal start for display the projects sector type wise-->
+<div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Sector Type Wise Project Report</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>District Name</th>
+                        <th>Sector Type</th>
+                        <th>Total Projects</th>
+
+                    </tr>
+                    <tbody id="ProjectSectorType"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End modal 1 -->
+<!--Modal 2 for  CollectionModalMineralName-->
+<div class="modal zoomIn" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Sector Name Wise Project Report</h1>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>District Name</th>
+                        <th>Sector Type</th>
+                        <th>Sector Name</th>
+                        <th>Total Project</th>
+
+                    </tr>
+                    <tbody id="ProjectSectorWise"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal 2 -->
+<!--Modal 3 for  ProjectReport Sectorname-->
+<div class="modal zoomIn" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Sector And Project Wise Report</h1>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>District Name</th>
+                        <th>Sector Type</th>
+                        <th>Sector Name</th>
+                        <th>Project Name</th>
+
+                    </tr>
+                    <tbody id="ProjectWithSector"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal 3 -->
+<div class="modal zoomIn" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-dialog modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Project Details Report </h1>
+                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-bordered table-sm">
+                    <tr><h6 style="text-align:center">Project Prosposal details</h6></tr>
+                    <tr>
+                        <th>District Name</th>
+                        <td id="DistrictName"></td>
+                        <th>Project Name</th>
+                        <td id="ProjectName"></td>
+                        <th>TehsilName</th>
+                        <td id="TehsilName"></td>
+                    </tr>
+
+                    <tr class="col-sm-4">
+                        <th>BlockName</th>
+                        <td id="BlockName"></td>
+                        <th>VillageNameInEnglish</th>
+                        <td id="VillageNameInEnglish"></td>
+                        <th>ProjectNo</th>
+                        <td id="ProjectNo"></td>
+                    </tr>
+
+                    <tr class="col-sm-4">
+                        <th>SectorName</th>
+                        <td id="SectorName"></td>
+                        <th>SectorType</th>
+                        <td id="SectorType"></td>
+                        <th>WorkLatitude</th>
+                        <td id="WorkLatitude"></td>
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>WorkLongitude</th>
+                        <td id="WorkLongitude"></td>
+                        <th>AgencyName</th>
+                        <td id="AgencyName"></td>
+                        <th>SanctionedProjectCost</th>
+                        <td id="SanctionedProjectCost"></td>
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>ProjectDescription</th>
+                        <td id="ProjectDescription"></td>
+                        <th>ProsposalNo</th>
+                        <td id="ProsposalNo"></td>
+                        <th>ProposalDate</th>
+                        <td id="ProposalDate"></td>
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>ProposalCopy</th>
+                        <td id="ProposalCopy"></td>
+                        <th>ProposedBy</th>
+                        <td id="ProposedBy"></td>
+                        <th>ProjectCost</th>
+                        <td id="ProjectCost"></td>
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>GSTAndOthers</th>
+                        <td id="GSTAndOthers"></td>
+                        <th>TenderNo</th>
+                        <td id="TenderNo"></td>
+                        <th>TenderDate</th>
+                        <td id="TenderDate"></td>
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>WorkOrderNo</th>
+                        <td id="WorkOrderNo"></td>
+                        <th>WorkOrderDate</th>
+                        <td id="WorkOrderDate"></td>
+                        <th>WorkOrderCopy</th>
+                        <td id="WorkOrderCopy"></td>
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>RunningStatus</th>
+                        <td id="RunningStatus"></td>
+                        <th>FinalStatus</th>
+                        <td id="FinalStatus"></td>
+                        <th>ProjectStartDate</th>
+                        <td id="ProjectStartDate"></td>
+
+                    </tr>
+                    <tr class="col-sm-4">
+                        <th>ProjectCompletionDate</th>
+                        <td id="ProjectCompletionDate"></td>
+                    </tr>
+                </table><br />
+                <!--table for management commette data -->
+                <table class="table table-bordered table-sm" id="MANAGEMENTTABLE" style="display:none">
+                    <tr>
+                        <th style="text-align:center" colspan="10">
+                            <h6>Management Commette Meeting  details</h6>
+                        </th>
+                    </tr>
+                    <tr class="col-sm-6">
+                        <th>Metting Date</th>
+                        <td id="MettingDate"></td>
+                        <th>Attendance date</th>
+                        <td id="Attendancedate"></td>
+                        <th>MeetingNo</th>
+                        <td id="MeetingNo"></td>
+                        <th>MinutesofMeeting</th>
+                        <td id="MinutesofMeeting"></td>
+                        <th>MinutesofMeetingfile</th>
+                        <td id="MinutesofMeetingfile"></td>
+                    </tr>
+
+                    <tr class="col-sm-6">
+                        <th>Memberattendancefile</th>
+                        <td id="Memberattendancefile"></td>
+                        <th>Approvelletterfile</th>
+                        <td id="Approvelletterfile"></td>
+                        <th>Status</th>
+                        <td id="Status"></td>
+                        <th>Memberlist</th>
+                        <td id="Memberlist"></td>
+                        <th>Remark</th>
+                        <td id="Remark"></td>
+                    </tr>
+                </table>
+                <!--table for Governing Commete data-->
+                <table class="table table-bordered table-sm" id="Governingtable" style="display:none">
+                    <tr>
+                        <th style="text-align:center" colspan="10">
+                            <h6>Governing Council Meeting  details</h6>
+                        </th>
+                    </tr>
+                    <tr class="col-sm-6">
+                        <th>Metting Date</th>
+                        <td id="MettingDate1"></td>
+                        <th>Attendance date</th>
+                        <td id="Attendancedate1"></td>
+                        <th>MeetingNo</th>
+                        <td id="MeetingNo1"></td>
+                        <th>MinutesofMeeting</th>
+                        <td id="MinutesofMeeting1"></td>
+                        <th>MinutesofMeetingfile</th>
+                        <td id="MinutesofMeetingfilee"></td>
+                    </tr>
+
+                    <tr class="col-sm-6">
+                        <th>Memberattendancefile</th>
+                        <td id="Memberattendancefilee"></td>
+                        <th>Approvelletterfile</th>
+                        <td id="Approvelletterfilee"></td>
+                        <th>Status</th>
+                        <td id="Status1"></td>
+                        <th>Memberlist</th>
+                        <td id="Memberlist1"></td>
+                        <th>Remark</th>
+                        <td id="Remark1"></td>
+                    </tr>
+                </table>
+                <table class="table table-bordered" style="display:none" id="tblMileStone">
+                    <tr>
+                        <th style="text-align:center" colspan="6">
+                            <h6>Project Milestone Details</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>InstallmentName</th>
+                        <th>Milestone Value</th>
+                        <th>Milestone(%)</th>
+                        <th>IsFundReleased</th>
+                        <th>IsPhProgressDone</th>
+                        <th>IsInspectionDone</th>
+                        <th>IsPhProgressDone</th>
+                    </tr>
+                    <tbody id="tbodyMilestone"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Send message</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End modal 4 -->
+
+<div class="card-header">
+    <h4 class="card-title">District and Sector Wise Project Report</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+                                @if (ViewBag.Data != null)
+                                {
+                                    <table class="table center-aligned-table" id="Tbl_ProjectCountReport" style="width:100%">
+                                        <thead class="table-dark">
+                                            <tr class="text-dark">
+                                                <th>क्र०सं०</th>
+                                                <th>District</th>
+                                                <th>Total Project</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (DTO_DistrictWiseProjectReport item in ViewBag.Data)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td><a href="#" style="color:blue" onclick="GetProjectsDistrictWise(@item.DistID)">@item.DistrictName</a></td>
+                                                    <td>@item.Total_Project</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="form-group col-md-12  mb-3" style="text-align:center;">
+                                        <span>No Record Found</span>
+                                    </div>
+
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Tbl_ProjectCountReport').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script>
+        function GetProjectsDistrictWise(DistID) {
+            debugger
+            $.ajax({
+                url: "/Report/SectorTypeWiseProjectReport?DistID=" + DistID,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].DistrictName + "</td>";
+                            html += "<td><a style='color:blue;cursor:pointer' onclick='GetProjectSectorNameWise(" + data[i].DistID + "," + data[i].SectorTypeId + ")'>" + data[i].SectorType + "</a></td>";
+                            html += "<td>" + data[i].Total_Project + "</td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal").modal('show');
+                        $("#ProjectSectorType").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function GetProjectSectorNameWise(DistID, SectorTypeId) {
+            debugger
+            $.ajax({
+                url: "/Report/SectorNameWiseProjectReport?DistID=" + DistID + "&&SectorTypeId=" + SectorTypeId,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].DistrictName + "</td>";
+                            html += "<td>" + data[i].SectorType + "</td>";
+                            html += "<td><a style='color:blue;cursor:pointer' onclick='GetSectorAndProjectReport(" + data[i].DistID + "," + data[i].SectorTypeId + "," + data[i].SectorID + ")'>" + data[i].SectorName + "</a></td>";
+                            html += "<td>" + data[i].Total_Project + "</td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal1").modal('show');
+                        $("#ProjectSectorWise").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function GetSectorAndProjectReport(DistID, SectorTypeId, SectorID) {
+            debugger
+            $.ajax({
+                url: "/Report/SectorAndProjectReport?DistID=" + DistID + "&&SectorTypeId=" + SectorTypeId + "&&SectorID=" + SectorID,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td>" + data[i].DistrictName + "</td>";
+                            html += "<td>" + data[i].SectorType + "</td>";
+                            html += "<td>" + data[i].SectorName + "</td>";
+                            //html += "<td>" + data[i].ProjectName + "</td>";
+                            html += "<td><a style='color:blue;cursor:pointer' onclick='ProjectDetailsReport(" + data[i].DistID + "," + data[i].SectorTypeId + "," + data[i].SectorID + "," + data[i].ProjectPreparationID + ")'>" + data[i].ProjectName + "</a></td>";
+                            html += "</tr>";
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal2").modal('show');
+                        $("#ProjectWithSector").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function ProjectDetailsReport(DistID, SectorTypeId, SectorID, ProjectPreparationID) {
+            debugger
+            $.ajax({
+                url: "/Report/ProjectWiseReport?DistID=" + DistID + "&&SectorTypeId=" + SectorTypeId + "&&SectorID=" + SectorID + "&&ProjectPreparationID=" + ProjectPreparationID,
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    if ($.trim(data != "")) {
+
+                        //*****************Data of The Project Details-*************//
+                        var ProposalDate = new Date(parseInt(data[0].ProposalDate.substr(6)));
+                        var TenderDate = new Date(parseInt(data[0].TenderDate.substr(6)));
+                        var WorkOrderDate = new Date(parseInt(data[0].WorkOrderDate.substr(6)));
+                        var ProjectStartDate = new Date(parseInt(data[0].ProjectStartDate.substr(6)));
+                        var ProjectCompletionDate = new Date(parseInt(data[0].ProjectCompletionDate.substr(6)));
+                        $("#DistrictName").html(data[0].DistrictName);
+                        $("#ProjectName").html(data[0].ProjectName);
+                        $("#TehsilName").html(data[0].TehsilName);
+                        $("#BlockName").html(data[0].BlockName);
+                        $("#VillageNameInEnglish").html(data[0].VillageNameInEnglish);
+                        $("#ProjectNo").html(data[0].ProjectNo);
+                        $("#SectorType").html(data[0].SectorType);
+                        $("#SectorName").html(data[0].SectorName);
+                        $("#WorkLatitude").html(data[0].WorkLatitude);
+                        $("#WorkLongitude").html(data[0].WorkLongitude);
+                        $("#AgencyName").html(data[0].AgencyName);
+                        $("#SanctionedProjectCost").html(data[0].SanctionedProjectCost);
+                        $("#ProjectDescription").html(data[0].ProjectDescription);
+                        $("#ProsposalNo").html(data[0].ProsposalNo);
+                        $("#ProposalDate").html(ProposalDate.toLocaleDateString("es-CL"));
+                        $("#ProposalCopy").html("<a id='ProposalCopy1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                        $("#ProposalCopy1").attr({ "href": data[0].ProposalCopy, "target": "_blank" });
+                        $("#ProposedBy").html(data[0].ProposedBy);
+                        $("#ProjectCost").html(data[0].ProjectCost);
+                        $("#GSTAndOthers").html(data[0].GSTAndOthers);
+                        $("#TenderNo").html(data[0].TenderNo);
+                        $("#TenderDate").html(TenderDate.toLocaleDateString("es-CL"));
+                        $("#WorkOrderNo").html(data[0].WorkOrderNo);
+                        $("#WorkOrderDate").html(WorkOrderDate.toLocaleDateString("es-CL"));
+                        $("#WorkOrderCopy").html("<a id='WorkOrderCopy1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                        $("#WorkOrderCopy1").attr({ "href": data[0].WorkOrderCopy, "target": "_blank" });
+                        //$("#WorkOrderCopy").html(data[0].WorkOrderCopy);
+                        $("#RunningStatus").html(data[0].RunningStatus);
+                        $("#FinalStatus").html(data[0].FinalStatus);
+                        $("#ProjectStartDate").html(ProjectStartDate.toLocaleDateString("es-CL"));
+                        $("#ProjectCompletionDate").html(ProjectCompletionDate.toLocaleDateString("es-CL"));
+                        var metting = data[0].Stageid;
+                        //********************** data of the Project Metting goerning **************** //
+                        if (metting != 0) {
+                            var MettingDate = new Date(parseInt(data[0].mettings[0].MettingDate.substr(6)));
+                            var Attendancedate = new Date(parseInt(data[0].mettings[0].Attendancedate.substr(6)));
+                            $("#MettingDate").html(MettingDate.toLocaleDateString("es-CL"));
+                            $("#Attendancedate").html(Attendancedate.toLocaleDateString("es-CL"));
+                            $("#MeetingNo").html(data[0].mettings[0].MeetingNo);
+                            $("#MinutesofMeeting").html(data[0].mettings[0].MinutesofMeeting);
+                            $("#MinutesofMeetingfile").html("<a id='MinutesofMeetingfile1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                            $("#MinutesofMeetingfile1").attr({ "href": data[0].mettings[0].MinutesofMeetingfile, "target": "_blank" });
+                            //$("#MinutesofMeetingfile").html(data[0].mettings[0].MinutesofMeetingfile);
+                            $("#Memberattendancefile").html("<a id='Memberattendancefile1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                            $("#Memberattendancefile1").attr({ "href": data[0].mettings[0].Memberattendancefile, "target": "_blank" });
+                            //$("#Memberattendancefile").html(data[0].mettings[0].Memberattendancefile);
+                            $("#Approvelletterfile").html("<a id='Approvelletterfile1'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                            $("#Approvelletterfile1").attr({ "href": data[0].mettings[0].Approvelletterfile, "target": "_blank" });
+                            //$("#Approvelletterfile").html(data[0].mettings[0].Approvelletterfile);
+                            $("#Status").html(data[0].mettings[0].Status);
+                            $("#Memberlist").html(data[0].mettings[0].Memberlist);
+                            $("#Remark").html(data[0].mettings[0].Remark);
+                            $("#MANAGEMENTTABLE").show();
+                        }
+                        else {
+                            $("#MANAGEMENTTABLE").hide();
+
+                        }
+                        if (metting != 0 && metting != 1) {
+                            var MettingDate = new Date(parseInt(data[0].mettings[1].MettingDate.substr(6)));
+                            var Attendancedate = new Date(parseInt(data[0].mettings[1].Attendancedate.substr(6)));
+                            $("#MettingDate1").html(MettingDate.toLocaleDateString("es-CL"));
+                            $("#Attendancedate1").html(Attendancedate.toLocaleDateString("es-CL"));
+                            $("#MeetingNo1").html(data[0].mettings[1].MeetingNo);
+                            $("#MinutesofMeeting1").html(data[0].mettings[1].MinutesofMeeting);
+                            $("#MinutesofMeetingfilee").html("<a id='MinutesofMeetingfile2'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                            $("#MinutesofMeetingfile2").attr({ "href": data[0].mettings[1].MinutesofMeetingfile, "target": "_blank" });
+                            //$("#MinutesofMeetingfile").html(data[0].mettings[1].MinutesofMeetingfile);
+                            $("#Memberattendancefilee").html("<a id='Memberattendancefile2'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                            $("#Memberattendancefile2").attr({ "href": data[0].mettings[1].Memberattendancefile, "target": "_blank" });
+                            //$("#Memberattendancefile").html(data[0].mettings[1].Memberattendancefile);
+                            $("#Approvelletterfilee").html("<a id='Approvelletterfile2'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a>");
+                            $("#Approvelletterfile2").attr({ "href": data[0].mettings[1].Approvelletterfile, "target": "_blank" });
+                            //$("#Approvelletterfile").html(data[0].mettings[1].Approvelletterfile);
+                            $("#Status1").html(data[0].mettings[1].Status);
+                            $("#Memberlist1").html(data[0].mettings[1].Memberlist);
+                            $("#Remark1").html(data[0].mettings[1].Remark);
+                            $("#Governingtable").show();
+                        }
+                        else {
+                            $("#Governingtable").hide();
+
+                        }
+                        var html = "";
+                        for (var i = 0; i < data[0].milestones.length; i++) {
+                            if ($.trim(data[0].milestones[0].InstallmentName != "")) {
+
+                                html += "<tr>";
+                                html += "<td>" + data[0].milestones[i].InstallmentName + "</td>";
+                                html += "<td>" + data[0].milestones[i].Instext + "</td>";
+                                html += "<td>" + data[0].milestones[i].InsPercentage + "</td>";
+                                if (data[0].milestones[i].IsFundReleased == true) {
+
+                                    html += "<td>YES</td>";
+                                }
+                                else {
+                                    html += "<td>NO</td>";
+
+                                }
+                                if (data[0].milestones[i].IsPhProgressDone == true) {
+
+                                    html += "<td>YES</td>";
+                                }
+                                else {
+                                    html += "<td>NO</td>";
+
+                                }
+                                if (data[0].milestones[i].IsUtilizationUploaded == true) {
+
+                                    html += "<td>YES</td>";
+                                }
+                                else {
+                                    html += "<td>NO</td>";
+
+                                }
+                                if (data[0].milestones[i].IsInspectionDone == true) {
+
+                                    html += "<td>YES</td>";
+                                }
+                                else {
+                                    html += "<td>NO</td>";
+
+
+                                }
+                                //html += "<td>" + data[0].milestones[i].IsPhProgressDone + "</td>";
+                                //html += "<td>" + data[0].milestones[i].IsUtilizationUploaded + "</td>";
+                                //html += "<td>" + data[0].milestones[i].IsInspectionDone + "</td>";
+                                html += "</tr>";
+                                $("#tblMileStone").show();
+                            }
+                            else
+                            {
+
+                                $("#tblMileStone").hide();
+                            }
+                        }
+                        //$("#exampleModal").show();
+                        $("#exampleModal3").modal('show');
+                        $("#tbodyMilestone").html(html);
+                    }
+                }
+            })
+        }
+    </script>
+}

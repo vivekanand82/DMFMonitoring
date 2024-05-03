@@ -783,6 +783,8 @@ namespace DMFProjectFinal.Controllers
                     }
                     if (!String.IsNullOrEmpty(model.InspectionCopy))
                     {
+                        model.InspectionCopy = BusinessLogics.UploadFileDMF(model.InspectionCopy);
+
                         if (model.InspectionCopy.Contains("Expp::"))
                         {
                             msg = model.InspectionCopy;
