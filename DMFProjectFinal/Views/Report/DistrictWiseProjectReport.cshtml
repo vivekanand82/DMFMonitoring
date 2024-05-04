@@ -12,6 +12,16 @@
     .modal-dialog {
         max-width: 95%;
     }
+    @@media print {
+    .modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+        overflow: visible!important;
+    }
+}
 </style>
 <!--modal start for display the projects sector type wise-->
 <div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
@@ -25,7 +35,7 @@
             <div class="modal-body">
 
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <th>District Name</th>
                         <th>Sector Type</th>
@@ -56,7 +66,7 @@
             <div class="modal-body">
 
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <th>District Name</th>
                         <th>Sector Type</th>
@@ -87,7 +97,7 @@
             <div class="modal-body">
 
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <th>District Name</th>
                         <th>Sector Type</th>
@@ -115,8 +125,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
-                <table class="table table-bordered table-sm">
+                <table class="table table-bordered  table-striped">
                     <tr><h6 style="text-align:center">Project Prosposal details</h6></tr>
                     <tr>
                         <th>District Name</th>
@@ -199,7 +208,7 @@
                     </tr>
                 </table><br />
                 <!--table for management commette data -->
-                <table class="table table-bordered table-sm" id="MANAGEMENTTABLE" style="display:none">
+                <table class="table table-bordered  table-striped" id="MANAGEMENTTABLE" style="display:none">
                     <tr>
                         <th style="text-align:center" colspan="10">
                             <h6>Management Commette Meeting  details</h6>
@@ -232,13 +241,13 @@
                     </tr>
                 </table>
                 <!--table for Governing Commete data-->
-                <table class="table table-bordered table-sm" id="Governingtable" style="display:none">
+                <table class="table table-bordered  table-striped" id="Governingtable" style="display:none">
                     <tr>
                         <th style="text-align:center" colspan="10">
                             <h6>Governing Council Meeting  details</h6>
                         </th>
                     </tr>
-                    <tr class="col-sm-6">
+                    <tr>
                         <th>Metting Date</th>
                         <td id="MettingDate1"></td>
                         <th>Attendance date</th>
@@ -251,7 +260,7 @@
                         <td id="MinutesofMeetingfilee"></td>
                     </tr>
 
-                    <tr class="col-sm-6">
+                    <tr>
                         <th>Memberattendancefile</th>
                         <td id="Memberattendancefilee"></td>
                         <th>Approvelletterfile</th>
@@ -264,9 +273,9 @@
                         <td id="Remark1"></td>
                     </tr>
                 </table>
-                <table class="table table-bordered" style="display:none" id="tblMileStone">
+                <table class="table table-bordered table-striped" style="display:none" id="tblMileStone">
                     <tr>
-                        <th style="text-align:center" colspan="6">
+                        <th style="text-align:center" colspan="7">
                             <h6>Project Milestone Details</h6>
                         </th>
                     </tr>
@@ -281,10 +290,81 @@
                     </tr>
                     <tbody id="tbodyMilestone"></tbody>
                 </table>
+                <table class="table table-bordered table-striped" style="display:none" id="tblFund">
+                    <tr>
+                        <th style="text-align:center" colspan="7">
+                            <h6>Fund Release Details</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>InstallmentName</th>
+                        <th>Released Amount</th>
+                        <th>Relaesed Date</th>
+                        <th>FundReleaseCopy</th>
+                        <th>IsPhProgressDone</th>
+                        <th>IsUtilizationDone</th>
+                        <th>IsInspectionDone</th>
+                    </tr>
+                    <tbody id="tbodyFund"></tbody>
+                </table>
+                <table class="table table-bordered table-striped" style="display:none" id="tblProgress">
+                    <tr>
+                        <th style="text-align:center" colspan="10">
+                            <h6>Physical Progress Details</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>InstallmentName</th>
+                        <th>Spend Amount</th>
+                        <th>Ph Date</th>
+                        <th>Ph (%)</th>
+                        <th>Ph Copy</th>
+                        <th>Ph Images</th>
+                        <th>IsUtilizationDone</th>
+                        <th>IsInspectionDone</th>
+                        <th>ProgressStatus</th>
+                        <th>Remark</th>
+                    </tr>
+                    <tbody id="tbodyProgress"></tbody>
+                </table>
+                <table class="table table-bordered table-striped" style="display:none" id="tblUtilizations">
+                    <tr>
+                        <th style="text-align:center" colspan="6">
+                            <h6>Utilization Details</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>InstallmentName</th>
+                        <th>UtilizationNo</th>
+                        <th>Utilization Date</th>
+                        <th>UtilizationCopy</th>
+                        <th>Utilization (%)</th>
+                        <th>Remarks</th>
+
+                    </tr>
+                    <tbody id="tbodyUtilizations"></tbody>
+                </table>
+                <table class="table table-bordered table-striped" style="display:none" id="tblInspections">
+                    <tr>
+                        <th style="text-align:center" colspan="7">
+                            <h6>Inspection Details</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>InstallmentName</th>
+                        <th>InspectionDate</th>
+                        <th>InspectionQuestion</th>
+                        <th>InspectionAnswer</th>
+                        <th>InspectionCopy</th>
+                        <th>InspectionImages</th>
+                        <th>Remarks</th>
+
+                    </tr>
+                    <tbody id="tbodyInspections"></tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary">Send message</button>*@
             </div>
         </div>
     </div>
@@ -535,62 +615,233 @@
                             $("#Governingtable").hide();
 
                         }
+                        //********************** data of the PFund release **************** //
+
                         var html = "";
-                        for (var i = 0; i < data[0].milestones.length; i++) {
-                            if ($.trim(data[0].milestones[0].InstallmentName != "")) {
+                        if (data[0].milestones.length != 0) {
 
-                                html += "<tr>";
-                                html += "<td>" + data[0].milestones[i].InstallmentName + "</td>";
-                                html += "<td>" + data[0].milestones[i].Instext + "</td>";
-                                html += "<td>" + data[0].milestones[i].InsPercentage + "</td>";
-                                if (data[0].milestones[i].IsFundReleased == true) {
 
-                                    html += "<td>YES</td>";
+                            for (var i = 0; i < data[0].milestones.length; i++) {
+                                if ($.trim(data[0].milestones[0].InstallmentName != "")) {
+
+                                    html += "<tr>";
+                                    html += "<td>" + data[0].milestones[i].InstallmentName + "</td>";
+                                    html += "<td>" + data[0].milestones[i].Instext + "</td>";
+                                    html += "<td>" + data[0].milestones[i].InsPercentage + "</td>";
+                                    if (data[0].milestones[i].IsFundReleased == true) {
+
+                                        html += "<td>YES</td>";
+                                    }
+                                    else {
+                                        html += "<td>NO</td>";
+
+                                    }
+                                    if (data[0].milestones[i].IsPhProgressDone == true) {
+
+                                        html += "<td>YES</td>";
+                                    }
+                                    else {
+                                        html += "<td>NO</td>";
+
+                                    }
+                                    if (data[0].milestones[i].IsUtilizationUploaded == true) {
+
+                                        html += "<td>YES</td>";
+                                    }
+                                    else {
+                                        html += "<td>NO</td>";
+
+                                    }
+                                    if (data[0].milestones[i].IsInspectionDone == true) {
+
+                                        html += "<td>YES</td>";
+                                    }
+                                    else {
+                                        html += "<td>NO</td>";
+
+
+                                    }
+                                    html += "</tr>";
+                                    $("#tblMileStone").show();
+                                    $("#tbodyMilestone").html(html);
+
                                 }
                                 else {
-                                    html += "<td>NO</td>";
+
+                                    $("#tblMileStone").hide();
+                                    $("#tbodyMilestone").html('');
 
                                 }
-                                if (data[0].milestones[i].IsPhProgressDone == true) {
-
-                                    html += "<td>YES</td>";
-                                }
-                                else {
-                                    html += "<td>NO</td>";
-
-                                }
-                                if (data[0].milestones[i].IsUtilizationUploaded == true) {
-
-                                    html += "<td>YES</td>";
-                                }
-                                else {
-                                    html += "<td>NO</td>";
-
-                                }
-                                if (data[0].milestones[i].IsInspectionDone == true) {
-
-                                    html += "<td>YES</td>";
-                                }
-                                else {
-                                    html += "<td>NO</td>";
-
-
-                                }
-                                //html += "<td>" + data[0].milestones[i].IsPhProgressDone + "</td>";
-                                //html += "<td>" + data[0].milestones[i].IsUtilizationUploaded + "</td>";
-                                //html += "<td>" + data[0].milestones[i].IsInspectionDone + "</td>";
-                                html += "</tr>";
-                                $("#tblMileStone").show();
                             }
-                            else
-                            {
+                            var Fund = "";
+                            for (var i = 0; i < data[0].Funds.length; i++) {
+                                if ($.trim(data[0].Funds[0].InstallmentName != "")) {
+                                    var RelaeseDate = new Date(parseInt(data[0].Funds[i].RelaeseDate.substr(6)));
+                                    Fund += "<tr>";
+                                    Fund += "<td>" + data[0].Funds[i].InstallmentName + "</td>";
+                                    Fund += "<td>" + data[0].Funds[i].ReleaseAmount + "</td>";
+                                    Fund += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
+                                    Fund += "<td><a href=" + data[0].Funds[i].FundReleaseCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                    if (data[0].Funds[i].IsPhProgressDone == true) {
 
-                                $("#tblMileStone").hide();
+                                        Fund += "<td>YES</td>";
+                                    }
+                                    else {
+                                        Fund += "<td>NO</td>";
+
+                                    }
+                                    if (data[0].Funds[i].IsUtilizationUploaded == true) {
+
+                                        Fund += "<td>YES</td>";
+                                    }
+                                    else {
+                                        Fund += "<td>NO</td>";
+
+                                    }
+                                    if (data[0].Funds[i].IsInspectionDone == true) {
+
+                                        Fund += "<td>YES</td>";
+                                    }
+                                    else {
+                                        Fund += "<td>NO</td>";
+
+
+                                    }
+                                    Fund += "</tr>";
+                                    $("#tblFund").show();
+                                    $("#tbodyFund").html(Fund);
+
+                                }
+                                else {
+
+                                    $("#tblFund").hide();
+                                    $("#tbodyFund").html('');
+
+                                }
+                            }
+                            //********************** data of the Physical Progress **************** //
+
+                            var progress = "";
+                            for (var i = 0; i < data[0].Progress.length; i++) {
+                                if ($.trim(data[0].Progress[0].InstallmentName != "")) {
+                                    var PhysicalProgressDate = new Date(parseInt(data[0].Progress[i].PhysicalProgressDate.substr(6)));
+                                    progress += "<tr>";
+                                    progress += "<td>" + data[0].Progress[i].InstallmentName + "</td>";
+                                    progress += "<td>" + data[0].Progress[i].AmountSpend + "</td>";
+                                    progress += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
+                                    progress += "<td>" + data[0].Progress[i].PhysicalPInPer + "</td>";
+                                    progress += "<td><a href=" + data[0].Progress[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                    progress += "<td><a href=" + data[0].Progress[i].PhysicalProgressImages + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+
+                                    progress += "<td>" + data[0].Progress[i].ProgressStatus + "</td>";
+
+                                    if (data[0].Progress[i].IsUtilizationUploaded == true) {
+
+                                        progress += "<td>YES</td>";
+                                    }
+                                    else {
+                                        progress += "<td>NO</td>";
+
+                                    }
+                                    if (data[0].Progress[i].IsInspectionDone == true) {
+
+                                        progress += "<td>YES</td>";
+                                    }
+                                    else {
+                                        progress += "<td>NO</td>";
+
+
+                                    }
+                                    progress += "<td>" + data[0].Progress[i].Remark + "</td>";
+                                    progress += "</tr>";
+                                    $("#tblProgress").show();
+                                    $("#tbodyProgress").html(progress);
+
+                                }
+                                else {
+
+                                    $("#tblProgress").hide();
+                                    $("#tbodyProgress").html(progress);
+
+                                }
+                            }
+                            //********************** data of the UC **************** //
+
+
+                            var uc = "";
+                            for (var i = 0; i < data[0].Utilizations.length; i++) {
+                                if ($.trim(data[0].Utilizations[0].InstallmentName != "")) {
+                                    var UtilizationDate = new Date(parseInt(data[0].Utilizations[i].UtilizationDate.substr(6)));
+                                    uc += "<tr>";
+                                    uc += "<td>" + data[0].Utilizations[i].InstallmentName + "</td>";
+                                    uc += "<td>" + data[0].Utilizations[i].UtilizationNo + "</td>";
+                                    uc += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
+                                    uc += "<td><a href=" + data[0].Utilizations[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+
+                                    uc += "<td>" + data[0].Utilizations[i].UC_Against_ReleaseAmount + "</td>";
+                                    uc += "<td>" + data[0].Utilizations[i].Remarks + "</td>";
+                                    uc += "</tr>";
+                                    $("#tblUtilizations").show();
+                                    $("#tbodyUtilizations").html(uc);
+
+                                }
+                                else {
+                                    $("#tblUtilizations").hide();
+                                    $("#tbodyUtilizations").html('');
+
+                                }
+                            }
+                            //********************** data of the Inspection**************** //
+
+                            var inspect = "";
+                            for (var i = 0; i < data[0].Inspections.length; i++) {
+                                if ($.trim(data[0].Inspections[0].InstallmentName != "")) {
+                                    var InspectionDate = new Date(parseInt(data[0].Inspections[i].InspectionDate.substr(6)));
+                                    inspect += "<tr>";
+                                    inspect += "<td>" + data[0].Inspections[i].InstallmentName + "</td>";
+                                    inspect += "<td>" + InspectionDate.toLocaleDateString("es-CL").replace("01-01-1", " ") + "</td>";
+                                    inspect += "<td>" + data[0].Inspections[i].InspectionQuestion + "</td>";
+                                    inspect += "<td>" + data[0].Inspections[i].InspectionAnswer + "</td>";
+                                    if (data[0].Inspections[i].InspectionCopy) {
+                                        inspect += "<td><a href=" + data[0].Inspections[i].InspectionCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                    }
+                                    else {
+                                        inspect += "<td></td>";
+
+                                    }
+                                    if (data[0].Inspections[i].InspectionImage1) {
+                                        inspect += "<td><a href=" + data[0].Inspections[i].InspectionImage1 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage2 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage3 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage4 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                    }
+                                    else {
+                                        inspect += "<td></td>";
+                                    }
+                                    inspect += "<td>" + data[0].Inspections[i].Remark + "</td>";
+                                    inspect += "</tr>";
+                                    $("#tblInspections").show();
+                                    $("#tbodyInspections").html(inspect);
+
+                                }
+                                else {
+
+                                    $("#tblInspections").hide();
+                                    $("#tbodyInspections").html('');
+
+                                }
                             }
                         }
-                        //$("#exampleModal").show();
+                        else {
+                            $("#tblMileStone").hide();
+                            $("#tbodyMilestone").html('');
+                            $("#tblFund").hide();
+                            $("#tbodyFund").html('');
+                            $("#tblProgress").hide();
+                            $("#tbodyProgress").html(progress);
+                            $("#tblUtilizations").hide();
+                            $("#tbodyUtilizations").html('');
+                            $("#tblInspections").hide();
+                            $("#tbodyInspections").html('');
+                        }
                         $("#exampleModal3").modal('show');
-                        $("#tbodyMilestone").html(html);
                     }
                 }
             })

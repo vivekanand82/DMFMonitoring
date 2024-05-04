@@ -811,6 +811,7 @@ namespace DMFProjectFinal.Models.DTO
         public Nullable<bool> IsActive { get; set; }
         public string SectorType { get; set; }
         public string SectorName { get; set; }
+        public string InstallmentName { get; set; }
         public decimal? SanctionedProjectCost { get; set; }
         public Nullable<bool> IsPhProgressDone { get; set; }
         public Nullable<bool> IsUtilizationUploaded { get; set; }
@@ -962,9 +963,13 @@ namespace DMFProjectFinal.Models.DTO
         public string Instext { get; set; }
         public List<DTO_ProjectMeeting> mettings { get; set; }
         public List<DTO_MileStoneMaster> milestones { get; set; }
+        public List<DTO_FundRelease> Funds { get; set; }
+        public List<DTO_PhysicalProgressMaster> Progress { get; set; }
+        public List<DTO_UtilizationMaster> Utilizations { get; set; }
+        public List<DTO_InspectionMaster> Inspections { get; set; }
     }
-public partial class DTO_ProjectMeeting
-{
+    public partial class DTO_ProjectMeeting
+    {
         public Nullable<System.DateTime> MettingDate { get; set; }
         public Nullable<System.DateTime> Attendancedate { get; set; }
         public string MeetingNo { get; set; }
@@ -976,4 +981,4 @@ public partial class DTO_ProjectMeeting
         public string Status { get; set; }
         public string Remark { get; set; }
     }
-    }
+}

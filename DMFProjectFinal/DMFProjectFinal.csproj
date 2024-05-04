@@ -149,6 +149,7 @@
     <Compile Include="Controllers\UserManagementController.cs" />
     <Compile Include="Controllers\UserManager.cs" />
     <Compile Include="Controllers\UtilizationController.cs" />
+    <Compile Include="DAL\DashBoardReportDB.cs" />
     <Compile Include="DAL\DistrictWiseProjectDB.cs" />
     <Compile Include="DAL\DMFFundCollectionDB.cs" />
     <Compile Include="Global.asax.cs">

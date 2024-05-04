@@ -47,7 +47,7 @@
                         <div class="form-label">
                             <strong>Select Project<sup><code>*</code></sup></strong>
                             @Html.HiddenFor(x => x.ProjectNo, new { @id="ProjectNo"})
-                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()" })
+                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @onchange = "GetMilestone()",@disabled= "disabled" })
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -136,7 +136,7 @@
                                                                     //href = "/UserManagement/UserRegistration"
 
                                                                 }*@
-                                                            <a href="/Inspection/ViewInspectionProject" class="btn btn-danger">Back</a>
+                                                            <a href="/Inspection/InspectcionList" class="btn btn-danger">Back</a>
 
                                                         </div>
                                                     </div>

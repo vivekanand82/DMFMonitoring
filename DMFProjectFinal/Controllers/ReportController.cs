@@ -15,6 +15,7 @@ namespace DMFProjectFinal.Controllers
         // GET: Report
         DMFFundCollectionDB CollectionDB=new DMFFundCollectionDB();
         DistrictWiseProjectDB DistrictWisedb = new DistrictWiseProjectDB();
+        DashBoardReportDB DashBoardDB = new DashBoardReportDB();
         public ActionResult Index()
         {
             return View();
@@ -293,6 +294,10 @@ namespace DMFProjectFinal.Controllers
             List<DTO_DistrictWiseProjectReport> lst = new List<DTO_DistrictWiseProjectReport>();
             List<DTO_ProjectMeeting> lst1 = new List<DTO_ProjectMeeting>();
             List<DTO_MileStoneMaster> lst2 = new List<DTO_MileStoneMaster>();
+            List<DTO_FundRelease> lst3 = new List<DTO_FundRelease>();
+            List<DTO_PhysicalProgressMaster> lst4 = new List<DTO_PhysicalProgressMaster>();
+            List<DTO_UtilizationMaster> lst5 = new List<DTO_UtilizationMaster>();
+            List<DTO_InspectionMaster> lst6 = new List<DTO_InspectionMaster>();
             DataSet ds = DistrictWisedb.ProjectWiseReport(DistID, SectorTypeId, SectorID, ProjectPreparationID);
             if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
             {
@@ -376,30 +381,112 @@ namespace DMFProjectFinal.Controllers
 
                 }
             }
-
-                if (ds != null && ds.Tables[3].Rows.Count > 0 && ds.Tables.Count > 0)
+            if (ds != null && ds.Tables[3].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[3].Rows)
                 {
-                    foreach (DataRow dr in ds.Tables[3].Rows)
+                    lst2.Add(new DTO_MileStoneMaster
                     {
-                        lst2.Add(new DTO_MileStoneMaster
-                        {
-                            Instext = dr["Instext"].ToString(),
-                            InsPercentage = dr["InsPercentage"].ToString(),
-                            InstallmentName = dr["InstallmentName"].ToString(),
-                            IsFundReleased = Convert.ToBoolean(dr["IsFundReleased"]),
-                            IsPhProgressDone = Convert.ToBoolean(dr["IsPhProgressDone"]),
-                            IsUtilizationUploaded = Convert.ToBoolean(dr["IsUtilizationUploaded"]),
-                            IsInspectionDone = Convert.ToBoolean(dr["IsInspectionDone"]),
-                        });
+                        Instext = dr["Instext"].ToString(),
+                        InsPercentage = dr["InsPercentage"].ToString(),
+                        InstallmentName = dr["InstallmentName"].ToString(),
+                        IsFundReleased = Convert.ToBoolean(dr["IsFundReleased"]),
+                        IsPhProgressDone = Convert.ToBoolean(dr["IsPhProgressDone"]),
+                        IsUtilizationUploaded = Convert.ToBoolean(dr["IsUtilizationUploaded"]),
+                        IsInspectionDone = Convert.ToBoolean(dr["IsInspectionDone"]),
+                    });
 
-                    }
                 }
-                lst[0].mettings = lst1;
-                lst[0].milestones = lst2;
+            }
+            if (ds != null && ds.Tables[4].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[4].Rows)
+                {
+                    lst3.Add(new DTO_FundRelease
+                    {
+                        FundReleaseCopy = dr["FundReleaseCopy"].ToString(),
+                        InstallmentName = dr["InstallmentName"].ToString(),
+                        IsPhProgressDone = Convert.ToBoolean(dr["IsPhProgressDone"]),
+                        IsUtilizationUploaded = Convert.ToBoolean(dr["IsUtilizationUploaded"]),
+                        IsInspectionDone = Convert.ToBoolean(dr["IsInspectionDone"]),
+                        ReleaseAmount = Convert.ToDecimal(dr["ReleaseAmount"]),
+                        RelaeseDate = Convert.ToDateTime(dr["RelaeseDate"]),
+                    });
+
+                }
+            }
+            if (ds != null && ds.Tables[5].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[5].Rows)
+                {
+                    lst4.Add(new DTO_PhysicalProgressMaster
+                    {
+                        ProgressStatus = (int)dr["ProgressStatus"],
+                        Remark = dr["Remark"].ToString(),
+                        PhysicalProgressCopy = dr["PhysicalProgressCopy"].ToString(),
+                        InstallmentName = dr["InstallmentName"].ToString(),
+                        PhysicalPInPer = dr["PhysicalPInPer"].ToString(),
+                        PhysicalProgressImages = dr["PhysicalProgressImages"].ToString(),
+                        IsUtilizationUploaded = Convert.ToBoolean(dr["IsUtilizationUploaded"]),
+                        IsInspectionDone = Convert.ToBoolean(dr["IsInspectionDone"]),
+                        AmountSpend = Convert.ToDecimal(dr["AmountSpend"]),
+                        PhysicalProgressDate = Convert.ToDateTime(dr["PhysicalProgressDate"]),
+                    });
+
+                }
+            }
+            if (ds != null && ds.Tables[6].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[6].Rows)
+                {
+                    lst5.Add(new DTO_UtilizationMaster
+                    {
+                        Remarks = dr["Remarks"].ToString(),
+                        UtilizationCopy = dr["UtilizationCopy"].ToString(),
+                        InstallmentName = dr["InstallmentName"].ToString(),
+                        UtilizationNo = dr["UtilizationNo"].ToString(),
+                        UC_Against_ReleaseAmount = dr["UC_Against_ReleaseAmount"].ToString(),
+                        UtilizationDate =Convert.ToDateTime( dr["UtilizationDate"]),
+                      
+                    });
+
+                }
+            }
+            if (ds != null && ds.Tables[7].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[7].Rows)
+                {
+                    lst6.Add(new DTO_InspectionMaster
+                    {
+                        InstallmentName = dr["InstallmentName"] != DBNull.Value ? dr["InstallmentName"].ToString() : string.Empty,
+                        InspectionQuestion = dr["InspectionQuestion"].ToString(),
+                        InspectionAnswer = dr["InspectionAnswer"].ToString(),
+                        InspectionCopy = dr["InspectionCopy"] != DBNull.Value ? dr["InspectionCopy"].ToString() : string.Empty,
+                        InspectionImage1 = dr["InspectionImage1"] != DBNull.Value ? dr["InspectionImage1"].ToString() : string.Empty,
+                        InspectionImage2 = dr["InspectionImage2"] != DBNull.Value ? dr["InspectionImage2"].ToString() : string.Empty,
+                        InspectionImage3 = dr["InspectionImage3"] != DBNull.Value ? dr["InspectionImage3"].ToString() : string.Empty,
+                        InspectionImage4 = dr["InspectionImage4"] != DBNull.Value ? dr["InspectionImage4"].ToString() : string.Empty,
+                        InspectionDate = Convert.ToDateTime(dr["InspectionDate"] != DBNull.Value ? dr["InspectionDate"] : null),
+                        Remark = dr["Remark"] != DBNull.Value ? dr["Remark"].ToString() : string.Empty,
+                        
+
+               
+
+                });
+
+                }
+            }
+            lst[0].mettings = lst1;
+            lst[0].milestones = lst2;
+            lst[0].Funds = lst3;
+            lst[0].Progress = lst4;
+            lst[0].Utilizations = lst5;
+            lst[0].Inspections = lst6;
             
                 return Json(lst, JsonRequestBehavior.AllowGet);
             }
-        
+
         #endregion
+
     }
 }
