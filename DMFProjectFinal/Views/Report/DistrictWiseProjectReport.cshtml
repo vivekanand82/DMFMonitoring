@@ -30,7 +30,7 @@
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Sector Type Wise Project Report</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                @*<button onclick="return window.print()" class="btn btn-success">Print</button>*@
             </div>
             <div class="modal-body">
 
@@ -60,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Sector Name Wise Project Report</h1>
-                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                <!--<button onclick="return window.print()" class="btn btn-success">-->@*Print*@<!--</button>-->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -91,7 +91,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Sector And Project Wise Report</h1>
-                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                @*<button onclick="return window.print()" class="btn btn-success">Print</button>*@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -120,90 +120,90 @@
     <div class="modal-dialog modal-dialog-top">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Project Details Report </h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">PROJECT DETAILS REPORT </h1>
                 <button onclick="return window.print()" class="btn btn-success">Print</button>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered  table-striped">
-                    <tr><h6 style="text-align:center">Project Prosposal details</h6></tr>
+                    <tr><h6 style="text-align:center">PROJECT PROSPOSAL DETAILS</h6></tr>
                     <tr>
                         <th>District Name</th>
                         <td id="DistrictName"></td>
                         <th>Project Name</th>
                         <td id="ProjectName"></td>
-                        <th>TehsilName</th>
+                        <th>Tehsil Name</th>
                         <td id="TehsilName"></td>
                     </tr>
 
                     <tr class="col-sm-4">
-                        <th>BlockName</th>
+                        <th>Block Name</th>
                         <td id="BlockName"></td>
-                        <th>VillageNameInEnglish</th>
+                        <th>Village Name</th>
                         <td id="VillageNameInEnglish"></td>
-                        <th>ProjectNo</th>
+                        <th>Project No</th>
                         <td id="ProjectNo"></td>
                     </tr>
 
                     <tr class="col-sm-4">
-                        <th>SectorName</th>
+                        <th>Sector Name</th>
                         <td id="SectorName"></td>
-                        <th>SectorType</th>
+                        <th>Sector Type</th>
                         <td id="SectorType"></td>
-                        <th>WorkLatitude</th>
+                        <th>Latitude</th>
                         <td id="WorkLatitude"></td>
                     </tr>
                     <tr class="col-sm-4">
-                        <th>WorkLongitude</th>
+                        <th>Longitude</th>
                         <td id="WorkLongitude"></td>
-                        <th>AgencyName</th>
+                        <th>Agency Name</th>
                         <td id="AgencyName"></td>
-                        <th>SanctionedProjectCost</th>
+                        <th>Sanctioned Amount</th>
                         <td id="SanctionedProjectCost"></td>
                     </tr>
                     <tr class="col-sm-4">
-                        <th>ProjectDescription</th>
+                        <th>Description</th>
                         <td id="ProjectDescription"></td>
-                        <th>ProsposalNo</th>
+                        <th>Prosposa lNo</th>
                         <td id="ProsposalNo"></td>
-                        <th>ProposalDate</th>
+                        <th>Proposal Date</th>
                         <td id="ProposalDate"></td>
                     </tr>
                     <tr class="col-sm-4">
-                        <th>ProposalCopy</th>
+                        <th>Proposal Copy</th>
                         <td id="ProposalCopy"></td>
-                        <th>ProposedBy</th>
+                        <th>Proposed By</th>
                         <td id="ProposedBy"></td>
-                        <th>ProjectCost</th>
+                        <th>Project Cost</th>
                         <td id="ProjectCost"></td>
                     </tr>
                     <tr class="col-sm-4">
-                        <th>GSTAndOthers</th>
+                        <th>GST</th>
                         <td id="GSTAndOthers"></td>
-                        <th>TenderNo</th>
+                        <th>Tender No</th>
                         <td id="TenderNo"></td>
-                        <th>TenderDate</th>
+                        <th>Tender Date</th>
                         <td id="TenderDate"></td>
                     </tr>
                     <tr class="col-sm-4">
-                        <th>WorkOrderNo</th>
+                        <th>WorkOrder No</th>
                         <td id="WorkOrderNo"></td>
-                        <th>WorkOrderDate</th>
+                        <th>WorkOrder Date</th>
                         <td id="WorkOrderDate"></td>
-                        <th>WorkOrderCopy</th>
+                        <th>WorkOrder Copy</th>
                         <td id="WorkOrderCopy"></td>
                     </tr>
                     <tr class="col-sm-4">
-                        <th>RunningStatus</th>
+                        <th>Running Status</th>
                         <td id="RunningStatus"></td>
-                        <th>FinalStatus</th>
+                        <th>Final Status</th>
                         <td id="FinalStatus"></td>
-                        <th>ProjectStartDate</th>
+                        <th>Project Start Date</th>
                         <td id="ProjectStartDate"></td>
 
                     </tr>
                     <tr class="col-sm-4">
-                        <th>ProjectCompletionDate</th>
+                        <th>Project Completion Date</th>
                         <td id="ProjectCompletionDate"></td>
                     </tr>
                 </table><br />
@@ -211,7 +211,7 @@
                 <table class="table table-bordered  table-striped" id="MANAGEMENTTABLE" style="display:none">
                     <tr>
                         <th style="text-align:center" colspan="10">
-                            <h6>Management Commette Meeting  details</h6>
+                            <h6>MANAGEMENT COMMETTE MEETING  DETAILS</h6>
                         </th>
                     </tr>
                     <tr class="col-sm-6">
@@ -219,22 +219,22 @@
                         <td id="MettingDate"></td>
                         <th>Attendance date</th>
                         <td id="Attendancedate"></td>
-                        <th>MeetingNo</th>
+                        <th>Meeting No</th>
                         <td id="MeetingNo"></td>
-                        <th>MinutesofMeeting</th>
+                        <th>Minutes of Meeting</th>
                         <td id="MinutesofMeeting"></td>
-                        <th>MinutesofMeetingfile</th>
+                        <th>MMeeting file</th>
                         <td id="MinutesofMeetingfile"></td>
                     </tr>
 
                     <tr class="col-sm-6">
-                        <th>Memberattendancefile</th>
+                        <th>attendance file</th>
                         <td id="Memberattendancefile"></td>
-                        <th>Approvelletterfile</th>
+                        <th>Approval letter</th>
                         <td id="Approvelletterfile"></td>
                         <th>Status</th>
                         <td id="Status"></td>
-                        <th>Memberlist</th>
+                        <th>Member list</th>
                         <td id="Memberlist"></td>
                         <th>Remark</th>
                         <td id="Remark"></td>
@@ -244,7 +244,7 @@
                 <table class="table table-bordered  table-striped" id="Governingtable" style="display:none">
                     <tr>
                         <th style="text-align:center" colspan="10">
-                            <h6>Governing Council Meeting  details</h6>
+                            <h6>GOVERNING COUNCIL MEETING  DETAILS</h6>
                         </th>
                     </tr>
                     <tr>
@@ -252,22 +252,22 @@
                         <td id="MettingDate1"></td>
                         <th>Attendance date</th>
                         <td id="Attendancedate1"></td>
-                        <th>MeetingNo</th>
+                        <th>Meeting No</th>
                         <td id="MeetingNo1"></td>
-                        <th>MinutesofMeeting</th>
+                        <th>Minutes of Meeting</th>
                         <td id="MinutesofMeeting1"></td>
-                        <th>MinutesofMeetingfile</th>
+                        <th>Meeting file</th>
                         <td id="MinutesofMeetingfilee"></td>
                     </tr>
 
                     <tr>
-                        <th>Memberattendancefile</th>
+                        <th>attendance file</th>
                         <td id="Memberattendancefilee"></td>
-                        <th>Approvelletterfile</th>
+                        <th>Approval letter</th>
                         <td id="Approvelletterfilee"></td>
                         <th>Status</th>
                         <td id="Status1"></td>
-                        <th>Memberlist</th>
+                        <th>Member list</th>
                         <td id="Memberlist1"></td>
                         <th>Remark</th>
                         <td id="Remark1"></td>
@@ -276,53 +276,53 @@
                 <table class="table table-bordered table-striped" style="display:none" id="tblMileStone">
                     <tr>
                         <th style="text-align:center" colspan="7">
-                            <h6>Project Milestone Details</h6>
+                            <h6>PROJECT MILESTONE DETAILS</h6>
                         </th>
                     </tr>
                     <tr>
-                        <th>InstallmentName</th>
+                        <th>Installment Name</th>
                         <th>Milestone Value</th>
                         <th>Milestone(%)</th>
-                        <th>IsFundReleased</th>
-                        <th>IsPhProgressDone</th>
-                        <th>IsInspectionDone</th>
-                        <th>IsPhProgressDone</th>
+                        <th>Fund Released</th>
+                        <th>PhProgress</th>
+                        <th>Inspection</th>
+                        <th>PhProgress</th>
                     </tr>
                     <tbody id="tbodyMilestone"></tbody>
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblFund">
                     <tr>
                         <th style="text-align:center" colspan="7">
-                            <h6>Fund Release Details</h6>
+                            <h6>FUND RELEASE DETAILS</h6>
                         </th>
                     </tr>
                     <tr>
-                        <th>InstallmentName</th>
+                        <th>Installment Name</th>
                         <th>Released Amount</th>
                         <th>Relaesed Date</th>
-                        <th>FundReleaseCopy</th>
-                        <th>IsPhProgressDone</th>
-                        <th>IsUtilizationDone</th>
-                        <th>IsInspectionDone</th>
+                        <th>FundRelease Copy</th>
+                        <th>PhProgress</th>
+                        <th>Utilization</th>
+                        <th>Inspection</th>
                     </tr>
                     <tbody id="tbodyFund"></tbody>
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblProgress">
                     <tr>
                         <th style="text-align:center" colspan="10">
-                            <h6>Physical Progress Details</h6>
+                            <h6>PHYSICAL PROGRESS DETAILS</h6>
                         </th>
                     </tr>
                     <tr>
-                        <th>InstallmentName</th>
+                        <th>Installment Name</th>
                         <th>Spend Amount</th>
                         <th>Ph Date</th>
                         <th>Ph (%)</th>
                         <th>Ph Copy</th>
                         <th>Ph Images</th>
-                        <th>IsUtilizationDone</th>
-                        <th>IsInspectionDone</th>
-                        <th>ProgressStatus</th>
+                        <th>Utilization</th>
+                        <th>Inspection</th>
+                        <th>Progress Status</th>
                         <th>Remark</th>
                     </tr>
                     <tbody id="tbodyProgress"></tbody>
@@ -330,14 +330,14 @@
                 <table class="table table-bordered table-striped" style="display:none" id="tblUtilizations">
                     <tr>
                         <th style="text-align:center" colspan="6">
-                            <h6>Utilization Details</h6>
+                            <h6>UTILIZATION DETAILS</h6>
                         </th>
                     </tr>
                     <tr>
-                        <th>InstallmentName</th>
-                        <th>UtilizationNo</th>
+                        <th>Installment Name</th>
+                        <th>Utilization No</th>
                         <th>Utilization Date</th>
-                        <th>UtilizationCopy</th>
+                        <th>Utilization Copy</th>
                         <th>Utilization (%)</th>
                         <th>Remarks</th>
 
@@ -347,16 +347,16 @@
                 <table class="table table-bordered table-striped" style="display:none" id="tblInspections">
                     <tr>
                         <th style="text-align:center" colspan="7">
-                            <h6>Inspection Details</h6>
+                            <h6>INSPECTION DETAILS</h6>
                         </th>
                     </tr>
                     <tr>
-                        <th>InstallmentName</th>
-                        <th>InspectionDate</th>
-                        <th>InspectionQuestion</th>
-                        <th>InspectionAnswer</th>
-                        <th>InspectionCopy</th>
-                        <th>InspectionImages</th>
+                        <th>Installment Name</th>
+                        <th>Inspection Date</th>
+                        <th>Inspection Question</th>
+                        <th>Inspection Answer</th>
+                        <th>Inspection Copy</th>
+                        <th>Inspection Images</th>
                         <th>Remarks</th>
 
                     </tr>
@@ -380,13 +380,13 @@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
-
+                        
                         @if (AM.CanView)
                         {
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.Data != null)
                                 {
-                                    <table class="table center-aligned-table" id="Tbl_ProjectCountReport" style="width:100%">
+                                    <table class="table center-aligned-table table-striped table-bordered" id="Tbl_ProjectCountReport" style="width:100%">
                                         <thead class="table-dark">
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
@@ -445,9 +445,13 @@
                 success: function (data) {
                     if ($.trim(data != "")) {
                         var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
+                        //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].MineralType + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             html += "<tr>";
-                            html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
                             html += "<td><a style='color:blue;cursor:pointer' onclick='GetProjectSectorNameWise(" + data[i].DistID + "," + data[i].SectorTypeId + ")'>" + data[i].SectorType + "</a></td>";
                             html += "<td>" + data[i].Total_Project + "</td>";
                             html += "</tr>";
@@ -471,10 +475,14 @@
                 success: function (data) {
                     if ($.trim(data != "")) {
                         var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SectorType + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             html += "<tr>";
-                            html += "<td>" + data[i].DistrictName + "</td>";
-                            html += "<td>" + data[i].SectorType + "</td>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].SectorType + "</td>";
                             html += "<td><a style='color:blue;cursor:pointer' onclick='GetSectorAndProjectReport(" + data[i].DistID + "," + data[i].SectorTypeId + "," + data[i].SectorID + ")'>" + data[i].SectorName + "</a></td>";
                             html += "<td>" + data[i].Total_Project + "</td>";
                             html += "</tr>";
@@ -498,12 +506,16 @@
                 success: function (data) {
                     if ($.trim(data != "")) {
                         var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SectorType + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SectorName + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             html += "<tr>";
-                            html += "<td>" + data[i].DistrictName + "</td>";
-                            html += "<td>" + data[i].SectorType + "</td>";
-                            html += "<td>" + data[i].SectorName + "</td>";
-                            //html += "<td>" + data[i].ProjectName + "</td>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].SectorType + "</td>";
+                            //html += "<td>" + data[i].SectorName + "</td>";
                             html += "<td><a style='color:blue;cursor:pointer' onclick='ProjectDetailsReport(" + data[i].DistID + "," + data[i].SectorTypeId + "," + data[i].SectorID + "," + data[i].ProjectPreparationID + ")'>" + data[i].ProjectName + "</a></td>";
                             html += "</tr>";
                         }

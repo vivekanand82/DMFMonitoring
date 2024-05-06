@@ -25,16 +25,16 @@
     .form-group label {
         white-space: break-spaces !important;
     }
+
     @@page {
-      size: landscape;
-   }
-   @@media print {
-   button {
-      display: none;
-   }
-   }
+        size: landscape;
+    }
 
-
+    @@media print {
+        button {
+            display: none;
+        }
+    }
 </style>
 
 <div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
@@ -64,210 +64,210 @@
                                 Tender
                             </a>
                         </li>-->
-                        @*<li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#base-justified-settings" role="tab" aria-selected="true">
-                                    Settings
-                                </a>
-                            </li>*@
+                    @*<li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#base-justified-settings" role="tab" aria-selected="true">
+                                Settings
+                            </a>
+                        </li>*@
                     <!--</ul>-->
                     <!-- Tab panes -->
-                    
-                        <div class="tab-pane active" id="base-justified-home" role="tabpanel">
-                            <h6 style="text-align:center;margin-top:20px">Basic Details</h6>
-                            <hr />
-                            <div class="row" style="margin:10px;border:1px solid lightgray">
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>District<sup><code>*</code></sup> : <b><span id="District"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Tehsil<sup><code>*</code></sup>: <b><span id="Tehsil"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Block<sup><code>*</code></sup>: <b><span id="Block"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Village<sup><code>*</code></sup>: <b><span id="Village"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Sector Type<sup><code>*</code></sup>: <b><span id="SectorType"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Sector Name<sup><code>*</code></sup>: <b><span id="SectorName"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Work Name (Project)<sup><code>*</code></sup>: <b><span id="WorkName"> </span></b></strong>
-                                    </div>
-                                </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Work Latitude<sup><code>*</code></sup>: <b><span id="latitude"> </span></b></strong>
-                                    </div>
+                    <div class="tab-pane active" id="base-justified-home" role="tabpanel">
+                        <h6 style="text-align:center;margin-top:20px">Basic Details</h6>
+                        <hr />
+                        <div class="row" style="margin:10px;border:1px solid lightgray">
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>District<sup><code>*</code></sup> : <b><span id="District"> </span></b></strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Work Longitude<sup><code>*</code></sup>: <b><span id="longitude"> </span></b></strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Tehsil<sup><code>*</code></sup>: <b><span id="Tehsil"> </span></b></strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Purpose of Work<sup><code>*</code></sup>: <b><span id="Purpose"> </span></b></strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Block<sup><code>*</code></sup>: <b><span id="Block"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Village<sup><code>*</code></sup>: <b><span id="Village"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Sector Type<sup><code>*</code></sup>: <b><span id="SectorType"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Sector Name<sup><code>*</code></sup>: <b><span id="SectorName"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Work Name (Project)<sup><code>*</code></sup>: <b><span id="WorkName"> </span></b></strong>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Work Latitude<sup><code>*</code></sup>: <b><span id="latitude"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Work Longitude<sup><code>*</code></sup>: <b><span id="longitude"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Purpose of Work<sup><code>*</code></sup>: <b><span id="Purpose"> </span></b></strong>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane " id="base-justified-product" role="tabpanel">
-                            <h6 style="text-align:center;margin-top:20px;">Proposal and Project Cost</h6>
-                            <hr />
-                            <div class="row" style="margin:10px;border:1px solid lightgray">
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Prosposal No<sup><code>*</code></sup>: <b><span id="ProposalNo"> </span></b></strong>
-                                    </div>
+                    </div>
+                    <div class="tab-pane " id="base-justified-product" role="tabpanel">
+                        <h6 style="text-align:center;margin-top:20px;">Proposal and Project Cost</h6>
+                        <hr />
+                        <div class="row" style="margin:10px;border:1px solid lightgray">
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Prosposal No<sup><code>*</code></sup>: <b><span id="ProposalNo"> </span></b></strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Proposal Date<sup><code>*</code></sup>: <b><span id="ProposalDate"> </span></b></strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Proposal Date<sup><code>*</code></sup>: <b><span id="ProposalDate"> </span></b></strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong class="myimg">
-                                            Proposal Copy<sup><code>*</code></sup>:<a id="ProposalCopy"><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png' height='20px' width='20px' /></a>
-                                        </strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong class="myimg">
+                                        Proposal Copy<sup><code>*</code></sup>:<a id="ProposalCopy"><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png' height='20px' width='20px' /></a>
+                                    </strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Proposed By<sup><code>*</code></sup>: <b><span id="ProposedBy"> </span></b></strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Proposed By<sup><code>*</code></sup>: <b><span id="ProposedBy"> </span></b></strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Estimated Project Cost<sup><code>*</code></sup>: <b><span id="EstCost"> </span></b></strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Estimated Project Cost<sup><code>*</code></sup>: <b><span id="EstCost"> </span></b></strong>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>GST and Other Charges<sup><code>*</code></sup>: <b><span id="Gst"> </span></b></strong>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>GST and Other Charges<sup><code>*</code></sup>: <b><span id="Gst"> </span></b></strong>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="base-justified-messages" role="tabpanel">
-                            <h6 style="text-align:center;margin-top:20px;">Tender</h6>
-                            <hr />
-                            <div class="row" style="margin:10px;border:1px solid lightgray">
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Tender No<sup><code>*</code></sup>: <b><span id="TenderNo"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Tender  Date<sup><code>*</code></sup>: <b><span id="TenderDate"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Work Order<sup><code>*</code></sup>: <b><span id="WorkOrderNo"> </span></b></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Work Order Date<sup><code>*</code></sup>: <b><span id="WorkOrderDate"> </span></b></strong>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Work Order Copy<sup><code>*</code></sup>: :<a id="WorkOrderCopy"><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png' height='20px' width='20px' /></a></strong>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Agencey<sup><code>*</code></sup>: <b><span id="AgencyName"> </span></b></strong>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-label">
-                                        <strong>Santioned Project Cost<sup><code>*</code></sup>: <b><span id="SanctionedProjectCost"> </span></b></strong>
-
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="row" style="margin:10px">
-                                <div class="col-xxl-12">
-                                    <h6 style="text-align:center">Management Commetee Meeting  Details :-</h6>
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th>Metting No</th>
-                                            <th>Meeting Date</th>
-                                            <th>Minutes of Meeting</th>
-                                            <th>Minutes of Meeting Copy</th>
-                                            <th>Attendance copy</th>
-                                            <th>Approval Letter copy</th>
-                                            <th>Members Name</th>
-                                            <th>Project Status</th>
-                                            <th>Approved Date</th>
-                                            <th>Remarks</th>
-
-                                        </tr>
-                                        <tbody id="meetinginfoCommette"></tbody>
-                                    </table>
+                    </div>
+                    <div class="tab-pane" id="base-justified-messages" role="tabpanel">
+                        <h6 style="text-align:center;margin-top:20px;">Tender</h6>
+                        <hr />
+                        <div class="row" style="margin:10px;border:1px solid lightgray">
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Tender No<sup><code>*</code></sup>: <b><span id="TenderNo"> </span></b></strong>
                                 </div>
                             </div>
-                            <div class="row"  style="margin:10px">
-                                <div class="col-xxl-12">
-                                    <h6  style="text-align:center">Governing Council Meeting  Details :-</h6>
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th>Metting No</th>
-                                            <th>Meeting Date</th>
-                                            <th>Minutes of Meeting</th>
-                                            <th>Minutes of Meeting Copy</th>
-                                            <th>Attendance copy</th>
-                                            <th>Approval Letter copy</th>
-                                            <th>Members Name</th>
-                                            <th>Project Status</th>
-                                            <th>Approved Date</th>
-                                            <th>Remarks</th>
-
-                                        </tr>
-                                        <tbody id="meetinginfoGoverning"></tbody>
-                                    </table>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Tender  Date<sup><code>*</code></sup>: <b><span id="TenderDate"> </span></b></strong>
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Work Order<sup><code>*</code></sup>: <b><span id="WorkOrderNo"> </span></b></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Work Order Date<sup><code>*</code></sup>: <b><span id="WorkOrderDate"> </span></b></strong>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Work Order Copy<sup><code>*</code></sup>: :<a id="WorkOrderCopy"><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png' height='20px' width='20px' /></a></strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Agencey<sup><code>*</code></sup>: <b><span id="AgencyName"> </span></b></strong>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-label">
+                                    <strong>Santioned Project Cost<sup><code>*</code></sup>: <b><span id="SanctionedProjectCost"> </span></b></strong>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row" style="margin:10px">
+                            <div class="col-xxl-12">
+                                <h6 style="text-align:center">Management Commetee Meeting  Details :-</h6>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Metting No</th>
+                                        <th>Meeting Date</th>
+                                        <th>Minutes of Meeting</th>
+                                        <th>Minutes of Meeting Copy</th>
+                                        <th>Attendance copy</th>
+                                        <th>Approval Letter copy</th>
+                                        <th>Members Name</th>
+                                        <th>Project Status</th>
+                                        <th>Approved Date</th>
+                                        <th>Remarks</th>
+
+                                    </tr>
+                                    <tbody id="meetinginfoCommette"></tbody>
+                                </table>
                             </div>
                         </div>
+                        <div class="row" style="margin:10px">
+                            <div class="col-xxl-12">
+                                <h6 style="text-align:center">Governing Council Meeting  Details :-</h6>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Metting No</th>
+                                        <th>Meeting Date</th>
+                                        <th>Minutes of Meeting</th>
+                                        <th>Minutes of Meeting Copy</th>
+                                        <th>Attendance copy</th>
+                                        <th>Approval Letter copy</th>
+                                        <th>Members Name</th>
+                                        <th>Project Status</th>
+                                        <th>Approved Date</th>
+                                        <th>Remarks</th>
 
-                        @*<div class="tab-pane" id="base-justified-settings" role="tabpanel">
-                                <h6>Settings</h6>
-                                <p class="mb-0">
-                                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
-                                    art party before they sold out master cleanse gluten-free squid
-                                    scenester freegan cosby sweater. Fanny pack portland seitan DIY,
-                                    art party locavore wolf cliche high life echo park Austin. Cred
-                                    vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
-                                    farm-to-table VHS.
-                                </p>
-                            </div>*@
+                                    </tr>
+                                    <tbody id="meetinginfoGoverning"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="tab-pane" id="base-justified-settings" role="tabpanel">
+                            <h6>Settings</h6>
+                            <p class="mb-0">
+                                Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
+                                art party before they sold out master cleanse gluten-free squid
+                                scenester freegan cosby sweater. Fanny pack portland seitan DIY,
+                                art party locavore wolf cliche high life echo park Austin. Cred
+                                vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
+                                farm-to-table VHS.
+                            </p>
+                        </div>*@
                 </div><!-- end card-body -->
             </div><!-- end card -->
         </div>
@@ -296,7 +296,7 @@
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.LstData != null)
                                 {
-                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
+                                    <table class="table center-aligned-table table-bordered table-striped" id="Tbl_Proposal" style="width:100%">
                                         <thead class="table-dark">
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
@@ -304,11 +304,11 @@
                                                 <th>District</th>
                                                 <th>Project Name</th>
                                                 <th>Sector Name</th>
-                                                <th>Prosposal No</th>
+                                                @*<th>Prosposal No</th>*@
                                                 @*<th>Proposal Date</th>*@
                                                 @*<th>Proposal Copy</th>*@
                                                 @*<th>Proposed By</th>*@
-                                                <th>Tender No</th>
+                                                @*<th>Tender No</th>*@
                                                 <th>Tender Date</th>
                                                 <th>Work Order No</th>
                                                 <th>Work Order Date</th>
@@ -327,78 +327,78 @@
                                             @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                             {
                                                 j++;
-                                            <tr>
-                                                <td>@j</td>
-                                                <td>@item.ProjectNo</td>
-                                                <td>@item.DistrictName</td>
-                                                <td>@item.ProjectName</td>
-                                                <td>@item.SectorName</td>
-                                                <td>@item.ProsposalNo</td>
-                                                @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
-                                                @*<td>@item.ProposedBy</td>*@
-                                                <td>@item.TenderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                <td>@item.WorkOrderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
-                                                @if (item.Stageid == null)
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
-                                                }
-                                                else if (item.Stageid == 1)
-                                                {
-
-                                                    <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
-                                                }
-                                                else if (item.Stageid == 2)
-                                                {
-
-                                                    <td><a class="badge bg-success-subtle text-success">Approved By Governing Council</a></td>
-                                                }
-                                                else if (item.Stageid == 3)
-                                                {
-
-                                                    <td><a class="badge bg-success-subtle text-danger">Completed</a></td>
-                                                }
-                                                @if (item.Stageid == null)
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                }
-
-                                                else if (item.Stageid == 1)
-                                                {
-
-                                                    <td><a class="badge bg-success-subtle text-info">InProcess</a></td>
-                                                }
-                                                else if (item.Stageid == 2)
-                                                {
-
-                                                    <td><a class="badge bg-success-subtle text-primary">Approved</a></td>
-                                                }
-                                                else if (item.Stageid == 3)
-                                                {
-
-                                                    <td><a class="badge bg-success-subtle text-danger">Closed</a></td>
-                                                }
-                                                <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                @if (item.Stageid == null)
-                                                {
-                                                    if (AM.CanUpdate || AM.CanDelete)
+                                                <tr>
+                                                    <td>@j</td>
+                                                    <td>@item.ProjectNo</td>
+                                                    <td>@item.DistrictName</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.SectorName</td>
+                                                    @*<td>@item.ProsposalNo</td>*@
+                                                    @*<td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
+                                                    @*<td>@item.ProposedBy</td>*@
+                                                    @*<td>@item.TenderNo</td>*@
+                                                    <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                                    <td>@item.WorkOrderNo</td>
+                                                    <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+                                                    @if (item.Stageid == null)
                                                     {
-                                                        <th>
-                                                            @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
-                                                            @if (AM.CanUpdate)
-                                                            {
-                                                                <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                            }
-                                                            @if (AM.CanDelete)
-                                                            {
-                                                                <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                            }
-                                                        </th>
+                                                        <td><a class="badge bg-success-subtle text-warning">Upcoming</a></td>
                                                     }
-                                                }
+                                                    else if (item.Stageid == 1)
+                                                    {
 
-                                            </tr>
+                                                        <td><a class="badge bg-success-subtle text-info">Forwarded By MGMT Commette</a></td>
+                                                    }
+                                                    else if (item.Stageid == 2)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-success">Approved By Governing Council</a></td>
+                                                    }
+                                                    else if (item.Stageid == 3)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-danger">Completed</a></td>
+                                                    }
+                                                    @if (item.Stageid == null)
+                                                    {
+                                                        <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                    }
+
+                                                    else if (item.Stageid == 1)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-info">InProcess</a></td>
+                                                    }
+                                                    else if (item.Stageid == 2)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-primary">Approved</a></td>
+                                                    }
+                                                    else if (item.Stageid == 3)
+                                                    {
+
+                                                        <td><a class="badge bg-success-subtle text-danger">Closed</a></td>
+                                                    }
+                                                    <td><a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-small btn-info viewdetails" value="@item.ProjectPreparationID"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                    @if (item.Stageid == null)
+                                                    {
+                                                        if (AM.CanUpdate || AM.CanDelete)
+                                                        {
+                                                            <th>
+                                                                @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
+                                                                @if (AM.CanUpdate)
+                                                                {
+                                                                    <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                                }
+                                                                @if (AM.CanDelete)
+                                                                {
+                                                                    <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                                }
+                                                            </th>
+                                                        }
+                                                    }
+
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -421,24 +421,32 @@
 </div>
 
 @section Scripts {
+    @*<script type="text/javascript">
+            $(document).ready(function () {//open modal
+                //$("#btnshowproject").click(function () {
+                //    $("#Projectdetail").show();
+
+                //    $("#basic").hide();
+
+
+                //})
+
+                //$("#btnbasic").click(function () {
+                //    $("#Projectdetail").hide();
+
+                //    $("#basic").show();
+
+
+                //})
+                $('#tblData').DataTable({
+                    lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+                });
+            });
+        </script>*@
     <script type="text/javascript">
-        $(document).ready(function () {//open modal
-            //$("#btnshowproject").click(function () {
-            //    $("#Projectdetail").show();
-
-            //    $("#basic").hide();
-
-
-            //})
-
-            //$("#btnbasic").click(function () {
-            //    $("#Projectdetail").hide();
-
-            //    $("#basic").show();
-
-
-            //})
-            $('#tblData').DataTable({
+        $(document).ready(function () {
+            debugger
+            $('#Tbl_Proposal').DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
         });
@@ -520,7 +528,7 @@
                     $("#MinutesofMeetingfile1").attr({ "href": data.MinutesofMeetingfile, "target": "_blank" });
                     $("#Memberattendancefile1").attr({ "href": data.Memberattendancefile, "target": "_blank" });
                     $("#Approvelletterfile1").attr({ "href": data.Approvelletterfile, "target": "_blank" });
-                }   
+                }
             })
 
         }

@@ -19,12 +19,12 @@
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Mineral Type Wise Collection Report</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                @*<button onclick="return window.print()" class="btn btn-success">Print</button>*@
             </div>
             <div class="modal-body">
 
 
-                <table class="table table-bordered">
+                <table class="table  table-bordered  table-striped">
                     <tr>
                         <th>District Name</th>
                         <th>Mineral Type</th>
@@ -48,13 +48,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Mineral Name Wise Collection Report</h1>
-                <button onclick="return window.print()" class="btn btn-success">Print</button>
+                @*<button onclick="return window.print()" class="btn btn-success">Print</button>*@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <th>District Name</th>
                         <th>Mineral Type</th>
@@ -85,12 +85,12 @@
             <div class="modal-body">
 
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <th>District Name</th>
-                        <th>Lessee Name</th>
                         <th>Mineral Type</th>
                         <th>Mineral Name</th>
+                        <th>Lessee Name</th>
                         <th>Collection Amount</th>
 
                     </tr>
@@ -115,32 +115,32 @@
             </div>
             <div class="modal-body">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr><h6 style="text-align:center">Lessee details</h6></tr>
                     <tr>
                         <th>Lessee Name</th>
                         <td id="LesseeNameD"></td>
                         <th>District Name</th>
                         <td id="DistrictNameD"></td>
-                        <th>Areacode</th>
+                        <th>Area code</th>
                         <td id="AreacodeD"></td>
                     </tr>
 
                     <tr class="col-sm-4">
                         <th>GataNo</th>
                         <td id="GataNoD"></td>
-                        <th>TotalAreainHect</th>
+                        <th>Area in(Hect)</th>
                         <td id="TotalAreainHectD"></td>
-                        <th>MobNo</th>
+                        <th>Mob No</th>
                         <td id="MobNoD"></td>
                     </tr>
 
                     <tr class="col-sm-4">
                         <th>EmailID</th>
                         <td id="EmailIDD"></td>
-                        <th>BidRate</th>
+                        <th>Bid Rate</th>
                         <td id="BidRateD"></td>
-                        <th>LeaseFromDate</th>
+                        <th>Lease From Date</th>
                         <td id="LeaseFromDateD"></td>
                     </tr>
 
@@ -149,7 +149,7 @@
                             <td id="LeaseToDateD"></td>
                         </tr>*@
                 </table>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tr><h6 style="text-align:center">DMF Deposited Details</h6></tr>
 
                     <tr>
@@ -157,15 +157,15 @@
                             <th>Lessee Name</th>*@
                         <th>Mineral Type</th>
                         <th>Mineral Name</th>
-                        <th>Royalty Amt</th>
-                        <th>DMF Amt</th>
-                        <th>Remaining DMFAmt</th>
-                        <th>Deposited DMF Amt</th>
+                        <th>Royalty Amount</th>
+                        <th>DMF Amount</th>
+                        <th>Remaining DMF Amount</th>
+                        <th>Deposited DMF Amount</th>
                         <th>Year</th>
                         <th>Month</th>
-                        <th>ChallanDate</th>
-                        <th>ChallanNo</th>
-                        <th>challanDOc</th>
+                        <th>Challan Date</th>
+                        <th>Challan No</th>
+                        <th>challan DOc</th>
                     </tr>
                     <tbody id="CollectionDetailsLessee"></tbody>
                 </table>
@@ -192,7 +192,7 @@
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.Data != null)
                                 {
-                                    <table class="table center-aligned-table" id="Tbl_CollectionReport" style="width:100%">
+                                    <table class="table center-aligned-table table-striped table-bordered" id="Tbl_CollectionReport" style="width: 100%" >
                                         <thead class="table-dark">
                                             <tr class="text-dark">
                                                 <th>क्र०सं०</th>
@@ -249,9 +249,14 @@
                 success: function (data) {
                     if ($.trim(data != "")) {
                         var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
+                        //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].ProjectName + "</td>";
+                        //html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].SanctionedProjectCost + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             html += "<tr>";
-                            html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
                             html += "<td><a style='color:blue;cursor:pointer' onclick='GetCollectionMineralNameWise(" + data[i].DistrictId + ",\"" + data[i].MineralType.toString() + "\")'>" + data[i].MineralType + "</a></td>";
                             html += "<td>" + data[i].TotalFundCollection + "</td>";
                             html += "</tr>";
@@ -275,10 +280,14 @@
                 success: function (data) {
                     if ($.trim(data != "")) {
                         var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].MineralType + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             html += "<tr>";
-                            html += "<td>" + data[i].DistrictName + "</td>";
-                            html += "<td>" + data[i].MineralType + "</td>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].MineralType + "</td>";
                             html += "<td><a style='color:blue;cursor:pointer' onclick='GetCollectionLesseeWise(" + data[i].DistrictId + "," + data[i].MineralId + ",\"" + data[i].MineralType.toString() + "\")'>" + data[i].MineralName + "</a></td>";
                             html += "<td>" + data[i].TotalFundCollection + "</td>";
                             html += "</tr>";
@@ -302,12 +311,17 @@
                 success: function (data) {
                     if ($.trim(data != "")) {
                         var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].MineralType + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].MineralName + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             html += "<tr>";
-                            html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].DistrictName + "</td>";
+                            //html += "<td>" + data[i].MineralType + "</td>";
+                            //html += "<td>" + data[i].MineralName + "</td>";
                             html += "<td><a style='color:blue;cursor:pointer' onclick='CollectionDetailsByLessee(" + data[i].DistrictId + "," + data[i].MineralId + "," + data[i].LesseeId + ")'>" + data[i].LeseeName + "</a></td>";
-                            html += "<td>" + data[i].MineralType + "</td>";
-                            html += "<td>" + data[i].MineralName + "</td>";
                             html += "<td>" + data[i].TotalFundCollection + "</td>";
                             html += "</tr>";
                         }
@@ -341,14 +355,18 @@
                         $("#BidRateD").html(data[0].BidRate);
                         $("#LeaseFromDateD").html(LeaseFromDate.toLocaleDateString("es-CL"));
                         $("#LeaseToDateD").html(data[0].LeaseToDate);
-                        var html = ``;
+                        var html = "";
+                        html += "<tr>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].MineralType + "</td>";
+                        html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].MineralName + "</td>";
+                        html += "</tr>";
                         for (var i = 0; i < data.length; i++) {
                             var ChallanDate = new Date(parseInt(data[i].ChallanDate.substr(6)));
                             html += "<tr>";
                             //html += "<td>" + data[i].DistrictName + "</td>";
                             //html += "<td><a style='color:blue;cursor:pointer'>" + data[i].LeseeName + "</a></td>";
-                            html += "<td>" + data[i].MineralType + "</td>";
-                            html += "<td>" + data[i].MineralName + "</td>";
+                            //html += "<td>" + data[i].MineralType + "</td>";
+                            //html += "<td>" + data[i].MineralName + "</td>";
                             html += "<td>" + data[i].RoyaltyAmt + "</td>";
                             html += "<td>" + data[i].DMFAmt + "</td>";
                             html += "<td>" + data[i].RemainingDMFAmt + "</td>";

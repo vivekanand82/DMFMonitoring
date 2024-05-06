@@ -981,4 +981,21 @@ namespace DMFProjectFinal.Models.DTO
         public string Status { get; set; }
         public string Remark { get; set; }
     }
+    public partial class DTO_CollectionAndExpenditure
+    {
+        public int? DistrictId { get; set; }
+        public decimal Total_DMFCollection { get; set; }
+        public decimal SanctionAmount { get; set; }
+        public decimal ReleasedAmount { get; set; }
+        public decimal Expenditure { get; set; }
+        public decimal BalanceAmount { get; set; }
+       
+    }
+    public class DTO_ProposalAndApprovalCount
+    {
+        public int ProjectProposals { get; set; }
+        public int ApprovedProjects { get; set; }
+        public int CompletedProjects { get; set; }
+        public int PendingProjects { get; set; }
+    }
 }

@@ -4,7 +4,12 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <style>
-
+    .cmt-row {
+        padding: 9px 0;
+    }
+    .inner-bg11 {
+        padding: 8px 0px;
+    }
     .card-body {
         padding: 13px 13px 13px 16px;
         text-align: left;
@@ -40,31 +45,56 @@
         font-size: 25px;
     }
 </style>
-<section class="inner-bg bg-card-dark ">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12">
-                <div class="cmt-page-title-row-inner">
-                    <div class="page-title-heading">
-                        <h2 class="title">Dashboard</h2>
-                    </div>
-                    <div class="breadcrumb-wrapper">
-                        <span>
-                            <a title="Homepage" href="#">Dashboard</a>
-                        </span>
-                        <span>Dashboard</span>
+@*<section class="inner-bg bg-card-dark ">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="cmt-page-title-row-inner">
+                        <div class="page-title-heading">
+                            <h2 class="title">Dashboard</h2>
+                        </div>
+                        <div class="breadcrumb-wrapper">
+                            <span>
+                                <a title="Homepage" href="#">Dashboard</a>
+                            </span>
+                            <span>Dashboard</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>*@
+<section class="inner-bg11 bg-card-dark ">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <h3 style="text-align:center">COLLECTION,ALLOCATION AND EXPENDITURE DETAILS</h3>
+                @*<div class="cmt-page-title-row-inner">
+                        <div class="page-title-heading">
+                            <h2 class="title">Dashboard</h2>
+                        </div>
+                        <div class="breadcrumb-wrapper">
+                            <span>
+                                <a title="Homepage" href="#">Dashboard</a>
+                            </span>
+                            <span>Dashboard</span>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
     </div>
 </section>
-
-<!--<div class="site-main">
+<div class="site-main">
 
     <section class="cmt-row clearfix">
+        <div class="row" style="margin-bottom:10px;margin-left:-264px">
+            <div class="col-sm-10"></div>
+            <div class="col-sm-1 float-end">
+                @Html.DropDownList("YearId", ViewBag.finnyear as SelectList,"Select",new { @class="form-control"})
+            </div>
+        </div>
         <div class="container">
-             
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-card">
@@ -86,27 +116,27 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="mb-1">TOTAL COLLECTION</p>
-                                                            <h5 class="mb-3">&#8377; 200 Cr-->@*@ViewBag.TotIntiated*@<!--</h5>
+                                                            <p class="mb-1">DMF COLLECTION</p>
+                                                            <h5 class="mb-3" id="collection">@*&#8377;*@ </h5>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-4">
-                                            <div class="card" style="border: 2px solid #020202">
+                                            <div class="card" style="border: 2px solid #1a8ff7">
                                                 <div class="card-body" id="dvtotalroom" style="cursor:pointer;">
                                                     <div class="d-flex">
                                                         <div class="flex-shrink-0 me-3 align-self-center">
                                                             <div class="avatar-sm">
-                                                                <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #020202">
+                                                                <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #1a8ff7">
                                                                     <i class="fa fa-users my-fa"></i>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="mb-1">TOTAL PROJECT</p>
-                                                            <h5 class="mb-3">200-->@*@ViewBag.TotIntiated*@<!--</h5>
+                                                            <p class="mb-1">SANCTION AMOUNT</p>
+                                                            <h5 class="mb-3" id="Sanction"></h5>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -125,8 +155,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1 overflow-hidden">
-                                                                <p class="mb-1">TOTAL SAVED</p>
-                                                                <h5 class="mb-3">20-->@*@ViewBag.TotSaved*@<!--</h5>
+                                                                <p class="mb-1">RELEASED AMOUNT</p>
+                                                                <h5 class="mb-3" id="Released"></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -146,8 +176,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1 overflow-hidden">
-                                                                <p class="mb-1">TOTAL APPROVED</p>
-                                                                <h5 class="mb-3">50-->@*@ViewBag.TotApproved*@<!--</h5>
+                                                                <p class="mb-1">EXPENDITURE AMOUNT</p>
+                                                                <h5 class="mb-3" id="Expenditure"></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -167,8 +197,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1 overflow-hidden">
-                                                                <p class="mb-1">TOTAL REJECTED</p>
-                                                                <h5 class="mb-3">10</h5>
+                                                                <p class="mb-1">BALANCE AMOUNT</p>
+                                                                <h5 class="mb-3" id="Balance"></h5>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -185,9 +215,236 @@
                     </div>
                 </div>
 
-            </div> 
+            </div>
         </div>
 
     </section>
 
-</div>-->
+</div>
+<!--Horizontal Line-->
+<section class="inner-bg11 bg-card-dark ">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <h3 style="text-align:center">PROJECT PROPOSAL AND APPROVAL DETAILS</h3>
+                    @*<div class="cmt-page-title-row-inner">
+                        <div class="page-title-heading">
+                            <h2 class="title">Dashboard</h2>
+                        </div>
+                        <div class="breadcrumb-wrapper">
+                            <span>
+                                <a title="Homepage" href="#">Dashboard</a>
+                            </span>
+                            <span>Dashboard</span>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Second Divs After Horozontal Line-->
+<div class="site-main">
+
+    <section class="cmt-row clearfix">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-card">
+
+                        <div class="form-card-body">
+                            <div class="tab-content">
+                                <div class="">
+
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-4">
+                                            <div class="card" style="border: 2px solid #020202">
+                                                <div class="card-body" id="dvtotalroom" style="cursor:pointer;">
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3 align-self-center">
+                                                            <div class="avatar-sm">
+                                                                <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #020202">
+                                                                    <i class="fa fa-line-chart my-fa"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 overflow-hidden">
+                                                            <p class="mb-1">PROJECT PROPOSALS</p>
+                                                            <h5 class="mb-3" id="PROPOSALS"></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-4">
+                                            <div class="card" style="border: 2px solid #10a602 ">
+                                                <div class="card-body" id="dvtotalroom" style="cursor:pointer;">
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3 align-self-center">
+                                                            <div class="avatar-sm">
+                                                                <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #10a602 ">
+                                                                    <i class="fa fa-line-chart my-fa"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 overflow-hidden">
+                                                            <p class="mb-1">PROJECT APPROVED</p>
+                                                            <h5 class="mb-3" id="APPROVED"></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-4">
+                                            <a href="#">
+                                                <div class="card" style="border: 2px solid #1a8ff7">
+                                                    <div class="card-body" id="dvtotalroom" style="cursor:pointer;">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 me-3 align-self-center">
+                                                                <div class="avatar-sm">
+                                                                    <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #1a8ff7">
+                                                                        <i class="fa fa-line-chart my-fa"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 overflow-hidden">
+                                                                <p class="mb-1">PROJECT COMPLETED</p>
+                                                                <h5 class="mb-3" id="COMPLETED"></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-4">
+                                            <a href="#">
+                                                <div class="card" style="border: 2px solid #095393 ">
+                                                    <div class="card-body" id="dvtotalroom" style="cursor:pointer;">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 me-3 align-self-center">
+                                                                <div class="avatar-sm">
+                                                                    <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #095393 ">
+                                                                        <i class="fa fa-line-chart my-fa"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 overflow-hidden">
+                                                                <p class="mb-1">PROJECT PENDING</p>
+                                                                <h5 class="mb-3" id="PENDING"></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        @*<div class="col-xs-6 col-sm-6 col-md-4">
+                                            <a href="#">
+                                                <div class="card" style="border: 2px solid #cc2400">
+                                                    <div class="card-body" id="dvtotalroom" style="cursor:pointer;">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 me-3 align-self-center">
+                                                                <div class="avatar-sm">
+                                                                    <div class="avatar-title bg-light rounded-circle font-size-20" style="color: #cc2400">
+                                                                        <i class="fa fa-users my-fa"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 overflow-hidden">
+                                                                <p class="mb-1">BALANCE AMOUNT</p>
+                                                                <h5 class="mb-3" id="Balance"></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var YearId = $("#YearId").val();
+            $.ajax({
+                url: "/Admin/GetTotalCollectionAndExpendature?YearId=" + YearId,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#collection").html("&#8377; "+data.Total_DMFCollection);
+                    $("#Sanction").html("&#8377; " +data.SanctionAmount);
+                    $("#Released").html("&#8377; " +data.ReleasedAmount);
+                    $("#Expenditure").html("&#8377; " + data.Expenditure);
+                    $("#Balance").html("&#8377; " + data.BalanceAmount);
+                    //$("#collection").html("&#8377; " + parseFloat(data.Total_DMFCollection / 10000000).toFixed(2)+" Cr");
+                    //$("#Sanction").html("&#8377; " + parseFloat(data.SanctionAmount / 10000000).toFixed(2) + " Cr");
+                    //$("#Released").html("&#8377; " + parseFloat(data.ReleasedAmount / 10000000).toFixed(2) + " Cr");
+                    //$("#Expenditure").html("&#8377; " + parseFloat(data.Expenditure / 10000000).toFixed(2) + " Cr");
+                    //$("#Balance").html("&#8377; " + parseFloat(data.BalanceAmount / 10000000).toFixed(2) + " Cr");
+                }
+            })
+            $.ajax({
+                url: "/Admin/GetProposalAndApprovalCount?YearId=" + YearId,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#PROPOSALS").html(data.ProjectProposals);
+                    $("#APPROVED").html(data.ApprovedProjects);
+                    $("#COMPLETED").html(data.CompletedProjects);
+                    $("#PENDING").html(data.PendingProjects);
+                }
+            })
+        })
+        
+    </script>
+    <script>
+        $("#YearId").change(function () {
+            var YearId = $("#YearId").val();
+            $.ajax({
+                url: "/Admin/GetTotalCollectionAndExpendature?YearId=" + YearId,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#collection").html("&#8377; " + data.Total_DMFCollection);
+                    $("#Sanction").html("&#8377; " + data.SanctionAmount);
+                    $("#Released").html("&#8377; " + data.ReleasedAmount);
+                    $("#Expenditure").html("&#8377; " + data.Expenditure);
+                    $("#Balance").html("&#8377; " + data.BalanceAmount);
+                    //$("#collection").html("&#8377; " + parseFloat(data.Total_DMFCollection / 10000000).toFixed(2)+" Cr");
+                    //$("#Sanction").html("&#8377; " + parseFloat(data.SanctionAmount / 10000000).toFixed(2) + " Cr");
+                    //$("#Released").html("&#8377; " + parseFloat(data.ReleasedAmount / 10000000).toFixed(2) + " Cr");
+                    //$("#Expenditure").html("&#8377; " + parseFloat(data.Expenditure / 10000000).toFixed(2) + " Cr");
+                    //$("#Balance").html("&#8377; " + parseFloat(data.BalanceAmount / 10000000).toFixed(2) + " Cr");
+                }
+            })
+            $.ajax({
+                url: "/Admin/GetProposalAndApprovalCount?YearId=" + YearId,
+                type: "POST",
+                contentType: "Application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#PROPOSALS").html(data.ProjectProposals);
+                    $("#APPROVED").html(data.ApprovedProjects);
+                    $("#COMPLETED").html(data.CompletedProjects);
+                    $("#PENDING").html(data.PendingProjects);
+                }
+            })
+        });
+    </script>
+}
