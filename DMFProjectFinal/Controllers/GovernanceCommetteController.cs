@@ -324,6 +324,8 @@ namespace DMFProjectFinal.Controllers
             abc.Createddate = DateTime.Now;
             abc.DistID = Info.DistID;
             abc.Remark = model.Remark;
+            abc.SectorID = Info.SectorID;
+            abc.SectorTypeId = Info.SectorTypeId;
             obj.Stageid = 2;
             obj.RunningStatus = Status;
             db.ProjectMettings.Add(abc);

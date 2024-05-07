@@ -485,7 +485,109 @@ namespace DMFProjectFinal.Controllers
             
                 return Json(lst, JsonRequestBehavior.AllowGet);
             }
+        #endregion
+        #region Show the Details Of Sanction and Expanditure Sector and project wise
+        public ActionResult DistrictWiseSanctionAndProjectList()
+        {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult DistrictWiseSanctionAndProject()
+        {
+            List<DTO_SanctionCostAndProjectDetails> lst = new List<DTO_SanctionCostAndProjectDetails>();
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+                //model.DistrictId = DistID;
+            }
+            DataSet ds = DashBoardDB.GetDistrictSanctionExpenditureAndProjectDetails(DistID);
+            if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lst.Add(new DTO_SanctionCostAndProjectDetails
+                    {
+                        DistrictId = (int)dr["DistrictId"],
+                        DistrictName = dr["DistrictName"].ToString(),
+                        SanctionedProjectCost = Convert.ToDecimal(dr["SanctionedProjectCost"]),
+                        ReleaseAmount = Convert.ToDecimal(dr["ReleaseAmount"]),
+                        AmountSpend = Convert.ToDecimal(dr["AmountSpend"]),
+                        Total_Project = (int)dr["Total_Project"],
+                        CompletedProject = (int)dr["CompletedProject"],
+                        InProgressProject = (int)dr["InProgressProject"],
 
+                    });
+                    //ViewBag.data = lst;
+                }
+            }
+            return Json(lst, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult SectorWiseSanctionAndProjectList(int DistrictId)
+        {
+            List<DTO_SanctionCostAndProjectDetails> lst = new List<DTO_SanctionCostAndProjectDetails>();
+            //int? DistID = null;
+            //if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            //{
+            //    DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            //    //model.DistrictId = DistID;
+            //}
+            DataSet ds = DashBoardDB.GetSectorSanctionExpenditureAndProjectDetails(DistrictId);
+            if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lst.Add(new DTO_SanctionCostAndProjectDetails
+                    {
+                        DistrictId = (int)dr["DistrictId"],
+                        SectorID = (int)dr["SectorID"],
+                        SectorName = dr["SectorName"].ToString(),
+                        DistrictName = dr["DistrictName"].ToString(),
+                        SanctionedProjectCost = Convert.ToDecimal(dr["SanctionedProjectCost"]),
+                        ReleaseAmount = Convert.ToDecimal(dr["ReleaseAmount"]),
+                        AmountSpend = Convert.ToDecimal(dr["AmountSpend"]),
+                        Total_Project = (int)dr["Total_Project"],
+                        CompletedProject = (int)dr["CompletedProject"],
+                        InProgressProject = (int)dr["InProgressProject"],
+
+                    });
+                    ViewBag.data = lst;
+                }
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult GetPDetailSectorWiseList(int DistrictId, int SectorID)
+        {
+            List<DTO_SanctionCostAndProjectDetails> lst = new List<DTO_SanctionCostAndProjectDetails>();
+            //int? DistID = null;
+            //if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            //{
+            //    DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            //    //model.DistrictId = DistID;
+            //}
+            DataSet ds = DashBoardDB.GetProjectDetailsSectorWiseList(DistrictId, SectorID);
+            if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lst.Add(new DTO_SanctionCostAndProjectDetails
+                    {
+                        SectorName = dr["SectorName"].ToString(),
+                        ProjectName = dr["ProjectName"].ToString(),
+                        DistrictName = dr["DistrictName"].ToString(),
+                        ProjectDescription = dr["ProjectDescription"].ToString(),
+                        AgencyName = dr["AgencyName"].ToString(),
+                        Status = dr["Status"].ToString(),
+                        SanctionedProjectCost = Convert.ToDecimal(dr["SanctionedProjectCost"]),
+                        AmountSpend = Convert.ToDecimal(dr["AmountSpend"]),
+                    });
+                    ViewBag.data = lst;
+                }
+            }
+            return View();
+        }
         #endregion
 
     }

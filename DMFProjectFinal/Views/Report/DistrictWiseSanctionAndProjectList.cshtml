@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "DistrictWiseSanctionAndProjectList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@*<link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />*@
+<!--<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Column with Markers</h4>
+            </div>--><!-- end card header -->
+
+            <!--<div class="card-body">
+                <div class="col-sm-8" style="margin-left:200px">
+                    <div id="column_markers" data-colors='["--vz-success", "--vz-primary"]' class="apex-charts" dir="ltr"></div>
+                </div>
+
+            </div>--><!-- end card-body -->
+        <!--</div>--><!-- end card -->
+    <!--</div>-->
+    <!-- end col -->
+
+    
+    <!-- end col -->
+<!--</div>-->
+<div class="card">
+    <div class="card-header">
+        Project Details
+    </div>
+    <div class="card-body">
+        <div class="row" style=" margin-bottom: 100px;">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped" id="tablelist">
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Sanctioned Amount</th>
+                            <th>Expenditure Amount </th>
+                            <th>Total Projects</th>
+                            <th>Completed Projects</th>
+                            <th>InProgress</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sanctionwithProjectData"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- apexcharts -->
+<!--<script src="~/Content/assets/libs/apexcharts/apexcharts.min.js"></script>-->
+<!-- apexcharts init -->
+<!--<script src="~/Content/assets/js/pages/apexcharts-column.init.js"></script>-->
+<!-- App js -->
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#tablelist').DataTable({
+                lengthMenu: [[50, -1], [50, "All"]],
+            });
+            GetSanctionAndPDetails();
+        })
+    </script>
+    <script>
+        // code for get the sanction and the expendature with the project details district wise or all districts
+        function GetSanctionAndPDetails() {
+
+            $.ajax({
+                url: "/Report/DistrictWiseSanctionAndProject",
+                type: "POST",
+                contentType: "Application/json;charset=utf=8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.length > 0) {
+                        var html = "";
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<tr>";
+                            html += "<td><a style='color:blue' href='/Report/SectorWiseSanctionAndProjectList?DistrictId=" + data[i].DistrictId + "'>" + data[i].DistrictName + "</a></td>";
+                            html += "<td>" + data[i].SanctionedProjectCost + "</td>";
+                            //html += "<td>" + data[i].ReleaseAmount + "</td>";
+                            html += "<td>" + data[i].AmountSpend + "</td>";
+                            html += "<td>" + data[i].Total_Project + "</td>";
+                            html += "<td>" + data[i].CompletedProject + "</td>";
+                            html += "<td>" + data[i].InProgressProject + "</td>";
+                            html += "</tr>";
+                        }
+                        $("#sanctionwithProjectData").html(html);
+                    }
+                    else {
+                        $("#sanctionwithProjectData").html('');
+                    }
+                }
+            })
+        }
+    </script>
+}
+

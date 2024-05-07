@@ -34,5 +34,7 @@ namespace DMFProjectFinal.Models
         public Nullable<int> Updatedby { get; set; }
         public Nullable<System.DateTime> Updateddate { get; set; }
         public string Remark { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
     }
 }

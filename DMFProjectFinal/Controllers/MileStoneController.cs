@@ -130,6 +130,8 @@ namespace DMFProjectFinal.Controllers
                 ax.FundReleaseID = 1;
                 ax.IsActive = true;
                 ax.MileStoneStatus = 0;
+                ax.SectorTypeId = abc.SectorTypeId;
+                ax.SectorID = abc.SectorID;
                 db.MileStoneMasters.Add(ax);
                 res = db.SaveChanges();
             }
@@ -192,20 +194,14 @@ namespace DMFProjectFinal.Controllers
                     ax.FundReleaseID = 1;
                     ax.IsActive = true;
                     ax.MileStoneStatus = 0;
+                    ax.SectorTypeId = abc.SectorTypeId;
+                    ax.SectorID = abc.SectorID;
                     db.MileStoneMasters.Add(ax);
-
-
-
-
                 }
 
                 res = db.SaveChanges();
-
-
                 if (res > 0)
                 {
-
-
                     JR.IsSuccess = true;
                     JR.Message = "1";
                     //JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";
@@ -214,20 +210,12 @@ namespace DMFProjectFinal.Controllers
                 {
                     JR.IsSuccess = true;
                     JR.Message = "0";
-
                 }
-
                 else
                 {
-
                     JR.Message = "Some Error Occured, Contact to Admin";
                 }
-
-
-
-
             }
-
             catch (Exception ex)
             {
 
@@ -262,20 +250,14 @@ namespace DMFProjectFinal.Controllers
                     ax.Instext = item.Instext;
                     ax.FundReleaseID = 1;
                     ax.IsActive = true;
+                    ax.SectorID = abc.SectorID;
+                    ax.SectorTypeId = abc.SectorTypeId;
                     //db.MileStoneMasters.Add(ax);
                     db.Entry(ax).State = System.Data.Entity.EntityState.Modified;
                     res = db.SaveChanges();
-
-
                 }
-
-
-
-
                 if (res > 0)
                 {
-
-
                     JR.IsSuccess = true;
                     JR.Message = "1";
                     //JR.RedURL = "/ProjectWorkApproval/ProjectProposalPrepration";
@@ -286,18 +268,11 @@ namespace DMFProjectFinal.Controllers
                     JR.Message = "0";
 
                 }
-
                 else
                 {
-
                     JR.Message = "Some Error Occured, Contact to Admin";
                 }
-
-
-
-
             }
-
             catch (Exception ex)
             {
 

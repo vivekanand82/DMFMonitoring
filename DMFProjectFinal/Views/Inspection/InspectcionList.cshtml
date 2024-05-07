@@ -211,20 +211,23 @@
                                                     @if (AM.CanView)
                                                     {
                                                         <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Inspectiondetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                        if (item.IsUtilizationUploaded == true && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone != true)
+                                                        if (AM.RoleID == 2)
                                                         {
-                                                            <a href="/Inspection/CreateInspection?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Update Inspection</a>
-                                                        }
-                                                        else if (item.IsUtilizationUploaded == true && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone == true && projectfinalstatus==item.MileStoneStatus)
-                                                        {
-                                                            <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                        }
-                                                        else if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone == true)
-                                                        {
+                                                            if (item.IsUtilizationUploaded == true && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone != true)
+                                                            {
+                                                                <a href="/Inspection/CreateInspection?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Update Inspection</a>
+                                                            }
+                                                            else if (item.IsUtilizationUploaded == true && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone == true && projectfinalstatus == item.MileStoneStatus)
+                                                            {
+                                                                <a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                            }
+                                                            else if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true && item.IsInspectionDone == true)
+                                                            {
+                                                            }
                                                         }
 
                                                     }
-                                              
+
                                                 </th>
                                                     }
                                                 <th>

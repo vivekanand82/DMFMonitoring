@@ -1,0 +1,177 @@
+<style> </style><div>
+	<table class="table" cellspacing="0" rules="all" border="1" id="ContentPlaceHolder2_gv_proposed_work" style="border-collapse:collapse;">
+		<tr style="background-color:White;">
+			<th scope="col">S.No.</th><th scope="col">District Name</th><th scope="col">Sanctioned Amount (In Lakhs)</th><th scope="col">Expenditure Amount (In Lakhs)</th><th scope="col">Total Works</th><th scope="col">Completed Works</th><th scope="col">InProgress</th>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_0">1</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BALOD</td><td>28146.61</td><td>15494.69</td><td>2259</td><td>561</td><td>1698</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_1">2</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BALODA BAZAR</td><td>21145.77</td><td>11453.48</td><td>3712</td><td>45</td><td>3346</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_2">3</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BALRAMPUR</td><td>9003.77</td><td>5430.97</td><td>1655</td><td>104</td><td>1551</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_3">4</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BASTAR</td><td>31260.46</td><td>13944.91</td><td>3204</td><td>249</td><td>2954</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_4">5</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BEMETARA</td><td>1870.50</td><td>1147.95</td><td>107</td><td>14</td><td>92</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_5">6</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BIJAPUR</td><td>32947.35</td><td>17407.17</td><td>1325</td><td>822</td><td>503</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_6">7</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                BILASPUR</td><td>23731.89</td><td>18133.03</td><td>1457</td><td>187</td><td>1266</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_7">8</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                DANTEWADA</td><td>87286.93</td><td>43454.49</td><td>5221</td><td>2523</td><td>2698</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_8">9</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                DHAMTARI</td><td>2439.50</td><td>2112.83</td><td>183</td><td>159</td><td>19</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_9">10</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                DURG</td><td>16302.45</td><td>12210.04</td><td>3438</td><td>1872</td><td>1566</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_10">11</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                GARIYABAND</td><td>1124.47</td><td>881.70</td><td>119</td><td>69</td><td>50</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_11">12</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                Gaurella Pendra Marwahi</td><td>2619.86</td><td>1571.73</td><td>721</td><td>209</td><td>512</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_12">13</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                JANJGIR-CHAMPA</td><td>58916.48</td><td>24677.66</td><td>2389</td><td>516</td><td>1873</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_13">14</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                JASHPUR</td><td>17054.61</td><td>10101.16</td><td>1943</td><td>67</td><td>1626</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_14">15</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                KABIRDHAM</td><td>3495.10</td><td>2404.48</td><td>270</td><td>73</td><td>193</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_15">16</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                KANKER</td><td>18806.73</td><td>17725.08</td><td>1615</td><td>1473</td><td>142</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_16">17</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                KONDAGAON</td><td>11588.27</td><td>5211.74</td><td>270</td><td>127</td><td>121</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_17">18</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                KORBA</td><td>124626.60</td><td>68418.96</td><td>3157</td><td>1316</td><td>1840</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_18">19</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                KOREA</td><td>50720.79</td><td>24662.49</td><td>8199</td><td>3614</td><td>4557</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_19">20</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                MAHASAMUND</td><td>6181.53</td><td>2608.63</td><td>1086</td><td>388</td><td>693</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_20">21</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                MUNGELI</td><td>1813.10</td><td>1280.05</td><td>192</td><td>111</td><td>44</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_21">22</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                NARAYANPUR</td><td>4507.11</td><td>3091.34</td><td>521</td><td>264</td><td>248</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_22">23</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                RAIGARH</td><td>22919.08</td><td>10987.69</td><td>1423</td><td>40</td><td>1383</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_23">24</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                RAIPUR</td><td>10998.91</td><td>7221.51</td><td>858</td><td>651</td><td>207</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_24">25</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                RAJNANDGAON</td><td>15140.40</td><td>11690.52</td><td>1409</td><td>1205</td><td>76</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_25">26</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                SUKMA</td><td>25685.81</td><td>9070.94</td><td>714</td><td>428</td><td>286</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_26">27</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                SURAJPUR</td><td>17628.84</td><td>11723.13</td><td>1605</td><td>696</td><td>713</td>
+		</tr><tr style="background-color:White;">
+			<td>
+                                                    <span id="ContentPlaceHolder2_gv_proposed_work_Label1_27">28</span>
+                                                </td><td style="width:30px;">
+                                                    
+                                                SURGUJA</td><td>11525.58</td><td>7592.17</td><td>1471</td><td>505</td><td>966</td>
+		</tr><tr style="font-weight:bold;">
+			<td>Total</td><td>&nbsp;</td><td>659,488.50</td><td>361,710.54</td><td>50523</td><td>18288</td><td>31223</td>
+		</tr>
+	</table>
+</div>

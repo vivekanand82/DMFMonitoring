@@ -528,17 +528,20 @@
 
                                                     @if (AM.CanUpdate || AM.CanDelete)
                                                     {
-                                                        <th>
-                                                            @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
-                                                            @if (AM.CanUpdate)
-                                                            {
-                                                                <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                            }
-                                                            @if (AM.CanDelete)
-                                                            {
-                                                                <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                            }
-                                                        </th>
+                                                <th>
+                                                    @*<a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a>*@
+                                                    @if (AM.RoleID == 2)
+                                                    {
+                                                        if (AM.CanUpdate)
+                                                        {
+                                                            <a href="/ProjectWorkApproval/EditProjectProposalPrepration?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-success"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                        }
+                                                        if (AM.CanDelete)
+                                                        {
+                                                            <a href="/ProjectWorkApproval/DeleteProjectProposalPrepration" ref-id="@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        }
+                                                    }
+                                                </th>
                                                     }
 
                                                 </tr>

@@ -1,0 +1,79 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "SectorWiseSanctonAndProjectList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+    var data = ViewBag.Data;
+}
+
+<div class="card">
+    <div class="card-header">
+        @data[0].DistrictName - @data[0].SectorName - Project Status
+    </div>
+    <div class="card-body">
+        <div class="row" style=" margin-bottom: 100px;">
+            <div class="col-md-12">
+
+                <table class="table table-bordered table-striped" id="tabledetailsofproject">
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>S.NO</th>
+
+                            <th>Project Name</th>
+                            <th>Objective</th>
+                            <th>Agency Name</th>
+                            <th>Sanctioned Amount</th>
+                            <th>Expenditure Amount </th>
+                            <th>Duration of Project</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    @if (ViewBag.Data != null)
+                    {
+                        <tbody>
+                            @foreach (DTO_SanctionCostAndProjectDetails item in ViewBag.Data)
+                            {
+                                j++;
+                                <tr>
+                                    <td>@j</td>
+                                    <td>@item.ProjectName</td>
+                                    <td>@item.ProjectDescription</td>
+                                    <td>@item.AgencyName</td>
+                                    <td>@item.SanctionedProjectCost</td>
+                                    <td>@item.AmountSpend</td>
+                                    <td>@item.Total_Project</td>
+                                    @if (@item.Status == "InProcess")
+                                    {
+
+                                        <td><a style="color:blue">@item.Status</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a style="color:green">@item.Status</a></td>
+
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tabledetailsofproject').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+}

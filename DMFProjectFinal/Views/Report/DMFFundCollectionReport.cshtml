@@ -12,6 +12,7 @@
     .modal-dialog {
         max-width: 95%;
     }
+    
 </style>
 <div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog modal-dialog-top">
@@ -25,12 +26,14 @@
 
 
                 <table class="table  table-bordered  table-striped">
-                    <tr>
-                        <th>District Name</th>
-                        <th>Mineral Type</th>
-                        <th>Total Collection</th>
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Mineral Type</th>
+                            <th>Total Collection</th>
 
-                    </tr>
+                        </tr>
+                        </thead>
                     <tbody id="CollectionModalMineralType"></tbody>
                 </table>
             </div>
@@ -55,13 +58,15 @@
 
 
                 <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>District Name</th>
-                        <th>Mineral Type</th>
-                        <th>Mineral Name</th>
-                        <th>Collection Amount</th>
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Mineral Type</th>
+                            <th>Mineral Name</th>
+                            <th>Collection Amount</th>
 
-                    </tr>
+                        </tr>
+                        </thead>
                     <tbody id="CollectionModalMineralName"></tbody>
                 </table>
             </div>
@@ -86,14 +91,16 @@
 
 
                 <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>District Name</th>
-                        <th>Mineral Type</th>
-                        <th>Mineral Name</th>
-                        <th>Lessee Name</th>
-                        <th>Collection Amount</th>
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Mineral Type</th>
+                            <th>Mineral Name</th>
+                            <th>Lessee Name</th>
+                            <th>Collection Amount</th>
 
-                    </tr>
+                        </tr>
+                        </thead>
                     <tbody id="CollectionModalLesseeName"></tbody>
                 </table>
             </div>
@@ -116,57 +123,58 @@
             <div class="modal-body">
 
                 <table class="table table-bordered table-striped">
-                    <tr><h6 style="text-align:center">Lessee details</h6></tr>
-                    <tr>
-                        <th>Lessee Name</th>
-                        <td id="LesseeNameD"></td>
-                        <th>District Name</th>
-                        <td id="DistrictNameD"></td>
-                        <th>Area code</th>
-                        <td id="AreacodeD"></td>
-                    </tr>
+                        <tr><h6 style="text-align:center">Lessee details</h6></tr>
+                        <tr>
+                            <th>Lessee Name</th>
+                            <td id="LesseeNameD"></td>
+                            <th>District Name</th>
+                            <td id="DistrictNameD"></td>
+                            <th>Area code</th>
+                            <td id="AreacodeD"></td>
+                        </tr>
 
-                    <tr class="col-sm-4">
-                        <th>GataNo</th>
-                        <td id="GataNoD"></td>
-                        <th>Area in(Hect)</th>
-                        <td id="TotalAreainHectD"></td>
-                        <th>Mob No</th>
-                        <td id="MobNoD"></td>
-                    </tr>
+                        <tr class="col-sm-4">
+                            <th>GataNo</th>
+                            <td id="GataNoD"></td>
+                            <th>Area in(Hect)</th>
+                            <td id="TotalAreainHectD"></td>
+                            <th>Mob No</th>
+                            <td id="MobNoD"></td>
+                        </tr>
 
-                    <tr class="col-sm-4">
-                        <th>EmailID</th>
-                        <td id="EmailIDD"></td>
-                        <th>Bid Rate</th>
-                        <td id="BidRateD"></td>
-                        <th>Lease From Date</th>
-                        <td id="LeaseFromDateD"></td>
-                    </tr>
-
-                    @*<tr class="col-sm-4">
-                            <th>LeaseToDate</th>
-                            <td id="LeaseToDateD"></td>
-                        </tr>*@
+                        <tr class="col-sm-4">
+                            <th>EmailID</th>
+                            <td id="EmailIDD"></td>
+                            <th>Bid Rate</th>
+                            <td id="BidRateD"></td>
+                            <th>Lease From Date</th>
+                            <td id="LeaseFromDateD"></td>
+                        </tr>
+                        @*<tr class="col-sm-4">
+                <th>LeaseToDate</th>
+                <td id="LeaseToDateD"></td>
+            </tr>*@
                 </table>
                 <table class="table table-bordered table-striped">
-                    <tr><h6 style="text-align:center">DMF Deposited Details</h6></tr>
+                    <thead style="background-color: #083853;color:white">
+                        <tr><h6 style="text-align:center">DMF Deposited Details</h6></tr>
 
-                    <tr>
-                        @*<th>District Name</th>
-                            <th>Lessee Name</th>*@
-                        <th>Mineral Type</th>
-                        <th>Mineral Name</th>
-                        <th>Royalty Amount</th>
-                        <th>DMF Amount</th>
-                        <th>Remaining DMF Amount</th>
-                        <th>Deposited DMF Amount</th>
-                        <th>Year</th>
-                        <th>Month</th>
-                        <th>Challan Date</th>
-                        <th>Challan No</th>
-                        <th>challan DOc</th>
-                    </tr>
+                        <tr>
+                            @*<th>District Name</th>
+                <th>Lessee Name</th>*@
+                            <th>Mineral Type</th>
+                            <th>Mineral Name</th>
+                            <th>Royalty Amount</th>
+                            <th>DMF Amount</th>
+                            <th>Remaining DMF Amount</th>
+                            <th>Deposited DMF Amount</th>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Challan Date</th>
+                            <th>Challan No</th>
+                            <th>challan DOc</th>
+                        </tr>
+                        </thead>
                     <tbody id="CollectionDetailsLessee"></tbody>
                 </table>
             </div>
@@ -193,8 +201,8 @@
                                 @if (ViewBag.Data != null)
                                 {
                                     <table class="table center-aligned-table table-striped table-bordered" id="Tbl_CollectionReport" style="width: 100%" >
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
+                                        <thead style="background-color: #083853;color:white">
+                                            <tr>
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
                                                 <th>Total Collection</th>
@@ -247,7 +255,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var html = "";
                         html += "<tr>";
                         html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
@@ -265,6 +273,10 @@
                         $("#exampleModal").modal('show');
                         $("#CollectionModalMineralType").html(html);
                     }
+                    else {
+                        $("#exampleModal").modal('show');
+                        $("#CollectionModalMineralType").html('');
+                    }
                 }
             })
         }
@@ -278,7 +290,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var html = "";
                         html += "<tr>";
                         html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
@@ -296,6 +308,10 @@
                         $("#exampleModal1").modal('show');
                         $("#CollectionModalMineralName").html(html);
                     }
+                    else {
+                        $("#exampleModal1").modal('show');
+                        $("#CollectionModalMineralName").html('');
+                    }
                 }
             })
         }
@@ -309,7 +325,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var html = "";
                         html += "<tr>";
                         html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
@@ -329,6 +345,10 @@
                         $("#exampleModal2").modal('show');
                         $("#CollectionModalLesseeName").html(html);
                     }
+                    else {
+                        $("#exampleModal2").modal('show');
+                        $("#CollectionModalLesseeName").html('');
+                    }
                 }
             })
         }
@@ -342,7 +362,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var LeaseFromDate = new Date(parseInt(data[0].LeaseFromDate.substr(6)));
 
                         $("#LesseeNameD").html(data[0].LeseeName);
@@ -381,6 +401,10 @@
                         //$("#exampleModal").show();
                         $("#exampleModal3").modal('show');
                         $("#CollectionDetailsLessee").html(html);
+                    }
+                    else {
+                        $("#exampleModal3").modal('show');
+                        $("#CollectionDetailsLessee").html('');
                     }
                 }
             })

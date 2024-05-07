@@ -308,6 +308,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\css\bootstrap.min.css" />
+    <Content Include="Content\assets\js\pages\apexcharts-column.init.js" />
+    <Content Include="Content\assets\libs\apexcharts\apexcharts.min.js" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="css\bootstrap.min.css" />
@@ -700,6 +703,9 @@
     <Content Include="Views\Master\CreateMineralTypeMaster.cshtml" />
     <Content Include="Views\Report\DMFFundCollectionReport.cshtml" />
     <Content Include="Views\Report\DistrictWiseProjectReport.cshtml" />
+    <Content Include="Views\Report\DistrictWiseSanctionAndProjectList.cshtml" />
+    <Content Include="Views\Report\SectorWiseSanctionAndProjectList.cshtml" />
+    <Content Include="Views\Report\GetPDetailSectorWiseList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

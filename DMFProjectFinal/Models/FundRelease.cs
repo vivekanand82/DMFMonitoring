@@ -33,5 +33,7 @@ namespace DMFProjectFinal.Models
         public Nullable<bool> IsUtilizationUploaded { get; set; }
         public Nullable<bool> IsInspectionDone { get; set; }
         public Nullable<bool> IsFundReleased { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
     }
 }

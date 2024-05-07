@@ -186,7 +186,7 @@ namespace DMFProjectFinal.Controllers
                     return Json(JR, JsonRequestBehavior.AllowGet);
                 }
             }
-            //var ProjectPrepID = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.DistID==model.DistrictID).FirstOrDefault();
+            var data = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == model.ProjectPreparationID && x.DistID==model.DistrictID).FirstOrDefault();
 
             db.FundReleases.Add(new FundRelease
             {
@@ -200,6 +200,8 @@ namespace DMFProjectFinal.Controllers
                 CreatedDate = DateTime.Now,
                 IsActive=true,
                 IsFundReleased=true,
+                SectorTypeId=data.SectorTypeId,
+                SectorID=data.SectorID,
                 CreatedBy= UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString()
             });
             int res = db.SaveChanges();

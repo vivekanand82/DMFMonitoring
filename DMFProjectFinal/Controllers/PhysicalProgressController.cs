@@ -197,7 +197,9 @@ namespace DMFProjectFinal.Controllers
                 CreatedDate = DateTime.Now,
                 CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
                 IsActive = true,
-                Phyicalintsallmentflag = updateFlag.InstallmentID.ToString()
+                Phyicalintsallmentflag = updateFlag.InstallmentID.ToString(),
+                SectorID=updateFlag.SectorID,
+                SectorTypeId=updateFlag.SectorTypeId,
             }) ;
             int res = db.SaveChanges();
             if (res > 0)

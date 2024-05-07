@@ -34,5 +34,7 @@ namespace DMFProjectFinal.Models
         public string Phyicalintsallmentflag { get; set; }
         public string PhysicalProgressImages { get; set; }
         public Nullable<int> ProgressStatus { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
     }
 }

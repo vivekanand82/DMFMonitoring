@@ -998,4 +998,22 @@ namespace DMFProjectFinal.Models.DTO
         public int CompletedProjects { get; set; }
         public int PendingProjects { get; set; }
     }
+    public partial class DTO_SanctionCostAndProjectDetails
+    {
+        public int DistrictId { get; set; }
+        public int SectorID { get; set; }
+        public int Total_Project { get; set; }
+        public int CompletedProject { get; set; }
+        public int InProgressProject { get; set; }
+        public string DistrictName { get; set; }
+        public string SectorName { get; set; }
+        public string ProjectName { get; set; }
+        public string ProjectDescription { get; set; }
+        public string AgencyName { get; set; }
+        public string Status { get; set; }
+        public decimal AmountSpend { get; set; }
+        public decimal ReleaseAmount { get; set; }
+        public decimal SanctionedProjectCost { get; set; }
+        public string FinalStatus { get; set; }
+    }
 }

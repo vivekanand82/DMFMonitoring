@@ -227,78 +227,65 @@
                                         @foreach (DTO_ProjectProposalPrepration item in ViewBag.LstData)
                                         {
                                             j++;
-                                            <tr>
-                                                <td>@j</td>
-                                                <td>@item.ProjectNo</td>
-                                                <td>@item.DistrictName</td>
-                                                <td>@item.ProjectName</td>
-                                                <td>@item.SectorName</td>
-                                                <td>@item.ProsposalNo</td>
-                                                <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
-                                                @if (String.IsNullOrEmpty(item.ProposalCopy))
+                                        <tr>
+                                            <td>@j</td>
+                                            <td>@item.ProjectNo</td>
+                                            <td>@item.DistrictName</td>
+                                            <td>@item.ProjectName</td>
+                                            <td>@item.SectorName</td>
+                                            <td>@item.ProsposalNo</td>
+                                            <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
+                                            @if (String.IsNullOrEmpty(item.ProposalCopy))
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
+                                            }
+                                            <td>@item.ProposedBy</td>
+                                            <td>@item.TenderNo</td>
+                                            <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
+                                            <td>@item.WorkOrderNo</td>
+                                            <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
+
+                                            @if (item.Status == "Forward")
+                                            {
+                                                <td><a class="badge bg-success-subtle text-danger">Forward</a></td>
+                                             <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+                                                <td></td>
+
+
+                                            }
+
+                                            else if (item.Status == "Approved")
+                                            {
+                                                <td><a class="badge bg-success-subtle text-success">Approved</a></td>
+                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+
+                                                <td></td>
+
+
+                                            }
+
+                                            else
+                                            {
+                                                <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
+                                                <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                if (AM.RoleID == 2)
                                                 {
-                                                    <td></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
-                                                }
-                                                <td>@item.ProposedBy</td>
-                                                <td>@item.TenderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                <td>@item.WorkOrderNo</td>
-                                                <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
-
-                                                @if (item.Status == "Forward")
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Forward</a></td>
-                                                    @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
-                                                        <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
-
-                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-
-                                                    <td></td>
-
-
-                                                }
-
-                                                else if (item.Status == "Approved")
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-success">Approved</a></td>
-                                                    @*<th> <a href="/ProjectWorkApproval/ViewAndApproveProjectProposal?id=@CryptoEngine.Encrypt(item.ProjectPreparationID.ToString())" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></th>
-                                                        <td><button type="button" class="btn btn-primary btn-sm" data-size="xs" data-toggle="modal" data-target="#exampleModal1" onclick="GetProgram(@item.ProjectPreparationID)">Detail</button></td>*@
-
-                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-
-                                                    <td></td>
-
-
-                                                }
-                                                @*else if (item.Status == "Forward")
-                                                    {
-
-                                                        <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                        <td></td>
-
-                                                        <td></td>
-                                                    }*@
-
-
-
-                                                else
-                                                {
-                                                    <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
-                                                    <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
 
                                                     <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info ">Forward To Governing Council</a></td>
-
-
                                                 }
 
 
+                                            }
 
 
-                                            </tr>
+
+
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

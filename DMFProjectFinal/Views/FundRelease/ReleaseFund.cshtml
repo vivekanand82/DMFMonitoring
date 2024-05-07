@@ -183,12 +183,14 @@
 
                                                     @*<td>@balanceAmt</td>*@
                                                     @*<td>@item.InstallmentName</td>*@
-                                                    <th>
-                                                        @if (AM.CanInsert || AM.CanView)
-                                                        {
+                                                <th>
+                                                    @if (AM.CanInsert || AM.CanView)
+                                                    {
 
-                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
+                                                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-small btn-info" onclick="FundReleasedetails(@item.ProjectPreparationID)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                        var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
+                                                        if (AM.RoleID == 2)
+                                                        {
                                                             if (item.IsFundReleased == null && item.IsPhProgressDone == null && item.IsUtilizationUploaded == null && item.IsInspectionDone == null)
                                                             {
                                                                 <a href="/Fundrelease/CreateFundRelease?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-primary">Release First Installment</a>
@@ -201,9 +203,10 @@
                                                             {
                                                                 <a href="/Fundrelease/CreateFundRelease?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Release Next Installment</a>
                                                             }
-
                                                         }
-                                                    </th>
+
+                                                    }
+                                                </th>
                                                     <th>
 
                                                         @if (item.MileStoneStatus == 1)

@@ -36,12 +36,14 @@
 
 
                 <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>District Name</th>
-                        <th>Sector Type</th>
-                        <th>Total Projects</th>
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Sector Type</th>
+                            <th>Total Projects</th>
 
-                    </tr>
+                        </tr>
+                        </thead>
                     <tbody id="ProjectSectorType"></tbody>
                 </table>
             </div>
@@ -67,13 +69,15 @@
 
 
                 <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>District Name</th>
-                        <th>Sector Type</th>
-                        <th>Sector Name</th>
-                        <th>Total Project</th>
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Sector Type</th>
+                            <th>Sector Name</th>
+                            <th>Total Project</th>
 
-                    </tr>
+                        </tr>
+                        </thead>
                     <tbody id="ProjectSectorWise"></tbody>
                 </table>
             </div>
@@ -98,13 +102,15 @@
 
 
                 <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>District Name</th>
-                        <th>Sector Type</th>
-                        <th>Sector Name</th>
-                        <th>Project Name</th>
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>District Name</th>
+                            <th>Sector Type</th>
+                            <th>Sector Name</th>
+                            <th>Project Name</th>
 
-                    </tr>
+                        </tr>
+                        </thead>
                     <tbody id="ProjectWithSector"></tbody>
                 </table>
             </div>
@@ -126,7 +132,7 @@
             </div>
             <div class="modal-body">
                 <table class="table table-bordered  table-striped">
-                    <tr><h6 style="text-align:center">PROJECT PROSPOSAL DETAILS</h6></tr>
+                    <tr><th colspan="6">PROJECT PROSPOSAL DETAILS</th></tr>
                     <tr>
                         <th>District Name</th>
                         <td id="DistrictName"></td>
@@ -209,9 +215,10 @@
                 </table><br />
                 <!--table for management commette data -->
                 <table class="table table-bordered  table-striped" id="MANAGEMENTTABLE" style="display:none">
+
                     <tr>
-                        <th style="text-align:center" colspan="10">
-                            <h6>MANAGEMENT COMMETTE MEETING  DETAILS</h6>
+                        <th colspan="10">
+                            MANAGEMENT COMMETTE MEETING  DETAILS
                         </th>
                     </tr>
                     <tr class="col-sm-6">
@@ -243,8 +250,8 @@
                 <!--table for Governing Commete data-->
                 <table class="table table-bordered  table-striped" id="Governingtable" style="display:none">
                     <tr>
-                        <th style="text-align:center" colspan="10">
-                            <h6>GOVERNING COUNCIL MEETING  DETAILS</h6>
+                        <th  colspan="10">
+                        GOVERNING COUNCIL MEETING  DETAILS
                         </th>
                     </tr>
                     <tr>
@@ -275,8 +282,8 @@
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblMileStone">
                     <tr>
-                        <th style="text-align:center" colspan="7">
-                            <h6>PROJECT MILESTONE DETAILS</h6>
+                        <th  colspan="7">
+                           PROJECT MILESTONE DETAILS
                         </th>
                     </tr>
                     <tr>
@@ -292,8 +299,8 @@
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblFund">
                     <tr>
-                        <th style="text-align:center" colspan="7">
-                            <h6>FUND RELEASE DETAILS</h6>
+                        <th  colspan="7">
+                           FUND RELEASE DETAILS
                         </th>
                     </tr>
                     <tr>
@@ -309,8 +316,8 @@
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblProgress">
                     <tr>
-                        <th style="text-align:center" colspan="10">
-                            <h6>PHYSICAL PROGRESS DETAILS</h6>
+                        <th  colspan="10">
+                          PHYSICAL PROGRESS DETAILS
                         </th>
                     </tr>
                     <tr>
@@ -329,8 +336,8 @@
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblUtilizations">
                     <tr>
-                        <th style="text-align:center" colspan="6">
-                            <h6>UTILIZATION DETAILS</h6>
+                        <th  colspan="6">
+                           UTILIZATION DETAILS
                         </th>
                     </tr>
                     <tr>
@@ -346,8 +353,8 @@
                 </table>
                 <table class="table table-bordered table-striped" style="display:none" id="tblInspections">
                     <tr>
-                        <th style="text-align:center" colspan="7">
-                            <h6>INSPECTION DETAILS</h6>
+                        <th  colspan="7">
+                           INSPECTION DETAILS
                         </th>
                     </tr>
                     <tr>
@@ -387,8 +394,8 @@
                                 @if (ViewBag.Data != null)
                                 {
                                     <table class="table center-aligned-table table-striped table-bordered" id="Tbl_ProjectCountReport" style="width:100%">
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
+                                        <thead style="background-color: #083853;color:white">
+                                            <tr class="">
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
                                                 <th>Total Project</th>
@@ -443,7 +450,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var html = "";
                         html += "<tr>";
                         html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
@@ -460,6 +467,10 @@
                         $("#exampleModal").modal('show');
                         $("#ProjectSectorType").html(html);
                     }
+                    else {
+                        $("#exampleModal").modal('show');
+                        $("#ProjectSectorType").html('');
+                    }
                 }
             })
         }
@@ -473,7 +484,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var html = "";
                         html += "<tr>";
                         html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
@@ -491,6 +502,10 @@
                         $("#exampleModal1").modal('show');
                         $("#ProjectSectorWise").html(html);
                     }
+                    else {
+                        $("#exampleModal1").modal('show');
+                        $("#ProjectSectorWise").html('');
+                    }
                 }
             })
         }
@@ -504,7 +519,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
                         var html = "";
                         html += "<tr>";
                         html += "<td rowspan='" + (data.length * 4) + "'>" + data[0].DistrictName + "</td>";
@@ -523,6 +538,10 @@
                         $("#exampleModal2").modal('show');
                         $("#ProjectWithSector").html(html);
                     }
+                    else {
+                        $("#exampleModal2").modal('show');
+                        $("#ProjectWithSector").html('');
+                    }
                 }
             })
         }
@@ -536,7 +555,7 @@
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    if ($.trim(data != "")) {
+                    if (data.length > 0) {
 
                         //*****************Data of The Project Details-*************//
                         var ProposalDate = new Date(parseInt(data[0].ProposalDate.substr(6)));

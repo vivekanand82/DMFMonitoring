@@ -69,6 +69,7 @@ namespace DMFProjectFinal.Controllers
                 return View(new P_ChangePassword());
             }
         }
+        #region Get total counts on dashboard
         public JsonResult GetTotalCollectionAndExpendature(int? YearId)
         {
             int? DistID = null;
@@ -88,10 +89,10 @@ namespace DMFProjectFinal.Controllers
                     obj.ReleasedAmount = Convert.ToDecimal(dr["ReleasedAmount"]);
                     obj.Expenditure = Convert.ToDecimal(dr["Expenditure"]);
                     obj.BalanceAmount = Convert.ToDecimal(dr["BalanceAmount"]);
-                   
+
                 }
             }
-            return Json(obj,JsonRequestBehavior.AllowGet);
+            return Json(obj, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetProposalAndApprovalCount(int? YearId)
@@ -117,5 +118,7 @@ namespace DMFProjectFinal.Controllers
             }
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
     }
 }

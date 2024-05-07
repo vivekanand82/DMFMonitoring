@@ -176,13 +176,16 @@
                                                         //var projectcompcheck = db.MileStoneMasters.Where(x => x.ProjectPreparationID == item.ProjectPreparationID).OrderByDescending(x => x.InstallmentID).FirstOrDefault().IsInspectionDone;
 
                                                         <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="PhysicalProgressdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                        if (item.IsFundReleased == true && item.IsPhProgressDone == null)
+                                                        if (AM.RoleID == 2)
                                                         {
-                                                            <a href="/PhysicalProgress/CreatePhysicalProgress?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Update Pysical Progress</a>
-                                                        }
-                                                        else
-                                                        {
-                                                            @*<a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>*@
+                                                            if (item.IsFundReleased == true && item.IsPhProgressDone == null)
+                                                            {
+                                                                <a href="/PhysicalProgress/CreatePhysicalProgress?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Update Pysical Progress</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                @*<a href="#" class="btn btn-small btn-success"><i class="fa fa-check" aria-hidden="true"></i></a>*@
+                                                            }
                                                         }
                                                     }
                                                 </th>

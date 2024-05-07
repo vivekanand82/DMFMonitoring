@@ -181,7 +181,9 @@ namespace DMFProjectFinal.Controllers
                 Phyicalintsallmentflag = physicalflag.Phyicalintsallmentflag,
                 ProjectPreparationID= physicalflag.ProjectPreparationID,
                 PhysicalProgressID=physicalflag.PhysicalprogressID,
-                FundReleaseID=physicalflag.FundReleaseID
+                FundReleaseID=physicalflag.FundReleaseID,
+                SectorTypeId=physicalflag.SectorTypeId,
+                SectorID=physicalflag.SectorID,
             });
             var res = db.SaveChanges();
             if (res > 0)

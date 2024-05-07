@@ -34,5 +34,39 @@ namespace DMFProjectFinal.DAL
             DataSet ds = DBHelper.ExecuteQuery("dbo.sp_DetailsOnDashBoard", para);
             return ds;
         }
+
+        internal DataSet GetDistrictSanctionExpenditureAndProjectDetails(int? distID)
+        {
+            SqlParameter[] para =
+        {
+                new SqlParameter("@Action","DistrictSanctionAndExpendatureDetails"),
+                new SqlParameter("@DistrictId",distID),
+            };
+            DataSet ds = DBHelper.ExecuteQuery("dbo.sp_WorkStatus", para);
+            return ds;
+        }
+
+        internal DataSet GetSectorSanctionExpenditureAndProjectDetails(int DistrictId)
+        {
+            SqlParameter[] para =
+       {
+                new SqlParameter("@Action","SectorSanctionAndExpendatureDetails"),
+                new SqlParameter("@DistrictId",DistrictId),
+            };
+            DataSet ds = DBHelper.ExecuteQuery("dbo.sp_WorkStatus", para);
+            return ds;
+        }
+
+        internal DataSet GetProjectDetailsSectorWiseList(int DistrictId, int SectorID)
+        {
+            SqlParameter[] para =
+       {
+                new SqlParameter("@Action","ProjectDetailsAndStatus"),
+                new SqlParameter("@DistrictId",DistrictId),
+                new SqlParameter("@SectorID",SectorID),
+            };
+            DataSet ds = DBHelper.ExecuteQuery("dbo.sp_WorkStatus", para);
+            return ds;
+        }
     }
 }

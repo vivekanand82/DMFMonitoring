@@ -298,12 +298,9 @@ namespace DMFProjectFinal.Controllers
 
         public JsonResult insertmeetingdata(DTO_ProjectProposalPrepration model,string lis)
         {
-
             JsonResponse JR = new JsonResponse();
             ProjectMetting abc = new ProjectMetting();
             JavaScriptSerializer js = new JavaScriptSerializer();
-
-
             List<DTO_ProjectProposalPrepration> list = js.Deserialize<List<DTO_ProjectProposalPrepration>>(lis);
             string memberlist = "";
             foreach (var item in list)
@@ -315,25 +312,13 @@ namespace DMFProjectFinal.Controllers
 
                 //}
                 memberlist += item.Memberlist + ",";
-
             }
-
-
-
             long _id = long.Parse(model.ProjectPreparationID);
             var Info = db.ProjectProposalPreprations.Where(x => x.ProjectPreparationID == _id).FirstOrDefault();
-
-
-
-
-
-
-
             Info.Stageid = 1;
             Info.RunningStatus = model.Status;
             Info.ModifyDate = DateTime.Now;
             Info.CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID;
-
 
             abc.ProjectPreparationID = Convert.ToInt32(model.ProjectPreparationID);
             abc.MeetingNo = model.MeetingNo;
@@ -352,6 +337,8 @@ namespace DMFProjectFinal.Controllers
             abc.Createddate = DateTime.Now;
             abc.DistID = Info.DistID;
             abc.Remark = model.Remark;
+            abc.SectorID = Info.SectorID;
+            abc.SectorTypeId = Info.SectorTypeId;
 
             db.ProjectMettings.Add(abc);
 

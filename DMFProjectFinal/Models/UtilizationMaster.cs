@@ -34,5 +34,7 @@ namespace DMFProjectFinal.Models
         public string Phyicalintsallmentflag { get; set; }
         public string UC_Against_ReleaseAmount { get; set; }
         public Nullable<int> inspectionflag { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
     }
 }

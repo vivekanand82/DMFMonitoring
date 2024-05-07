@@ -168,27 +168,30 @@
                                                 @*<td style="color:green;font-weight:bold">@item.Remarks</td>*@
                                                 @if (AM.CanInsert || AM.CanView)
                                                 {
-                                                    <th>
-                                                        @if (AM.CanView)
+                                            <th>
+                                                @if (AM.CanView)
+                                                {
+                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                    if (AM.RoleID == 2)
+                                                    {
+                                                        if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
                                                         {
-                                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="Utilizationdetails(@item.ProjectPreparationID)" class="btn btn-small btn-info"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                            if (item.IsUtilizationUploaded == null && item.IsPhProgressDone == true && item.IsFundReleased == true)
-                                                            {
-                                                                <a href="/Utilization/CreateUtilization?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Upload UC</a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <!--<a href="#" class="btn btn-small btn-success">-->@*<i class="fa fa-check" aria-hidden="true"></i>*@<!--</a>-->
-                                                            }
-                                                            @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
-
+                                                            <a href="/Utilization/CreateUtilization?ProjectPreparationID=@item.ProjectPreparationID" class="btn btn-small btn-secondary">Upload UC</a>
                                                         }
-                                                        @*@if (AM.CanInsert)
+                                                        else
                                                         {
-                                                            <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                            <!--<a href="#" class="btn btn-small btn-success">-->@*<i class="fa fa-check" aria-hidden="true"></i>*@<!--</a>-->
+                                                        }
+                                                    }
+                                                    @*<a href="/Utilization/DeleteUtilization?UtilizationID=@item.UtilizationID" class="btn btn-small btn-danger delete-recored"><i class="fa fa-trash" aria-hidden="true"></i></a>*@
 
-                                                        }*@
-                                                    </th>
+                                                }
+                                                @*@if (AM.CanInsert)
+        {
+            <a href="/Utilization/CreateUtilization" class="btn btn-small btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+        }*@
+                                            </th>
                                                 }
                                                 <th>
 

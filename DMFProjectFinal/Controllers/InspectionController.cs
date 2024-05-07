@@ -851,6 +851,8 @@ namespace DMFProjectFinal.Controllers
                         CreatedDate = DateTime.Now,
                         CreatedBy = UserManager.GetUserLoginInfo(User.Identity.Name).LoginID.ToString(),
                         IsActive = true,
+                        SectorID=utilization.SectorID,
+                        SectorTypeId=utilization.SectorTypeId
 
 
                     });
