@@ -1,0 +1,160 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_ProjectAssessment
+
+@{
+    ViewBag.Title = "ProjectAssesment";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card-header">
+    <h4 class="card-title">Update Project Assessment</h4>
+</div>
+<div id="divform">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-6 text-left mb-1">
+                <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
+            </div>
+            @*<div class="col-md-6 text-right mb-1">
+                    @if (AM.CanInsert)
+                    {
+                        <a class="btn btn-primary btn-round" href="@Url.Action("CreateFundRelease", "FundRelease")" id="">Create<i class="fa fa-plus-circle"></i></a>}
+                </div>*@
+
+            <div class="col-md-12 mb-30">
+                <div class="card card-statistics h-100">
+                    <div class="card-body">
+
+                        @if (AM.CanView)
+                        {
+                            <div class="table-responsive mt-20">
+
+                                <table class="table center-aligned-table table-striped table-bordered" id="tblAssesmentlistData" style="width:100%">
+                                    <thead style="background-color: #083853;color:white">
+                                        <tr>
+                                            <th>क्र०सं०</th>
+                                            <th>District</th>
+                                            <th>Sector Type</th>
+                                            <th>Sector Name</th>
+                                            <th>Project Name</th>
+                                            <th>FeedBack</th>
+                                            <th>No Of Beneficiaries</th>
+                                            <th>Photo</th>
+                                            @*<th>Status</th>*@
+                                            @if (AM.CanUpdate || AM.CanDelete || AM.CanView)
+                                            {
+                                                if (AM.RoleID == 2)
+                                                {
+                                                    <th>Action</th>
+                                                }
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.LstData != null)
+                                        {
+                                            foreach (var item in ViewBag.LstData)
+                                            {
+                                                j++;
+                                        <tr>
+                                            <td>@j</td>
+                                            <td>@item.DistrictName</td>
+                                            <td>@item.SectorType</td>
+                                            <td width="200px">@item.SectorName</td>
+                                            <td>@item.ProjectName</td>
+                                            <td width="300px">@item.feedBack</td>
+                                            <td>@item.NoOfBeneficiaries</td>
+                                            <td><a href="@item.Photos" target="_blank"><img src="@item.Photos" height="40" width="40" /></a></td>
+                                            @*<td><a style="color:green">Completed</a></td>*@
+
+                                            @if (AM.RoleID == 2)
+                                            {
+                                        <td>
+                                            <a href="/ProjectIssueAndFeedBack/EditProjectAssesment?AssesmentId=@item.AssesmentId" class="btn btn-info"><i class="fa fa-edit"></i></a>
+                                            <a href="#" class="btn btn-danger" onclick="DeleteProjectAssessment(@item.AssesmentId)"><i class="fa fa-trash"></i></a>
+                                        </td>
+
+                                                    }
+                                               
+                                            </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <th colspan="9" style="text-align:center;">
+                                                    <span>No Record Found</span>
+                                                </th>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblAssesmentlistData').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tblAssesmentlistData');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('AssesmentList.' + (type || 'xlsx')));
+        }
+    </script>
+
+    <script>
+        function DeleteProjectAssessment(AssesmentId) {
+            var conf = confirm("Are you sure you want to delete this Record ??");
+            if (conf) {
+                $.ajax({
+                    url: "/ProjectIssueAndFeedBack/DeleteProjectAssessment?AssesmentId=" + AssesmentId,
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    type: "POST",
+                    success: function (data) {
+                        if (data == "1") {
+                            //toastr.success("data Deleted Successfully !!", "Success");
+                            swal("Success", "data Deleted Successfully !!", "success");
+                            window.location.reload();
+                        }
+                        else if (data == "0") {
+                            //toastr.success("Something went wrong plz try later !!", "Error");
+                            swal("Oops! ", "Something went wrong plz try later !!", "error");
+                        }
+                    }
+                })
+            }
+
+        }
+    </script>
+}
+
+
+
+
+
+
+
+
+

@@ -457,12 +457,17 @@ namespace DMFProjectFinal.Controllers
         [HttpGet]
         public ActionResult CreateFundCollection()
         {
+            int? DistID = null;
+            if (UserManager.GetUserLoginInfo(User.Identity.Name).RoleID == 2)
+            {
+                DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
+            }
             var selectedMonth = db.MonthMasters.Where(x => x.MonthId == DateTime.Now.Month).FirstOrDefault().MonthId;
 
             ViewBag.MonthId = new SelectList(db.MonthMasters.Where(x => x.IsActive == true), "MonthId", "MonthName", selectedMonth);
             var selectedyear = db.YearMasters.Where(x => x.YearName == DateTime.Now.Year.ToString()).FirstOrDefault().YearId;
             ViewBag.YearId = new SelectList(db.YearMasters.Where(x => x.IsActive == true), "YearId", "YearName",selectedyear);
-            ViewBag.LesseeId = new SelectList(db.LesseeMasters.Where(x => x.IsActive == true).ToList().Select(x => new { ID = x.LesseeID, Text = x.LesseeName + " / " + x.LeaseID + " / " + x.Areacode }), "ID", "Text");
+            ViewBag.LesseeId = new SelectList(db.LesseeMasters.Where(x => x.IsActive == true && x.DistID== (DistID == null ? x.DistID : DistID)).ToList().Select(x => new { ID = x.LesseeID, Text = x.LesseeName + " / " + x.LeaseID + " / " + x.Areacode }), "ID", "Text");
             DTO_DMFFundCOllection model = new DTO_DMFFundCOllection();
             return View(model);
         }

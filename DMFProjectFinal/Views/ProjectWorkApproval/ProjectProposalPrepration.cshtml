@@ -318,7 +318,10 @@
 
                                                 @if (AM.CanUpdate || AM.CanDelete)
                                                 {
-                                                    <th>Action</th>
+                                                    if (AM.RoleID == 2)
+                                                    {
+                                                        <th>Action</th>
+                                                    }
                                                 }
 
                                             </tr>
@@ -450,8 +453,7 @@
         </script>*@
     <script type="text/javascript">
         $(document).ready(function () {
-            debugger
-            $('#Tbl_Proposal').DataTable({
+            $("#Tbl_Proposal").DataTable({
                 lengthMenu: [[25, 50, -1], [25, 50, "All"]],
             });
         });

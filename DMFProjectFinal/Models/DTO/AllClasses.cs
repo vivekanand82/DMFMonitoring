@@ -1002,10 +1002,12 @@ namespace DMFProjectFinal.Models.DTO
     {
         public int DistrictId { get; set; }
         public int SectorID { get; set; }
+        public int SectorTypeId { get; set; }
         public int Total_Project { get; set; }
         public int CompletedProject { get; set; }
         public int InProgressProject { get; set; }
         public string DistrictName { get; set; }
+        public string SectorType { get; set; }
         public string SectorName { get; set; }
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
@@ -1015,5 +1017,27 @@ namespace DMFProjectFinal.Models.DTO
         public decimal ReleaseAmount { get; set; }
         public decimal SanctionedProjectCost { get; set; }
         public string FinalStatus { get; set; }
+    }
+    public partial class DTO_ProjectAssessment
+    {
+        public string AssesmentId { get; set; }
+        public Nullable<int> DistrictId { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public Nullable<int> Stageid { get; set; }
+        public Nullable<int> ProjectPreparationID { get; set; }
+        public string ProjectNo { get; set; }
+        public string DistrictName { get; set; }
+        public string SectorType { get; set; }
+        public string SectorName { get; set; }
+        public string ProjectName { get; set; }
+        public string feedBack { get; set; }
+        public string Photos { get; set; }
+        public Nullable<int> NoOfBeneficiaries { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     }
 }

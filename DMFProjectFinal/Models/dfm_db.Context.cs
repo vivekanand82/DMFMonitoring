@@ -12,6 +12,8 @@ namespace DMFProjectFinal.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class dfm_dbEntities : DbContext
     {
@@ -65,5 +67,171 @@ namespace DMFProjectFinal.Models
         public virtual DbSet<InspectionCheckListQuestionMaster> InspectionCheckListQuestionMasters { get; set; }
         public virtual DbSet<InspectionMaster> InspectionMasters { get; set; }
         public virtual DbSet<MineralTypeMaster> MineralTypeMasters { get; set; }
+        public virtual DbSet<ProjectAssessment> ProjectAssessments { get; set; }
+        public virtual DbSet<ProjectIssueDetail> ProjectIssueDetails { get; set; }
+    
+        public virtual ObjectResult<DMF_FundCollectionDetails_Result> DMF_FundCollectionDetails(string action, Nullable<int> districtId, string mineralType, Nullable<int> mineralId, Nullable<int> lesseeId)
+        {
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            var districtIdParameter = districtId.HasValue ?
+                new ObjectParameter("DistrictId", districtId) :
+                new ObjectParameter("DistrictId", typeof(int));
+    
+            var mineralTypeParameter = mineralType != null ?
+                new ObjectParameter("MineralType", mineralType) :
+                new ObjectParameter("MineralType", typeof(string));
+    
+            var mineralIdParameter = mineralId.HasValue ?
+                new ObjectParameter("MineralId", mineralId) :
+                new ObjectParameter("MineralId", typeof(int));
+    
+            var lesseeIdParameter = lesseeId.HasValue ?
+                new ObjectParameter("LesseeId", lesseeId) :
+                new ObjectParameter("LesseeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DMF_FundCollectionDetails_Result>("DMF_FundCollectionDetails", actionParameter, districtIdParameter, mineralTypeParameter, mineralIdParameter, lesseeIdParameter);
+        }
+    
+        public virtual ObjectResult<DMF_SanctionFundDetails_Result> DMF_SanctionFundDetails(string action, Nullable<int> districtId)
+        {
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            var districtIdParameter = districtId.HasValue ?
+                new ObjectParameter("DistrictId", districtId) :
+                new ObjectParameter("DistrictId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DMF_SanctionFundDetails_Result>("DMF_SanctionFundDetails", actionParameter, districtIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> getEmployeeList(Nullable<int> page, Nullable<int> size, string sort, Nullable<int> totalrow, string p_Search)
+        {
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var sizeParameter = size.HasValue ?
+                new ObjectParameter("size", size) :
+                new ObjectParameter("size", typeof(int));
+    
+            var sortParameter = sort != null ?
+                new ObjectParameter("sort", sort) :
+                new ObjectParameter("sort", typeof(string));
+    
+            var totalrowParameter = totalrow.HasValue ?
+                new ObjectParameter("totalrow", totalrow) :
+                new ObjectParameter("totalrow", typeof(int));
+    
+            var p_SearchParameter = p_Search != null ?
+                new ObjectParameter("P_Search", p_Search) :
+                new ObjectParameter("P_Search", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("getEmployeeList", pageParameter, sizeParameter, sortParameter, totalrowParameter, p_SearchParameter);
+        }
+    
+        public virtual ObjectResult<sp_DetailsOnDashBoard_Result> sp_DetailsOnDashBoard(string action, Nullable<int> districtId, Nullable<int> yearId)
+        {
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            var districtIdParameter = districtId.HasValue ?
+                new ObjectParameter("DistrictId", districtId) :
+                new ObjectParameter("DistrictId", typeof(int));
+    
+            var yearIdParameter = yearId.HasValue ?
+                new ObjectParameter("YearId", yearId) :
+                new ObjectParameter("YearId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DetailsOnDashBoard_Result>("sp_DetailsOnDashBoard", actionParameter, districtIdParameter, yearIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_DistrictwiseProjectReport_Result> sp_DistrictwiseProjectReport(string action, Nullable<int> districtId, Nullable<int> sectorTypeId, Nullable<int> sectorID, string projectName, Nullable<int> projectPreparationID)
+        {
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            var districtIdParameter = districtId.HasValue ?
+                new ObjectParameter("DistrictId", districtId) :
+                new ObjectParameter("DistrictId", typeof(int));
+    
+            var sectorTypeIdParameter = sectorTypeId.HasValue ?
+                new ObjectParameter("SectorTypeId", sectorTypeId) :
+                new ObjectParameter("SectorTypeId", typeof(int));
+    
+            var sectorIDParameter = sectorID.HasValue ?
+                new ObjectParameter("SectorID", sectorID) :
+                new ObjectParameter("SectorID", typeof(int));
+    
+            var projectNameParameter = projectName != null ?
+                new ObjectParameter("ProjectName", projectName) :
+                new ObjectParameter("ProjectName", typeof(string));
+    
+            var projectPreparationIDParameter = projectPreparationID.HasValue ?
+                new ObjectParameter("ProjectPreparationID", projectPreparationID) :
+                new ObjectParameter("ProjectPreparationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_DistrictwiseProjectReport_Result>("sp_DistrictwiseProjectReport", actionParameter, districtIdParameter, sectorTypeIdParameter, sectorIDParameter, projectNameParameter, projectPreparationIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_getProgressPercentage(string projectPreparationID)
+        {
+            var projectPreparationIDParameter = projectPreparationID != null ?
+                new ObjectParameter("ProjectPreparationID", projectPreparationID) :
+                new ObjectParameter("ProjectPreparationID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_getProgressPercentage", projectPreparationIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetProjectProposalPreprationList_Result> sp_GetProjectProposalPreprationList(Nullable<int> distID, Nullable<int> agencyID, Nullable<int> projectID, Nullable<int> sectorID)
+        {
+            var distIDParameter = distID.HasValue ?
+                new ObjectParameter("DistID", distID) :
+                new ObjectParameter("DistID", typeof(int));
+    
+            var agencyIDParameter = agencyID.HasValue ?
+                new ObjectParameter("AgencyID", agencyID) :
+                new ObjectParameter("AgencyID", typeof(int));
+    
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            var sectorIDParameter = sectorID.HasValue ?
+                new ObjectParameter("SectorID", sectorID) :
+                new ObjectParameter("SectorID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProjectProposalPreprationList_Result>("sp_GetProjectProposalPreprationList", distIDParameter, agencyIDParameter, projectIDParameter, sectorIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_WorkStatus_Result> sp_WorkStatus(string action, Nullable<int> districtId, Nullable<int> sectorID, Nullable<int> sectorTypeId, Nullable<int> projectPreparationID)
+        {
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            var districtIdParameter = districtId.HasValue ?
+                new ObjectParameter("DistrictId", districtId) :
+                new ObjectParameter("DistrictId", typeof(int));
+    
+            var sectorIDParameter = sectorID.HasValue ?
+                new ObjectParameter("SectorID", sectorID) :
+                new ObjectParameter("SectorID", typeof(int));
+    
+            var sectorTypeIdParameter = sectorTypeId.HasValue ?
+                new ObjectParameter("SectorTypeId", sectorTypeId) :
+                new ObjectParameter("SectorTypeId", typeof(int));
+    
+            var projectPreparationIDParameter = projectPreparationID.HasValue ?
+                new ObjectParameter("ProjectPreparationID", projectPreparationID) :
+                new ObjectParameter("ProjectPreparationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_WorkStatus_Result>("sp_WorkStatus", actionParameter, districtIdParameter, sectorIDParameter, sectorTypeIdParameter, projectPreparationIDParameter);
+        }
     }
 }

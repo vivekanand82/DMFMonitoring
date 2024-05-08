@@ -524,7 +524,36 @@ namespace DMFProjectFinal.Controllers
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult SectorWiseSanctionAndProjectList(int DistrictId)
+        public ActionResult SectorTypeWiseSanctionAndProjectList(int DistrictId)
+        {
+            List<DTO_SanctionCostAndProjectDetails> lst = new List<DTO_SanctionCostAndProjectDetails>();
+            DataSet ds = DashBoardDB.GetSectorTypeSanctionExpenditureAndProjectDetails(DistrictId);
+            if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    lst.Add(new DTO_SanctionCostAndProjectDetails
+                    {
+                        DistrictId = (int)dr["DistrictId"],
+                        SectorTypeId = (int)dr["SectorTypeId"],
+                        SectorType = dr["SectorType"].ToString(),
+                        DistrictName = dr["DistrictName"].ToString(),
+                        SanctionedProjectCost = Convert.ToDecimal(dr["SanctionedProjectCost"]),
+                        ReleaseAmount = Convert.ToDecimal(dr["ReleaseAmount"]),
+                        AmountSpend = Convert.ToDecimal(dr["AmountSpend"]),
+                        Total_Project = (int)dr["Total_Project"],
+                        CompletedProject = (int)dr["CompletedProject"],
+                        InProgressProject = (int)dr["InProgressProject"],
+
+                    });
+                    ViewBag.data = lst;
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult SectorWiseSanctionAndProjectList(int DistrictId, int SectorTypeId)
         {
             List<DTO_SanctionCostAndProjectDetails> lst = new List<DTO_SanctionCostAndProjectDetails>();
             //int? DistID = null;
@@ -533,7 +562,7 @@ namespace DMFProjectFinal.Controllers
             //    DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
             //    //model.DistrictId = DistID;
             //}
-            DataSet ds = DashBoardDB.GetSectorSanctionExpenditureAndProjectDetails(DistrictId);
+            DataSet ds = DashBoardDB.GetSectorSanctionExpenditureAndProjectDetails(DistrictId, SectorTypeId);
             if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -542,7 +571,9 @@ namespace DMFProjectFinal.Controllers
                     {
                         DistrictId = (int)dr["DistrictId"],
                         SectorID = (int)dr["SectorID"],
+                        SectorTypeId = (int)dr["SectorTypeId"],
                         SectorName = dr["SectorName"].ToString(),
+                        SectorType = dr["SectorType"].ToString(),
                         DistrictName = dr["DistrictName"].ToString(),
                         SanctionedProjectCost = Convert.ToDecimal(dr["SanctionedProjectCost"]),
                         ReleaseAmount = Convert.ToDecimal(dr["ReleaseAmount"]),
@@ -558,7 +589,7 @@ namespace DMFProjectFinal.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult GetPDetailSectorWiseList(int DistrictId, int SectorID)
+        public ActionResult GetPDetailSectorWiseList(int DistrictId, int SectorTypeId, int SectorID)
         {
             List<DTO_SanctionCostAndProjectDetails> lst = new List<DTO_SanctionCostAndProjectDetails>();
             //int? DistID = null;
@@ -567,13 +598,17 @@ namespace DMFProjectFinal.Controllers
             //    DistID = UserManager.GetUserLoginInfo(User.Identity.Name).DistID;
             //    //model.DistrictId = DistID;
             //}
-            DataSet ds = DashBoardDB.GetProjectDetailsSectorWiseList(DistrictId, SectorID);
+            DataSet ds = DashBoardDB.GetProjectDetailsSectorWiseList(DistrictId, SectorTypeId, SectorID);
             if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     lst.Add(new DTO_SanctionCostAndProjectDetails
                     {
+                        SectorID = (int)dr["SectorID"],
+                        SectorTypeId = (int)dr["SectorTypeId"],
+                        DistrictId = (int)dr["DistrictId"],
+                        SectorType = dr["SectorType"].ToString(),
                         SectorName = dr["SectorName"].ToString(),
                         ProjectName = dr["ProjectName"].ToString(),
                         DistrictName = dr["DistrictName"].ToString(),

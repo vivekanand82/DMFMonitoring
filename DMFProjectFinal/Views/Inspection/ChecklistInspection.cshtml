@@ -155,7 +155,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td>1</td>
-                                                    <td><input type='text' class="form-control form-control-sm" id="pk1"></td>
+                                                    <td><input type='text' class="form-control form-control-sm" id="pk1" required></td>
                                                     @*<td><a class="btn btn-small btn-info" onclick="Viewmeeting(1)"><i class="fa fa-plus" aria-hidden="true"></i></a><input type="checkbox" name="chkone" /></td>*@
                                                     <td><input type='button' value='Remove' class='rmv'></td>
                                                 </tr>
@@ -470,6 +470,11 @@
                 var k = 1
 
                 $("#add_row").click(function () {
+                    debugger
+                    if ($("#pk" + i).val() == null || $("#pk" + i).val() == "") {
+                        alert("Please Fill Inspection Question !");
+                        return;
+                    }
                     i = i + 1;
                     var row = "<tr> <td>" + i + "</td><td><input type='text' class='form-control' id='pk" + i + "'></td><td><input type='button' value='Remove' class='rmv'></td> </tr>";
                     $("#tbl tbody").append(row);
@@ -578,7 +583,13 @@
             }
 
             function Saveuser() {
-
+                debugger
+                var i = 1;
+                if ($("#pk" + i).val() == null || $("#pk" + i).val() == "" ) {
+                    alert("Please Fill Inspection Question !");
+                    return;
+                }
+                i++;
                 var program_array = [];
                 $("#tbl tbody tr ").each(function () {
                     var IsChecked = ""

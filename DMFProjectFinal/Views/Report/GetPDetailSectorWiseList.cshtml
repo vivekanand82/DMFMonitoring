@@ -12,10 +12,16 @@
 
 <div class="card">
     <div class="card-header">
-        @data[0].DistrictName - @data[0].SectorName - Project Status
+        @{
+            var SectorName = @data != null && @data[0].DistrictName != null ? @data[0].DistrictName + " - " + @data[0].SectorType + " - " + @data[0].SectorName + " - Project Status" : "N/A";
+        }
+
+        @SectorName
+        @*@data[0].DistrictName - @data[0].SectorType- @data[0].SectorName - Project Status*@
     </div>
     <div class="card-body">
-        <div class="row" style=" margin-bottom: 100px;">
+        <a href="/Report/SectorWiseSanctionAndProjectList?DistrictId=@data[0].DistrictId&&SectorTypeId=@data[0].SectorTypeId" style="text-align: left; width: 20px; margin-bottom: 10px; font-size: 30px; margin-right: 100%;"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <div class="row">
             <div class="col-md-12">
 
                 <table class="table table-bordered table-striped" id="tabledetailsofproject">
@@ -28,7 +34,7 @@
                             <th>Agency Name</th>
                             <th>Sanctioned Amount</th>
                             <th>Expenditure Amount </th>
-                            <th>Duration of Project</th>
+                            @*<th>Duration of Project</th>*@
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -45,7 +51,7 @@
                                     <td>@item.AgencyName</td>
                                     <td>@item.SanctionedProjectCost</td>
                                     <td>@item.AmountSpend</td>
-                                    <td>@item.Total_Project</td>
+                                    @*<td>@item.Total_Project</td>*@
                                     @if (@item.Status == "InProcess")
                                     {
 

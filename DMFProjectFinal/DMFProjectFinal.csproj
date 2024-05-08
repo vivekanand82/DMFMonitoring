@@ -138,6 +138,7 @@
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\MileStoneController.cs" />
     <Compile Include="Controllers\PhysicalProgressController.cs" />
+    <Compile Include="Controllers\ProjectIssueAndFeedBackController.cs" />
     <Compile Include="Controllers\ProjectWorkApprovalController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SessionFilters.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="DAL\DashBoardReportDB.cs" />
     <Compile Include="DAL\DistrictWiseProjectDB.cs" />
     <Compile Include="DAL\DMFFundCollectionDB.cs" />
+    <Compile Include="DAL\IssueAndFeedBackDB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,6 +207,12 @@
     <Compile Include="Models\DMFFundCollection.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DMF_FundCollectionDetails_Result.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMF_SanctionFundDetails_Result.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DTO\AllClasses.cs" />
     <Compile Include="Models\FundRelease.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
@@ -245,6 +253,12 @@
     <Compile Include="Models\PhysicalProgressMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectAssessment.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectIssueDetail.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectMaster.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
@@ -271,6 +285,18 @@
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SectorTypeMaster.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_DetailsOnDashBoard_Result.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_DistrictwiseProjectReport_Result.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_GetProjectProposalPreprationList_Result.cs">
+      <DependentUpon>dfm_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_WorkStatus_Result.cs">
       <DependentUpon>dfm_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StateMaster.cs">
@@ -706,6 +732,10 @@
     <Content Include="Views\Report\DistrictWiseSanctionAndProjectList.cshtml" />
     <Content Include="Views\Report\SectorWiseSanctionAndProjectList.cshtml" />
     <Content Include="Views\Report\GetPDetailSectorWiseList.cshtml" />
+    <Content Include="Views\Report\SectorTypeWiseSanctionAndProjectList.cshtml" />
+    <Content Include="Views\ProjectIssueAndFeedBack\ProjectAssesment.cshtml" />
+    <Content Include="Views\ProjectIssueAndFeedBack\CreateProjectAssesment.cshtml" />
+    <Content Include="Views\ProjectIssueAndFeedBack\ProjectAssesmentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

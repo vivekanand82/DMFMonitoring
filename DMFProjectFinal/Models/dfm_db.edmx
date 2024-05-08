@@ -386,6 +386,43 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="SectorID" Type="int" />
           <Property Name="SectorTypeId" Type="int" />
         </EntityType>
+        <EntityType Name="ProjectAssessment">
+          <Key>
+            <PropertyRef Name="AssesmentId" />
+          </Key>
+          <Property Name="AssesmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="SectorTypeId" Type="int" />
+          <Property Name="SectorId" Type="int" />
+          <Property Name="ProjectPreparationID" Type="int" />
+          <Property Name="ProjectNo" Type="varchar" MaxLength="200" />
+          <Property Name="feedBack" Type="nvarchar(max)" />
+          <Property Name="Photos" Type="nvarchar(max)" />
+          <Property Name="NoOfBeneficiaries" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProjectIssueDetail">
+          <Key>
+            <PropertyRef Name="ProjectIssueId" />
+          </Key>
+          <Property Name="ProjectIssueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictId" Type="int" />
+          <Property Name="SectorTypeId" Type="int" />
+          <Property Name="SectorId" Type="int" />
+          <Property Name="ProjectPreparationID" Type="int" />
+          <Property Name="ProjectNo" Type="varchar" MaxLength="200" />
+          <Property Name="IssueDate" Type="datetime" />
+          <Property Name="Reason" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
         <EntityType Name="ProjectMaster">
           <Key>
             <PropertyRef Name="ProjectID" />
@@ -789,6 +826,53 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DMF_FundCollectionDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+          <Parameter Name="DistrictId" Type="int" Mode="In" />
+          <Parameter Name="MineralType" Type="varchar" Mode="In" />
+          <Parameter Name="MineralId" Type="int" Mode="In" />
+          <Parameter Name="LesseeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DMF_SanctionFundDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+          <Parameter Name="DistrictId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getEmployeeList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="page" Type="int" Mode="In" />
+          <Parameter Name="size" Type="int" Mode="In" />
+          <Parameter Name="sort" Type="nvarchar" Mode="In" />
+          <Parameter Name="totalrow" Type="int" Mode="In" />
+          <Parameter Name="P_Search" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DetailsOnDashBoard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+          <Parameter Name="DistrictId" Type="int" Mode="In" />
+          <Parameter Name="YearId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_DistrictwiseProjectReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+          <Parameter Name="DistrictId" Type="int" Mode="In" />
+          <Parameter Name="SectorTypeId" Type="int" Mode="In" />
+          <Parameter Name="SectorID" Type="int" Mode="In" />
+          <Parameter Name="ProjectName" Type="varchar" Mode="In" />
+          <Parameter Name="ProjectPreparationID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_getProgressPercentage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectPreparationID" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_GetProjectProposalPreprationList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DistID" Type="int" Mode="In" />
+          <Parameter Name="AgencyID" Type="int" Mode="In" />
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+          <Parameter Name="SectorID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_WorkStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+          <Parameter Name="DistrictId" Type="int" Mode="In" />
+          <Parameter Name="SectorID" Type="int" Mode="In" />
+          <Parameter Name="SectorTypeId" Type="int" Mode="In" />
+          <Parameter Name="ProjectPreparationID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="dfm_dbModelStoreContainer">
           <EntitySet Name="AgenciesInfo" EntityType="Self.AgenciesInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankMaster" EntityType="Self.BankMaster" Schema="dbo" store:Type="Tables" />
@@ -813,6 +897,8 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="MineralNameMaster" EntityType="Self.MineralNameMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MineralTypeMaster" EntityType="Self.MineralTypeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhysicalProgressMaster" EntityType="Self.PhysicalProgressMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectAssessment" EntityType="Self.ProjectAssessment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectIssueDetail" EntityType="Self.ProjectIssueDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMaster" EntityType="Self.ProjectMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMetting" EntityType="Self.ProjectMetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectProposalPrepration" EntityType="Self.ProjectProposalPrepration" Schema="dbo" store:Type="Tables" />
@@ -1490,6 +1576,55 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySet Name="InspectionCheckListQuestionMasters" EntityType="dfm_dbModel.InspectionCheckListQuestionMaster" />
           <EntitySet Name="InspectionMasters" EntityType="dfm_dbModel.InspectionMaster" />
           <EntitySet Name="MineralTypeMasters" EntityType="dfm_dbModel.MineralTypeMaster" />
+          <EntitySet Name="ProjectAssessments" EntityType="dfm_dbModel.ProjectAssessment" />
+          <EntitySet Name="ProjectIssueDetails" EntityType="dfm_dbModel.ProjectIssueDetail" />
+          <FunctionImport Name="DMF_FundCollectionDetails" ReturnType="Collection(dfm_dbModel.DMF_FundCollectionDetails_Result)">
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="DistrictId" Mode="In" Type="Int32" />
+            <Parameter Name="MineralType" Mode="In" Type="String" />
+            <Parameter Name="MineralId" Mode="In" Type="Int32" />
+            <Parameter Name="LesseeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DMF_SanctionFundDetails" ReturnType="Collection(dfm_dbModel.DMF_SanctionFundDetails_Result)">
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="DistrictId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getEmployeeList" ReturnType="Collection(Int32)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
+            <Parameter Name="sort" Mode="In" Type="String" />
+            <Parameter Name="totalrow" Mode="In" Type="Int32" />
+            <Parameter Name="P_Search" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DetailsOnDashBoard" ReturnType="Collection(dfm_dbModel.sp_DetailsOnDashBoard_Result)">
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="DistrictId" Mode="In" Type="Int32" />
+            <Parameter Name="YearId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_DistrictwiseProjectReport" ReturnType="Collection(dfm_dbModel.sp_DistrictwiseProjectReport_Result)">
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="DistrictId" Mode="In" Type="Int32" />
+            <Parameter Name="SectorTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="SectorID" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectName" Mode="In" Type="String" />
+            <Parameter Name="ProjectPreparationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_getProgressPercentage" ReturnType="Collection(Int32)">
+            <Parameter Name="ProjectPreparationID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetProjectProposalPreprationList" ReturnType="Collection(dfm_dbModel.sp_GetProjectProposalPreprationList_Result)">
+            <Parameter Name="DistID" Mode="In" Type="Int32" />
+            <Parameter Name="AgencyID" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+            <Parameter Name="SectorID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_WorkStatus" ReturnType="Collection(dfm_dbModel.sp_WorkStatus_Result)">
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="DistrictId" Mode="In" Type="Int32" />
+            <Parameter Name="SectorID" Mode="In" Type="Int32" />
+            <Parameter Name="SectorTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectPreparationID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="MenuMaster">
           <Key>
@@ -1795,6 +1930,101 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="MineralType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
         </EntityType>
+        <EntityType Name="ProjectAssessment">
+          <Key>
+            <PropertyRef Name="AssesmentId" />
+          </Key>
+          <Property Name="AssesmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="SectorTypeId" Type="Int32" />
+          <Property Name="SectorId" Type="Int32" />
+          <Property Name="ProjectPreparationID" Type="Int32" />
+          <Property Name="ProjectNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="feedBack" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photos" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoOfBeneficiaries" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ProjectIssueDetail">
+          <Key>
+            <PropertyRef Name="ProjectIssueId" />
+          </Key>
+          <Property Name="ProjectIssueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictId" Type="Int32" />
+          <Property Name="SectorTypeId" Type="Int32" />
+          <Property Name="SectorId" Type="Int32" />
+          <Property Name="ProjectPreparationID" Type="Int32" />
+          <Property Name="ProjectNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IssueDate" Type="DateTime" Precision="3" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="DMF_FundCollectionDetails_Result">
+          <Property Type="Int32" Name="Code" Nullable="false" />
+          <Property Type="String" Name="Remark" Nullable="false" MaxLength="7" />
+          <Property Type="Decimal" Name="TotalFundCollection" Nullable="true" Precision="19" Scale="0" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="DistrictId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="DMF_SanctionFundDetails_Result">
+          <Property Type="Int32" Name="Code" Nullable="false" />
+          <Property Type="String" Name="Remark" Nullable="false" MaxLength="7" />
+          <Property Type="Decimal" Name="TotalFundCollection" Nullable="true" Precision="19" Scale="0" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="DistrictId" Nullable="true" />
+          <Property Type="Decimal" Name="SanctionedProjectCost" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="ReleasedAmount" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="BalanceAmount" Nullable="true" Precision="19" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="sp_DetailsOnDashBoard_Result">
+          <Property Type="Decimal" Name="Total_DMFCollection" Nullable="true" Precision="20" Scale="1" />
+          <Property Type="Decimal" Name="SanctionAmount" Nullable="true" Precision="19" Scale="1" />
+          <Property Type="Decimal" Name="ReleasedAmount" Nullable="true" Precision="19" Scale="1" />
+          <Property Type="Decimal" Name="Expenditure" Nullable="true" Precision="19" Scale="1" />
+          <Property Type="Decimal" Name="BalanceAmount" Nullable="true" Precision="20" Scale="1" />
+        </ComplexType>
+        <ComplexType Name="sp_DistrictwiseProjectReport_Result">
+          <Property Type="Int32" Name="DistID" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Total_Project" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetProjectProposalPreprationList_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="GSTAndOthers" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ProjectCost" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="ProjectStatus" Nullable="true" MaxLength="200" />
+          <Property Type="Int64" Name="ProjectPreparationID" Nullable="false" />
+          <Property Type="String" Name="ProposalCopy" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="ProposalDate" Nullable="true" />
+          <Property Type="String" Name="ProposedBy" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ProsposalNo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SectorName" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="SanctionedProjectCost" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="TenderDate" Nullable="true" />
+          <Property Type="String" Name="TenderNo" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="WorkOrderDate" Nullable="true" />
+          <Property Type="String" Name="WorkOrderNo" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="sp_WorkStatus_Result">
+          <Property Type="Int32" Name="DistrictId" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="SanctionedProjectCost" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="ReleaseAmount" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="AmountSpend" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="Total_Project" Nullable="false" />
+          <Property Type="Int32" Name="CompletedProject" Nullable="false" />
+          <Property Type="Int32" Name="InProgressProject" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2467,6 +2697,129 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProjectAssessments">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProjectAssessment">
+              <MappingFragment StoreEntitySet="ProjectAssessment">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="NoOfBeneficiaries" ColumnName="NoOfBeneficiaries" />
+                <ScalarProperty Name="Photos" ColumnName="Photos" />
+                <ScalarProperty Name="feedBack" ColumnName="feedBack" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="SectorId" ColumnName="SectorId" />
+                <ScalarProperty Name="SectorTypeId" ColumnName="SectorTypeId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="AssesmentId" ColumnName="AssesmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectIssueDetails">
+            <EntityTypeMapping TypeName="dfm_dbModel.ProjectIssueDetail">
+              <MappingFragment StoreEntitySet="ProjectIssueDetail">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="SectorId" ColumnName="SectorId" />
+                <ScalarProperty Name="SectorTypeId" ColumnName="SectorTypeId" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="ProjectIssueId" ColumnName="ProjectIssueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DMF_FundCollectionDetails" FunctionName="dfm_dbModel.Store.DMF_FundCollectionDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dfm_dbModel.DMF_FundCollectionDetails_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TotalFundCollection" ColumnName="TotalFundCollection" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DMF_SanctionFundDetails" FunctionName="dfm_dbModel.Store.DMF_SanctionFundDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dfm_dbModel.DMF_SanctionFundDetails_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TotalFundCollection" ColumnName="TotalFundCollection" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="SanctionedProjectCost" ColumnName="SanctionedProjectCost" />
+                <ScalarProperty Name="ReleasedAmount" ColumnName="ReleasedAmount" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getEmployeeList" FunctionName="dfm_dbModel.Store.getEmployeeList" />
+          <FunctionImportMapping FunctionImportName="sp_DetailsOnDashBoard" FunctionName="dfm_dbModel.Store.sp_DetailsOnDashBoard">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dfm_dbModel.sp_DetailsOnDashBoard_Result">
+                <ScalarProperty Name="Total_DMFCollection" ColumnName="Total_DMFCollection" />
+                <ScalarProperty Name="SanctionAmount" ColumnName="SanctionAmount" />
+                <ScalarProperty Name="ReleasedAmount" ColumnName="ReleasedAmount" />
+                <ScalarProperty Name="Expenditure" ColumnName="Expenditure" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_DistrictwiseProjectReport" FunctionName="dfm_dbModel.Store.sp_DistrictwiseProjectReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dfm_dbModel.sp_DistrictwiseProjectReport_Result">
+                <ScalarProperty Name="DistID" ColumnName="DistID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="Total_Project" ColumnName="Total_Project" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_getProgressPercentage" FunctionName="dfm_dbModel.Store.sp_getProgressPercentage" />
+          <FunctionImportMapping FunctionImportName="sp_GetProjectProposalPreprationList" FunctionName="dfm_dbModel.Store.sp_GetProjectProposalPreprationList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dfm_dbModel.sp_GetProjectProposalPreprationList_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="GSTAndOthers" ColumnName="GSTAndOthers" />
+                <ScalarProperty Name="ProjectCost" ColumnName="ProjectCost" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectStatus" ColumnName="ProjectStatus" />
+                <ScalarProperty Name="ProjectPreparationID" ColumnName="ProjectPreparationID" />
+                <ScalarProperty Name="ProposalCopy" ColumnName="ProposalCopy" />
+                <ScalarProperty Name="ProposalDate" ColumnName="ProposalDate" />
+                <ScalarProperty Name="ProposedBy" ColumnName="ProposedBy" />
+                <ScalarProperty Name="ProsposalNo" ColumnName="ProsposalNo" />
+                <ScalarProperty Name="SectorName" ColumnName="SectorName" />
+                <ScalarProperty Name="SanctionedProjectCost" ColumnName="SanctionedProjectCost" />
+                <ScalarProperty Name="TenderDate" ColumnName="TenderDate" />
+                <ScalarProperty Name="TenderNo" ColumnName="TenderNo" />
+                <ScalarProperty Name="WorkOrderDate" ColumnName="WorkOrderDate" />
+                <ScalarProperty Name="WorkOrderNo" ColumnName="WorkOrderNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_WorkStatus" FunctionName="dfm_dbModel.Store.sp_WorkStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dfm_dbModel.sp_WorkStatus_Result">
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="SanctionedProjectCost" ColumnName="SanctionedProjectCost" />
+                <ScalarProperty Name="ReleaseAmount" ColumnName="ReleaseAmount" />
+                <ScalarProperty Name="AmountSpend" ColumnName="AmountSpend" />
+                <ScalarProperty Name="Total_Project" ColumnName="Total_Project" />
+                <ScalarProperty Name="CompletedProject" ColumnName="CompletedProject" />
+                <ScalarProperty Name="InProgressProject" ColumnName="InProgressProject" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

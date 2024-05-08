@@ -1,0 +1,262 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_ProjectAssessment
+
+@{
+    ViewBag.Title = "CreateProjectAssesment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+}
+<div class="card-header">
+        @if (String.IsNullOrEmpty(Model.AssesmentId))
+        {
+            <h4 class="card-title">Create Assessment</h4>
+        }
+        else
+        {
+    <h4 class="card-title">Update Assessment</h4>
+        }
+    </div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @role = "form", enctype = "multipart/form-data", @id = "Assementform" }))
+        {
+
+            <div class="row">
+                @Html.HiddenFor(x => x.AssesmentId)
+                @Html.HiddenFor(x => x.DistrictId)
+                @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong> Project Name<sup><code>*</code></sup></strong>
+                        @if (!String.IsNullOrEmpty(Model.ProjectNo))
+                        {
+                            @Html.HiddenFor(x => x.ProjectNo, new { @id = "ProjectNo" })
+                            @Html.DropDownListFor(x => x.ProjectPreparationID, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @disabled = "disabled" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                        }
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong> Setor Type<sup><code>*</code></sup></strong>
+                        @Html.HiddenFor(x => x.SectorTypeId, new { @id = "SectorTypeId" })
+                        @Html.DropDownListFor(x => x.SectorTypeId, ViewBag.SectorType as SelectList, "-Select SectorType-", new { @class = "form-control form-control-sm", @autocomplete = "off", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong> Setor name<sup><code>*</code></sup></strong>
+                        @Html.HiddenFor(x => x.SectorID, new { @id = "SectorId" })
+                        @Html.DropDownList("SectorNameId", ViewBag.SectorId as SelectList, "-Select Sector-", new { @class = "form-control form-control-sm", @autocomplete = "off", @disabled = "disabled" })
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>Feed Back<sup><code>*</code></sup></strong>
+                        @Html.TextAreaFor(x => x.feedBack, new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                        <span id="errortext" style="color:red"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>NoOfBeneficiaries<sup><code>*</code></sup></strong>
+                        @Html.TextBoxFor(x => x.NoOfBeneficiaries, new { @class = "form-control form-control-sm ", @autocomplete = "off" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-label">
+                        <strong>
+                            Photo<sup><code>*</code></sup>
+                            @if (!String.IsNullOrEmpty(Model.Photos))
+                            {
+                                <a href="@Model.Photos" target="_blank">View Doc</a>
+                                <input type="hidden" id="Photos" name="Photos" />
+                            }
+                        </strong>
+
+                        @Html.TextBoxFor(x => x.Photos, new { @class = "form-control form-control-sm file-upload", @autocomplete = "off", @type = "file", @refid = "Photos" })
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-label">
+                        <strong>&nbsp;</strong>
+                        @if (String.IsNullOrEmpty(Model.AssesmentId))
+                        {
+
+                            <input type="button" value="Save" class="btn btn-primary" onclick="SaveAssessment()" id="btnsave" />
+                        }
+                        else
+                        {
+                            <input type="button" value="Update" class="btn btn-primary" onclick="UpdateAssessment()" id="btnupdate" />
+
+                        }
+                        @*<input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.UtilizationID)?"Save":"Update")" class="btn btn-primary" />*@
+                    </div>
+                </div>
+            </div>
+
+
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                <h6 class="float-start">Project Details</h6>
+                <table class="table table-bordered table-striped">
+                  <thead style="background: #083853;color:white ">
+                      <tr>
+                          <th>Project Name</th>
+                          <th>Project Description</th>
+                      </tr>
+                  </thead>
+                    <tbody>
+                        @if (ViewBag.projectData != null)
+                        {
+                            var data = ViewBag.projectData;
+                <tr>
+                    <td>@data.ProjectName</td>
+                    <td>@data.ProjectDescription</td>
+                </tr>
+                               }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+@section scripts{
+    <script>
+        function SaveAssessment() {
+            debugger
+            var frmdata = new FormData($('#Assementform')[0]);
+            var Photos = $("#Photos").val();
+            var NoOfBeneficiaries = $("#NoOfBeneficiaries").val();
+            var feedBack = $("#feedBack").val();
+
+            if (feedBack == "") {
+                swal("Warning", "Please Write feedBack", "warning");
+                return;
+
+            }
+
+            if (NoOfBeneficiaries == "") {
+                swal("Warning", "Please Fill No Of Beneficiaries", "warning");
+                return;
+            }
+            $.ajax({
+                url: "/ProjectIssueAndFeedBack/CreateProjectAssesment",
+                type: "POST",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: frmdata,
+                success: function (data) {
+                    if (data == "1") {
+
+                        swal({
+                            title: 'Success !',
+                            text: "Assessment Save Successfully !!",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/ProjectAssesment";
+                        });
+                    }
+                    else {
+
+                        swal({
+                            title: 'Warning !',
+                            text: "Assessment for this project is already exist !!",
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/ProjectAssesment";
+                        });
+                    }
+
+                },
+                error: function (data) {
+                    swal("Error", data, "error");
+
+
+                }
+            })
+        }
+    </script>
+    <script>
+        function UpdateAssessment() {
+            debugger
+            var frmdata = new FormData($('#Assementform')[0]);
+            var Photos = $("#Photos").val();
+            var NoOfBeneficiaries = $("#NoOfBeneficiaries").val();
+            var feedBack = $("#feedBack").val();
+
+            if (feedBack == "") {
+                swal("Warning", "Please Write feedBack", "warning");
+                return;
+
+            }
+
+            if (NoOfBeneficiaries == "") {
+                swal("Warning", "Please Fill No Of Beneficiaries", "warning");
+                return;
+            }
+            $.ajax({
+                url: "/ProjectIssueAndFeedBack/UpdateProjectAssessment",
+                type: "POST",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: frmdata,
+                success: function (data) {
+                    if (data == "1") {
+
+                        swal({
+                            title: 'Success !',
+                            text: "Assessment Save Successfully !!",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/ProjectAssesmentList";
+                        });
+                    }
+                    else {
+
+                        swal({
+                            title: 'Warning !',
+                            text: "something went wrong please try after some times.",
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/ProjectAssesmentList";
+                        });
+                    }
+
+                },
+                error: function (data) {
+                    swal("Error", data, "error");
+
+
+                }
+            })
+        }
+    </script>
+
+
+
+}

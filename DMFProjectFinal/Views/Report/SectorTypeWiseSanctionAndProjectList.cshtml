@@ -1,0 +1,82 @@
+﻿@using DMFProjectFinal.Models
+@using DMFProjectFinal.Models.DTO
+@using DMFProjectFinal.Controllers
+@{
+    ViewBag.Title = "SectorTypeWiseSanctonAndProjectList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+    var data = ViewBag.Data;
+}
+
+<div class="row">
+    <div class="card">
+        <div class="card-header mt-10">
+
+            @{
+                var districtName = @data != null && @data[0].DistrictName != null ? @data[0].DistrictName + " - Project Status" : "N/A";
+            }
+
+            @districtName
+
+            @*@data[0].DistrictName - Project Status*@
+        </div>
+        
+        <div class="card-body">
+            
+                <a href="/Report/DistrictWiseSanctionAndProjectList" style="text-align:left;width:20px;margin-bottom:10px;font-size:30px" class="float-start"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+          
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped" id="datatableproject">
+                    <thead style="background-color: #083853;color:white">
+                        <tr>
+                            <th>S.NO</th>
+                            <th>Sector Type</th>
+                            <th>Sanctioned Amount</th>
+                            <th>Expenditure Amount </th>
+                            <th>Total Projects</th>
+                            <th>Completed Projects</th>
+                            <th>InProgress</th>
+                        </tr>
+                    </thead>
+                    @if (ViewBag.Data != null)
+                    {
+                        <tbody>
+                            @foreach (DTO_SanctionCostAndProjectDetails item in ViewBag.Data)
+                            {
+                                j++;
+                                <tr>
+                                    <td>@j</td>
+                                    <td><a style="color:blue" href="/Report/SectorWiseSanctionAndProjectList?DistrictId=@item.DistrictId&&SectorTypeId=@item.SectorTypeId">@item.SectorType</a></td>
+                                    <td>@item.SanctionedProjectCost</td>
+                                    <td>@item.AmountSpend</td>
+                                    <td>@item.Total_Project</td>
+                                    <td>@item.CompletedProject</td>
+                                    <td>@item.InProgressProject</td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" style="text-align:center">No data Found</td>
+                        </tr>
+                    }
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatableproject').DataTable({
+                lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            });
+        });
+    </script>
+}
