@@ -1422,7 +1422,7 @@ namespace DMFProjectFinal.Controllers
         }
         #endregion
 
-        #region MineralName ---changes by Ramdhan 02.04.2024
+        #region MineralName ---changes by Ramdhyan 02.04.2024
         public ActionResult MineralNameMaster()
         {
             //var data = (from mm in db.MineralNameMasters
@@ -2259,7 +2259,6 @@ namespace DMFProjectFinal.Controllers
         }
 
         [HttpPost]
-
         public JsonResult CreateCommitteeDesignation(DTO_CommitteeDesignation model)
         {
             JsonResponse JR = new JsonResponse();

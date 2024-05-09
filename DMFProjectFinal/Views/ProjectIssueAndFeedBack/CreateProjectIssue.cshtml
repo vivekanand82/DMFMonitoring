@@ -1,0 +1,271 @@
+﻿@using DMFProjectFinal.Controllers
+@using DMFProjectFinal.Models
+@model DMFProjectFinal.Models.DTO.DTO_ProjectIssueDetail
+
+@{
+    ViewBag.Title = "CreateProjectAssesment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var AM = ViewBag.GetAccess as AccessManager;
+    int j = 0;
+    dfm_dbEntities db = new dfm_dbEntities();
+}
+<div class="card-header">
+    @if (String.IsNullOrEmpty(Model.ProjectIssueId))
+    {
+        <h4 class="card-title">Change Project Issue</h4>
+    }
+    else
+    {
+<h4 class="card-title">Update Project Issue</h4>
+    }
+</div>
+<div id="divform">
+    <div class="card-body">
+        @using (Html.BeginForm("", "", new { }, FormMethod.Post, new { @role = "form", enctype = "multipart/form-data", @id = "ProjectIssueform" }))
+        {
+
+        <div class="row">
+            @Html.HiddenFor(x => x.ProjectIssueId)
+            @Html.HiddenFor(x => x.DistrictId)
+            @Html.HiddenFor(x => x.ProjectPreparationID, new { @id = "ProjectPreparationID" })
+
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong> Project Name<sup><code>*</code></sup></strong>
+                    @if (!String.IsNullOrEmpty(Model.ProjectNo))
+                    {
+                        @Html.HiddenFor(x => x.ProjectNo, new { @id = "ProjectNo" })
+                        @Html.DropDownListFor(x => x.ProjectPreparationID, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off", @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(x => x.ProjectNo, ViewBag.ProjectID as SelectList, "-Select Project-", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+
+                    }
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong> Setor Type<sup><code>*</code></sup></strong>
+                    @Html.HiddenFor(x => x.SectorTypeId, new { @id = "SectorTypeId" })
+                    @Html.DropDownListFor(x => x.SectorTypeId, ViewBag.SectorType as SelectList, "-Select SectorType-", new { @class = "form-control form-control-sm", @autocomplete = "off", @disabled = "disabled" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong> Setor name<sup><code>*</code></sup></strong>
+                    @Html.HiddenFor(x => x.SectorID, new { @id = "SectorId" })
+                    @Html.DropDownList("SectorNameId", ViewBag.SectorId as SelectList, "-Select Sector-", new { @class = "form-control form-control-sm", @autocomplete = "off", @disabled = "disabled" })
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Issue Category<sup><code>*</code></sup></strong>
+                    @Html.DropDownListFor(x => x.IssueCategory,new List<SelectListItem> {
+               new SelectListItem{ Text="NOC",Value="NOC"},
+                new SelectListItem{ Text="Fund Related",Value="Fund Related"},
+                new SelectListItem{ Text="Power Connections",Value="Power Connections"},
+                new SelectListItem{ Text="Agency Related",Value="Agency Related"},
+                new SelectListItem{ Text="Land Related Issue",Value="Land Related Issue"},
+                new SelectListItem{ Text="Others Issue",Value="Others Issue"},
+                new SelectListItem{ Text="Public Dispute",Value="Public Dispute"},
+               },"Select", new { @class = "form-control form-control-sm", @autocomplete = "off" })
+                    @*@Html.TextAreaFor(x => x.IssueCategory, new { @class = "form-control form-control-sm", @autocomplete = "off" })*@
+                    <span id="errortext" style="color:red"></span>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Issue Date<sup><code>*</code></sup></strong>
+                    @Html.TextBoxFor(x => x.IssueDate, "{0:dd/MM/yyyy}", new { @class = "form-control form-control-sm ui-date", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-label">
+                    <strong>Reason<sup><code>*</code></sup></strong>
+                    @Html.TextAreaFor(x => x.Reason, new { @class = "form-control form-control-sm ", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-label">
+                    <strong>&nbsp;</strong>
+                    @if (String.IsNullOrEmpty(Model.ProjectIssueId))
+                    {
+
+                        <input type="button" value="Save" class="btn btn-primary" onclick="SaveProjectIssue()" id="btnsave" />
+                    }
+                    else
+                    {
+                        <input type="button" value="Update" class="btn btn-primary" onclick="UpdateProjectIssue()" id="btnupdate" />
+
+                    }
+                    @*<input type="submit" id="btnSubmit" value="@(String.IsNullOrEmpty(Model.UtilizationID)?"Save":"Update")" class="btn btn-primary" />*@
+                </div>
+            </div>
+        </div>
+
+
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                <h6 class="float-start">Project Details</h6>
+                <table class="table table-bordered table-striped">
+                    <thead style="background: #083853;color:white ">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Project Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.projectData != null)
+                        {
+                            var data = ViewBag.projectData;
+                            <tr>
+                                <td>@data.ProjectName</td>
+                                <td>@data.ProjectDescription</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        function SaveProjectIssue() {
+            debugger
+            var frmdata = new FormData($('#ProjectIssueform')[0]);
+            var IssueCategory = $("#IssueCategory").val();
+            var Reason = $("#Reason").val();
+            var IssueDate = $("#IssueDate").val();
+
+            if (IssueCategory == "") {
+                swal("Warning", "Please Select Category", "warning");
+                return;
+
+            }
+
+            if (Reason == "") {
+                swal("Warning", "Please Fill Reason", "warning");
+                return;
+            }
+            if (IssueDate == "") {
+                swal("Warning", "Please Select Issue Date", "warning");
+                return;
+            }
+            $.ajax({
+                url: "/ProjectIssueAndFeedBack/CreateProjectIssue",
+                type: "POST",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: frmdata,
+                success: function (data) {
+                    if (data == "1") {
+
+                        swal({
+                            title: 'Success !',
+                            text: "Issue Updated Successfully !!",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/UpdatedProjectIssueList";
+                        });
+                    }
+                    else {
+
+                        swal({
+                            title: 'Warning !',
+                            text: "Project Issue for this project is already exist !!",
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/UpdatedProjectIssueList";
+                        });
+                    }
+
+                },
+                error: function (data) {
+                    swal("Error", data, "error");
+
+
+                }
+            })
+        }
+    </script>
+    <script>
+        function UpdateProjectIssue() {
+            debugger
+            var frmdata = new FormData($('#ProjectIssueform')[0]);
+            var IssueCategory = $("#IssueCategory").val();
+            var Reason = $("#Reason").val();
+            var IssueDate = $("#IssueDate").val();
+
+            if (IssueCategory == "") {
+                swal("Warning", "Please Select Category", "warning");
+                return;
+
+            }
+
+            if (Reason == "") {
+                swal("Warning", "Please Fill Reason", "warning");
+                return;
+            }
+            if (IssueDate == "") {
+                swal("Warning", "Please Select Issue Date", "warning");
+                return;
+            }
+            $.ajax({
+                url: "/ProjectIssueAndFeedBack/UpdateProjectIssue",
+                type: "POST",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                data: frmdata,
+                success: function (data) {
+                    if (data == "1") {
+
+                        swal({
+                            title: 'Success !',
+                            text: "Project Issue Updated Successfully !!",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/UpdatedProjectIssueList";
+                        });
+                    }
+                    else {
+
+                        swal({
+                            title: 'Warning !',
+                            text: "something went wrong please try after some times.",
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        }).then(function () {
+                            window.location.href = "/ProjectIssueAndFeedBack/UpdatedProjectIssueList";
+                        });
+                    }
+
+                },
+                error: function (data) {
+                    swal("Error", data, "error");
+
+
+                }
+            })
+        }
+    </script>
+
+
+
+}

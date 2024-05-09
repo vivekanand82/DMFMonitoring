@@ -173,17 +173,17 @@
 
 
 <div class="card-header">
-    <h4 class="card-title">Project Proposal Prepration</h4>
+    <h4 class="card-title">Project Proposal Prepration List</h4>
 </div>
 <div id="divform">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-6 text-left mb-1">
+            @*<div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
             <div class="col-md-6 text-right mb-1">
 
-            </div>
+            </div>*@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
@@ -191,9 +191,9 @@
                         <div class="table-responsive mt-20">
                             @if (ViewBag.LstData != null)
                             {
-                                <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                    <thead class="table-dark">
-                                        <tr class="text-dark">
+                                <table class="table center-aligned-table table-striped table-bordered" id="tblData" style="width:100%">
+                                    <thead >
+                                        <tr >
                                             <th>क्र०सं०</th>
                                             <th>Project No</th>
                                             <th>District</th>
@@ -273,7 +273,7 @@
                                             {
                                                 <td><a class="badge bg-success-subtle text-danger">Pending</a></td>
                                                 <td><a onclick="GetProgram(@item.ProjectPreparationID)" class="btn btn-small btn-info "><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                                if (AM.RoleID == 2)
+                                                if (AM.RoleID == 4)
                                                 {
 
                                                     <td><a onclick="Viewmeeting(@item.ProjectPreparationID)" class="btn btn-small btn-info ">Forward To Governing Council</a></td>

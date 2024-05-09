@@ -44,21 +44,22 @@
             </div>
             <div class="modal-body">
                 <div class="col-xxl-12">
-                <h6>Management Commetee Meeting  Details :-</h6>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Metting No</th>
-                            <th>Meeting Date</th>
-                            <th>Minutes of Meeting</th>
-                            <th>Minutes of Meeting Copy</th>
-                            <th>Attendance copy</th>
-                            <th>Approval Letter copy</th>
-                            <th>Members Name</th>
-                            <th>Project Status</th>
-                            <th>Approved Date</th>
-                            <th>Remarks</th>
-
-                        </tr>
+                <h6>Management Commetee Meeting Details :-</h6>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Metting No</th>
+                                <th>Meeting Date</th>
+                                <th>Minutes of Meeting</th>
+                                <th>Minutes of Meeting Copy</th>
+                                <th>Attendance copy</th>
+                                <th>Approval Letter copy</th>
+                                <th>Members Name</th>
+                                <th>Project Status</th>
+                                <th>Approved Date</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
                         <tbody id="meetinginfo"></tbody>
                     </table>
                 </div>
@@ -349,11 +350,11 @@
 <!--modal end for proposal details-->
 
 <div class="card-header">
-    <h4 class="card-title">Project Proposal Prepration</h4>
+    <h4 class="card-title">Project Proposal Prepration List</h4>
 </div>
 <div id="divform">
     <div class="card-body">
-        <div class="row">
+        @*<div class="row">
             <div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
             </div>
@@ -362,7 +363,7 @@
                 {
                     <a class="btn btn-primary btn-round" href="@Url.Action("CreateProjectProposalPrepration", "ProjectWorkApproval")" id="addMonthlyRevenueReceive">Create<i class="fa fa-plus-circle"></i></a>
                 }
-            </div>
+            </div>*@
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
                     <div class="card-body">
@@ -439,18 +440,18 @@
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.LstData != null)
                                 {
-                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
+                                    <table class="table center-aligned-table table-striped table-bordered"  id="tblData" style="width:100%">
+                                        <thead >
+                                            <tr >
                                                 <th>क्र०सं०</th>
                                                 <th>District</th>
                                                 <th>Project Name</th>
                                                 <th>Sector Name</th>
                                                 <th>Sector Type</th>
-                                                <th>Prosposal No</th>
-                                                <th>Tender No</th>
+                                                @*<th>Prosposal No</th>
+                                                <th>Tender No</th>*@
                                                 <th>Tender Date</th>
-                                                <th>Work Order No</th>
+                                                @*<th>Work Order No</th>*@
                                                 <th>Work Order Date</th>
                                                 <th>Running  Status</th>
                                                 <th>Final Status</th>
@@ -473,10 +474,10 @@
                                                     <td>@item.ProjectName</td>
                                                     <td>@item.SectorName</td>
                                                     <td>@item.SectorType</td>
-                                                    <td>@item.ProsposalNo</td>
-                                                    <td>@item.TenderNo</td>
+                                                    @*<td>@item.ProsposalNo</td>
+                                                    <td>@item.TenderNo</td>*@
                                                     <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
-                                                    <td>@item.WorkOrderNo</td>
+                                                    @*<td>@item.WorkOrderNo</td>*@
                                                     <td>@BusinessLogics.GetJSDateStr(item.WorkOrderDate)</td>
                                                     @if (item.RunningStatus == null)
                                                     {

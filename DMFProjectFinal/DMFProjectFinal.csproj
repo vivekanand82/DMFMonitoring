@@ -736,6 +736,9 @@
     <Content Include="Views\ProjectIssueAndFeedBack\ProjectAssesment.cshtml" />
     <Content Include="Views\ProjectIssueAndFeedBack\CreateProjectAssesment.cshtml" />
     <Content Include="Views\ProjectIssueAndFeedBack\ProjectAssesmentList.cshtml" />
+    <Content Include="Views\ProjectIssueAndFeedBack\StuckedProjectList.cshtml" />
+    <Content Include="Views\ProjectIssueAndFeedBack\CreateProjectIssue.cshtml" />
+    <Content Include="Views\ProjectIssueAndFeedBack\UpdatedProjectIssueList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

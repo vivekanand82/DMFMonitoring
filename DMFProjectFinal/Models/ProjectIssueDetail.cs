@@ -27,5 +27,6 @@ namespace DMFProjectFinal.Models
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<bool> IsActive { get; set; }
+        public string IssueCategory { get; set; }
     }
 }

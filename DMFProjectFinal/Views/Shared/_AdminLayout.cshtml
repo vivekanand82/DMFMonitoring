@@ -114,7 +114,7 @@
                                 </li>
                             }
                             <li class="mega-menu-item login-right">
-                                <a href="#" class="mega-menu-link">@(LoginUser) @('('+RoleName+')')<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
+                                <a href="#" class="mega-menu-link">@(LoginUser) @('['+RoleName+']')<i class="fa fa-angle-down" aria-hidden="true" style="margin-left:5px"></i></a>
                                 <ul class="mega-submenu login-submenu">
                                     <li><a href="/Admin/ChangePassword"> Change Password</a></li>
                                     <li><a href="/Account/Logout"> Logout </a></li>
@@ -143,19 +143,25 @@
                 <div class="row cpy-text">
                     <div class="col-lg-6">
                         <span>
+                            @*CopyRight © 2023 - DMF Project*@
                             कॉपीराइट © 2023 - DMF Project
                         </span>
                     </div>
                     <div class="col-lg-6">
                         <span class="poweredby">
 
+
                             यह वेबसाइट: <a href="https://www.margsoft.com/" target="_blank">
-                                मार्गसॉफ्ट टेक्नोलॉजीज (पी) लिमिटेड
+            मार्गसॉफ्ट टेक्नोलॉजीज (पी) लिमिटेड
 
 
 
-                            </a>द्वारा डिजाइन व डेवलप की गई।
-                        </span>
+        </a>द्वारा डिजाइन व डेवलप की गई।
+                            @*<a href="https://www.margsoft.com/" target="_blank">
+                                This website is designed and developed by: Margsoft Technologies (P) Limited.
+                            </a>*@
+                               
+</span>
                     </div>
                 </div>
             </div>

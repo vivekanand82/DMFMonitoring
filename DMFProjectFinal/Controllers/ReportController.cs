@@ -30,7 +30,7 @@ namespace DMFProjectFinal.Controllers
                 model.DistrictId =DistID;
             }
             List<DTO_FundCollectionReport> lst = new List<DTO_FundCollectionReport>();
-            DataSet ds = CollectionDB.GetTotalFundCollection(model);
+            DataSet ds = CollectionDB.GetTotalFundCollection(DistID);
             if (ds != null && ds.Tables[0].Rows.Count > 0 && ds.Tables.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)

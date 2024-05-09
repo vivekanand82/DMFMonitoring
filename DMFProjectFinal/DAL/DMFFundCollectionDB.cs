@@ -11,12 +11,12 @@ namespace DMFProjectFinal.DAL
 {
     public class DMFFundCollectionDB
     {
-        internal DataSet GetTotalFundCollection(DTO_FundCollectionReport model)
+        internal DataSet GetTotalFundCollection(int? DistID)
         {
             SqlParameter[] para =
             {
                 new SqlParameter("@Action","GETALLCOLLECTION"),
-                new SqlParameter("@DistrictId",model.DistrictId),
+                new SqlParameter("@DistrictId",DistID),
             };
             DataSet ds = DBHelper.ExecuteQuery("dbo.DMF_FundCollectionDetails", para);
             return ds;

@@ -203,9 +203,9 @@
                 </div>
             </div>
 
-            <div class="col-md-6 text-left mb-1">
+            @*<div class="col-md-6 text-left mb-1">
                 <a href="#" class="btn btn-primary btn-round" onclick="ExportToExcel('xlsx')"><i class="fas fa-file-export"></i>Export To Excel</a>
-            </div>
+            </div>*@
 
             <div class="col-md-12 mb-30">
                 <div class="card card-statistics h-100">
@@ -214,19 +214,19 @@
                         <div class="table-responsive mt-20">
                             @if (ViewBag.LstData != null)
                             {
-                                <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                    <thead class="table-dark">
-                                        <tr class="text-dark">
+                                <table class="table center-aligned-table table-bordered table-striped" id="tblData" style="width:100%">
+                                    <thead>
+                                        <tr>
                                             <th>क्र०सं०</th>
                                             <th>Project No</th>
                                             <th>District</th>
                                             <th>Project Name</th>
                                             <th>Sector Type</th>
                                             <th>Sector Name</th>
-                                            <th>Prosposal No</th>
-                                            <th>Proposal Date</th>
+                                            @*<th>Prosposal No</th>
+                                            <th>Proposal Date</th>*@
                                             <th>Proposal Copy</th>
-                                            <th>Proposed By</th>
+                                            @*<th>Proposed By</th>*@
                                             @*<th>Tender No</th>
                                             <th>Tender Date</th>
                                             <th>Work Order No</th>
@@ -260,8 +260,8 @@
                                             <td>@item.ProjectName</td>
                                             <td>@item.SectorType</td>
                                             <td>@item.SectorName</td>
-                                            <td>@item.ProsposalNo</td>
-                                            <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>
+                                            @*<td>@item.ProsposalNo</td>
+                                            <td>@(BusinessLogics.GetJSDateStr(item.ProposalDate))</td>*@
                                             @if (String.IsNullOrEmpty(item.ProposalCopy))
                                             {
                                                 <td></td>
@@ -270,7 +270,7 @@
                                             {
                                                 <td><a href="@item.ProposalCopy" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a></td>
                                             }
-                                            <td>@item.ProposedBy</td>
+                                            @*<td>@item.ProposedBy</td>*@
                                             @*<td>@item.TenderNo</td>
         <td>@BusinessLogics.GetJSDateStr(item.TenderDate)</td>
         <td>@item.WorkOrderNo</td>

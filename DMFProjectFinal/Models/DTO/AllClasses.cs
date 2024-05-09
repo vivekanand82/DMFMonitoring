@@ -1040,4 +1040,28 @@ namespace DMFProjectFinal.Models.DTO
         public string ModifiedBy { get; set; }
         public Nullable<bool> IsActive { get; set; }
     }
+    public partial class DTO_ProjectIssueDetail
+    {
+        public string ProjectIssueId { get; set; }
+        public Nullable<int> DistrictId { get; set; }
+        public Nullable<int> SectorTypeId { get; set; }
+        public Nullable<int> SectorID { get; set; }
+        public Nullable<int> Stageid { get; set; }
+        public Nullable<int> ProjectPreparationID { get; set; }
+        public string ProjectNo { get; set; }
+        public string DistrictName { get; set; }
+        public string SectorType { get; set; }
+        public string SectorName { get; set; }
+        public string ProjectName { get; set; }
+        public string IssueCategory { get; set; }
+        public string Reason { get; set; }
+        [DataType(DataType.Date)]
+        public Nullable<System.DateTime> IssueDate { get; set; }
+        public DateTime ProjectCompletionDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+    }
 }

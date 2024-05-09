@@ -422,6 +422,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="IssueCategory" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="ProjectMaster">
           <Key>
@@ -1610,7 +1611,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
             <Parameter Name="ProjectPreparationID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_getProgressPercentage" ReturnType="Collection(Int32)">
-            <Parameter Name="ProjectPreparationID" Mode="In" Type="String" />
+          <Parameter Name="ProjectPreparationID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetProjectProposalPreprationList" ReturnType="Collection(dfm_dbModel.sp_GetProjectProposalPreprationList_Result)">
             <Parameter Name="DistID" Mode="In" Type="Int32" />
@@ -1966,6 +1967,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IssueCategory" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="DMF_FundCollectionDetails_Result">
           <Property Type="Int32" Name="Code" Nullable="false" />
@@ -2720,6 +2722,7 @@ warning 6002: The table/view 'dfm_db.dbo.MonthMaster' does not have a primary ke
           <EntitySetMapping Name="ProjectIssueDetails">
             <EntityTypeMapping TypeName="dfm_dbModel.ProjectIssueDetail">
               <MappingFragment StoreEntitySet="ProjectIssueDetail">
+                <ScalarProperty Name="IssueCategory" ColumnName="IssueCategory" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
