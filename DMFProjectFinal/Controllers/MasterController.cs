@@ -1041,6 +1041,7 @@ namespace DMFProjectFinal.Controllers
                            {
                                DistName=dst.DistrictName,
                                ProjectCode=pm.ProjectCode,
+                               ProjectNo = pm.ProjectNo,
                                ProjectDescription=pm.ProjectDescription,
                                ProjectName=pm.ProjectName,
                                ProjectID=pm.ProjectID.ToString(),

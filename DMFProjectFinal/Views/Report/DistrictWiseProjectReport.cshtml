@@ -201,9 +201,9 @@
                     </tr>
                     <tr class="col-sm-4">
                         <th>Running Status</th>
-                        <td id="RunningStatus"></td>
+                        <td id="RunningStatus" style="color:green;font-weight:bold"></td>
                         <th>Final Status</th>
-                        <td id="FinalStatus"></td>
+                        <td id="FinalStatus" style="color:red;font-weight:bold"></td>
                         <th>Project Start Date</th>
                         <td id="ProjectStartDate"></td>
 
@@ -240,7 +240,7 @@
                         <th>Approval letter</th>
                         <td id="Approvelletterfile"></td>
                         <th>Status</th>
-                        <td id="Status"></td>
+                        <td id="Status" style="color:green;font-weight:bold"></td>
                         <th>Member list</th>
                         <td id="Memberlist"></td>
                         <th>Remark</th>
@@ -273,7 +273,7 @@
                         <th>Approval letter</th>
                         <td id="Approvelletterfilee"></td>
                         <th>Status</th>
-                        <td id="Status1"></td>
+                        <td id="Status1" style="color:green;font-weight:bold"></td>
                         <th>Member list</th>
                         <td id="Memberlist1"></td>
                         <th>Remark</th>
@@ -292,8 +292,8 @@
                         <th>Milestone(%)</th>
                         <th>Fund Released</th>
                         <th>PhProgress</th>
+                        <th>Utilization</th>
                         <th>Inspection</th>
-                        <th>PhProgress</th>
                     </tr>
                     <tbody id="tbodyMilestone"></tbody>
                 </table>
@@ -705,159 +705,198 @@
                                 }
                             }
                             var Fund = "";
-                            for (var i = 0; i < data[0].Funds.length; i++) {
-                                if ($.trim(data[0].Funds[0].InstallmentName != "")) {
-                                    var RelaeseDate = new Date(parseInt(data[0].Funds[i].RelaeseDate.substr(6)));
-                                    Fund += "<tr>";
-                                    Fund += "<td>" + data[0].Funds[i].InstallmentName + "</td>";
-                                    Fund += "<td>" + data[0].Funds[i].ReleaseAmount + "</td>";
-                                    Fund += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
-                                    Fund += "<td><a href=" + data[0].Funds[i].FundReleaseCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-                                    if (data[0].Funds[i].IsPhProgressDone == true) {
+                            if (data[0].Funds.length > 0) {
+                                for (var i = 0; i < data[0].Funds.length; i++) {
+                                    if ($.trim(data[0].Funds[0].InstallmentName != "")) {
+                                        var RelaeseDate = new Date(parseInt(data[0].Funds[i].RelaeseDate.substr(6)));
+                                        Fund += "<tr>";
+                                        Fund += "<td>" + data[0].Funds[i].InstallmentName + "</td>";
+                                        Fund += "<td>" + data[0].Funds[i].ReleaseAmount + "</td>";
+                                        Fund += "<td>" + RelaeseDate.toLocaleDateString("es-CL") + "</td>";
+                                        Fund += "<td><a href=" + data[0].Funds[i].FundReleaseCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                        if (data[0].Funds[i].IsPhProgressDone == true) {
 
-                                        Fund += "<td>YES</td>";
+                                            Fund += "<td>YES</td>";
+                                        }
+                                        else {
+                                            Fund += "<td>NO</td>";
+
+                                        }
+                                        if (data[0].Funds[i].IsUtilizationUploaded == true) {
+
+                                            Fund += "<td>YES</td>";
+                                        }
+                                        else {
+                                            Fund += "<td>NO</td>";
+
+                                        }
+                                        if (data[0].Funds[i].IsInspectionDone == true) {
+
+                                            Fund += "<td>YES</td>";
+                                        }
+                                        else {
+                                            Fund += "<td>NO</td>";
+
+
+                                        }
+                                        Fund += "</tr>";
+                                        $("#tblFund").show();
+                                        $("#tbodyFund").html(Fund);
+
                                     }
                                     else {
-                                        Fund += "<td>NO</td>";
+
+                                        $("#tblFund").hide();
+                                        $("#tbodyFund").html('');
 
                                     }
-                                    if (data[0].Funds[i].IsUtilizationUploaded == true) {
-
-                                        Fund += "<td>YES</td>";
-                                    }
-                                    else {
-                                        Fund += "<td>NO</td>";
-
-                                    }
-                                    if (data[0].Funds[i].IsInspectionDone == true) {
-
-                                        Fund += "<td>YES</td>";
-                                    }
-                                    else {
-                                        Fund += "<td>NO</td>";
-
-
-                                    }
-                                    Fund += "</tr>";
-                                    $("#tblFund").show();
-                                    $("#tbodyFund").html(Fund);
-
-                                }
-                                else {
-
-                                    $("#tblFund").hide();
-                                    $("#tbodyFund").html('');
-
                                 }
                             }
+                            else {
+                                $("#tblFund").hide();
+                                $("#tbodyFund").html('');
+                            }
+                          
                             //********************** data of the Physical Progress **************** //
 
                             var progress = "";
-                            for (var i = 0; i < data[0].Progress.length; i++) {
-                                if ($.trim(data[0].Progress[0].InstallmentName != "")) {
-                                    var PhysicalProgressDate = new Date(parseInt(data[0].Progress[i].PhysicalProgressDate.substr(6)));
-                                    progress += "<tr>";
-                                    progress += "<td>" + data[0].Progress[i].InstallmentName + "</td>";
-                                    progress += "<td>" + data[0].Progress[i].AmountSpend + "</td>";
-                                    progress += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
-                                    progress += "<td>" + data[0].Progress[i].PhysicalPInPer + "</td>";
-                                    progress += "<td><a href=" + data[0].Progress[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-                                    progress += "<td><a href=" + data[0].Progress[i].PhysicalProgressImages + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            if (data[0].Progress.length > 0) {
+                                for (var i = 0; i < data[0].Progress.length; i++) {
+                                    if (data[0].Progress.length > 0) {
+                                        var PhysicalProgressDate = new Date(parseInt(data[0].Progress[i].PhysicalProgressDate.substr(6)));
+                                        progress += "<tr>";
+                                        progress += "<td>" + data[0].Progress[i].InstallmentName + "</td>";
+                                        progress += "<td>" + data[0].Progress[i].AmountSpend + "</td>";
+                                        progress += "<td>" + PhysicalProgressDate.toLocaleDateString("es-CL") + "</td>";
+                                        progress += "<td>" + data[0].Progress[i].PhysicalPInPer + "</td>";
+                                        progress += "<td><a href=" + data[0].Progress[i].PhysicalProgressCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                        progress += "<td><a href=" + data[0].Progress[i].PhysicalProgressImages + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
 
-                                    progress += "<td>" + data[0].Progress[i].ProgressStatus + "</td>";
 
-                                    if (data[0].Progress[i].IsUtilizationUploaded == true) {
+                                        if (data[0].Progress[i].IsUtilizationUploaded == true) {
 
-                                        progress += "<td>YES</td>";
+                                            progress += "<td>YES</td>";
+                                        }
+                                        else {
+                                            progress += "<td>NO</td>";
+
+                                        }
+                                        if (data[0].Progress[i].IsInspectionDone == true) {
+
+                                            progress += "<td>YES</td>";
+                                        }
+                                        else {
+                                            progress += "<td>NO</td>";
+                                        }
+                                        if (data[0].Progress[i].ProgressStatus == 1) {
+
+                                            progress += "<td style='color:Green;font-weight:bold'>InProcess</td>";
+                                        }
+                                        else if (data[0].Progress[i].ProgressStatus == 2) {
+                                            progress += "<td  style='color:Green;font-weight:bold'>Completed</td>";
+                                        }
+                                        else {
+                                            progress += "<td  style='color:red;font-weight:bold'>Stucked</td>";
+                                        }
+                                        //progress += "<td>" + data[0].Progress[i].ProgressStatus + "</td>";
+
+                                        progress += "<td>" + data[0].Progress[i].Remark + "</td>";
+                                        progress += "</tr>";
+                                        $("#tblProgress").show();
+                                        $("#tbodyProgress").html(progress);
+
                                     }
                                     else {
-                                        progress += "<td>NO</td>";
+
+                                        $("#tblProgress").hide();
+                                        $("#tbodyProgress").html('');
 
                                     }
-                                    if (data[0].Progress[i].IsInspectionDone == true) {
-
-                                        progress += "<td>YES</td>";
-                                    }
-                                    else {
-                                        progress += "<td>NO</td>";
-
-
-                                    }
-                                    progress += "<td>" + data[0].Progress[i].Remark + "</td>";
-                                    progress += "</tr>";
-                                    $("#tblProgress").show();
-                                    $("#tbodyProgress").html(progress);
-
                                 }
-                                else {
 
-                                    $("#tblProgress").hide();
-                                    $("#tbodyProgress").html(progress);
+                            }
+                            else {
+                                $("#tblProgress").hide();
+                                $("#tbodyProgress").html('');
 
-                                }
+
                             }
                             //********************** data of the UC **************** //
 
 
                             var uc = "";
-                            for (var i = 0; i < data[0].Utilizations.length; i++) {
-                                if ($.trim(data[0].Utilizations[0].InstallmentName != "")) {
-                                    var UtilizationDate = new Date(parseInt(data[0].Utilizations[i].UtilizationDate.substr(6)));
-                                    uc += "<tr>";
-                                    uc += "<td>" + data[0].Utilizations[i].InstallmentName + "</td>";
-                                    uc += "<td>" + data[0].Utilizations[i].UtilizationNo + "</td>";
-                                    uc += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
-                                    uc += "<td><a href=" + data[0].Utilizations[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            if (data[0].Utilizations.length > 0) {
+                                for (var i = 0; i < data[0].Utilizations.length; i++) {
+                                    if (data[0].Utilizations.length > 0) {
+                                        var UtilizationDate = new Date(parseInt(data[0].Utilizations[i].UtilizationDate.substr(6)));
+                                        uc += "<tr>";
+                                        uc += "<td>" + data[0].Utilizations[i].InstallmentName + "</td>";
+                                        uc += "<td>" + data[0].Utilizations[i].UtilizationNo + "</td>";
+                                        uc += "<td>" + UtilizationDate.toLocaleDateString("es-CL") + "</td>";
+                                        uc += "<td><a href=" + data[0].Utilizations[i].UtilizationCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
 
-                                    uc += "<td>" + data[0].Utilizations[i].UC_Against_ReleaseAmount + "</td>";
-                                    uc += "<td>" + data[0].Utilizations[i].Remarks + "</td>";
-                                    uc += "</tr>";
-                                    $("#tblUtilizations").show();
-                                    $("#tbodyUtilizations").html(uc);
+                                        uc += "<td>" + data[0].Utilizations[i].UC_Against_ReleaseAmount + "</td>";
+                                        uc += "<td>" + data[0].Utilizations[i].Remarks + "</td>";
+                                        uc += "</tr>";
+                                        $("#tblUtilizations").show();
+                                        $("#tbodyUtilizations").html(uc);
 
+                                    }
+                                    else {
+                                        $("#tblUtilizations").hide();
+                                        $("#tbodyUtilizations").html('');
+
+                                    }
                                 }
-                                else {
-                                    $("#tblUtilizations").hide();
-                                    $("#tbodyUtilizations").html('');
 
-                                }
+                            }
+                            else {
+                                $("#tblUtilizations").hide();
+                                $("#tbodyUtilizations").html('');
                             }
                             //********************** data of the Inspection**************** //
 
                             var inspect = "";
-                            for (var i = 0; i < data[0].Inspections.length; i++) {
-                                if ($.trim(data[0].Inspections[0].InstallmentName != "")) {
-                                    var InspectionDate = new Date(parseInt(data[0].Inspections[i].InspectionDate.substr(6)));
-                                    inspect += "<tr>";
-                                    inspect += "<td>" + data[0].Inspections[i].InstallmentName + "</td>";
-                                    inspect += "<td>" + InspectionDate.toLocaleDateString("es-CL").replace("01-01-1", " ") + "</td>";
-                                    inspect += "<td>" + data[0].Inspections[i].InspectionQuestion + "</td>";
-                                    inspect += "<td>" + data[0].Inspections[i].InspectionAnswer + "</td>";
-                                    if (data[0].Inspections[i].InspectionCopy) {
-                                        inspect += "<td><a href=" + data[0].Inspections[i].InspectionCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                            if (data[0].Inspections.length > 0) {
+                                for (var i = 0; i < data[0].Inspections.length; i++) {
+                                    if (data[0].Inspections.length > 0) {
+                                        var InspectionDate = new Date(parseInt(data[0].Inspections[i].InspectionDate.substr(6)));
+                                        inspect += "<tr>";
+                                        inspect += "<td>" + data[0].Inspections[i].InstallmentName + "</td>";
+                                        inspect += "<td>" + InspectionDate.toLocaleDateString("es-CL").replace("01-01-1", " ") + "</td>";
+                                        inspect += "<td>" + data[0].Inspections[i].InspectionQuestion + "</td>";
+                                        inspect += "<td>" + data[0].Inspections[i].InspectionAnswer + "</td>";
+                                        if (data[0].Inspections[i].InspectionCopy) {
+                                            inspect += "<td><a href=" + data[0].Inspections[i].InspectionCopy + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                        }
+                                        else {
+                                            inspect += "<td></td>";
+
+                                        }
+                                        if (data[0].Inspections[i].InspectionImage1) {
+                                            inspect += "<td><a href=" + data[0].Inspections[i].InspectionImage1 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage2 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage3 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage4 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
+                                        }
+                                        else {
+                                            inspect += "<td></td>";
+                                        }
+                                        inspect += "<td>" + data[0].Inspections[i].Remark + "</td>";
+                                        inspect += "</tr>";
+                                        $("#tblInspections").show();
+                                        $("#tbodyInspections").html(inspect);
+
                                     }
                                     else {
-                                        inspect += "<td></td>";
+
+                                        $("#tblInspections").hide();
+                                        $("#tbodyInspections").html('');
 
                                     }
-                                    if (data[0].Inspections[i].InspectionImage1) {
-                                        inspect += "<td><a href=" + data[0].Inspections[i].InspectionImage1 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage2 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage3 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a><a href=" + data[0].Inspections[i].InspectionImage4 + " target='_blank'><img src='/Documents/UsersDocs/Update_Attachment_8-2023-15-06--00-01-59.png'  height='20px' width='20px'/></a></td>";
-                                    }
-                                    else {
-                                        inspect += "<td></td>";
-                                    }
-                                    inspect += "<td>" + data[0].Inspections[i].Remark + "</td>";
-                                    inspect += "</tr>";
-                                    $("#tblInspections").show();
-                                    $("#tbodyInspections").html(inspect);
-
                                 }
-                                else {
 
-                                    $("#tblInspections").hide();
-                                    $("#tbodyInspections").html('');
-
-                                }
+                            }
+                            else {
+                                $("#tblInspections").hide();
+                                $("#tbodyInspections").html('');
                             }
                         }
                         else {

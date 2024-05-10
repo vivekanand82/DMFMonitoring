@@ -8,7 +8,7 @@
     int j = 0;
 }
 <style>
-    .table td, .table th {
+ /*   .table td, .table th {
         font-size: 14px;
         border-top-width: 0;
         border-bottom: 1px solid;
@@ -16,7 +16,7 @@
         padding: 0 4px !important;
         height: 40px;
         vertical-align: middle !important;
-    }
+    }*/
 
     label {
         display: contents !important;
@@ -49,24 +49,24 @@
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.LstData != null)
                                 {
-                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
+                                    <table class="table center-aligned-table table-bordered table-striped" id="tblData" style="width:100%">
+                                        <thead>
+                                            <tr>
                                                 <th>क्र०सं०</th>
                                                 <th>State</th>
                                                 <th>District</th>
                                                 <th>Tehsil Name</th>
                                                 <th>Village Name</th>
                                                 <th>Lessee Name</th>
-                                                <th>Areacode</th>
-                                                <th>Gata No</th>
+                                                @*<th>Areacode</th>
+                                                <th>Gata No</th>*@
                                                 <th>Lease ID</th>
-                                                <th>Email ID</th>
+                                                <th >Email ID</th>
                                                 <th>Mobile No</th>
-                                                <th>Minral</th>
-                                                <th>Total Area in Hect</th>
-                                                <th>Bid Rate</th>
-                                                <th>Lease From Date</th>
+                                                <th width="100px">Minral</th>
+                                                <th width="50px">Area in Hect</th>
+                                                @*<th>Bid Rate</th>*@
+                                                <th width="80px">Lease From Date</th>
                                                 <th>Lease To Date</th>
                                                 @if (AM.CanUpdate || AM.CanDelete)
                                                 {
@@ -85,14 +85,14 @@
                                                 <td>@item.Tehsil</td>
                                                 <td>@item.Village</td>
                                                 <td>@item.LesseeName</td>
-                                                <td>@item.Areacode</td>
-                                                <td>@item.GataNo</td>
+                                                @*<td>@item.Areacode</td>
+                                                <td>@item.GataNo</td>*@
                                                 <td>@item.LeaseID</td>
                                                 <td>@item.EmailID</td>
                                                 <td>@item.MobNo</td>
                                                 <td>@item.Minral</td>
                                                 <td>@item.TotalAreainHect</td>
-                                                <td>@item.BidRate</td>
+                                                @*<td>@item.BidRate</td>*@
                                                 <td>@(BusinessLogics.GetJSDateStr(item.LeaseFromDate))</td>
                                                 <td>@(BusinessLogics.GetJSDateStr(item.LeaseToDate))</td>
                                                 @if (AM.CanUpdate || AM.CanDelete)

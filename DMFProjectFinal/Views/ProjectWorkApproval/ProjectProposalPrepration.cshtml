@@ -8,7 +8,7 @@
     int j = 0;
 }
 <style>
-    .table td, .table th {
+ /*   .table td, .table th {
         font-size: 14px;
         border-top-width: 0;
         border-bottom: 1px solid;
@@ -16,7 +16,7 @@
         padding: 0 4px !important;
         height: 40px;
         vertical-align: middle !important;
-    }
+    }*/
 
     label {
         display: contents !important;
@@ -25,13 +25,20 @@
     .form-group label {
         white-space: break-spaces !important;
     }
-
-    @@page {
-        size: landscape;
+    .modal-dialog {
+        max-width: 100%;
     }
 
     @@media print {
-        button {
+        .modal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            padding: 0;
+            overflow: visible !important;
+        }
+        #divform {
             display: none;
         }
     }
@@ -41,7 +48,7 @@
     <div class="modal-dialog modal-xxl" style="max-width: 90%;">
         <div class="modal-content" style="width:100%;">
             <div class="modal-header">
-                <button class="btn btn-primary" onclick="return window.print()">Print</button>
+                <button id="btnprint" class="btn btn-primary" onclick="return window.print()">Print</button>
                 <h5 class="modal-title" id="myModalLabel">Proposal Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
@@ -360,7 +367,7 @@
                                                     else if (item.Stageid == 3)
                                                     {
 
-                                                        <td><a class="badge bg-success-subtle text-danger">Completed</a></td>
+                                                        <td><a class="badge bg-success-subtle text-success">Completed</a></td>
                                                     }
                                                     @if (item.Stageid == null)
                                                     {

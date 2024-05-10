@@ -7,7 +7,7 @@
     int j = 0;
 }
 <style>
-    .table td, .table th {
+  /*  .table td, .table th {
         font-size: 14px;
         border-top-width: 0;
         border-bottom: 1px solid;
@@ -15,7 +15,7 @@
         padding: 0 4px !important;
         height: 40px;
         vertical-align: middle !important;
-    }
+    }*/
 
     label {
         display: contents !important;
@@ -48,16 +48,16 @@
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.LstData != null)
                                 {
-                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
+                                    <table class="table center-aligned-table table-bordered table-striped" id="tblData" style="width:100%">
+                                        <thead>
+                                            <tr>
                                                 <th>क्र०सं०</th>
                                                 <th>District Name</th>
-                                                <th>Sector Type</th>
-                                                <th>Sector Name</th>
+                                                <th width="200px">Sector Type</th>
+                                                <th width="200px">Sector Name</th>
                                                 <th>Project Name</th>
-                                                <th>Project Code</th>
-                                                <th>Description</th>
+                                                <th>Project No</th>
+                                                <th width="300px">Description</th>
                                                 @if (AM.CanUpdate || AM.CanDelete)
                                                 {
                                                     <th>Action</th>
@@ -74,7 +74,7 @@
                                                 <td>@item.SectorType</td>
                                                 <td>@item.SectorName</td>
                                                 <td>@item.ProjectName</td>
-                                                <td>@item.ProjectCode</td>
+                                                <td>@item.ProjectNo</td>
                                                 <td>@item.ProjectDescription</td>
                                                 @if (AM.CanUpdate || AM.CanDelete)
                                                 {

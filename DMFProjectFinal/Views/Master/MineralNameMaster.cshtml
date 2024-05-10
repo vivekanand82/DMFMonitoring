@@ -8,7 +8,8 @@
 }
 
 <style>
-    .table td, .table th {
+    /*commented ruby ramdhyan*/
+   /* .table td, .table th {
         font-size: 14px;
         border-top-width: 0;
         border-bottom: 1px solid;
@@ -16,7 +17,7 @@
         padding: 0 4px !important;
         height: 40px;
         vertical-align: middle !important;
-    }
+    }*/
 
     label {
         display: contents !important;
@@ -49,9 +50,9 @@
                             <div class="table-responsive mt-20">
                                 @if (ViewBag.LstData != null)
                                 {
-                                    <table class="table center-aligned-table" id="tblData" style="width:100%">
-                                        <thead class="table-dark">
-                                            <tr class="text-dark">
+                                    <table class="table center-aligned-table  table-bordered table-striped" id="tblData" style="width:100%">
+                                        <thead>
+                                            <tr>
                                                 <th>क्र०सं०</th>
                                                 <th>Mineral Code</th>
                                                 <th>Mineral Name</th>

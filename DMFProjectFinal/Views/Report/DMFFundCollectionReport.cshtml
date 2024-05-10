@@ -12,6 +12,20 @@
     .modal-dialog {
         max-width: 95%;
     }
+    @@media print {
+        .modal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            padding: 0;
+            overflow: visible !important;
+        }
+
+        #divform {
+            display: none;
+        }
+    }
     
 </style>
 <div class="modal zoomIn" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">

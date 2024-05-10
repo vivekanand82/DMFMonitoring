@@ -148,11 +148,6 @@ namespace DMFProjectFinal.Models.DTO
 
     }
 
-
-
-
-
-
     public partial class DTO_LesseeMaster
     {
         public string LesseeID { get; set; }
@@ -231,7 +226,6 @@ namespace DMFProjectFinal.Models.DTO
     {
         public string ProjectID { get; set; }
 
-
         [Display(Name = "District")]
         [Required]
         public Nullable<int> DistID { get; set; }
@@ -248,8 +242,6 @@ namespace DMFProjectFinal.Models.DTO
 
         public string DistName { get; set; }
 
-      
-        
         public Nullable<int> SectorTypeId { get; set; }
         
         [Display(Name = "Sector Type")]
@@ -261,6 +253,7 @@ namespace DMFProjectFinal.Models.DTO
         public string SectorName { get; set; }
 
         public string SectorType { get; set; }
+        public string ProjectNo { get; set; }
 
     }
 
