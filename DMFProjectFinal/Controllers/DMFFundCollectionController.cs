@@ -84,9 +84,10 @@ namespace DMFProjectFinal.Controllers
             //    return Json(JR, JsonRequestBehavior.AllowGet);
             //}
             var district = db.DistrictMasters.Where(x => x.DistrictId == model.DistrictId).FirstOrDefault().DistrictName;
+            var mineral = db.MineralNameMasters.Where(x => x.MineralId == model.MineralId).FirstOrDefault().MineralName;
             if (db.LesseeOpeningDMFAmts.Where(x => x.DistrictId == model.DistrictId && x.MineralId==model.MineralId).Any())
             {
-                JR.Message = " Opening Amount Aready exists for  District " + district + " !!";
+                JR.Message = " Opening Amount Aready exists for  District " + district + " and Mineral "+ mineral+" !!";
                 return Json(JR, JsonRequestBehavior.AllowGet);
             }
             db.LesseeOpeningDMFAmts.Add(new LesseeOpeningDMFAmt

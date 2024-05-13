@@ -223,6 +223,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @{decimal Grand = 0.0M;
+                                            }
                                             @foreach (DTO_FundCollectionReport item in ViewBag.Data)
                                             {
                                                 j++;
@@ -231,9 +233,16 @@
                                                     <td><a href="#" style="color:blue" onclick="GetCollectionMineralTypeWise(@item.DistrictId)">@item.DistrictName</a></td>
                                                     <td>@item.TotalFundCollection</td>
                                                 </tr>
+
+                                                Grand += @item.TotalFundCollection;
                                             }
                                         </tbody>
-
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align:right">Total Collection</th>
+                                                <th>@Grand</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 }
                                 else

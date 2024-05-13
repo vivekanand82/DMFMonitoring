@@ -21,6 +21,9 @@
         padding: 0;
         overflow: visible!important;
     }
+        #divform {
+            display: none;
+        }
 }
 </style>
 <!--modal start for display the projects sector type wise-->
@@ -402,6 +405,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @{ int ProjectCOunt = 0;}
                                             @foreach (DTO_DistrictWiseProjectReport item in ViewBag.Data)
                                             {
                                                 j++;
@@ -410,9 +414,15 @@
                                                     <td><a href="#" style="color:blue" onclick="GetProjectsDistrictWise(@item.DistID)">@item.DistrictName</a></td>
                                                     <td>@item.Total_Project</td>
                                                 </tr>
+                                                ProjectCOunt +=Convert.ToInt32(@item.Total_Project);
                                             }
                                         </tbody>
-
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align:right">Total Project</th>
+                                                <th>@ProjectCOunt</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 }
                                 else

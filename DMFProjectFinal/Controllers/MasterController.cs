@@ -1264,6 +1264,9 @@ namespace DMFProjectFinal.Controllers
         {
             DTO_SectorNameMaster model = new DTO_SectorNameMaster();
             ViewBag.SectorTypeId = new SelectList(db.SectorTypeMasters.Where(x => x.IsActive == true), "SectorTypeID", "SectorType");
+            //var maxSectorNameId = db.SectorNameMasters.Max(x=>x.SectorNameId);
+            //var SectorCode = "SN-" + maxSectorNameId + 1;
+            //model.SectorCode = SectorCode;
             return View(model);
         }
         [HttpPost]

@@ -121,13 +121,9 @@
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Project No<sup><code>*</code></sup></strong>
-                            <input type="text" class="form-control" value="@ViewBag.acq" id="ProjectNo" />
+                            <input type="text" class="form-control" value="@ViewBag.acq" id="ProjectNo" readonly="readonly"/>
                         </div>
                     </div>
-
-
-
-
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>District<sup><code>*</code></sup></strong>
@@ -337,12 +333,7 @@
                             <strong>
                                 <a target="_blank" id="WorkOrderCopy1" style="display:none;">View Doc</a>
                             </strong>
-
-
-
                             <input type="file" id="WorkOrderCopy" class="form-control" />
-
-
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -454,8 +445,9 @@
 
 
 
-        function editdata(id) {
-
+        function editdata(id)
+        {
+            debugger
 
             var dataobject = {
 
@@ -598,7 +590,8 @@
                         $("#SectorID").val("0");
                         //alert($("#hdnsectorid").val());
                     }
-                    else {
+                    else
+                    {
 
                     $("#SectorID").val($("#hdnsectorid").val());
                     }
@@ -748,70 +741,41 @@
 
 <script>
 
-
-
-
-
-
-
-
-
-
     function Savedata() {
-
-
         if ($("#ProjectPreparationID").val() == "") {
-
-
-
-
             if ($("#ProjectNo").val() == "" || $("#ProjectNo").val() == null) {
-
                 swal("Warning","Please Enter  ProjectNo ","warning");
                 return false;
-
-
             }
 
             if ($("#DistID").val() == "0" || $("#DistID").val() == null) {
 
                 alert("Please Select District Name ");
                 return false;
-
-
             }
 
             if ($("#TehsilId").val() == "0" || $("#TehsilId").val() == null) {
 
                 alert("Please Select Teshil Name ");
                 return false;
-
-
             }
-
 
             if ($("#BlockId").val() == "0" || $("#BlockId").val() == null) {
 
                 alert("Please Select Block Name ");
                 return false;
-
-
             }
 
             if ($("#VillageId").val() == "0" || $("#VillageId").val() == null) {
 
                 alert("Please Select Village Name ");
                 return false;
-
-
             }
 
             if ($("#SectorTypeId").val() == "0" || $("#SectorTypeId").val() == null) {
 
                 alert("Please Select  Sector Type ");
                 return false;
-
-
             }
 
             if ($("#SectorID").val() == "0" || $("#SectorID").val() == null) {
@@ -823,16 +787,12 @@
                 //    icon: "success"
                 //});
                 return false;
-
-
             }
 
             if ($("#ProjectName").val() == "0" || $("#ProjectName").val() == null) {
 
                 alert("Please Select  ProjectName Name ");
                 return false;
-
-
             }
 
 
@@ -840,8 +800,6 @@
 
                 alert("Please  Enter Work Latitude ");
                 return false;
-
-
             }
 
 
@@ -849,8 +807,6 @@
 
                 alert("Please  Enter Work Longitude ");
                 return false;
-
-
             }
 
 
@@ -864,8 +820,6 @@
                 //    icon: "warning"
                 //});
                 return false;
-
-
             }
 
 
@@ -873,16 +827,12 @@
 
                 alert("Please  Enter Prosposal No ");
                 return false;
-
-
             }
 
             if ($("#ProposalDate").val() == "" || $("#ProposalDate").val() == null) {
 
                 alert("Please  Enter Proposal Date ");
                 return false;
-
-
             }
 
 
@@ -890,32 +840,24 @@
 
                 alert("Please  Enter Proposal Date ");
                 return false;
-
-
             }
 
             if ($("#ProjectCost").val() == "" || $("#ProjectCost").val() == null) {
 
                 alert("Please  Enter Proposal Date ");
                 return false;
-
-
             }
 
             if ($("#GSTAndOthers").val() == "" || $("#GSTAndOthers").val() == null) {
 
                 alert("Please  Enter Proposal Date ");
                 return false;
-
-
             }
 
             if ($("#TenderNo").val() == "" || $("#TenderNo").val() == null) {
 
                 swal("Warning","Please  Enter Tender No ","warning");
                 return false;
-
-
             }
 
 
@@ -929,11 +871,8 @@
 
             if ($("#WorkOrderNo").val() == "" || $("#WorkOrderNo").val() == null) {
                 swal("Warning", "Please  Enter  WorkOrder No ", "warning");
-
                 //alert("Please  Enter Tender Date ");
                 return false;
-
-
             }
 
             if ($("#WorkOrderDate").val() == "" || $("#WorkOrderDate").val() == null) {
@@ -941,8 +880,6 @@
 
                 //alert("Please  Enter Tender Date ");
                 return false;
-
-
             }
 
             if ($("#AgencyID").val() == "" || $("#AgencyID").val() == null) {
@@ -950,16 +887,12 @@
 
                 //alert("Please  Enter Tender Date ");
                 return false;
-
-
             }
             if ($("#ProjectStartDate").val() == "" || $("#ProjectStartDate").val() == null) {
                 swal("Warning", "Please  enter  Project StartDate ", "warning");
 
                 //alert("Please  Enter Tender Date ");
                 return false;
-
-
             }
             
             if ($("#ProjectCompletionDate").val() == "" || $("#ProjectCompletionDate").val() == null) {
@@ -967,8 +900,6 @@
 
                 //alert("Please  Enter Tender Date ");
                 return false;
-
-
             }
             var dataobject = {
                 ProjectNo: $("#ProjectNo").val(),
