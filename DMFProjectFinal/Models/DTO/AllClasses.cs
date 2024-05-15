@@ -503,7 +503,6 @@ namespace DMFProjectFinal.Models.DTO
         public string MineralName { get; set; }
         [Display(Name = "Mineral Type")]
         public string MineralType { get; set; }
-        [Required]
         public int? MineralTypeId { get; set; }
         public string MineralCode { get; set; }
     }

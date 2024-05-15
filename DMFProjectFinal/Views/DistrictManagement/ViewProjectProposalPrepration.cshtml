@@ -527,16 +527,9 @@
 
                 <div id="divform">
                     @using (Html.BeginForm((String.IsNullOrEmpty(Model.ProjectPreparationID) ? "ViewProjectProposalPrepration" : "EditProjectProposalPrepration"), "DistrictManagement", new { }, FormMethod.Post, new { @role = "form", @id = "frmCurrent", enctype = "multipart/form-data" }))
-
                     {
                         <div class="row">
-
-
-
-
-
                             <div class="col-md-3">
-
                                 <div class="form-label">
                                     <strong>Meeting No<sup><code>*</code></sup></strong>
                                     @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID,SectorID", @refflg = "002,008,003,004,005,006" })*@

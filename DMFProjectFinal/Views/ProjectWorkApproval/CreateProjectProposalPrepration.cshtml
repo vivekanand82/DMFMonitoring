@@ -116,8 +116,6 @@
                 @*@Html.HiddenFor(x => x.ProjectPreparationID)*@
                 <div class="row">
                     <input type="hidden" id="ProjectPreparationID" />
-
-
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>Project No<sup><code>*</code></sup></strong>
@@ -127,11 +125,7 @@
                     <div class="col-md-3">
                         <div class="form-label">
                             <strong>District<sup><code>*</code></sup></strong>
-                            @*@Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @ref = "TehsilId,BlockId,VillageId,AgencyID,ProjectID", @refflg = "002,008,003,004,005" })*@
-
                             @Html.DropDownListFor(x => x.DistID, null, "Select District", new { @class = "form-control form-control-sm multiple-deps-ddl", @id = "DistID", @onchange = "binddata()" })
-
-
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -268,7 +262,6 @@
                             @*@Html.TextBoxFor(x => x.ProposalCopy, "", new { @class = "form-control form-control-sm file-upload", @type = "file", @refid = "ProposalCopy", @id= "ProposalCopy" })*@
 
                             <input type="file" id="ProposalCopy" class="form-control" />
-
 
                         </div>
                     </div>
@@ -408,30 +401,6 @@
 
         }
 
-        //if ($("#hdntesil").val() == null || $("#hdntesil").val() == "") {
-        //    //BindCityData();
-        //}
-        //else {
-        //    binddata();
-        //    $('#TehsilId').val($("#hdntesil").val())
-        //    //alert($("#<%=labelcity.ClientID %>").text());
-        //    $("#hdntesil").val();
-        //}
-
-
-
-        //if ($("#hdnvillage").val() == null || $("#hdnvillage").val() == "") {
-        //    //BindCityData();
-        //    bindvillage();
-        //}
-        //else {
-        //    //alert('Not')
-        //    bindvillage();
-
-        //    $('#VillageId').val($("#hdnvillage").val())
-        //    //alert($("#<%=labelcity.ClientID %>").text());
-        //    $("#hdnvillage").val();
-        //}
         $("#TehsilId").change(function () {
 
             $("#hdntesil").val("");
@@ -1462,53 +1431,6 @@
         showTab(currentTab);
     }
 
-    //function validateForm() {
-    //    var x, y, i, valid = true;
-    //    x = document.getElementsByClassName("tab");
-    //    // Get the current tab
-    //    var currentTabElement = x[currentTab];
-
-    //    // Get the elements within the current tab
-    //    y = currentTabElement.getElementsByTagName("select");
-    //    var emptyFields = [];
-    //    // Check select elements
-    //    if (y.length > 0) {
-    //        for (i = 0; i < y.length; i++) {
-    //            if (y[i].value == "") {
-    //                y[i].className += " invalid";
-    //                emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
-    //                valid = false;
-    //            }
-    //        }
-    //    } else
-    //    {
-    //        // If no select elements found, check input elements
-    //        /*y = currentTabElement.getElementsByTagName("input");*/
-    //        // If no select elements found, check input elements except file inputs
-    //        y = currentTabElement.querySelectorAll("input:not([type='file'])");
-    //        for (i = 0; i < y.length; i++) {
-    //            if (y[i].value == "") {
-    //                y[i].className += " invalid";
-    //                emptyFields.push(y[i].parentNode.querySelector('strong').textContent.trim().replace("*", ", "));
-    //                valid = false;
-    //            }
-    //        }
-    //    }
-
-    //    if (!valid) {
-
-    //        //toastr.error("Please fill in the following fields:\n" + emptyFields.join("\n"));
-    //        swal({
-    //            title: "Oops!",
-    //            text: "Please fill all required fields!",
-    //            icon: "error",
-    //            confirmButtonColor: "#3085d6",
-    //        });
-    //    } else {
-    //        document.getElementsByClassName("step")[currentTab].className += " finish";
-    //    }
-    //    return valid;
-    //}
     function fixStepIndicator(n) {
         var i, x = document.getElementsByClassName("step");
         for (i = 0; i < x.length; i++) {
